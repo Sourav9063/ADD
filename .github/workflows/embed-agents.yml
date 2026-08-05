@@ -20,7 +20,6 @@ jobs:
 
       - name: Inject AGENTS.md content into README
         run: |
-          # Use awk to find the markers and replace everything between them with AGENTS.md
           awk '
             /<!-- START_EMBED -->/ {
               print $0
@@ -40,6 +39,7 @@ jobs:
               print $0
             }
           ' README.md > README.tmp && mv README.tmp README.md
+
 
       - name: Commit and Push changes
         run: |
