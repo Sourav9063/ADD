@@ -3,6 +3,9 @@
 
 
 ## Copy the [AGENTS.md](AGENTS.md) in your repo.
+<!-- START_EMBED -->
+<!-- END_EMBED -->
+
 
 **Linux, macOS, WSL, and Git Bash**:
 
