@@ -40,7 +40,6 @@ jobs:
             }
           ' README.md > README.tmp && mv README.tmp README.md
 
-
       - name: Commit and Push changes
         run: |
           git config --global user.name "Sourav"
