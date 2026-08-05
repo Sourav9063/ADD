@@ -1,0 +1,54 @@
+name: Embed AGENTS.md into README
+
+on:
+  push:
+    branches:
+      - main       # Change this to 'master' if your default branch uses that name
+    paths:
+      - 'AGENTS.md' # Only runs when AGENTS.md is changed
+
+permissions:
+  contents: write  # Gives the token permission to push changes back to the repo
+
+jobs:
+  embed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Inject AGENTS.md content into README
+        run: |
+          # Use awk to find the markers and replace everything between them with AGENTS.md
+          awk '
+            /<!-- START_EMBED -->/ {
+              print $0
+              print "```markdown"
+              while ((getline < "AGENTS.md") > 0) {
+                print \$0
+              }
+              close("AGENTS.md")
+              print "```"
+              skip = 1
+              next
+            }
+            /<!-- END_EMBED -->/ {
+              skip = 0
+            }
+            !skip {
+              print $0
+            }
+          ' README.md > README.tmp && mv README.tmp README.md
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "Sourav"
+          git config --global user.email "sourav.ahmed5654@gmail.com"
+          
+          git add README.md
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: auto-update AGENTS.md content inside README.md [skip ci]"
+            git push
+          fi
