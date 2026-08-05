@@ -22,12 +22,10 @@ done
 
 ```
 
-
-
-```bash
+<!-- ```bash
 set -euo pipefail
 
-url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS.md'
+url='https://raw.githubusercontent.com/Sourav9063/notes/refs/heads/main/ai/AGENTS.md'
 content="$(curl -fsSL "$url")"
 
 for file in CLAUDE.md AGENTS.md GEMINI.md; do
@@ -40,7 +38,7 @@ for file in CLAUDE.md AGENTS.md GEMINI.md; do
 
     printf '%s\n' "$content" >> "$file"
 done
-```
+``` -->
 
 * Marker exists: replace from the marker to the end.
 * Marker absent: append.
