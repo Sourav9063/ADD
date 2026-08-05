@@ -1,0 +1,6 @@
+interface:
+  display_name: "Create Component"
+  short_description: "Create Next.js components"
+  default_prompt: "Use $create-component to create or update a Next.js component, client component, provider, form, table, filter, or reusable UI."
+policy:
+  allow_implicit_invocation: false
