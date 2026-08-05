@@ -9,7 +9,7 @@
 ```bash
 set -euo pipefail
 
-url='https://raw.githubusercontent.com/Sourav9063/notes/refs/heads/main/ai/AGENTS.md'
+url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS.md'
 content="$(curl -fsSL "$url")"
 
 for f in AGENTS.md CLAUDE.md GEMINI.md; do
@@ -27,7 +27,7 @@ done
 ```bash
 set -euo pipefail
 
-url='https://raw.githubusercontent.com/Sourav9063/notes/refs/heads/main/ai/AGENTS.md'
+url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS.md'
 content="$(curl -fsSL "$url")"
 
 for file in CLAUDE.md AGENTS.md GEMINI.md; do
