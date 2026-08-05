@@ -1,3 +1,7 @@
+# Agent Driven Development
+<img width="1536" height="1024" alt="ChatGPT Image Aug 5, 2026, 01_42_05 PM" src="https://github.com/user-attachments/assets/286eaf20-25c6-4fa8-ae84-e953d1a89a0a" />
+
+
 ## Copy the [AGENTS.md](ai/AGENTS.md) in your repo.
 
 **Linux, macOS, WSL, and Git Bash**:
