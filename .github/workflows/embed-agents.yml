@@ -6,7 +6,8 @@ on:
       - main       # Change this to 'master' if your default branch uses that name
     paths:
       - 'AGENTS.md' # Only runs when AGENTS.md is changed
-
+  workflow_dispatch: # 👈 This enables the manual "Run workflow" button
+  
 permissions:
   contents: write  # Gives the token permission to push changes back to the repo
 
