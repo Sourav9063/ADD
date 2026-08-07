@@ -1,8 +1,10 @@
 ## Spec-Driven Development
 
-Use SDD for non-trivial work. First read `agents/MEMORY.md` and only task relevant files in `agents/knowledge/` and `agents/plans/`.
+Use SDD for non-trivial work. First read `agents/MEMORY.md` and only task relevant files in `agents/knowledge/` and `agents/plans/`. Create when needed.
 
 Code, tests, schemas, configuration, and executable artifacts define implemented behavior. Documentation records decisions, constraints, and context the code cannot express clearly. Verify documentation against implemented behavior, update affected documentation with code changes, and report conflicts immediately.
+
+Store each fact once in its authoritative file; cross-link related files.
 
 ### Knowledge
 
@@ -34,7 +36,7 @@ Treat it as learned, curated repository-wide guidance, subordinate to this file 
 
 After verified work or a confirmed repository-wide decision, use judgment to store only short, durable, verified, cross-task lessons such as corrections, repository-wide decisions, reusable preferences, etc. Do not wait for the user to ask.
 
-Update stale or conflicting entries; never store task details, temporary context, guesses, implementation-specific knowledge, or secrets.
+Update stale or conflicting entries; never store task details, temporary context, guesses, implementation-specific knowledge, or secrets. Store domain facts in Knowledge.
 
 ## Engineering Principles
 
@@ -67,7 +69,7 @@ Make code legible to humans and tools: use clear names, cohesive files, reasonab
 - Use one-liners only when clearer.
 - Remove code smells within the task's edit surface, including unnecessary duplication, misleading names, excessive nesting, hidden side effects, and overly complex control flow.
 - Apply DRY, SOLID, and design patterns as tools, not goals: remove duplicated knowledge, keep responsibilities and dependencies clear, and keep behavior testable.
-- Prefer executable and testable artifacts over prose. Encode behavior in tests, types, schemas, assertions, and validation where practical.
+- Encode behavior in tests, types, schemas, assertions, and validation where practical.
 
 ### Scope
 
