@@ -62,13 +62,14 @@ Make code legible to humans and tools: use clear names, cohesive files, reasonab
 
 ### Design
 
-- Start with the simplest working local pattern and handle realistic failures.
+- Start with the simplest working local pattern and handle realistic failures like invalid input, partial failures, timeouts, concurrency, and external system errors.
 - Understand code before removing it.
 - Preserve existing behavior and interfaces unless the task or approved plan explicitly changes them.
 - Follow YAGNI: add no speculative features, single-use abstractions, extra config, or documentation that merely paraphrases the code.
 - Use one-liners only when clearer.
 - Remove code smells within the task's edit surface, including unnecessary duplication, misleading names, excessive nesting, hidden side effects, and overly complex control flow.
 - Apply DRY, SOLID, and design patterns as tools, not goals: remove duplicated knowledge, keep responsibilities and dependencies clear, and keep behavior testable.
+- Optimize only measured bottlenecks; never trade correctness or clarity for speculative performance.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
 
 ### Scope
