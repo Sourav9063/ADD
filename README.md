@@ -3,7 +3,7 @@
 
 
 ## Copy the [AGENTS.md](AGENTS.md) in your repo.
-<!-- START_EMBED -->
+<!-- AGENTS_MD_START -->
 ```markdown
 ## Spec-Driven Development
 
@@ -101,7 +101,7 @@ Fragments and short words OK; prefer `[thing] [action] [reason] [next step].` No
 
 Use full prose when compression risks safety, sequence, or clarity; otherwise persist until user requests normal mode. Code, commits, and PRs stay normal.
 ```
-<!-- END_EMBED -->
+<!-- AGENTS_MD_END -->
 
 
 **Linux, macOS, WSL, and Git Bash**:

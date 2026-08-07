@@ -21,7 +21,7 @@ jobs:
       - name: Inject AGENTS.md content into README
         run: |
           awk '
-            /<!-- START_EMBED -->/ {
+            /<!-- AGENTS_MD_START -->/ {
               print $0
               print "```markdown"
               while ((getline < "AGENTS.md") > 0) {
@@ -32,7 +32,7 @@ jobs:
               skip = 1
               next
             }
-            /<!-- END_EMBED -->/ {
+            /<!-- AGENTS_MD_END -->/ {
               skip = 0
             }
             !skip {
