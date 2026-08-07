@@ -7,9 +7,13 @@
 ```markdown
 ## Spec-Driven Development
 
-Use SDD for non-trivial work. First read `agents/MEMORY.md` and only task relevant files in `agents/knowledge/` and `agents/plans/`.
+Use SDD when work changes behavior or contracts, requires design decisions, crosses meaningful boundaries, or exceeds a small local edit.
 
-Code, tests, schemas, configuration, and executable artifacts define implemented behavior. Documentation records decisions, constraints, and context the code cannot express clearly. Verify documentation against implemented behavior, update affected documentation with code changes, and report conflicts immediately.
+Read `agents/MEMORY.md` and only task relevant files in `agents/knowledge/` and `agents/plans/`. Create these when needed.
+
+Code, tests, schemas, configuration, and other executable artifacts define implemented behavior; documentation records decisions, constraints, and context they cannot. When sources conflict, determine intent from explicit task requirements and executable contracts; report unresolved conflicts before changing behavior. Keep affected documentation aligned with code changes.
+
+Keep one authoritative source per durable fact; reference it elsewhere.
 
 ### Knowledge
 
@@ -24,14 +28,13 @@ Create or update the most discoverable file when requested or when verified work
 
 ### Plans
 
-`agents/plans/` holds working and finalized implementation plans.
+`agents/plans/` holds working and finalized implementation plans. Create a plan only when multi-step work benefits from durable execution state.
 
 Before writing one:
 
 1. Resolve minor implementation details using judgment and code investigation.
 2. Present clear options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
-3. Once the user resolves them, create a precisely named `.md` file.
-4. Keep it current through implementation and later refinements.
+3. Once the user resolves them, create a precisely named `.md` file. Keep it current through later refinements.
 
 Implement and verify against the code, tests, schemas, and configuration.
 
@@ -41,7 +44,7 @@ Treat it as learned, curated repository-wide guidance, subordinate to this file 
 
 After verified work or a confirmed repository-wide decision, use judgment to store only short, durable, verified, cross-task lessons such as corrections, repository-wide decisions, reusable preferences, etc. Do not wait for the user to ask.
 
-Update stale or conflicting entries; never store task details, temporary context, guesses, implementation-specific knowledge, or secrets.
+Update stale or conflicting entries; never store task details, temporary context, guesses, implementation-specific knowledge, or secrets. Store domain facts in Knowledge.
 
 ## Engineering Principles
 
@@ -67,14 +70,18 @@ Make code legible to humans and tools: use clear names, cohesive files, reasonab
 
 ### Design
 
-- Start with the simplest working local pattern and handle realistic failures.
+- Start with the simplest working local pattern and handle realistic failures like invalid input, partial failures, timeouts, concurrency, and external system errors.
+- Preserve trust boundaries. Validate untrusted input at boundaries; avoid leaking secrets, weakening authorization, or broadening permissions.
+- Prefer existing dependencies and platform capabilities. Add dependencies only when they materially simplify or strengthen the solution; justify new runtime dependencies.
+- Treat schema and persistent-data changes as compatibility changes. Consider existing data, rollout order, rollback, and mixed-version operation where relevant.
 - Understand code before removing it.
 - Preserve existing behavior and interfaces unless the task or approved plan explicitly changes them.
 - Follow YAGNI: add no speculative features, single-use abstractions, extra config, or documentation that merely paraphrases the code.
 - Use one-liners only when clearer.
 - Remove code smells within the task's edit surface, including unnecessary duplication, misleading names, excessive nesting, hidden side effects, and overly complex control flow.
 - Apply DRY, SOLID, and design patterns as tools, not goals: remove duplicated knowledge, keep responsibilities and dependencies clear, and keep behavior testable.
-- Prefer executable and testable artifacts over prose. Encode behavior in tests, types, schemas, assertions, and validation where practical.
+- Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
+- Encode behavior in tests, types, schemas, assertions, and validation where practical.
 
 ### Scope
 
