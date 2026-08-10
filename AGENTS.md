@@ -1,16 +1,16 @@
 # Repository Guidelines
-This is a record of the user, Software Engineer, Agent Driven Development workflow. the `AGENTS_STANDALONE.md` holds the total instructions and the `skills/<name>/SKILL.md` has specific skills. Keep them in sync.
+This repository records the user's Agent Driven Development workflow. `AGENTS_STANDALONE.md` holds reusable instructions; `skills/` contains original skills. Keep shared rules aligned.
 
 ## Structure
 
-This repository distributes reusable coding-agent guidance. `AGENTS.md` guides contributors; `AGENTS_STANDALONE.md` is embedded in `README.md`; `CLAUDE.md` and `GEMINI.md` redirect tools. Skills use `skills/<name>/SKILL.md` plus `skills/<name>/agents/openai.yaml`; keep the `.agents/skills/` mirror identical. Store durable guidance in `agents/MEMORY.md` and `agents/knowledge/`, human docs in `docs/`, drafts in `WIP/`, and obsolete content in `deprecated/`. No source, test, or asset tree exists.
+This repository distributes reusable coding-agent guidance. `AGENTS.md` guides contributors; `AGENTS_STANDALONE.md` is embedded in `README.md`; `CLAUDE.md` and `GEMINI.md` redirect tools. `skills/` is the canonical catalog. `.agents/skills/` installs only the ADD-wide subset from `skills/agent-driven-development/`; keep that subset synchronized. Store durable guidance in `agents/MEMORY.md` and `agents/knowledge/`, human docs in `docs/`, drafts in `WIP/`, and obsolete content in `deprecated/`.
 
 ## Commands
 
 No build system or package manager exists. Before committing, run:
 
 - `git diff --check`: find whitespace errors.
-- `diff -ru skills .agents/skills`: verify mirrors.
+- `diff -ru skills/agent-driven-development .agents/skills`: verify installed ADD skills.
 - `rg 'term' skills agents docs`: find stale or duplicate guidance.
 - `git status --short`: review changed files.
 

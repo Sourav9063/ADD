@@ -1,14 +1,11 @@
 ---
 name: review-merge-request
-description: Review current branch against base branch for security, correctness, architecture fit, maintainability, and verification risks.
-argument-hint: "<base-branch>"
-disable-model-invocation: true
-user-invocable: true
+description: Review the current branch against a user-supplied base branch for security, correctness, architecture fit, maintainability, and verification risks. Use only when explicitly invoked; ask for the base branch if omitted.
 ---
 
 # Review Merge Request
 
-Use only when explicitly invoked with base branch name. If missing, ask. Use direct two-ref diff only:
+Require a base branch; ask if missing. Use direct two-ref diff only:
 
 ```bash
 git diff <base> HEAD

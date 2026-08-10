@@ -23,7 +23,7 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Ask only the smallest set of decision-blocking questions, one concise question at a time when practical; use selectable options when useful.
 - Always push back on technically weak libraries, patterns, or instructions; explain concrete flaws and propose a better fit.
 - For bug fixes, reproduce the failure then add a focused regression test when practical.
-- Before changing a shared contract, find and account for all consumers.
+- Find the seam: the narrowest boundary where the change belongs. Identify its consumers before changing it.
 
 ### Design
 
@@ -34,7 +34,7 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them.
 - Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code. Use one-liners only when clearer.
 - Within the edit surface, remove code smells: duplicated knowledge, misleading names, excessive nesting, hidden side effects, and complex control flow.
-- Apply DRY, SOLID, and design patterns as tools, not goals; keep responsibilities and dependencies clear, and keep behavior testable.
+- Apply DRY, SOLID, and design patterns as tools, use judgment when applying them. Keep responsibilities and dependencies clear, and behavior testable.
 - Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
 
@@ -54,3 +54,5 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Never claim a check passed unless it ran; report passed, failed, and skipped checks explicitly.
 - Assume every change will be rigorously reviewed by a senior engineer.
 - Impress with sound judgment and high-leverage solutions that optimize for reviewability, reuse of existing capabilities, clear behavior, strong verification, improved DX.
+
+Done means requested behavior works, affected contracts and docs align, relevant checks pass, and skipped or blocked checks are reported.
