@@ -1,5 +1,5 @@
 ---
-name: create-component
+name: create-component-agnostic
 description: Create or update Next.js UI components. Use when asked to build a Server Component, Client Component, form, table, filter, dashboard section, provider, or reusable UI using the current repo's established patterns.
 ---
 
