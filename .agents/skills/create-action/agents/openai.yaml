@@ -1,6 +1,0 @@
-interface:
-  display_name: "Create Action"
-  short_description: "Layered storage, service, action workflow"
-  default_prompt: "Use $create-action to create a typed repository, service, and server action workflow."
-# policy:
-  # allow_implicit_invocation: false

@@ -1,6 +1,0 @@
-interface:
-  display_name: "Create Component"
-  short_description: "Explicit Next.js component workflow"
-  default_prompt: "Use $create-component to create a server component, client component, provider, form, table, or filter UI."
-# policy:
-  # allow_implicit_invocation: false

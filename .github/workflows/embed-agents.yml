@@ -1,11 +1,11 @@
-name: Embed AGENTS.md into README
+name: Embed AGENTS_STANDALONE.md into README
 
 on:
   push:
     branches:
       - main       # Change this to 'master' if your default branch uses that name
     paths:
-      - 'AGENTS.md' # Only runs when AGENTS.md is changed
+      - 'AGENTS_STANDALONE.md' # Only runs when standalone guidance changes
   workflow_dispatch: # 👈 This enables the manual "Run workflow" button
   
 permissions:
@@ -18,16 +18,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Inject AGENTS.md content into README
+      - name: Inject AGENTS_STANDALONE.md content into README
         run: |
           awk '
             /<!-- AGENTS_MD_START -->/ {
               print $0
               print "```markdown"
-              while ((getline < "AGENTS.md") > 0) {
+              while ((getline < "AGENTS_STANDALONE.md") > 0) {
                 print $0
               }
-              close("AGENTS.md")
+              close("AGENTS_STANDALONE.md")
               print "```"
               skip = 1
               next
@@ -49,6 +49,6 @@ jobs:
           if git diff-index --quiet HEAD; then
             echo "No changes to commit"
           else
-            git commit -m "docs: auto-update AGENTS.md content inside README.md [skip ci]"
+            git commit -m "docs: auto-update AGENTS_STANDALONE.md content inside README.md [skip ci]"
             git push
           fi
