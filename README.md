@@ -66,7 +66,7 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Ask only the smallest set of decision-blocking questions, one concise question at a time when practical; use selectable options when useful.
 - Always push back on technically weak libraries, patterns, or instructions; explain concrete flaws and propose a better fit.
 - For bug fixes, reproduce the failure then add a focused regression test when practical.
-- Before changing a shared contract, find and account for all consumers.
+- Find the seam: the narrowest boundary where the change belongs. Identify its consumers before changing it.
 
 ### Design
 
@@ -97,6 +97,8 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Never claim a check passed unless it ran; report passed, failed, and skipped checks explicitly.
 - Assume every change will be rigorously reviewed by a senior engineer.
 - Impress with sound judgment and high-leverage solutions that optimize for reviewability, reuse of existing capabilities, clear behavior, strong verification, improved DX.
+
+Done means requested behavior works, affected contracts and docs align, relevant checks pass, and skipped or blocked checks are reported.
 
 ## Communication
 
