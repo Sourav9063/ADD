@@ -77,8 +77,7 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them.
 - Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code. Use one-liners only when clearer.
 - Within the edit surface, remove code smells: duplicated knowledge, misleading names, excessive nesting, hidden side effects, and complex control flow.
-- Apply DRY: reuse existing logic and extract shared behavior to reduce redundancy.
-- Apply SOLID and design patterns as tools, not goals; keep responsibilities and dependencies clear, and keep behavior testable.
+- Apply DRY, SOLID, and design patterns as tools, use judgment when applying them. Keep responsibilities and dependencies clear, and behavior testable.
 - Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
 
