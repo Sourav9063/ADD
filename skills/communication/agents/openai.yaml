@@ -1,0 +1,6 @@
+interface:
+  display_name: "Concise Communication"
+  short_description: "Enforce terse repository communication"
+  default_prompt: "Use $communication to answer with the repository communication style."
+policy:
+  allow_implicit_invocation: true
