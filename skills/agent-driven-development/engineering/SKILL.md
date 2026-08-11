@@ -30,9 +30,10 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 ### Design
 
 - Start with the simplest working local pattern. Handle realistic failures: invalid input, partial failures, timeouts, concurrency, and external-system errors.
-- Preserve trust boundaries. Validate untrusted input at boundaries; do not leak secrets, weaken authorization, or broaden permissions.
+- For retried or repeatable operations, preserve idempotency where required. Release owned connections, handles, locks, and other resources on success, error, and cancellation paths.
+- Preserve trust boundaries. Validate untrusted input at boundaries; use parameterized APIs or context-appropriate encoding at interpreter boundaries; never log or leak secrets; default to least privilege.
 - Treat destructive, irreversible, or externally visible actions as separate authority. Resolve the exact target first; do not infer permission from adjacent work.
-- Prefer existing dependencies and platform capabilities. Add runtime dependencies only when they materially simplify or strengthen the solution; justify them.
+- Prefer existing dependencies and platform capabilities. Add runtime dependencies only when they materially simplify or strengthen the solution; justify them. Before adding one, verify license compatibility, maintenance health, and known security advisories.
 - Treat schema and persistent-data changes as compatibility changes: consider existing data, rollout, rollback, and mixed-version operation.
 - For state transitions, preserve and verify inverse and recovery behavior when the contract supports it.
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them.
@@ -41,10 +42,12 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Use abstractions and design patterns only when they clarify responsibilities, dependencies, or testability.
 - Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
+- For changed behavior, cover realistic negative and edge cases at the observable seam. For behavior-preserving refactors, strengthen coverage when risk warrants.
 
 ### Scope
 
 - Match local style.
+- Keep each change coherent and reviewable. When authorized to commit, write a message that explains why the change matters.
 - Keep edits surgical; every changed line must trace to the request.
 - If no code change is needed, report evidence.
 - Clean only code and artifacts made unused by your change.
@@ -53,7 +56,7 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 ### Execution
 
 - For multi-step work, give a brief plan and explicit success checks.
-- Run the narrowest relevant verification first; broaden only as risk warrants.
+- Run the narrowest relevant verification first; choose focused tests, lint, typecheck, or build based on the changed seam, then broaden only as risk warrants.
 - Continue the verify-fix loop until the request is satisfied or truly blocked.
 - Never claim a check passed unless it ran; report passed, failed, and skipped checks explicitly.
 - Assume every change will be rigorously reviewed by a senior engineer.
