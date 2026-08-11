@@ -1,0 +1,6 @@
+interface:
+  display_name: "Writing Agent Guidance"
+  short_description: "Write concise, reliable agent instructions"
+  default_prompt: "Use $writing-agent-guidance to improve these agent instructions and verify their ownership."
+policy:
+  allow_implicit_invocation: true

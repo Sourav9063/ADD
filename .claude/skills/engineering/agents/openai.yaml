@@ -1,0 +1,6 @@
+interface:
+  display_name: "Engineering Principles"
+  short_description: "Apply repository engineering standards"
+  default_prompt: "Use $engineering after codebase exploration to implement this safely."
+policy:
+  allow_implicit_invocation: true
