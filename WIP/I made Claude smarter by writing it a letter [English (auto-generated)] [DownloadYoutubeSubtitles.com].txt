@@ -1,0 +1,3091 @@
+You might have noticed that I haven't
+
+been posting videos as much recently.
+
+Part of that's cuz I had a lot of fun
+
+going to open source and that definitely
+
+threw off my schedule for recording. But
+
+the bigger part is just that I've been
+
+coding way way more. Way more. I've
+
+landed dozens of PRs in just the last 3
+
+days and many more if you're willing to
+
+go back a week or two. I have been
+
+coding more than I ever have. And more
+
+importantly, I've been landing more code
+
+than I ever have. A lot of my
+
+productivity wins recently can be
+
+credited to T3 Code. We've made a ton of
+
+improvements that make it way easier to
+
+work on lots of things for real
+
+applications in parallel. But I've also
+
+spent a lot more time in my editor. The
+
+last 2 days, I've spent more time in VS
+
+Code than I probably have in the last
+
+year actually writing and reading code.
+
+As long as you consider markdown files
+
+code. I know this sounds insane, but I
+
+actually sat down and spent maybe 6
+
+hours just editing markdown. and then
+
+the next day spent another 6 to 10 hours
+
+testing those changes and making small
+
+adjustments afterwards. And I want to
+
+share how much this has benefited me. I
+
+am genuinely annoyed at how much these
+
+small changes have improved my
+
+development experience and I have a
+
+feeling they will help you out too. I
+
+want to cover everything that I've been
+
+doing here from how I actually make
+
+these changes and test them to how I
+
+keep these things synced across the many
+
+different machines I do dev work on
+
+because there's like five of them now to
+
+how I actually write these things and
+
+audit the histories I have with my
+
+agents to make sure I'm doing them
+
+right. But I got one more really helpful
+
+thing I want to show you first today's
+
+sponsor. There's a lot of parts to your
+
+app that used to be really easy to build
+
+before AI that got even easier thanks to
+
+agents going and doing all the work for
+
+you. And if I'm being honest is
+
+definitely one of those things. So
+
+what's the role of an O platform like
+
+work OS if agents can just build O for
+
+you? There must be a reason why
+
+companies like OpenAI, Anthropic,
+
+Cursor, Perplexity, Verscell, Replet,
+
+Bolt, and everyone else in this list are
+
+betting on what works built, right?
+
+Well, yeah, of course, but it's probably
+
+not what you think. It's not because
+
+setting up O is so hard. It's because
+
+your O needs to do more than it ever did
+
+before. O is how you know what users are
+
+accessing your things. O is how you set
+
+up an enterprise to use your service.
+
+authors, how agents can do things on
+
+behalf of their users. You could try to
+
+set up all of these pieces yourself, but
+
+if you're planning on diying it and you
+
+want to sell to real businesses, you
+
+should probably go look at the admin
+
+portal on work OS because you're going
+
+to have to go set up Octa, SAML, Duo,
+
+ADP, ADFS, and all of these other things
+
+that I know you don't want to set up.
+
+You're watching this channel. You like
+
+writing real code. Don't deal with this.
+
+Just use work OS. And when it comes to
+
+agents, work OS is helping pioneer a new
+
+standard to allow for your agents to off
+
+on a service, which is huge. They're
+
+partnering with a ton of companies like
+
+Cloudflare, Firecrawl, Resend, Monday,
+
+Kernel, and more in order to get this
+
+standard ready, and it already is. So,
+
+if you have a small app with a handful
+
+of users, no businesses, and no agents
+
+using it, you're fine rolling your own.
+
+But if you want to build something
+
+serious, look no further than soy. OoS.
+
+So, as I mentioned before, I've been
+
+coding a lot more and I actually decided
+
+to sit down and take the time to
+
+streamline certain things that I was
+
+doing. Since T3 Code makes it so easy to
+
+work across multiple machines, I have
+
+four that I work on T3 Code itself on in
+
+T3 Code. You can literally just click
+
+and choose what box is going to run that
+
+diff. Super convenient to have lots of
+
+machines that you could run different
+
+work on depending on the needs of the
+
+work you're doing. managing everything
+
+that exists on all of these machines and
+
+making sure skills are available on the
+
+right ones and not available on
+
+different ones. Not trivial and I caught
+
+myself starting to make a custom system
+
+to manage all of that. And I got pretty
+
+far into it and it was buggy and
+
+annoying and had lots of annoying edge
+
+cases. So I stopped. This directory
+
+we're looking at here is my fleet repo.
+
+And my fleet repo is just a bunch of
+
+markdown files and a fork of vibe proxy
+
+because I'm making a lot of changes to
+
+the CLI proxy API for my specific needs.
+
+And in my agents and cloud MD, I
+
+describe what this project is and what I
+
+want agents to do in it. So when I do
+
+make changes to the skills I have, like
+
+I have my core agents and claude MD, and
+
+I have the skills directory that has a
+
+folder for claw only skills, a folder
+
+for my command center skills, which is
+
+just this one machine, the leader
+
+machine that controls everything else.
+
+and a universal folder for the skills
+
+that I want all of my machines to have.
+
+I also have a little bit of metadata
+
+that I include here that makes it easier
+
+for my agents when I'm running them in
+
+this project to know which skills should
+
+appear on which machines. So, let's
+
+start from the top. This was my agents
+
+MD and Claude MD file that I have had on
+
+all of my computers for approximately 2
+
+years now, give or take, maybe a bit
+
+less. And I hadn't touched it cuz I just
+
+didn't think it mattered that much. I
+
+also have a video I did before about
+
+deleting your cloud MD and agents MD.
+
+That was for project cloud and agents MD
+
+files and you're definitely writing
+
+those wrong. I will show you what I mean
+
+in a bit. Just we'll get there. Trust
+
+me. This was my old file. I had global
+
+defaults. First off, I called that repo
+
+specific agent MD instructions. Override
+
+these user instructions override both.
+
+TypeScript. I had one instruction. Avoid
+
+any unless there is no reasonably typed
+
+alternative or the user explicitly asks
+
+for it because I was tired of agents
+
+just writing any everywhere. especially
+
+like GPT41
+
+and like sonnet 4 to 42. Really bad
+
+about all that. And then I had some
+
+instructions here for commands. I was
+
+really tired of agents spinning up dev
+
+servers and breaking my environment. So
+
+I told them to stop. I said prefer
+
+targeted verification first like type
+
+check and lint and focus tests run full
+
+builds yada yada. Package manager
+
+preferences. I said prefer bun then
+
+pnpm. Tech preferences just the things I
+
+want to use. Code styles. Okay, I did
+
+make one change here recently. I added
+
+this Yagy bit which did actually
+
+meaningfully help. I don't know where
+
+this came from. Another agent might have
+
+added this. And then the computer
+
+inventory. This was definitely added by
+
+Soul when I was working on the fleet at
+
+some point, but this was not a great
+
+agent MD and I just kind of lived with
+
+it for a long ass time. Here is my new
+
+global agents MD. This is probably the
+
+least important of the files, but we'll
+
+go through the rest. I'm Theo. You're my
+
+agent. We'll be working together a lot,
+
+so I thought it'd be worth introducing
+
+myself. known for my YouTube channel and
+
+work on T3 products like T3 GG, T3 chat,
+
+T3 code, upload thing, ping, etc. I love
+
+to build. I focus on building complex
+
+things as simple as possible. I love to
+
+find ways to reduce complexity when
+
+solving problems. This is a small piece,
+
+but I found this helps a lot just cuz my
+
+preferences were not often met by
+
+agents, especially with certain
+
+overeager models like 56 Soul and Opus
+
+5. I noticed that my agents were a bit
+
+too uh proactive and were a little quick
+
+to start writing a lot of code when they
+
+didn't necessarily need that much code.
+
+This two sentence addition here helped a
+
+ton with that in particular. I specify
+
+that I want to share some of my
+
+preferences here so we can be more
+
+aligned as we work together. You might
+
+be questioning why I'm writing this way.
+
+A lot of it is because the models are
+
+good at tone matching. If you talk a
+
+certain way to the model, the model's
+
+more likely to talk that way back, which
+
+is something I very much wanted. You'll
+
+see more specific examples of this in
+
+the not too distant future. I do have
+
+bulletoint lists where they make sense,
+
+like in my general coding preferences,
+
+so keep things simple. Type safety is
+
+useful. Don't be scared to propose bold
+
+ideas that can meaningfully benefit our
+
+work. Be careful with destructive
+
+actions that are not explicitly
+
+requested. Tests are good. Endless smoke
+
+tests, regression tests for features,
+
+for feature deletions, etc. much less
+
+good. That should be focused, not slop.
+
+Comments are a great way to clarify
+
+functions and how code is used. Don't
+
+comment every line, but feel free to to
+
+describe concisely how functions are
+
+used above function definitions,
+
+classes, etc. And keep comments up to
+
+date when making changes. Important to
+
+keep things in sync. Coding preferences
+
+for TypeScript. I have separate pieces
+
+here. This is mostly because this is my
+
+agents MD. A lot of this is just to tune
+
+56 soul to not suck as much at
+
+TypeScript. Specifically, I said if your
+
+TypeScript code looks like a Python dev
+
+wrote it, it's bad Typescript code.
+
+Avoid oneliners that are just casting
+
+rappers. Write typescript in ways that
+
+Matt PCO and Theo would be proud of. A
+
+very brief if there's no tech for these
+
+things in the repo. This is the stuff I
+
+generally like. And when building more
+
+complex web and react native apps, I
+
+like to pull in zustan react query tan
+
+sexart clerk or better off of
+
+self-hosting and archype or zod of
+
+perfect isn't an issue. You get the
+
+idea. Questions are read only. This is
+
+another nice change because I got
+
+annoyed at 55 and 56 being a little too
+
+quick to start making changes when I ask
+
+about stuff in the project. This helped
+
+a ton there. Match ceremony to the task.
+
+Do not spawn sub agents or multi- aent
+
+panel for work or a single agent
+
+finishes in one pass. Delegation is for
+
+breath or adversarial review, not for
+
+ordinary tasks. Several agents do work
+
+in parallel. State file ownership
+
+upfront so they don't collide. This
+
+again was noticing a lot of sub agents
+
+editing the same files and having
+
+problems. This one line helped quite a
+
+bit. Visual and design work. Do not edit
+
+real components first. Standing
+
+contrasts prefer dark mode with white
+
+texts. This is me trying to get rid of
+
+the grays. Blast radius. This is me
+
+trying to make sure it doesn't destroy
+
+my production environments. And then my
+
+poll request section. This is a little
+
+aggressive here, but I have a separate
+
+poll request skill that has been very,
+
+very helpful. I'm going to get this
+
+question a lot, so I'm going to jump at
+
+it up front here. Sorry if you answered
+
+already, but where can I find the agents
+
+MD file? I want to copy some of the
+
+instructions. You can't. I very
+
+intentionally not publish this file. Not
+
+because I'm evil and I want you to have
+
+to carefully watch the video and copy
+
+every single word by hand. The real
+
+reason is the value of this isn't the
+
+exact things I instructed. It is the way
+
+I thought of it. It is the reasons I
+
+added the things I added and the path I
+
+took there. I'm still going over the
+
+files and we'll do this for a bit, but I
+
+will describe how I came to these
+
+conclusions and why I added these things
+
+right after. I really want you guys to
+
+take the opportunity to learn from my
+
+process here, not to copy paste the
+
+specific things in my global files.
+
+Copying all these files would be like
+
+copying someone's generic code template
+
+than using it for every single thing you
+
+touch, but also all of the things that
+
+you've worked on before as well. These
+
+files influence how all of your agents
+
+work across everything you do. You
+
+should control this file. You should
+
+edit this file. you should think about
+
+its contents and adjust it over time
+
+based on your needs and your problems.
+
+Anyways, let's look at my skills a bit.
+
+I noticed myself saying the same couple
+
+things to my agents over and over and
+
+they would often behave differently and
+
+they would often behave in ways that I
+
+didn't love. In particular, when I asked
+
+my agents to babysit a PR or to file a
+
+PR, the quality I would get out was
+
+mixed. So, I started originally with the
+
+babysit PR skill, which has been very
+
+helpful because a lot of my projects
+
+have a lot of AI code reviewers on them,
+
+thanks to the incredible channel
+
+sponsors we have around that. Some
+
+projects like T3 Code have three or four
+
+of them on the project. And the point of
+
+the babysit skill is to have my agent
+
+monitor the PR doing things like
+
+rebasing and pulling in Maine when it
+
+should so that the PR stays fresh.
+
+Things like reading those review
+
+comments and addressing them when they
+
+come in. most importantly looping until
+
+the PR is green and everyone's approved.
+
+As I told my agents to babysit more, I
+
+noticed certain failure patterns that
+
+frustrated me. Little things like the
+
+agent commenting through my account but
+
+not indicating it was an agent to big
+
+things like the PR getting three times
+
+larger than it should have been because
+
+it would address every single comment
+
+like it was missionritical even for
+
+things that didn't matter as much. So,
+
+the point of this was to fix those
+
+things. All the repos we work in have
+
+various AI review bots. They're helpful
+
+even if they're not always right. If
+
+your harness offers tools to monitor a
+
+PR, use them so you can respond when
+
+comments arrive. Otherwise, pull the PR
+
+for new comments and checks. Only act on
+
+checks and comments newer than the
+
+latest push. Verify every bot finding
+
+against the source before changing code.
+
+Fix real findings and CI failures.
+
+Distinguish repository failures from
+
+infrastructure flakes and reply with a
+
+written reason when dismissing false
+
+positives. I also to keep an eye on
+
+changes to main and rebase when needed.
+
+If an overing PR makes this one
+
+obsolete, stop monitoring, report to the
+
+user, and ask before closing unless
+
+closure was explicitly authorized. If a
+
+review bot leaves feedback you believe
+
+is not worth addressing, reply and
+
+resolve the comment. Format comments
+
+left on Theo's behalf as such. Markdown
+
+model slug responding on behalf of Theo.
+
+Actual reply. This has been super
+
+helpful. Screenshots and videos help as
+
+well. I have a custom file upload skill
+
+that I built for my agents that allows
+
+them to upload arbitrary files to R2
+
+with a public URL they can use to embed
+
+things in PRs because I noticed them
+
+doing nasty [ __ ] to try and get a video
+
+in a PR. This solved that. This is
+
+probably the most important line in
+
+here, though. Do not let review feedback
+
+expand the PR beyond the user's original
+
+goal. Address real shortcomings, but
+
+avoid scope creep. This skill has been
+
+great. One of the most important details
+
+is kind of hidden now. Let me do that so
+
+you can see it better. The description.
+
+This is a thing that most people get
+
+wrong and agents get even more wrong.
+
+Your description should not describe
+
+necessarily what the skill does because
+
+the description is always inserted even
+
+if the skill is not being used. The
+
+point of the description is to let the
+
+model know when it should pull in the
+
+skill. So, you should treat the
+
+description less like an elaborate
+
+explanation of all the things the skill
+
+does. Hell, I've seen skills where the
+
+description gives you everything that
+
+you need, and you don't even need to use
+
+the skill because the description has
+
+all the details. The description should
+
+have the magic keywords to tell the
+
+model when to pull the thing in. So here
+
+I could probably delete this monitor a
+
+pull request through review in CI
+
+entirely and have it just be use when
+
+the user asks to monitor, watch, or
+
+babysit a PR. The point of this skill is
+
+to be pulled in and give the model the
+
+context when it needs these things. I
+
+know it's unintuitive because it's
+
+called a description, but you really
+
+should think of the description of a
+
+skill as the trigger keywords rather
+
+than as an actual description. As such,
+
+you can guess how my file PR skill is
+
+formatted. File a concise pull request.
+
+Use when the user asks to file, open, or
+
+create a PR. Originally, I had the file
+
+PR and babysit PR skills as one skill,
+
+but I noticed once I added the keywords
+
+that it was good enough at triggering
+
+that I didn't really need that anymore.
+
+So, I made them separate. Also, I often
+
+want one and not the other. So, having
+
+them separate was really nice. So, now I
+
+have the file PR skill that triggers
+
+whenever a user requests filing,
+
+opening, or creating PRs. This skill has
+
+been a night and day difference to my
+
+quality of life. Not because my agents
+
+couldn't file PRs before. They could,
+
+but my agents would often file PRs in
+
+ways that I [ __ ] hated. And now I
+
+don't hate it as much. Here's an example
+
+of a PR that was filed by one of my
+
+agents before I made these changes. The
+
+title is fix server parse CLI version in
+
+update pre-flight. Summary: Verified
+
+pinned runtimes against the CLI's actual
+
+T3 version output. Make the
+
+self-updating process runner fake emit
+
+the same format and keep wrong version
+
+coverage realistic. Can any of you guys
+
+say in plain language what the point of
+
+this PR was? I know I can't. I happen to
+
+remember what I did here. The problem
+
+was that I was getting errors in the
+
+little log in T3 code that showed when
+
+there was drift between the version on
+
+your machine and the version on the
+
+remote machine. And this is the PR that
+
+was made to fix that. A lot of my PR
+
+descriptions looked like this. And the
+
+titles aren't helpful either. And that
+
+was annoying me. So, I gave direct
+
+concrete examples to my agent here.
+
+Before filing, check whether a PR for
+
+this branch already exists. Review the
+
+diff locally against origin main to make
+
+sure its contents match the goal. PR
+
+titles usually become commit messages,
+
+so follow the repository's title
+
+conventions. Look at recently merged PRs
+
+and get histories. For example, prefer a
+
+concise human readable title that
+
+explains why the changes matter. Bad
+
+example here, PF server, negotiate per
+
+message deflate on the websocket. Good
+
+example, PF server. Cut websocket frame
+
+size by 70% with gzipping. This was a
+
+real example that I did because I had a
+
+really awful title I hated from one of
+
+my agents and gave it this example.
+
+Agents are really good at bad and good
+
+examples. So if you notice your agents
+
+doing something poorly that you have to
+
+go adjust, put one or two of those
+
+inside of a skill or your globals and
+
+now the agent knows what bad and good is
+
+to you and you've seated its weights
+
+with the things that matter to you.
+
+Another important chunk that I have
+
+here, this is probably the one that's
+
+changed my life the most, as silly as it
+
+is. Open the description with a simple
+
+explanation of the problem based on the
+
+user's original prompt. Then briefly
+
+explain the solution. Do not lead with
+
+an implementation inventory. So I gave a
+
+bad example here. Removed implicit
+
+workspace carryover from every new
+
+thread entry point. New threads inherit
+
+only the project from context branch
+
+work yada yada. Just nonsense. No one's
+
+going to read this. Good example. My new
+
+work tree default was ignored when
+
+starting new threads on existing work
+
+trees. Super unintuitive. Now your
+
+preferences always apply. So much
+
+better. I also specifically told it to
+
+stop opening draft PRs because Codex
+
+loves opening draft PRs that don't get
+
+reviews. I told it to open a real PR
+
+rather than a draft. So review bots run.
+
+If the user also has to babysit it,
+
+continue with the babysit PR skill. I
+
+probably don't even need this anymore
+
+because it pulls the skills incorrectly.
+
+And you can see the difference if we
+
+scroll up a bit and click any of my new
+
+PRs. Here's a simple example. Fix for
+
+release. Skip scripts during versell
+
+installs. The hosted web deployment runs
+
+its filtered versell install command
+
+twice. Both installs invoke the root
+
+prepare life cycle. So the persistent
+
+build cache accumulated affect TSGO
+
+backups until it hit the 100 file limit
+
+in blocked releases. So now we're
+
+running with ignore scripts. That's a
+
+lot clearer. I also have at the bottom
+
+here in my example description. Maybe I
+
+don't have it here, but I have it in my
+
+global. I think I have it in my global.
+
+I do. I should add it here as well. add
+
+a blurb to the end of the PR description
+
+about what model and harness is making
+
+the changes. This has been really
+
+helpful for keeping track of what I'm
+
+using for different work. Sadly, Codex
+
+often doesn't know what model it's
+
+using. I've been yelling at the Codex
+
+team for a bit about this. Clot always
+
+knows and most other harnesses know as
+
+well. Codeex does not include the model
+
+slug inside of the system prompt, which
+
+is dumb of them. So, sometimes it'll say
+
+that 54 filed it when it didn't, which
+
+is annoying, but yeah, small thing.
+
+Helps a lot to like get this information
+
+in my PRs. I've been really happy with
+
+this change, much more so than I
+
+expected. Another simple example, I had
+
+a bug in stashed prompts where they were
+
+being stashed per harness, which didn't
+
+make sense because if I stashed a prompt
+
+for codex, I want to go throw it in
+
+claude. It annoyed me. I told it that
+
+told it needs fixing and it described it
+
+accordingly. Stashing a prompt,
+
+switching providers, and restoring it
+
+didn't work. The stash was bucketed per
+
+provider instance. So after a switch,
+
+the badge disappeared and the stash
+
+looked lost. Restoring also dragged the
+
+stash model selection back, defeating
+
+the point of moving a prompt to a
+
+different provider. This is a great
+
+description of why I cared enough to do
+
+this thing. Super nice. Everything so
+
+far has been focused on my global skills
+
+and my global agents and cloud MD files,
+
+but there's a lot more to this than
+
+that. I want to show how I tuned the
+
+files that we have in T3 code itself for
+
+people contributing to T3 Code. This
+
+isn't for T3 Code users. It's for T3
+
+Code contributors. It's much more
+
+specific to the code base, which means
+
+it would be helpful to figure out how I
+
+discovered these things in the first
+
+place. This was not a great example
+
+because I actually explicitly told the
+
+agent to not make the PR, but instead
+
+generate the one-click link so I could
+
+make the PR and then I opened it and
+
+went and tidied all of these things up.
+
+Yeah, from here down is AI slop. I did
+
+include that. This is the real thread I
+
+used to do a lot of the changes that I'm
+
+talking about here. To be clear, when
+
+you look at the generated agents MD and
+
+Claude MD, don't assume I used those
+
+because I didn't. I was using them
+
+largely as a reference point to get
+
+things tuned how I wanted. I opened with
+
+a relatively wordy prompt on what my
+
+goals were here that I want to rethink
+
+the agents MD and Cloud MD for T3 code.
+
+I want them to better match the tone of
+
+my global agents in CloudMD. I also want
+
+to better represent the project and how
+
+agents should work. Random additional
+
+things I want to touch on. These are
+
+things I knew had been happening a lot
+
+that were annoying me. And also I wanted
+
+to pull in my glossery from my lake bed
+
+agents MD because I found that that has
+
+been super super helpful for how I
+
+communicate with the agent. I also said
+
+to match the tone from that file write
+
+up two separate drafts for an
+
+alternative cloudmd based on what I
+
+shared here and it wrote them and I
+
+didn't like them much. There were parts
+
+there that were good but it wasn't
+
+great. But I asked to do something that
+
+ended up being significantly more
+
+helpful. Can you look through my history
+
+with models like Fable, Opus, and GPT56
+
+Soul in Cloud Code and Codeex on this
+
+machine to see what the most common
+
+mistakes are? Want to make sure we
+
+optimize to steer away from those. I
+
+want you to break down the most common
+
+failure modes and how often each model
+
+hits them. This was fun because not only
+
+did it catch specific failures that I
+
+cared about, it also categorized them by
+
+how often they happened with each model
+
+and harness. I noticed Opus 5 was
+
+aggressively killing the wrong process.
+
+Often killing the T3 code instance that
+
+it was running in and it now is
+
+confirmed with real numbers. Even though
+
+I only used it for 2 days, it had done
+
+significantly more attempts to kill
+
+processes than Fable had in all the time
+
+I use it. Here you can see all the times
+
+user data were touched. Thankfully, it
+
+was almost all readonly inspection, but
+
+we should still audit it further. PR
+
+hygiene. We noticed soul see again 40%
+
+of the time it filed PRs, it was filing
+
+drafts. Other models were much less
+
+likely to file a draft. A lot of
+
+repowide check failures where it was
+
+running things it didn't need to, taking
+
+way more resource and build time on my
+
+machine. Good call out that it had here.
+
+And it also tracked the bash error rates
+
+for the different agents that were
+
+working here as well. I will say that I
+
+did all of this with Opus because I was
+
+out of Fable at the time and it didn't
+
+do quite as good of a job auditing as
+
+both Fable and 56 did. I did have all of
+
+them do audits looking for various
+
+failures and try to collect as many of
+
+them as possible so that I could use
+
+that as a reference point. As I
+
+mentioned, I had a lot of agents do this
+
+audit with me and find all the weird
+
+failures that happened across all of my
+
+real runs on my real machines. I forgot
+
+which model made this one, but I really,
+
+really liked it.
+
+This was measuring corrections per 100
+
+user messages per model. So, I would
+
+often tell Fable it implemented things
+
+wrong, but that's also because I use
+
+Fable to do the hardest stuff, and I
+
+often give Fable less context going in.
+
+I also apparently tell Opus 5 that its
+
+results look wrong way more often. It
+
+looks like Soul's really good here, but
+
+remember, I don't use GPT models for UI
+
+stuff. So, if I say it looks wrong, I'm
+
+probably just going to move off of Soul.
+
+For process, I actually had more
+
+problems with Fable than other models
+
+for like leaving branches stale, not
+
+fixing CI, stuff like that. Opus 48
+
+would misread what I was asking for very
+
+often. Tool misuse. Opus was the worst
+
+by far. Opus 5 was misusing [ __ ] all the
+
+time and breaking my environment.
+
+Overbuild opus 5 and opus 48 were the
+
+most aggressive with. Apparently fable
+
+slightly worse than soul overall, but
+
+that's a universal problem. Stopping
+
+early was also a universal problem. No
+
+verify was pretty universal. Regression
+
+was rare but expensive when it happened.
+
+And only soul was doing unasked edits
+
+that I had to tell it like, "Hey, don't
+
+edit that. undo that. And then it
+
+proposed a bunch of changes to my global
+
+files that it thought made sense. And I
+
+sat and read through this and this one
+
+and this one and even this one. The
+
+point of doing all of this is that I
+
+wanted to get a better feel for all of
+
+the things that went right and wrong in
+
+my history. Some of this is just vibing
+
+it out in gut feel based on my own uses
+
+and my own work in these projects, but
+
+it's also a lot easier to go through
+
+your history with an agent or dozens of
+
+them in this case than it is to read
+
+through all of that yourself and really
+
+think about it. And getting stats on
+
+what the failure cases are and getting
+
+your agents to give you the feedback on
+
+what happened is super helpful. And if
+
+you notice certain threads that just
+
+didn't go how you want, you should work
+
+with the agent to fix that. You should
+
+ask it why did you make this decision?
+
+What gave you indication that this was
+
+the right direction? It might be
+
+something that's outdated in your cloud
+
+MD or agents MD. It might be something
+
+that it read incorrectly early and then
+
+followed along once it was in context
+
+that didn't actually make sense. Think
+
+about these failure modes, notice them
+
+when they happen, and ask the agent
+
+questions. Another really common one is
+
+if you ask for what you think will be a
+
+simple change and the agent takes 30
+
+minutes or more when you thought it
+
+would take five. Ask the agent why it
+
+took longer. What did it spend its time
+
+on? Ask it to categorize all of the tool
+
+calls it made into different groups and
+
+try to determine which ones were and
+
+weren't helpful so that you can make
+
+adjustments to help the model make
+
+better decisions in the future. And I
+
+guess with that there's no better time
+
+than now to dive into our agents MD
+
+file. Another very important thing is
+
+that your agent MD should be incredibly
+
+different from your readme MD. The point
+
+of a readme is context on the project
+
+and what it is that is useful for humans
+
+and agents that are trying to decide if
+
+they want to pull in this code. The
+
+point of the agent and cloudmd files is
+
+to tell the agent how to change things
+
+in the codebase and what it should know
+
+before it makes those changes. So yes,
+
+there are parts of this that should be
+
+descriptions of the project, but the
+
+majority of what's going on here really
+
+should be focused on how your agents
+
+will work in the project. While there is
+
+a lot of overlap between developers
+
+contributing to a project and agents
+
+doing those contributions, this file
+
+really should not be written for devs.
+
+It should be written for agents to help
+
+the agent interact with the dev better.
+
+And with that said, one of the most
+
+important details you can get right in
+
+these is a glossery. I like writing
+
+these not just so the agent understands
+
+me because it's usually pretty good at
+
+that. It can infer what I mean when I
+
+talk about a thing that I want it to do.
+
+The glossery can help it understand what
+
+I'm saying a little bit, but the
+
+glossery is much more helpful for the
+
+agent to describe things to me the way I
+
+want it to. And a lot of these base
+
+terms are really simple. Most of them
+
+are terms that it probably already knew.
+
+But when you give it this type of really
+
+simple language to describe things with,
+
+it becomes much easier to talk to the
+
+agent because it knows how you're
+
+thinking and how you and your team are
+
+working. So our glossery is really
+
+simple here. The first word defined in
+
+the glossery is you, which means the
+
+agent reading this file and changing T3
+
+code. We, us, and maintainers mean Theo,
+
+Julius, and the people building T3 code.
+
+These are who you're talking to. Now
+
+user means the person using T3 code to
+
+direct coding agents and agent means the
+
+coding agent a user runs inside of T3
+
+code depending on context. This may also
+
+include you. Provider means the agent
+
+runtime or harness that T3 code talks to
+
+such as codecs, claude, cursor or open
+
+code. Client means the web, desktop and
+
+mobile UIs. Environment means one
+
+running T3 server and the machine file
+
+system provider credentials and state
+
+that it owns. A project is an
+
+environment local workspace record
+
+rooted at a directory. You get the idea.
+
+These are all very simple terms. I think
+
+this is easier from the top though. So
+
+let's do that. T3 code is a minimal guey
+
+for coding agents. A node websocket
+
+server wraps provider CLIs like codeex,
+
+cloud code, cursor, gro and open code.
+
+And it serves web desktop and mobile
+
+clients. You can think of T3 Code as an
+
+open- source bring your own subscription
+
+alternative to apps like Cloud Desktop,
+
+Codeex app, Cursor Glass, and Conductor.
+
+This is useful context because now the
+
+agent has to spend less time figuring
+
+out what it is or what to look at when
+
+it's trying to model UI and UX. Now it
+
+has very specific direct instructions.
+
+Now it knows what to think about when
+
+it's trying to get things right. And
+
+then an important piece, what makes T3
+
+code special? Again, you might think,
+
+oh, that's something that should go in
+
+the read me. Yeah, to an extent, but the
+
+more important part of putting this here
+
+is to give the model an idea of what it
+
+should never compromise on if it's
+
+making changes. and those changes hurt
+
+any of these things, it shouldn't make
+
+those changes. It also helps
+
+contextualize how it's working and where
+
+it's working. So, it knows things like
+
+since I say we're open at the core, that
+
+means it's an open source project, act
+
+accordingly. Or things like we have over
+
+100,000 users who love T3 code, that
+
+means that despite being alpha, we have
+
+to be careful to not break things. I
+
+even say here that it's important we
+
+maintain the things that our users love
+
+as we continue to iterate on the
+
+product. Here's a brief list of the
+
+things we can never compromise on. Open
+
+at the core. Dether code is truly open.
+
+We share our road map. We share how we
+
+think about things and of course we
+
+share all of our code. A large number of
+
+our users run forks. We work in the open
+
+and we should strive to stay that way.
+
+Two is performance without compromise.
+
+Lots of apps have gotten bogged down
+
+with bad tech decisions and slop. We
+
+have not and we're proud of the
+
+performance of T3 code. We regularly
+
+audit for performance regressions often
+
+caused by sending too much data over
+
+websockets, CSS animations causing GPU
+
+spikes, lists being hard to render, and
+
+more. Make sure all changes are
+
+considerate of performance impact.
+
+Three, remote ready. The architecture of
+
+T3 code's websocket layer with npxt3
+
+enables a lot of awesome remote
+
+features. These have become core to the
+
+product. Whether users are connecting
+
+directly over their local network using
+
+tails scale or leaning in fully with T3
+
+connect which is our tunnel solution
+
+also in this repo. We need to make sure
+
+new features are properly supported. And
+
+then I have the multi-urface call out
+
+because T3 code has its three core
+
+surfaces web, desktop and mobile. Web is
+
+kind of two services. is we have the
+
+public facing app3 codes as well as the
+
+locally hosting web app through MPXT3
+
+command. Both need to be supported by
+
+all new features where reasonable.
+
+Desktop's the main surface most users
+
+install first. It's a full electron app
+
+that bundles the server runner as well.
+
+The desktop app can also be used as the
+
+host server allowing remote connections
+
+from both app T3 codes or the mobile
+
+app. Then there's mobile which is a
+
+React native app for both iOS and
+
+Android. Mobile app allows for
+
+connecting to any T3 code server to
+
+control work remotely. Still an early
+
+access test flight but it's pretty close
+
+to shipping globally. This I need to go
+
+remove now because we launched the app.
+
+This is all of the context that I want
+
+the model to have going in about what T3
+
+code is so that it can make better
+
+decisions and not spend its first four
+
+tool calls googling and reading through
+
+files to figure out what the [ __ ] we're
+
+doing. I then do my favorite a note from
+
+Theo. I like ambitious ideas, simple
+
+systems, and software that feels
+
+obvious. Do not preserve complexity just
+
+because it already exists. Do not
+
+introduce machinery because it looks
+
+architecturally impressive. Understand
+
+the real constraint. Then fight for the
+
+smallest model that makes the correct
+
+behavior unsurprising. Channel both
+
+measure twice, cut once, and Yagy. These
+
+are just phrases in the dev world that
+
+are associated with smaller, concise
+
+changes and not adding things that are
+
+unneeded. Fight scope creep. Try to
+
+honor the dev's intent in both a minimal
+
+and realistic fashion. The rest of this
+
+document is meant to help you navigate
+
+the codebase and make changes
+
+effectively. Think of these instructions
+
+less as hard rules, more as good
+
+defaults. This is another important
+
+thing because I've noticed sometimes
+
+I'll put things in here that a user
+
+doesn't want and then they get really
+
+annoyed if the agents MD and the user
+
+disagree. So I always put something like
+
+this in in order to make sure the person
+
+prompting can get around the stuff I put
+
+here if it doesn't make sense. I even
+
+specify that developer preferences
+
+should be able to override anything
+
+here. Of note, most T3 code
+
+contributions will come from T3 code
+
+itself, often controlled remotely. This
+
+means you should be careful about
+
+accessing data, killing dev servers, and
+
+other things that may damage the T3 code
+
+instance that the contributor is using.
+
+This is because I got really annoyed at
+
+Opus, killing my running jobs. It was so
+
+[ __ ] annoying that it inspired me to
+
+do this whole rewrite. So, I guess Opus
+
+has contributed a lot. If you haven't
+
+caught up on the podcast, Opus 5 went
+
+from my favorite model to one that
+
+pisses me off a ton really fast. I don't
+
+use it if I can avoid it at this point,
+
+but yeah, this was because Opus was
+
+pissing me off. And then we have the
+
+glossery. And then I have the three ways
+
+to hurt yourself. This came pretty much
+
+directly from soul auditing my logs and
+
+finding these particular failure modes
+
+that happened a lot. I have a few more
+
+pro tips coming up for realworld work as
+
+well as two skills that have changed my
+
+life that I've never shared before. And
+
+I'm really excited to show you guys all
+
+of that. But this video is getting long,
+
+so I hope you can forgive one more quick
+
+sponsor break. If you're a developer and
+
+you watch my videos or you've talked to
+
+me in person, then you probably already
+
+know how much I love today's sponsor.
+
+It's Convex. And I don't normally ask
+
+them to pay me because I show them for
+
+free. Their stuff is so good that we
+
+built all of T3 Chat on top of it after
+
+my own self-rolled solution just wasn't
+
+cutting it. And I'm so thankful I did
+
+because Convex solves so many annoying
+
+problems. They want me to show their new
+
+cloud code plugin. And I get it. It
+
+makes the model better at Convex. But it
+
+doesn't really need it because the
+
+models already are all so good at
+
+Convex. It turns out having one folder
+
+in your codebase that represents all of
+
+the things that your backend database
+
+etc. all need makes it really easy for
+
+agents to write code against it. This is
+
+why I love Convex. It's just code and
+
+it's just TypeScript code, too, which
+
+makes it really safe. And if you're
+
+worried about scale, don't be. Jamie and
+
+James are two of the most talented
+
+engineers I've ever met. They helped
+
+Dropbox scale. I've never met somebody
+
+who can tell you all the flaws of S3
+
+scalability quite like these two can.
+
+The real reason to use Convex is all of
+
+the annoying problems it solves. From
+
+keeping data synced to preview PRs to
+
+access controls to just all of these
+
+things that normally take a lot of work
+
+for you and your agents, Convex just
+
+makes it easy. Build apps in a way that
+
+you and your agents will love at
+
+soy.convex.
+
+Sorry about that. I hope you understand.
+
+Writing markdown is expensive and
+
+writing it all by hand is timeconuming.
+
+A bit of this was whisper flow, but the
+
+majority of this was handcoded and
+
+written. So yeah, this next piece is
+
+another one of those huge lifesaver ones
+
+because I was running into a lot of
+
+problems where I would make a change in
+
+T3 code and it would only apply to one
+
+of the surfaces. For example, it would
+
+only be changed on the desktop app and
+
+not the website or mobile. I wanted to
+
+stop doing that and also to make sure
+
+the docs kept up to date as well. So I
+
+said as much hit every surface. The most
+
+common defect in this repo is a change
+
+that works on the path you tested and is
+
+missing everywhere else. Before calling
+
+frontend work done, walk this list and
+
+say which entries apply. Make sure all
+
+the entry points are addressed. Things
+
+like settings page, command pallet, and
+
+key bindings. So if you add a feature in
+
+the chat view, it should be accessible
+
+in those places. You have clients
+
+because we need to make sure things work
+
+in all the different clients. the web
+
+version, the desktop version, as well as
+
+the mobile apps. Shared logic lives in
+
+the shared package client runtime
+
+section. And then the providers, each of
+
+our providers have their own adapters.
+
+Provider shape features need a decision
+
+per adapter, even if the decision is not
+
+supported here. Very helpful, especially
+
+when we add features for codeex and
+
+claude. Now you have to decide, okay,
+
+not cursor, grock, or open code because
+
+their implementations aren't quite as
+
+far along. Or maybe you do decide to
+
+sneak in Grock because their SDK has
+
+made a lot of progress. Super helpful.
+
+We also have this contracts package
+
+which describes everything that crosses
+
+the wire over the websocket server or
+
+the new HTTP backed like cold store. A
+
+lot of the time changes will be made in
+
+the app that aren't properly reflected
+
+in the contracts package. This one line
+
+has fully fix that. This was another
+
+really big one reverse states. I had a
+
+lot of instances where I added things
+
+like settle and snooze but the logic to
+
+unsettle or unsneeze was not provided.
+
+This helped a ton with that. Same with
+
+the connection modes, telling it the
+
+ways it can connect, make sure that they
+
+all work as expected, and then the docs.
+
+This call out ended up making me go even
+
+further. And I believe I still have a PR
+
+open for this. I do. I made a PR that I
+
+have to update and get merged soon where
+
+I properly split user and maintainer
+
+docs. So, they're two entirely separate
+
+entry points because I've had a lot of
+
+problems with models writing a bunch of
+
+the internal details of how something
+
+works in the userfacing docs. I had this
+
+a lot with lake bed and I still have it
+
+a bit with T3 code and I found that a
+
+really clear split plus a little bit of
+
+tuning in your agents MD to steer the
+
+model in the right direction helps a ton
+
+with this. Also gave some context on dev
+
+servers because I noticed the model
+
+often trying to call bun even though the
+
+whole project is V+ now and it's called
+
+out everywhere. Models are also really
+
+bad at V+ without a little bit of help
+
+because they'll try to type out V+ and
+
+it doesn't work. They have to use VP and
+
+they'll also use VP dev instead of VP
+
+rundev which is really annoying. I
+
+called out Evanu for this decision
+
+already where VPDEV does its own thing
+
+and VP rundev does what you actually
+
+want even though PNPMDEV and bundev do
+
+the obvious thing. VPDEV is special and
+
+that pissed me off a lot at the time
+
+because it annoyed me to have to
+
+remember to type the right thing. Then
+
+my agent started making the same mistake
+
+and now I'm even more pissed. So this is
+
+a line that exists because our friend
+
+Evan Yu could not get over his [ __ ]
+
+It is what it is. He's wrong. It is
+
+hurting real users. Now I have to add
+
+this line and burn millions of tokens
+
+over the next few years because one
+
+person thought this was a good idea.
+
+Other pieces in here that were helpful
+
+is I gave instructions for using custom
+
+T3 code home directories so that if you
+
+spin up a dev server doesn't break your
+
+running server as well as the ability to
+
+share a dev server over tailet and tail
+
+scale which has been awesome for doing a
+
+lot of remote dev work. I also noticed
+
+it was often sharing the wrong URL
+
+without the pairing like token that I
+
+needed. So I told it to do that. And I
+
+also noticed that it was stopping the
+
+wrong processes and often forgetting to
+
+stop the one that it should. So I told
+
+it to make sure it saves the PID when it
+
+spins up the dev instance so it could
+
+kill it. I gave explicit instructions
+
+for test data which have been very
+
+helpful as well. As well as some
+
+instructions for verifying. I got
+
+annoyed at it spinning up computer use
+
+when it didn't need to. So I specified
+
+here upon request user visible front-end
+
+changes should get one integrated pass
+
+in a real client. And we have skills for
+
+this test T3 app and test T3 mobile that
+
+Julius wrote for spinning up and testing
+
+those things with computer use. Then a
+
+bit more pull request instructions so
+
+the people filing pull requests will get
+
+better stuff when they do it from their
+
+agent because a lot of we have like 500
+
+PRs. I want everything I can to make
+
+them easier to read. This has been very
+
+helpful already with that. The where
+
+code lives probably isn't that necessary
+
+anymore, but it's so little whatever
+
+it's fine. A little taste section about
+
+where we want things to live. Complexity
+
+belongs at the adapter boundary.
+
+Orchestration stays pure. UI stays dumb.
+
+Inferred types over annotations. Any is
+
+the enemy. Yep. Comments describe how a
+
+thing is used and move with when the
+
+code moves to be used mostly to describe
+
+functions not to annotate every line of
+
+behavior. Our users drive agents all day
+
+and notice drop frames, lying spinners,
+
+and stale labels. No continuously
+
+repainted animations. They peg the GPU.
+
+For real here fights the task in front
+
+of you. Say so loudly and get a human
+
+sign off before breaking it. One last
+
+one is I noticed that the dev servers
+
+were being spun up and worked on with
+
+way too much security for something that
+
+only affects your local network and tail
+
+net. So I yelled at it for that and said
+
+security is important but should not be
+
+overindexed on especially for dev mode
+
+and maintainer only features. Another
+
+one of those additions that seems small
+
+but has actually been life-changing for
+
+a lot of this work. The harsh reality is
+
+that you don't notice complexity that
+
+isn't necessary until it crosses a
+
+certain threshold. So the problem I had
+
+is that stuff was getting unnecessarily
+
+complex. I only noticed when it was too
+
+far, but then I took all of the things
+
+that caused that. I put them here and
+
+now everything is less complex, which
+
+has been awesome. It's been so nice to
+
+have everything I do just be more like
+
+what I want and my prompts have gotten
+
+way smaller as a result. Here's a real
+
+example. I have to add the iOS and
+
+Android apps for T3 code to the
+
+marketing site. We are working on a
+
+marketing site overhaul, but I want
+
+these ASAP. So, we're going to get them
+
+right now. I asked it to make these
+
+changes. It decided that it wanted to
+
+give me a mock for all the different
+
+options using one of those two skills
+
+I'll show you in a minute. And it
+
+created these mocks. A is marketing hero
+
+with the also on your phone call out. B
+
+marketing final call to action. C
+
+download page. D marketing footer. I
+
+hate most of these. It wants C plus D
+
+plus A together. Do C plus D plus A.
+
+File and babysit. That is my whole
+
+prompt. That prompt will do everything I
+
+want the way I want it to. The C plusd
+
+plus A it knows because that's the
+
+context it gave me using my HTML skill
+
+and file in PR tells it use these skills
+
+to figure out the rest that I want.
+
+Here's one I did yesterday that I forgot
+
+to make a PR for where I'm trying to fix
+
+the remote upgrade path to just have
+
+better UI. File in PR and now that will
+
+be filed and I'll probably go merge it
+
+after I'm done recording. So, I just
+
+noticed a bug literally now where I had
+
+a slept thread that woke because I
+
+snoozed it and it unneooed, but I wanted
+
+to settle it and the settle button
+
+wasn't working on a thread that had just
+
+woken up. So, I described the bug. I had
+
+a woke thread that I wanted to settle
+
+and I was unable. The settle button that
+
+appeared on hover would not work.
+
+Rightclick settle did. Diagnose and fix
+
+file and babysit. That is everything I
+
+need and I will have a PR that is
+
+probably ready to merge in the next 15
+
+or so minutes. That's pretty [ __ ]
+
+cool. I know it's silly, but this has
+
+been really nice, but I promised you
+
+guys more. Promised you guys skills I
+
+hadn't shown. So, I'm going to do that.
+
+Now, the first ones I want to show here
+
+are my command center skills. These are
+
+the ones that are specific to just this
+
+machine because I bring new computers
+
+into my network that I want to use for
+
+different things all the time. I do need
+
+to get in the habit of sunsetting a
+
+bunch of them, but I'm not there yet.
+
+But when I get a new Linux box set up or
+
+I just reimage a machine, I don't have
+
+to put a bunch of work in or set up
+
+nicks or some [ __ ] I just want to get
+
+that machine online ASAP. So, I ended up
+
+configuring a bunch of things for my
+
+machine, getting my laptop how I wanted,
+
+and then telling an agent to look at all
+
+of my config, look at my bash history,
+
+look at all the things I set up, and
+
+write them all down. And then once I did
+
+that, I told it to go set up another
+
+machine with all of the things I liked.
+
+and it got a lot of it, but it missed
+
+some things and it did some things it
+
+didn't need to. So, I told it all of
+
+those. I told it to adjust those
+
+instructions to better fit the needs
+
+that I had. And it did. It created a
+
+whole provision a box skill that is all
+
+of the things that I want to have on
+
+these new machines that I can set up
+
+over SSH. I even got it to make me this
+
+nice little HTML page that it updates
+
+every time it makes changes to the fleet
+
+that detail all the machines, their
+
+specs, what they do, what exists on
+
+them, etc. Different connection methods,
+
+the different specs, the baseline for
+
+what I want on each box, T-M certain
+
+shell stuff, the ability to control
+
+T-Mox over SSH with a mouse. And as
+
+you've probably seen in previous videos,
+
+that's exactly what I have set up. I
+
+have this machine. This is the one that
+
+does most of my dev work. It's my
+
+framework desktop with 32 threads and 64
+
+gigs of RAM. This machine gets abused
+
+and it is where I do all my dev work
+
+now. And it runs a T3 code process that
+
+everything is controlled through. All of
+
+my machines are colorcoded and also have
+
+matching colors inside of my actual like
+
+cmox so it's easy to see each machine in
+
+SSH when I need to. But honestly, since
+
+the recent T3 code changes, I have been
+
+doing a lot less. I'm just using
+
+everything through T3 code and not
+
+bothering with the SSH. You get the
+
+point, though. I set all of this up so
+
+that I can more easily manage and
+
+configure my machines and I have a skill
+
+that is only on this computer, but this
+
+is in a repo that has all the skills
+
+that all the other computers get. So,
+
+let's look at the universal ones cuz I
+
+promised you guys I would show some
+
+skills I have never shown before. I
+
+already mentioned the file upload one.
+
+This needs a lot of tuning in the
+
+description because a lot of this one, I
+
+will admit, is slop. The whole service I
+
+built is also slop. I actually bought
+
+teslop.org in order to have a place on
+
+Cloudflare that these files will go. And
+
+this is my file upload skill for
+
+uploading any local file mdash a
+
+screenshot screen recording log document
+
+markdown file config build artifact or
+
+archive to the user's public file host
+
+at files.tslop.org and return a public
+
+URL. Rewriting all of this. When user
+
+asks to upload
+
+a file or one is needed for a PR PR
+
+descriptions,
+
+use this skill. Cool. Much better
+
+description. I also have a requires
+
+section I added here in my metadata
+
+because I don't want the skill on
+
+machines where I don't have a global
+
+file host token because that is how the
+
+skill gets authenticated. If it is
+
+unset, tell the user instead of
+
+guessing. And I have the simple bash
+
+command that it will run in order to
+
+post the file to my service. Needs the
+
+token. As long as it has the token, it
+
+can upload. Say use only the files base
+
+name for file name such as login flow.
+
+MP4. The service slugifies it and adds a
+
+random suffix. So names do not need to
+
+be unique. Treat the response body yada
+
+yada yada. And then basic instructions
+
+on how to use the URL in GitHub as well
+
+as instructions that it can encode a GIF
+
+for a preview when it makes sense to.
+
+And I even give the ffmpe command for
+
+that which probably wasn't necessary.
+
+This skill is [ __ ] awesome. you have
+
+any idea how cool it is to have agents
+
+that can upload files? So, if you're on
+
+your phone on the T3 Code mobile app and
+
+your agent builds some new feature and
+
+you want to see it, you can tell it
+
+upload the file and respond with the URL
+
+and then it does. And then you can click
+
+the URL and watch the actual video it
+
+recorded on a real computer of it doing
+
+the thing. You can tell it to file a PR
+
+and it can include that URL in the
+
+embedded video in the actual PR. It
+
+makes the back and forth so much easier.
+
+And this is the theme I really want to
+
+make sure you guys get out of this. I'm
+
+not just trying to make the model more
+
+technically competent. The role of all
+
+of this is not to make the model better
+
+at writing code. There are little pieces
+
+here that are helpful with that. But the
+
+main point of all of this, the main
+
+reason I put all this time in is to make
+
+the model better at communicating with
+
+me. I want to read the outputs, but when
+
+the outputs are piles of slop with no
+
+useful context, it sucks. All of these
+
+skills, all of these capabilities, all
+
+of this time I spent is giving the model
+
+what it needs to communicate with me and
+
+other maintainers and contributors
+
+better. And the file upload skill is not
+
+super useful for the agent, but it's
+
+really useful for me when I want the
+
+agent to show me something. And that was
+
+all the preamble for the skill that I
+
+rely on the most, the one that has
+
+fundamentally changed my life and sadly
+
+requires me to shout out anthropic
+
+because Thoric is the guy who HTML pled
+
+me. This is my HTML planning skill. It's
+
+no longer HTML plans. I use it a lot for
+
+things that aren't plans. It's now HTML
+
+communication. When the user asks for an
+
+HTML writeup of work, not as part of the
+
+codebase, use this skill to create and
+
+always upload it to PostPlan. This is
+
+also useful for reading postplan.dev
+
+URLs because I noticed the agent would
+
+try to browser use go to postplan when
+
+it could just curl it. So, when should
+
+this be used? Use this skill for any
+
+request to produce a readable HTML
+
+artifact for a human. Whether it's
+
+called a plan, a spec or writeup
+
+findings or summary, a report comparison
+
+set of UI mocks. The word plan is often
+
+absent. You can tell I wrote this by
+
+hand because of the typos here. What the
+
+requests share is a document to read
+
+outside the terminal and a link to open
+
+it. Horrible copy. I'll touch this up
+
+later. Also use it whenever a user
+
+supplies a postpl URL. A lot of this was
+
+slop I tidied up incorrectly. Honestly,
+
+probably going to delete almost all of
+
+this. The rest is what matters. reading
+
+a postplane URL. I want the model to
+
+stop opening this in the browser
+
+directly. So now I say when a user
+
+supplies a postplain dev URL, fetch the
+
+uploaded HTML immediately with the
+
+shell. Do not use web search or browsers
+
+to retrieve it. You know what I'm going
+
+to do? I'm going to show you guys how I
+
+actually make changes here because I'm
+
+seeing opportunities to improve. Real
+
+prompt I just wrote that might be
+
+helpful for you guys to see how I work
+
+with agents. This is in my fleet repo
+
+where I manage all of this content. I
+
+want to make a few more small changes.
+
+I've made more since my last prompt, so
+
+refamiliarize yourself before editing.
+
+The HTML communication skill is a bit
+
+overloaded. I want to break it in two,
+
+similar to the file PR and babysit PR
+
+skills, cuz I worked with this instance
+
+in this thread for that in the past. The
+
+descriptions for both should be really
+
+simple, focused on when to trigger and
+
+not what it is. One should be postplan
+
+read for reading content from postplan
+
+URLs. The other should be HTML
+
+communication for communicating to the
+
+user via HTML. When to use section
+
+should not exist in the post plan scale,
+
+only the HTML communication one. It
+
+should also be more minimal. Make your
+
+changes. Don't commit or push to any
+
+machines yet. I'll tell you when. This
+
+is just because I'm using soul and I
+
+want to make sure it doesn't overdo so I
+
+tell it where to stop. When you give the
+
+model a stop point, life gets much
+
+better. Remember earlier when I said to
+
+go fix the feature with settle,
+
+diagnose, and fix file and babysit.
+
+Apparently, it was a straightforward CSS
+
+bug fix. Yeah, there was a pointer
+
+events none that was breaking or that
+
+should have existed that didn't on the
+
+woke label that was causing it to break
+
+the button that I had. I don't love this
+
+comment, but [ __ ] it. YOLO.
+
+Let's merge it. Cool. And now that's
+
+gone. Man, I love the new T3 code
+
+workflow so much. While I was doing
+
+that, this finished and now we have the
+
+changes and my new skills. So, we can
+
+read these quickly. Use this skill when
+
+the user wants a plan spec write up
+
+finding summary report comparison or set
+
+of UI mocks presented as readable HTML.
+
+Do not use it for HTML. It ships part of
+
+the product. Yep. Great. One
+
+self-contained HTML file capped at 512K.
+
+Write it like a spec, not a landing
+
+page. Sure. This like basic formatting
+
+things that I left in there. UI mocks.
+
+Label them A, B, and C for easy
+
+selection. Lay them out for direct
+
+comparison. Keep one file across
+
+iterations so it's postplane URL stays
+
+stable. So I have it. I have postplane
+
+which is another micros service I set up
+
+that lets you upload a file with one
+
+command and as long as the path doesn't
+
+change the file uploads the same way and
+
+we'll update with versions and I also
+
+say never open a browser claim the
+
+documents hosted before upload succeeds
+
+do not verify in browser unless the user
+
+asks I was so tired of opus randomly
+
+doing that looks much better let's go
+
+confirm the new skill that we got here
+
+post plan read which shouldn't really
+
+need anything special there whatever
+
+fetch the upload HTML with the shell do
+
+not use web search or a browser remove
+
+trailing slash then append slaw unless
+
+the URL already ends in / raw. It
+
+shouldn't actually need that. It should
+
+be the same content now, but sure, both
+
+will work. Commit and push. Apply
+
+changes to the fleet. In the real world,
+
+I probably would have tidied this up
+
+slightly more or went and confirmed that
+
+the / raw isn't necessary anymore just
+
+to make these even simpler. Less context
+
+is best as long as you has the context
+
+it needs. But these are all relatively
+
+simple and hopefully this is helpful. is
+
+when the user asks to communicate
+
+through an HTML document. That's so much
+
+better. Like I want to add one more
+
+slight change here. Or if they mention
+
+HTML with no additional context. Cool. I
+
+want to be able to just say HTML at the
+
+end of a prompt. And now I have that.
+
+Cool. There just by adding to the end of
+
+the description. If they mention HTML
+
+with no additional context, that means
+
+use this skill, which is what I wanted.
+
+Sorry. Made one tiny change to
+
+description. Continue. And now those
+
+updates will sync across my whole
+
+machine in not very much time. This
+
+shit's so cool. Like how cool is it that
+
+I am writing markdown. I'm writing
+
+effectively copy in order to change the
+
+behavior of the the people, the agents
+
+across all of the machines on my
+
+network. And now this just works. It's
+
+so cool. It's so cool. I could just tell
+
+my agent to go sync all of this [ __ ] and
+
+it figures it out just cuz I have SSH
+
+access over tail scale setup. Igor
+
+pointed out that Steve Jobs would be so
+
+[ __ ] memeed by this. Steve Jaws would
+
+go so hard of vibe coding. He would have
+
+fired all of his engineers and like
+
+turned Mac OS into complete slop. You
+
+might have noticed one thing I didn't do
+
+at any point in this video. I never told
+
+you to go to this repo and copy and
+
+install all of my skills. That's cuz I
+
+don't think that's a good idea. Similar
+
+to how I don't think you should just go
+
+install all of the JavaScript packages
+
+somebody uses, you shouldn't just go
+
+install all of the skills someone uses.
+
+This is a thing that you should build up
+
+based on your needs and your experience
+
+communicating with your agents on your
+
+projects. And this is a great
+
+opportunity to level up your own
+
+understanding of things as well. In
+
+order to make good skills in Agent MD
+
+and Claude MD files, you need to
+
+understand how your agents work and
+
+where they fail. And hopefully this has
+
+helped you see where I find these things
+
+and you get some lessons you can apply
+
+in your own work as well. Don't blindly
+
+copy all the stuff I did here. take the
+
+opportunity to learn and better
+
+understand how your agents work in your
+
+stuff. And I have a feeling the tips
+
+here will actually end up being really
+
+helpful. This video is already longer
+
+than Codex's system prompt, so I'm going
+
+to wrap it up now. I hope this was
+
+helpful. And until next time, peace
+
+nerds.
+
+
