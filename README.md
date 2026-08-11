@@ -152,3 +152,22 @@ done
 * File absent: create it.
 
 For **native Windows**, use Git Bash or WSL to run the same script.
+
+## Copy the ADD skills
+
+Run from your repository's root:
+
+```bash
+set -euo pipefail
+
+url='https://github.com/Sourav9063/ADD/archive/refs/heads/main.tar.gz'
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+curl -fsSL "$url" | tar -xz -C "$tmp_dir"
+
+for target in .claude/skills .agents/skills; do
+    mkdir -p "$target"
+    cp -R "$tmp_dir/ADD-main/skills/agent-driven-development/." "$target/"
+done
+```
