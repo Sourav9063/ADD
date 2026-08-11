@@ -35,6 +35,7 @@ Before writing:
 1. Resolve minor details with judgment and code investigation.
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
 3. Record unresolved material choices as open decisions when the user requested a draft. They block implementation, not plan creation.
-4. Keep the plan current when implementation reveals verified facts.
+
+During implementation, keep the plan current as verified facts emerge.
 
 Implement and verify against code, tests, schemas, and configuration.

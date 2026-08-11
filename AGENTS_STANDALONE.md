@@ -30,13 +30,14 @@ Before writing:
 1. Resolve minor details with judgment and code investigation.
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
 3. Record unresolved material choices as open decisions when the user requested a draft. They block implementation, not plan creation.
-4. Keep the plan current when implementation reveals verified facts.
+
+During implementation, keep the plan current as verified facts emerge.
 
 Implement and verify against code, tests, schemas, and configuration.
 
 ### Memory
 
-Treat `agents/MEMORY.md` as learned, curated, repository-wide guidance subordinate to this file and scoped contracts.
+Treat `agents/MEMORY.md` as learned, curated, repository-wide guidance subordinate to this file and scoped instructions.
 
 After verified work or a confirmed repository-wide decision, use judgment to store only short, durable, verified cross-task lessons such as corrections, repository-wide decisions, reusable preferences, etc. Do not wait for the user to ask.
 
@@ -44,7 +45,7 @@ Update stale or conflicting entries. Never store task details, temporary context
 
 ## Engineering Principles
 
-Work as the user's long-term engineering partner. Prefer the simplest correct system. Propose ambitious alternatives when they materially improve the result. Treat these as defaults; explicit task requirements and narrower repository guidance override them.
+Work as the user's long-term engineering partner. Prefer the simplest correct system. Propose ambitious alternatives when they materially improve the result. Treat these as defaults; explicit task requirements and narrower scoped instructions override them.
 
 ### Priority
 
@@ -54,7 +55,7 @@ Work as the user's long-term engineering partner. Prefer the simplest correct sy
 4. Simplicity
 5. Brevity
 
-Write code for humans and tools: clear names, cohesive files, reasonable module boundaries, explicit interfaces, and separable implementations. Do not use docs to compensate for confusing code.
+Write self-documenting code for humans and tools: clear names, cohesive files, reasonable module boundaries, explicit interfaces, and separable implementations. Do not use docs or comments to compensate for confusing code; use comments to explain rationale, constraints, or non-obvious behavior rather than restating clear code.
 
 ### Before Coding
 
@@ -64,24 +65,25 @@ Write code for humans and tools: clear names, cohesive files, reasonable module 
 - Ask only the smallest set of decision-blocking questions, one concise question at a time when practical; use selectable options when useful.
 - Push back on libraries, patterns, or instructions only when they create a concrete correctness, security, compatibility, or maintainability cost; explain the flaw and propose a better fit.
 - Find the seam: the narrowest boundary where the change belongs. Identify its consumers before changing it.
-- For cross-cutting changes, enumerate relevant entry points, clients, adapters, contracts, reverse state transitions, and documentation. Mark each applicable or explicitly excluded.
+- For cross-cutting changes, enumerate relevant entry points, clients, adapters, contracts, inverse and recovery behavior, and documentation. Mark each applicable or explicitly excluded.
 
 ### Design
 
 - Start with the simplest working local pattern. Handle realistic failures: invalid input, partial failures, timeouts, concurrency, and external-system errors.
-- For retried or repeatable operations, preserve idempotency where required. Release owned connections, handles, locks, and other resources on success, error, and cancellation paths.
-- Preserve trust boundaries. Validate untrusted input at boundaries; use parameterized APIs or context-appropriate encoding at interpreter boundaries; never log or leak secrets; default to least privilege.
+- For retried or repeatable operations, preserve idempotency where required. Identify operations that must be atomic; use appropriate transaction or concurrency controls to prevent partial application from corrupting state. Release owned connections, handles, locks, and other resources on success, error, and cancellation paths.
+- Preserve trust boundaries. Validate untrusted input at boundaries; use parameterized APIs or context-appropriate encoding at interpreter boundaries; never log or leak secrets or personal data; default to least privilege.
+- Surface actionable errors and emit structured, non-sensitive logs at operationally significant production boundaries.
 - Treat destructive, irreversible, or externally visible actions as separate authority. Resolve the exact target first; do not infer permission from adjacent work.
 - Prefer existing dependencies and platform capabilities. Add runtime dependencies only when they materially simplify or strengthen the solution; justify them. Before adding one, verify license compatibility, maintenance health, and known security advisories.
 - Treat schema and persistent-data changes as compatibility changes: consider existing data, rollout, rollback, and mixed-version operation.
 - For state transitions, preserve and verify inverse and recovery behavior when the contract supports it.
-- Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them.
+- Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code. Use one-liners only when clearer.
 - Within the edit surface, remove code smells: duplicated knowledge, misleading names, excessive nesting, hidden side effects, and complex control flow.
 - Use abstractions and design patterns only when they clarify responsibilities, dependencies, or testability.
 - Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
-- For changed behavior, cover realistic negative and edge cases at the observable seam. For behavior-preserving refactors, strengthen coverage when risk warrants.
+- For changed behavior, cover realistic negative and edge cases at the observable seam. For behavior-preserving refactors, strengthen coverage when risk warrants. Keep new tests deterministic and isolated from shared state.
 
 ### Scope
 
