@@ -7,6 +7,8 @@ description: Apply SDD after codebase search for non-trivial work spanning sever
 
 Use SDD when a change affects behavior or contracts, requires design decisions, crosses meaningful boundaries, or exceeds a local edit.
 
+A specification defines observable behavior and constraints. A plan records technical execution state. Use lightweight acceptance criteria by default; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
+
 Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed.
 
 Executable artifacts define behavior: code, tests, schemas, configuration, and other runnable files. Docs record decisions, constraints, and context they cannot. When sources conflict, follow explicit task requirements and executable contracts; report unresolved conflicts before changing behavior; align affected docs.
@@ -18,20 +20,21 @@ Keep one authoritative source of truth per durable fact; reference it elsewhere.
 `agents/knowledge/` stores concise, topic-scoped, code-verified:
 
 - Architecture decisions and rejected alternatives
-- Domain terms and glossaries
-- Invariants
-- Navigation guidance
+- Domain terms and the team's glossary
+- Product and architecture invariants
+- Ownership, affected-surface, and navigation guidance
 
 Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files. Keep it concise.
 
 ### Plans
 
-`agents/plans/` stores working and finalized plans. Create one when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 
 1. Resolve minor details with judgment and code investigation.
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
-3. After the user resolves them, create a precisely named `.md` file and keep it current.
+3. Record unresolved material choices as open decisions when the user requested a draft. They block implementation, not plan creation.
+4. Keep the plan current when implementation reveals verified facts.
 
 Implement and verify against code, tests, schemas, and configuration.
