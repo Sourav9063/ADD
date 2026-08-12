@@ -1,6 +1,6 @@
 ---
 name: communication
-description: Enforce the repository's terse style for progress updates, questions, reviews, explanations, and final responses.
+description: Apply the repository's terse communication style at session start and when the user asks for terse, concise, brief, or caveman-style responses.
 ---
 
 ## Communication
