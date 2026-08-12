@@ -42,9 +42,9 @@ During implementation, keep the plan current as verified facts emerge.
 
 Implement and verify against code, tests, schemas, and configuration.
 
-### Memory
+## Memory
 
-Treat `agents/MEMORY.md` as learned, curated, repository-wide guidance subordinate to this file and scoped instructions.
+Treat `agents/MEMORY.md` as learned, curated, repository-wide guidance subordinate to `AGENTS.md` and scoped instructions.
 
 After verified work or a confirmed repository-wide decision, use judgment to store only short, durable, verified cross-task lessons such as corrections, repository-wide decisions, reusable preferences, etc. Do not wait for the user to ask.
 
