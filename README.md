@@ -203,12 +203,13 @@ set -euo pipefail
 url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS.md'
 content="$(curl -fsSL "$url")"
 
-for f in AGENTS.md CLAUDE.md GEMINI.md; do
+touch AGENTS.md
+sed -i.bak '/^## Spec-Driven Development$/,$d' AGENTS.md && rm -f AGENTS.md.bak
+printf '%s\n' "$content" >> AGENTS.md
+
+for f in CLAUDE.md GEMINI.md; do
     touch "$f"
-    sed -i.bak '/^## Spec-Driven Development$/,$d' "$f" && rm -f "$f.bak"
-    
-    [ "$f" = "AGENTS.md" ] && text="$content" || text="@AGENTS.md"
-    printf '%s\n' "$text" >> "$f"
+    grep -qxF '@AGENTS.md' "$f" || printf '%s\n' '@AGENTS.md' >> "$f"
 done
 
 ```
