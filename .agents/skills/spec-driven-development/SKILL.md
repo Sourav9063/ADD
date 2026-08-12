@@ -21,14 +21,14 @@ Keep one authoritative source of truth per durable fact; reference it elsewhere.
 
 - Architecture decisions and rejected alternatives
 - Domain terms and the team's glossary
-- Product and architecture invariants
+- Invariants
 - Ownership, affected-surface, and navigation guidance
 
 Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files. Keep it concise.
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 

@@ -1,6 +1,0 @@
-interface:
-  display_name: "Diagnosing Bugs"
-  short_description: "Diagnose bugs with evidence-first loops"
-  default_prompt: "Use $diagnosing-bugs to reproduce, isolate, and diagnose this failure."
-policy:
-  allow_implicit_invocation: true
