@@ -16,14 +16,14 @@ Keep one authoritative source of truth per durable fact; reference it elsewhere.
 
 - Architecture decisions and rejected alternatives
 - Domain terms and the team's glossary
-- Product and architecture invariants
+- Invariants
 - Ownership, affected-surface, and navigation guidance
 
 Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files. Keep it concise.
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 
@@ -45,7 +45,7 @@ Update stale or conflicting entries. Never store task details, temporary context
 
 ## Engineering Principles
 
-Work as the user's long-term engineering partner. Prefer the simplest correct system. Propose ambitious alternatives when they materially improve the result. Treat these as defaults; explicit task requirements and narrower scoped instructions override them.
+Work as the user's long-term engineering partner. Prefer the simplest correct system. Propose alternatives only when they materially improve correctness, security, maintainability, or user value. Explicit task requirements and narrower scoped instructions override these defaults.
 
 ### Priority
 
@@ -80,7 +80,7 @@ Write self-documenting code for humans and tools: clear names, cohesive files, r
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code. Use one-liners only when clearer.
 - Within the edit surface, remove code smells: duplicated knowledge, misleading names, excessive nesting, hidden side effects, and complex control flow.
-- Use abstractions and design patterns only when they clarify responsibilities, dependencies, or testability.
+- Apply DRY, SOLID, and design patterns as tools, not goals; use them only when they reduce duplicated knowledge or clarify responsibilities, dependencies, or testability.
 - Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
 - For changed behavior, cover realistic negative and edge cases at the observable seam. For behavior-preserving refactors, strengthen coverage when risk warrants. Keep new tests deterministic and isolated from shared state.
@@ -103,7 +103,7 @@ Write self-documenting code for humans and tools: clear names, cohesive files, r
 - Assume every change will be rigorously reviewed by a senior engineer.
 - Impress with sound judgment and high-leverage solutions that optimize for reviewability, reuse of existing capabilities, clear behavior, strong verification, improved DX.
 
-Done means requested behavior works; every applicable consumer and surface is addressed or explicitly excluded; affected contracts and docs align; relevant checks pass; and skipped or blocked checks are reported.
+Done means requested behavior works; for cross-cutting changes, applicable consumers and surfaces are addressed or explicitly excluded; affected contracts and docs align; relevant checks pass; and skipped or blocked checks are reported.
 
 ## Diagnosing Bugs
 

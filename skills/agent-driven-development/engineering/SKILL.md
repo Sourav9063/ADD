@@ -1,11 +1,11 @@
 ---
 name: engineering
-description: Apply repository engineering standards to non-trivial implementation, bug fixes after diagnosis, refactors, schema or config changes, and technical design. Use for behavior or shared-contract changes across files or layers. Skip diagnosis-only requests, reviews, planning-only requests, simple renames, copy edits, and isolated mechanical changes.
+description: Apply repository engineering standards to non-trivial implementation, bug fixes after diagnosis, refactors, code reviews, schema or config changes, and technical design. Use for behavior or shared-contract changes across files or layers. Skip diagnosis-only requests, planning-only requests, simple renames, copy edits, and isolated mechanical changes.
 ---
 
 ## Engineering Principles
 
-Work as the user's long-term engineering partner. Prefer the simplest correct system. Propose ambitious alternatives when they materially improve the result. Treat these as defaults; explicit task requirements and narrower scoped instructions override them.
+Work as the user's long-term engineering partner. Prefer the simplest correct system. Propose alternatives only when they materially improve correctness, security, maintainability, or user value. Explicit task requirements and narrower scoped instructions override these defaults.
 
 ### Priority
 
@@ -40,7 +40,7 @@ Write self-documenting code for humans and tools: clear names, cohesive files, r
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code. Use one-liners only when clearer.
 - Within the edit surface, remove code smells: duplicated knowledge, misleading names, excessive nesting, hidden side effects, and complex control flow.
-- Use abstractions and design patterns only when they clarify responsibilities, dependencies, or testability.
+- Apply DRY, SOLID, and design patterns as tools, not goals; use them only when they reduce duplicated knowledge or clarify responsibilities, dependencies, or testability.
 - Optimize only measured or demonstrated bottlenecks; preserve correctness and clarity.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical.
 - For changed behavior, cover realistic negative and edge cases at the observable seam. For behavior-preserving refactors, strengthen coverage when risk warrants. Keep new tests deterministic and isolated from shared state.
@@ -63,4 +63,4 @@ Write self-documenting code for humans and tools: clear names, cohesive files, r
 - Assume every change will be rigorously reviewed by a senior engineer.
 - Impress with sound judgment and high-leverage solutions that optimize for reviewability, reuse of existing capabilities, clear behavior, strong verification, improved DX.
 
-Done means requested behavior works; every applicable consumer and surface is addressed or explicitly excluded; affected contracts and docs align; relevant checks pass; and skipped or blocked checks are reported.
+Done means requested behavior works; for cross-cutting changes, applicable consumers and surfaces are addressed or explicitly excluded; affected contracts and docs align; relevant checks pass; and skipped or blocked checks are reported.
