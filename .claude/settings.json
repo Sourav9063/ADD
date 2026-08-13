@@ -5,8 +5,7 @@
   },
   "permissions": {
     "deny": [
-      "EnterPlanMode",
-      "ExitPlanMode",
+      "DesignSync",
       "NotebookEdit",
       "SendMessage",
       "PushNotification",
@@ -135,6 +134,9 @@
       "Bash(redis-cli *)"
     ]
   },
+  "model": "opus",
+  "disableClaudeAiConnectors": true,
+  "disableBundledSkills": true,
   "hooks": {
     "PreToolUse": [
       {
@@ -149,16 +151,14 @@
     ]
   },
   "disableAgentView": true,
-  "disableArtifact": true,
-  "disableBundledSkills": true,
-  "disableClaudeAiConnectors": true,
   "disableRemoteControl": true,
   "disableWorkflows": true,
-  "autoMemoryEnabled": false,
-  "editorMode": "vim",
-  "model": "opus",
+  "disableArtifact": true,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
-  }
+  },
+  "autoMemoryEnabled": false,
+  "editorMode": "vim",
+  "effortLevel": "medium"
 }
