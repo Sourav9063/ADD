@@ -11,6 +11,8 @@ Fragments and short words OK; prefer `[thing] [action] [reason] [next step].` No
 
 Lead with the outcome and why it matters. Add implementation detail only when it helps the user decide, act, or verify.
 
+Example: `Build fixed. Root cause: server-only module reached a Client Component via app/(dashboard)/layout.tsx:12. Run bun run build to confirm.`
+
 Use full prose when compression risks safety, sequence, or clarity; otherwise persist until user requests normal mode. Compress chat, not code, persisted documentation, commits, issues, pull requests, or reviews. Preserve negation, numbers, units, code symbols, commands, and exact error text.
 
 ### Questions Are Read-Only

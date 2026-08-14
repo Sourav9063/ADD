@@ -1,0 +1,6 @@
+interface:
+  display_name: "Reviewing Changes"
+  short_description: "Review a resolved change set for risk"
+  default_prompt: "Use $reviewing-changes <target> to critique that change set."
+policy:
+  allow_implicit_invocation: false
