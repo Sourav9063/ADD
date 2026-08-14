@@ -1,27 +1,30 @@
 ---
-name: review-merge-request
-description: Review the current branch against a user-supplied base branch for security, correctness, architecture fit, maintainability, and verification risks. Use only when explicitly invoked; ask for the base branch if omitted.
+name: reviewing-changes
+description: Review a change set for security, correctness, architecture fit, maintainability, and verification risks. Use when explicitly asked to review a branch, merge or pull request, commit range, or uncommitted working tree. Ask for the review target when it is ambiguous.
+disable-model-invocation: true
 ---
 
-# Review Merge Request
+# Reviewing Changes
 
-Require a base branch; ask if missing. Use direct two-ref diff only:
+Resolve the review target before reading any diff. Ask when it is ambiguous.
 
-```bash
-git diff <base> HEAD
-```
+| Target | Diff |
+| --- | --- |
+| Uncommitted work | `git diff` and `git diff --staged` |
+| Commit range | `git diff <from> <to>` |
+| Branch against a base | `git diff <base> HEAD` |
 
-Do not use merge-base form (`<base>...HEAD`) unless requested.
+Default to the direct two-ref form. Use merge-base form (`<base>...HEAD`) only when the review must exclude changes the base gained after the branch diverged; say which form you used and why.
 
 ## Workflow
 
 1. Inspect minimal context:
    - `git status --short`
    - `git branch --show-current`
-   - `git diff --stat <base> HEAD`
-   - `git diff --name-only <base> HEAD`
+   - `git diff --stat <target>`
+   - `git diff --name-only <target>`
 
-2. Read `git diff <base> HEAD` first. Open only files/hunks needed to confirm risk. Use `git show <base>:path`, nearby files, or docs only when old behavior, shared contracts, or ownership are unclear.
+2. Read the diff first. Open only files/hunks needed to confirm risk. Use `git show <ref>:path`, nearby files, or docs only when old behavior, shared contracts, or ownership are unclear.
 
 3. Prioritize risky areas:
    - Auth, permissions, sessions, cookies, env, config, redirects, secret handling.
@@ -50,6 +53,7 @@ Do not use merge-base form (`<base>...HEAD`) unless requested.
 
 ## Finding Rules
 
+- Judge repository standards and the originating specification as separate axes. Code can satisfy local conventions and still miss the requested behavior; report each gap under its own axis.
 - Lead with findings, ordered by severity.
 - Each finding needs severity, file:line, concrete failure mode, and fix direction.
 - Report style issues only when they create behavior or maintenance risk.
@@ -78,7 +82,7 @@ Severity:
 
 **Notes**
 
-- Diff used: `<base> HEAD`
+- Diff used: exact refs and form
 - Residual risks/assumptions
 ```
 

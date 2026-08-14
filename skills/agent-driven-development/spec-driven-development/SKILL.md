@@ -9,7 +9,7 @@ Use SDD when a change affects behavior or contracts, requires design decisions, 
 
 A specification defines observable behavior and constraints. A plan records technical execution state. Use lightweight acceptance criteria by default; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
 
-Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed.
+Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code.
 
 Executable artifacts define behavior: code, tests, schemas, configuration, and other runnable files. Docs record decisions, constraints, and context they cannot. When sources conflict, follow explicit task requirements and executable contracts; report unresolved conflicts before changing behavior; align affected docs.
 
@@ -24,7 +24,7 @@ Keep one authoritative source of truth per durable fact; reference it elsewhere.
 - Invariants
 - Ownership, affected-surface, and navigation guidance
 
-Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files. Keep it concise.
+Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files.
 
 ### Plans
 
@@ -36,6 +36,6 @@ Before writing:
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
 3. Record unresolved material choices as open decisions when the user requested a draft. They block implementation, not plan creation.
 
-During implementation, keep the plan current as verified facts emerge.
+A plan is the durable execution state that survives context loss. During implementation, keep it current as verified facts emerge. When resuming work, re-read the plan first and re-verify any claim it does not back with a recorded check.
 
 Implement and verify against code, tests, schemas, and configuration.

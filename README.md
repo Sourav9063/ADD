@@ -200,7 +200,7 @@ Questions request answers, not changes. If a message asks rather than instructsâ
 ```bash
 set -euo pipefail
 
-url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS.md'
+url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS_STANDALONE.md'
 content="$(curl -fsSL "$url")"
 
 touch AGENTS.md

@@ -1,6 +1,20 @@
 # Agent-Driven Development Guidance Improvements
 
-Status: proposed
+Status: phases 1-6 applied 2026-08-14. Remaining work is listed under Open.
+
+## Open
+
+- Run the trigger evaluations in `agents/knowledge/trigger-evaluations.md` against the six ADD-wide skills; revise descriptions that under- or over-trigger.
+- Decide whether `AGENTS_STANDALONE.md` (189 lines) needs a size budget now that six skills are bundled.
+
+## Applied
+
+- Phase 1-3: standalone aligned; ownership clarified; `diagnosing-bugs` and `writing-agent-guidance` added.
+- Phase 4: `review-merge-request` promoted and generalized as `skills/agent-driven-development/reviewing-changes`. It stays out of the standalone bundle because it is explicitly invoked only.
+- Phase 5: `matt-pocock-skills.md` replaced by `external-guidance-synthesis.md`; rationale gained an ownership section.
+- Phase 6: README installer now fetches `AGENTS_STANDALONE.md` instead of the contributor `AGENTS.md`.
+
+## Original Proposal
 
 ## Objective
 

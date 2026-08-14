@@ -2,6 +2,14 @@
 
 [AGENTS.md](../../AGENTS.md) owns operational rules. This file records why the reusable guidance is shaped this way.
 
+## Ownership
+
+- Universal constraints live in the standalone core.
+- Task-specific procedures live in skills, selected by their descriptions.
+- Verified domain facts live in knowledge.
+- Task execution state lives in plans.
+- Curated cross-task lessons live in memory.
+
 ## Composition
 
 - ADD supplies a lightweight, vendor-neutral SDD and engineering layer, not a complete project guide.
