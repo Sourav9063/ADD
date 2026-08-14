@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: Apply SDD after codebase search for non-trivial work spanning several files or layers, changing behavior or contracts, requiring design decisions, or needing durable plans or knowledge. Also use when the user asks for a plan or planning. Skip simple renames, copy edits, and isolated mechanical changes unless a plan is requested.
+description: Use when work spans several files or layers, changes behavior or shared contracts, or the user asks for a plan. Re-check mid-task when scope grows past the first estimate. Owns `agents/knowledge/` and `agents/plans/`. Skip renames, copy edits, isolated mechanical changes.
 ---
 
 ## Spec-Driven Development

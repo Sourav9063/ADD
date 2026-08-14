@@ -1,6 +1,6 @@
 ---
 name: memory
-description: Curate repository-wide guidance after codebase search when `agents/MEMORY.md` may affect the task, or verified work establishes a durable cross-task lesson. Skip task notes, guesses, secrets, and local implementation details.
+description: Read `agents/MEMORY.md` before non-trivial work; curate it after a user correction, rejected pattern, stated preference, or verified repository-wide decision. Do not wait to be asked. Holds durable repository-wide guidance. Skip task notes, guesses, secrets, local details.
 ---
 
 ## Memory

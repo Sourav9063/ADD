@@ -132,7 +132,8 @@
       "Bash(mongo *)",
       "Bash(mongosh *)",
       "Bash(redis-cli *)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "model": "opus",
   "disableClaudeAiConnectors": true,
@@ -162,3 +163,4 @@
   "editorMode": "vim",
   "effortLevel": "medium"
 }
+
