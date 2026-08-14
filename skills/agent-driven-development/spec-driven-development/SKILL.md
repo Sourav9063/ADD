@@ -28,13 +28,15 @@ Create or update the most relevant file when requested or whenever verified work
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 
 1. Resolve minor details with judgment and code investigation.
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
 3. Record unresolved material choices as open decisions when the user requested a draft. They block implementation, not plan creation.
+
+For public-contract, migration, security-boundary, or cross-repository plans, get an independent review (a fresh session, subagent, or reviewer) before implementation starts; fresh context catches wrong turns baked into the original reasoning.
 
 A plan is the durable execution state that survives context loss. During implementation, keep it current as verified facts emerge. When resuming work, re-read the plan first and re-verify any claim it does not back with a recorded check.
 
