@@ -1,0 +1,6 @@
+interface:
+  display_name: "Frontend Performance"
+  short_description: "Measure-first web performance workflow"
+  default_prompt: "Use $frontend-performance to diagnose and fix slow pages, Core Web Vitals, bundle size, images, or re-renders."
+# policy:
+  # allow_implicit_invocation: false
