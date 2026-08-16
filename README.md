@@ -1,8 +1,198 @@
+<div align="center">
+
 # Agent Driven Development
-<img width="1536" height="1024" alt="ChatGPT Image Aug 5, 2026, 01_42_05 PM" src="https://github.com/user-attachments/assets/286eaf20-25c6-4fa8-ae84-e953d1a89a0a" />
 
+<img width="1536" height="1024" alt="Agent Driven Development" src="https://github.com/user-attachments/assets/286eaf20-25c6-4fa8-ae84-e953d1a89a0a" />
 
-## Copy the [AGENTS.md](AGENTS.md) in your repo.
+**A portable operating system for coding agents.**
+One `AGENTS.md` that raises the floor on every task, plus a skill library your agent loads only when it needs it.
+
+Works with Claude Code, Codex, Cursor, Gemini CLI, and anything else that reads `AGENTS.md`.
+
+</div>
+
+---
+
+## Why this exists
+
+Out of the box, an agent will happily ship a plausible-looking change with no plan, no verification, and a confident summary. This repo fixes that with two things:
+
+- **`AGENTS.md`** — always-on engineering standards: spec-driven development, evidence-first debugging, scope discipline, and a hard rule that a passing check must actually have run.
+- **Skills** — task-specific playbooks the agent pulls in on demand, so you get depth without paying for the context on every prompt.
+
+Nothing here is framework-specific and nothing needs a runtime. It is Markdown, copied into your repo.
+
+---
+
+## Quick start
+
+Run from your repository root. Requires `bash` and `curl` (on Windows: Git Bash or WSL).
+
+### 1. Install the guidance
+
+```bash
+set -euo pipefail
+
+url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS_STANDALONE.md'
+content="$(curl -fsSL "$url")"
+
+touch AGENTS.md
+sed -i.bak '/^## Spec-Driven Development$/,$d' AGENTS.md && rm -f AGENTS.md.bak
+printf '%s\n' "$content" >> AGENTS.md
+
+for f in CLAUDE.md GEMINI.md; do
+    touch "$f"
+    grep -qxF '@AGENTS.md' "$f" || printf '%s\n' '@AGENTS.md' >> "$f"
+done
+```
+
+Re-run it any time to update — it replaces from the `## Spec-Driven Development` marker to the end, appends if the marker is missing, and creates the files if they do not exist. Anything you wrote above the marker is kept.
+
+### 2. Install the workflow skills
+
+```bash
+set -euo pipefail
+
+url='https://github.com/Sourav9063/ADD/archive/refs/heads/main.tar.gz'
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+curl -fsSL "$url" | tar -xz -C "$tmp_dir"
+
+for target in .claude/skills .agents/skills; do
+    mkdir -p "$target"
+    cp -R "$tmp_dir/ADD-main/skills/agent-driven-development/." "$target/"
+done
+```
+
+### 3. Install the web design skills
+
+Fourteen skills covering the UI surfaces agents get wrong most often — forms, tables, overlays, navigation, motion, and copy.
+
+```bash
+set -euo pipefail
+
+url='https://github.com/Sourav9063/ADD/archive/refs/heads/main.tar.gz'
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+curl -fsSL "$url" | tar -xz -C "$tmp_dir"
+
+for target in .claude/skills .agents/skills; do
+    mkdir -p "$target"
+    cp -R "$tmp_dir/ADD-main/skills/web-design/." "$target/"
+    rm -f "$target/README.md"
+done
+```
+
+<details>
+<summary><strong>Install everything in one shot</strong></summary>
+
+```bash
+set -euo pipefail
+
+url='https://github.com/Sourav9063/ADD/archive/refs/heads/main.tar.gz'
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+curl -fsSL "$url" | tar -xz -C "$tmp_dir"
+src="$tmp_dir/ADD-main"
+
+# Guidance
+touch AGENTS.md
+sed -i.bak '/^## Spec-Driven Development$/,$d' AGENTS.md && rm -f AGENTS.md.bak
+cat "$src/AGENTS_STANDALONE.md" >> AGENTS.md
+
+for f in CLAUDE.md GEMINI.md; do
+    touch "$f"
+    grep -qxF '@AGENTS.md' "$f" || printf '%s\n' '@AGENTS.md' >> "$f"
+done
+
+# Skills
+for target in .claude/skills .agents/skills; do
+    mkdir -p "$target"
+    cp -R "$src/skills/agent-driven-development/." "$target/"
+    cp -R "$src/skills/web-design/." "$target/"
+    rm -f "$target/README.md"
+done
+
+echo "ADD installed."
+```
+
+</details>
+
+Prefer to pick and choose? Every skill is a self-contained folder — copy any single directory from [`skills/`](skills/) into `.claude/skills/` and it works on its own.
+
+---
+
+## What you get
+
+### Workflow skills — [`skills/agent-driven-development/`](skills/agent-driven-development/)
+
+| Skill | Fires when |
+| --- | --- |
+| [`spec-driven-development`](skills/agent-driven-development/spec-driven-development/) | Work spans files or layers, or you ask for a plan |
+| [`engineering`](skills/agent-driven-development/engineering/) | Non-trivial implementation, refactors, schema and config changes |
+| [`diagnosing-bugs`](skills/agent-driven-development/diagnosing-bugs/) | Something is broken, failing, flaky, or slow |
+| [`reviewing-changes`](skills/agent-driven-development/reviewing-changes/) | You ask for a review of a branch, PR, or working tree |
+| [`memory`](skills/agent-driven-development/memory/) | Durable repo-wide decisions and corrections need to persist |
+| [`writing-agent-guidance`](skills/agent-driven-development/writing-agent-guidance/) | Editing `AGENTS.md`, skills, or any agent-facing docs |
+| [`communication`](skills/agent-driven-development/communication/) | You want terse answers instead of essays |
+
+### Web design skills — [`skills/web-design/`](skills/web-design/)
+
+Design rules, motion timings, and accessibility requirements for each UI surface — the specifics an agent otherwise invents from scratch every time.
+
+| Skill | Covers |
+| --- | --- |
+| [`design-foundations`](skills/web-design/design-foundations/) | Tokens, spacing, hierarchy, motion scale, contrast, focus — the shared baseline |
+| [`form-design`](skills/web-design/form-design/) | Field anatomy, six field states, validation timing, autosave, submit |
+| [`tab-design`](skills/web-design/tab-design/) | Indicator motion, overflow, panel transitions, full APG keyboard support |
+| [`filter-design`](skills/web-design/filter-design/) | Chips, facets, live counts, applied-filter summaries, filtered-empty states |
+| [`data-table-design`](skills/web-design/data-table-design/) | Alignment, tri-state sort, selection, sticky headers, density, pagination |
+| [`navigation-design`](skills/web-design/navigation-design/) | Sidebars, bottom bars, breadcrumbs, IA depth, search, pagination |
+| [`button-and-action-design`](skills/web-design/button-and-action-design/) | Hierarchy, labels, busy vs disabled, destructive and bulk actions |
+| [`card-and-list-design`](skills/web-design/card-and-list-design/) | Card anatomy, hover, click targets, grids, feeds, reordering |
+| [`overlay-design`](skills/web-design/overlay-design/) | Modal vs sheet vs drawer vs popover, focus trapping, z-index scale |
+| [`feedback-design`](skills/web-design/feedback-design/) | Loading, empty, error, toast, optimistic updates, undo |
+| [`motion-design`](skills/web-design/motion-design/) | Easing, page and shared-element transitions, scroll-driven motion |
+| [`chart-design`](skills/web-design/chart-design/) | Chart choice, axis honesty, series color, tooltips, dashboards |
+| [`microcopy`](skills/web-design/microcopy/) | Buttons, labels, errors, empty states, tone, translatable strings |
+| [`accessibility-audit`](skills/web-design/accessibility-audit/) | Verification pass on shipped UI against WCAG 2.2 AA |
+
+### Standalone skills
+
+| Skill | Covers |
+| --- | --- |
+| [`frontend-performance`](skills/frontend-performance/) | Core Web Vitals, bundle size, images, hydration, re-renders, CI budgets |
+| [`create-component`](skills/create-component/) · [`create-component-agnostic`](skills/create-component-agnostic/) | Next.js component conventions |
+| [`create-action`](skills/create-action/) | Types, repository, service, and server action layers |
+
+---
+
+## How it fits together
+
+```
+your-repo/
+├── AGENTS.md              # always-on standards (this repo's guidance appended)
+├── CLAUDE.md              # @AGENTS.md
+├── GEMINI.md              # @AGENTS.md
+├── .claude/skills/        # on-demand playbooks
+└── agents/
+    ├── MEMORY.md          # curated, repo-wide lessons
+    ├── knowledge/         # verified domain facts and decisions
+    └── plans/             # durable execution state
+```
+
+`AGENTS.md` is loaded on every request, so it stays short. Skills carry the depth and load only when their trigger matches. `agents/` is where the agent writes down what it learned so the next session does not start from zero.
+
+---
+
+## The guidance itself
+
+<details>
+<summary><strong>Read <code>AGENTS_STANDALONE.md</code> in full</strong></summary>
+
 <!-- AGENTS_MD_START -->
 ```markdown
 ## Spec-Driven Development
@@ -198,65 +388,14 @@ Questions request answers, not changes. If a message asks rather than instructs�
 ```
 <!-- AGENTS_MD_END -->
 
+</details>
 
-**Linux, macOS, WSL, and Git Bash**:
+The block above is generated from [`AGENTS_STANDALONE.md`](AGENTS_STANDALONE.md) by [a workflow](.github/workflows/embed-agents.yml). Edit the source file, never the block.
 
-```bash
-set -euo pipefail
+---
 
-url='https://raw.githubusercontent.com/Sourav9063/ADD/refs/heads/main/AGENTS_STANDALONE.md'
-content="$(curl -fsSL "$url")"
+## Contributing
 
-touch AGENTS.md
-sed -i.bak '/^## Spec-Driven Development$/,$d' AGENTS.md && rm -f AGENTS.md.bak
-printf '%s\n' "$content" >> AGENTS.md
+[`AGENTS.md`](AGENTS.md) in this repo describes the conventions: `skills/` is the canonical catalog, durable guidance lives in `agents/`, and human docs live in `docs/`. Before committing, run `git diff --check` and `diff -ru skills/agent-driven-development .agents/skills`.
 
-for f in CLAUDE.md GEMINI.md; do
-    touch "$f"
-    grep -qxF '@AGENTS.md' "$f" || printf '%s\n' '@AGENTS.md' >> "$f"
-done
-
-```
-
-<!-- ```bash
-set -euo pipefail
-
-url='https://raw.githubusercontent.com/Sourav9063/notes/refs/heads/main/ai/AGENTS.md'
-content="$(curl -fsSL "$url")"
-
-for file in CLAUDE.md AGENTS.md GEMINI.md; do
-    touch "$file"
-
-    if grep -q '^## Spec-Driven Development$' "$file"; then
-        sed -i.bak '/^## Spec-Driven Development$/,$d' "$file"
-        rm -f "$file.bak"
-    fi
-
-    printf '%s\n' "$content" >> "$file"
-done
-``` -->
-
-* Marker exists: replace from the marker to the end.
-* Marker absent: append.
-* File absent: create it.
-
-For **native Windows**, use Git Bash or WSL to run the same script.
-
-## Copy the ADD skills
-
-Run from your repository's root:
-
-```bash
-set -euo pipefail
-
-url='https://github.com/Sourav9063/ADD/archive/refs/heads/main.tar.gz'
-tmp_dir="$(mktemp -d)"
-trap 'rm -rf "$tmp_dir"' EXIT
-
-curl -fsSL "$url" | tar -xz -C "$tmp_dir"
-
-for target in .claude/skills .agents/skills; do
-    mkdir -p "$target"
-    cp -R "$tmp_dir/ADD-main/skills/agent-driven-development/." "$target/"
-done
-```
+New skills are welcome — one directory, one `SKILL.md`, a trigger-oriented `description`, and no rules that duplicate an existing skill.
