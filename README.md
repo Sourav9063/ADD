@@ -219,9 +219,6 @@ your-repo/
 
 ## The guidance itself
 
-<details>
-<summary><strong>Read <code>AGENTS_STANDALONE.md</code> in full</strong></summary>
-
 <!-- AGENTS_MD_START -->
 ```markdown
 ## Spec-Driven Development
@@ -360,7 +357,7 @@ Questions request answers, not changes. If a message asks rather than instructsâ
 ```
 <!-- AGENTS_MD_END -->
 
-</details>
+
 
 The block above is generated from [`AGENTS_STANDALONE.md`](AGENTS_STANDALONE.md) by [a workflow](.github/workflows/embed-agents.yml). Edit the source file, never the block.
 
