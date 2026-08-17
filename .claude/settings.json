@@ -159,8 +159,8 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
+  "effortLevel": "medium",
   "autoMemoryEnabled": false,
   "editorMode": "vim",
-  "effortLevel": "medium"
+  "awaySummaryEnabled": false
 }
-
