@@ -48,7 +48,9 @@ done
 
 Re-run it any time to update — it replaces from the `## Spec-Driven Development` marker to the end, appends if the marker is missing, and creates the files if they do not exist. Anything you wrote above the marker is kept.
 
-### 2. Install the workflow skills
+### 2. Install the Agent Driven Development skills
+
+The core coding workflow playbooks: spec-driven development, engineering standards, memory, and communication.
 
 ```bash
 set -euo pipefail
