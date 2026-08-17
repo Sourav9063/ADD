@@ -19,13 +19,14 @@ move, how it behaves for keyboard and screen-reader users, and what usually ship
 | `chart-design` | Chart type choice, axis honesty, series color, tooltips, dashboards, accessible data tables. |
 | `microcopy` | Buttons, labels, errors, empty states, confirmations, tone, and translatable strings. |
 | `accessibility-audit` | Verification pass on shipped UI: keyboard, structure, contrast, screen reader, WCAG 2.2 AA reporting. |
+| `frontend-performance` | Core Web Vitals, bundle size, images and fonts, hydration, re-renders, CI budgets. |
 
 ## Using them
 
 Load `design-foundations` alongside any section skill; the section skills assume its
 tokens and motion scale rather than repeating them. `design-foundations` covers
 accessibility at design time; `accessibility-audit` verifies what already shipped.
-For load and interaction speed, use the top-level `frontend-performance` skill.
+For load and interaction speed, use `frontend-performance`.
 
 ## Adding a skill
 

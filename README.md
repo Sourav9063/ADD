@@ -65,9 +65,28 @@ for target in .claude/skills .agents/skills; do
 done
 ```
 
-### 3. Install the web design skills
+### 3. Install the review skills
 
-Fourteen skills covering the UI surfaces agents get wrong most often — forms, tables, overlays, navigation, motion, and copy.
+Diagnosis and review playbooks: reproduce before fixing, and review a branch, PR, or working tree with concrete findings.
+
+```bash
+set -euo pipefail
+
+url='https://github.com/Sourav9063/ADD/archive/refs/heads/main.tar.gz'
+tmp_dir="$(mktemp -d)"
+trap 'rm -rf "$tmp_dir"' EXIT
+
+curl -fsSL "$url" | tar -xz -C "$tmp_dir"
+
+for target in .claude/skills .agents/skills; do
+    mkdir -p "$target"
+    cp -R "$tmp_dir/ADD-main/skills/agent-driven-review/." "$target/"
+done
+```
+
+### 4. Install the web design skills
+
+Fifteen skills covering the UI surfaces agents get wrong most often — forms, tables, overlays, navigation, motion, copy, and front-end performance.
 
 ```bash
 set -euo pipefail
@@ -112,6 +131,7 @@ done
 for target in .claude/skills .agents/skills; do
     mkdir -p "$target"
     cp -R "$src/skills/agent-driven-development/." "$target/"
+    cp -R "$src/skills/agent-driven-review/." "$target/"
     cp -R "$src/skills/web-design/." "$target/"
     rm -f "$target/README.md"
 done
@@ -129,15 +149,21 @@ Prefer to pick and choose? Every skill is a self-contained folder — copy any s
 
 ### Workflow skills — [`skills/agent-driven-development/`](skills/agent-driven-development/)
 
+Coding and programming workflow. These four are the always-on core, bundled into `AGENTS_STANDALONE.md`.
+
 | Skill | Fires when |
 | --- | --- |
 | [`spec-driven-development`](skills/agent-driven-development/spec-driven-development/) | Work spans files or layers, or you ask for a plan |
 | [`engineering`](skills/agent-driven-development/engineering/) | Non-trivial implementation, refactors, schema and config changes |
-| [`diagnosing-bugs`](skills/agent-driven-development/diagnosing-bugs/) | Something is broken, failing, flaky, or slow |
-| [`reviewing-changes`](skills/agent-driven-development/reviewing-changes/) | You ask for a review of a branch, PR, or working tree |
 | [`memory`](skills/agent-driven-development/memory/) | Durable repo-wide decisions and corrections need to persist |
-| [`writing-agent-guidance`](skills/agent-driven-development/writing-agent-guidance/) | Editing `AGENTS.md`, skills, or any agent-facing docs |
 | [`communication`](skills/agent-driven-development/communication/) | You want terse answers instead of essays |
+
+### Review skills — [`skills/agent-driven-review/`](skills/agent-driven-review/)
+
+| Skill | Fires when |
+| --- | --- |
+| [`diagnosing-bugs`](skills/agent-driven-review/diagnosing-bugs/) | Something is broken, failing, flaky, or slow |
+| [`reviewing-changes`](skills/agent-driven-review/reviewing-changes/) | You ask for a review of a branch, PR, or working tree |
 
 ### Web design skills — [`skills/web-design/`](skills/web-design/)
 
@@ -159,14 +185,15 @@ Design rules, motion timings, and accessibility requirements for each UI surface
 | [`chart-design`](skills/web-design/chart-design/) | Chart choice, axis honesty, series color, tooltips, dashboards |
 | [`microcopy`](skills/web-design/microcopy/) | Buttons, labels, errors, empty states, tone, translatable strings |
 | [`accessibility-audit`](skills/web-design/accessibility-audit/) | Verification pass on shipped UI against WCAG 2.2 AA |
+| [`frontend-performance`](skills/web-design/frontend-performance/) | Core Web Vitals, bundle size, images, hydration, re-renders, CI budgets |
 
-### Standalone skills
+### Misc skills — [`skills/misc/`](skills/misc/)
 
 | Skill | Covers |
 | --- | --- |
-| [`frontend-performance`](skills/frontend-performance/) | Core Web Vitals, bundle size, images, hydration, re-renders, CI budgets |
-| [`create-component`](skills/create-component/) · [`create-component-agnostic`](skills/create-component-agnostic/) | Next.js component conventions |
-| [`create-action`](skills/create-action/) | Types, repository, service, and server action layers |
+| [`create-component`](skills/misc/create-component/) · [`create-component-agnostic`](skills/misc/create-component-agnostic/) | Next.js component conventions |
+| [`create-action`](skills/misc/create-action/) | Types, repository, service, and server action layers |
+| [`writing-agent-guidance`](skills/misc/writing-agent-guidance/) | Editing `AGENTS.md`, skills, or any agent-facing docs |
 
 ---
 
