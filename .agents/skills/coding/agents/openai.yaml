@@ -1,0 +1,6 @@
+interface:
+  display_name: "Coding Practices"
+  short_description: "Apply hands-on code craft standards"
+  default_prompt: "Use $coding while writing or changing code."
+policy:
+  allow_implicit_invocation: true

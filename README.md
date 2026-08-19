@@ -50,7 +50,7 @@ Re-run it any time to update — it replaces from the `## Spec-Driven Developmen
 
 ### 2. Install the Agent Driven Development skills
 
-The core coding workflow playbooks: spec-driven development, engineering standards, memory, and communication.
+The core coding workflow playbooks: spec-driven development, engineering judgment, code craft, memory, and communication.
 
 ```bash
 set -euo pipefail
@@ -151,12 +151,13 @@ Prefer to pick and choose? Every skill is a self-contained folder — copy any s
 
 ### Workflow skills — [`skills/agent-driven-development/`](skills/agent-driven-development/)
 
-Coding and programming workflow. These four are the always-on core, bundled into `AGENTS_STANDALONE.md`.
+Coding and programming workflow. These five are the always-on core, bundled into `AGENTS_STANDALONE.md`.
 
 | Skill | Fires when |
 | --- | --- |
 | [`spec-driven-development`](skills/agent-driven-development/spec-driven-development/) | Work spans files or layers, or you ask for a plan |
 | [`engineering`](skills/agent-driven-development/engineering/) | Non-trivial implementation, refactors, schema and config changes |
+| [`coding`](skills/agent-driven-development/coding/) | Lines of code get written or changed |
 | [`memory`](skills/agent-driven-development/memory/) | Durable repo-wide decisions and corrections need to persist |
 | [`communication`](skills/agent-driven-development/communication/) | You want terse answers instead of essays |
 
