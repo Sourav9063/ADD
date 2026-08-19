@@ -1,6 +1,6 @@
 ---
 name: form-design
-description: Build or review forms, inputs, and their states. Use when creating a form, login or signup screen, settings page, checkout, stepper or wizard, or when handling field labels, placeholders, validation, error messages, required fields, autosave, or submit buttons.
+description: Build or review forms, inputs, and their states. Use when creating a form, login or signup screen, settings page, checkout, stepper, wizard, or inline editor, or when handling field labels, placeholders, validation, error messages, required fields, autosave, or submit buttons.
 ---
 
 # Form Design
@@ -63,14 +63,26 @@ an addition for long forms, not a replacement.
 
 - Split at meaningful boundaries, one topic per step, with a step indicator showing position and total.
 - Never lose entered data on Back. Validate each step before advancing.
-- **Autosave**: debounce ~500–1000ms, show a real three-state indicator (`Saving… / Saved HH:MM / Couldn't save — retry`), and never claim "Saved" until the server confirmed it. Keep the draft locally so a dropped connection does not delete work.
-- Warn before navigating away with unsaved changes.
+- **Autosave**: debounce ~500–1000ms and model `typing / saving / saved / offline / error` explicitly; never claim "Saved" until the server confirms. Queue offline edits locally, show the pending count, and replay oldest first on reconnect.
+- Detect concurrent edits and merge or warn rather than silently applying last-write-wins. Warn before navigation or tab close while unsaved work remains.
+
+## Inline editing
+
+- Signal editability on hover and focus, then swap text for an input without changing typography, padding, or surrounding layout. Enter commits and Escape cancels; use one consistent save-or-cancel rule for blur.
+- Save cheap edits optimistically. On failure, restore the previous value, retain the draft, explain the failure inline, and allow retry. Require an explicit Edit mode when a typo is costly.
+
+## Settings
+
+- Group settings by user task, keep common options visible, and disclose advanced options in place. Add search when several sections would otherwise require hunting, and keep its term in a query parameter.
+- Match persistence to risk: save low-stakes toggles immediately with inline confirmation; use explicit Save/Cancel for identity, billing, permissions, and other consequential changes.
+- Mark modified values and provide a per-setting reset. Preserve drafts on failure, and isolate irreversible actions in a labelled danger zone at the bottom.
 
 ## Submit
 
-Disable-on-submit to prevent double posts, swap the label to a loading state, and keep
-the button width fixed. On success, move focus to the confirmation. On failure, keep every
-value entered — never clear a form because the server said no.
+On submit, keep focus, swap the label to a loading state, set `aria-busy`, and block repeat
+requests in the handler without removing the button from the interaction model. Keep its
+width fixed. On success, move focus to the confirmation. On failure, keep every value
+entered; never clear a form because the server said no.
 
 ## Accessibility
 
@@ -87,3 +99,4 @@ value entered — never clear a form because the server said no.
 - [ ] Blur-then-live validation; no keystroke errors on a first pass.
 - [ ] Errors carry icon + text, sit next to the field, and say the fix.
 - [ ] `autocomplete`/`inputmode` set; keyboard-only submit works; values survive failure.
+- [ ] Autosave reports truthful states and survives offline or concurrent edits.

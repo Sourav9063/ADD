@@ -28,7 +28,7 @@ must agree with each other.
 - **Sort is tri-state: ascending → descending → back to the original order.** A two-state toggle destroys the default ordering permanently, and the default ordering is often the meaningful one.
 - Only the sorted column shows a solid arrow; sortable columns show a muted hint on hover/focus. The whole header cell is the target.
 - Sort server-side across the full set, not just the current page — page-local sorting is a bug users report as data loss.
-- Persist sort in the URL alongside filters and page.
+- Persist sort in a query parameter alongside search, filters, page or cursor, and size. Preserve unrelated parameters and reset pagination when sort or result criteria change.
 
 ## Density
 
@@ -43,14 +43,14 @@ does not look starved when compact.
 - Header checkbox is tri-state: empty → **indeterminate** (dash) → checked.
 - "Select all" selects the current page. If more exist, offer the explicit escalation: *"All 25 on this page selected. Select all 1,248?"*
 - Selection state persists across pagination, and the count is always visible.
-- Bulk actions live in a bar that appears on first selection, showing the count, the actions, and a Clear. Destructive bulk actions confirm with the count spelled out and support Undo (see `feedback-design`).
+- Bulk actions live in a bar that appears on first selection, showing the count, the actions, and a Clear. For reversible deletion, echo the exact count, act immediately, and offer Undo for 5–10 seconds; confirm only irreversible actions (see `feedback-design`).
 - Shift-click selects a range.
 
 ## Row interaction
 
 - Pick one primary row action (usually open) and make the row clickable, but keep interactive cells from swallowing the click.
 - Row actions: 1–2 inline, the rest in an overflow menu. **Do not reveal actions on hover only** — they must be reachable by keyboard and on touch; keep them present at low emphasis instead.
-- Inline editing must not change row height or column width when the cell becomes an input. Save on blur or Enter, cancel on Escape, and show the per-cell save state.
+- Inline editing follows `form-design`; additionally keep row height and column width fixed and expose a per-cell save state.
 
 ## Loading, empty, and error
 
@@ -69,7 +69,7 @@ affordance.
 ## Pagination
 
 - Server-side pagination with page size options (25/50/100) and a total count. Show `1–25 of 1,248`.
-- Keep page, size, sort, and filters in the URL.
+- Keep page or cursor, size, sort, search, and filters in query parameters. URL state initializes the controls; preserve unrelated parameters and reset pagination when result criteria change.
 - Infinite scroll only for feeds, never for records users must audit or reference — and never above a footer.
 
 ## Accessibility

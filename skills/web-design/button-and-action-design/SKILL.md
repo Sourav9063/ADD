@@ -53,8 +53,16 @@ Instead:
 
 - Prefer **undo over confirm** for anything reversible (see `feedback-design`). Reserve dialogs for the irreversible.
 - Name the consequence and the count: "Delete 12 files?" — never "Are you sure?".
-- For catastrophic actions, require typed confirmation of the resource name and keep the danger button as the non-default focus target.
-- Never place a destructive action adjacent to a frequent one without spacing or a separator.
+- Reserve destructive button styling for destructive actions; do not spend the same red treatment on routine actions such as Sign out.
+- For catastrophic actions, require typed confirmation of the resource name, keep the danger button as the non-default focus target, and delay permanent deletion behind a cancelable grace period when possible.
+- Put destructive controls in a separated, labelled danger zone. A hold-to-confirm gesture may add friction, but it needs visible progress, release-to-cancel, and an accessible non-hold path.
+
+## Action lifecycle
+
+Client validation provides fast feedback; it does not establish success. Revalidate on the
+server, show success only after related writes commit atomically, and repaint IDs, totals,
+permissions, and other trusted values from the response. Optimistic UI is for cheap,
+reversible actions; payments and irreversible work keep a truthful busy state.
 
 ## Groups, menus, and toolbars
 

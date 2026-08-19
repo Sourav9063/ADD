@@ -52,7 +52,8 @@ not change on selection — reserve the space for the check so the row does not 
 - A sticky summary row above the results shows every active filter as a removable chip, so users always know why the list looks like this.
 - One **Clear all** with the live count next to it. Stacked filters trap people; one tap back to baseline is essential.
 - Removing a filter is one tap on the chip's `×` — not "reopen the panel, find it, untick it".
-- Encode filters in the URL so the state is shareable, refresh-safe, and undoable with Back.
+- Treat query parameters as filter state: use stable names and repeated keys (`?status=open&status=pending`), omit defaults and empty values, and never hide the state in encoded JSON.
+- Preserve search, sort, view, and unrelated parameters; reset page or cursor when a filter changes. Replace transient slider/text updates, but push committed changes that Back should undo.
 
 ## Range, date, and search facets
 
@@ -79,6 +80,6 @@ broaden the search. Never a bare "No results".
 - [ ] Idle / active / disabled chips are unmistakably different.
 - [ ] Counts and results update immediately; previous results stay visible while loading.
 - [ ] Applied filters pinned and individually removable; one Clear all.
-- [ ] Filters serialized to the URL; Back works.
+- [ ] Filters use stable query parameters; other state survives, pagination resets, and Back works.
 - [ ] Single scrollable chip row, no wrapping, no reflow on selection.
 - [ ] Filtered-empty state names the cause and offers a way out.

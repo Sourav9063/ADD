@@ -6,13 +6,14 @@ move, how it behaves for keyboard and screen-reader users, and what usually ship
 | Skill | Covers |
 | --- | --- |
 | `design-foundations` | Tokens, spacing, hierarchy, motion timings, contrast, focus. Shared baseline for every other skill here. |
-| `form-design` | Field anatomy, six field states, validation timing, multi-step forms, submit and autosave. |
+| `form-design` | Field anatomy, validation, inline editing, settings, multi-step forms, submit and autosave. |
 | `tab-design` | Tab bars, segmented controls, indicator motion, overflow, panel transitions. |
 | `filter-design` | Filter chips, facet panels, applied-filter summaries, result counts, empty results. |
 | `data-table-design` | Column layout, sorting, selection, sticky headers, density, pagination. |
 | `navigation-design` | Sidebars, bottom bars, breadcrumbs, IA depth, search entry points, pagination. |
 | `button-and-action-design` | Hierarchy, labels, disabled and busy states, destructive and bulk actions, toolbars. |
 | `card-and-list-design` | Card anatomy, hover, click targets, grids, feeds, badges, reordering. |
+| `collaboration-design` | Presence, live cursors, selection ownership, follow mode, conflict handling. |
 | `overlay-design` | Choosing between modal, sheet, drawer, popover, and inline; focus trapping and dismissal. |
 | `feedback-design` | Loading, empty, error, success, toast, optimistic updates, and undo. |
 | `motion-design` | Whether to animate, easing curves, page and shared-element transitions, scroll-driven motion, reduced motion. |

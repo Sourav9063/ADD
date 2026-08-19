@@ -63,6 +63,12 @@ commands when empty, inline keyboard shortcut hints, arrow + Enter navigation, E
 close, and one action per row. Debounce remote search and keep the previous results while
 fetching.
 
+## Context menus
+
+- Measure before opening and flip or shift the menu to remain inside the viewport while staying anchored to its trigger or pointer.
+- Group actions by intent, separate destructive items at the bottom, and use a safe pointer corridor so diagonal movement into a submenu does not close it.
+- Arrow keys move, typeahead jumps, and Escape closes one submenu level at a time. On touch, long press may open the same actions in a bottom sheet, but every action still needs a visible, non-gesture path.
+
 ## Accessibility
 
 - `role="dialog"` (or `alertdialog` for a blocking confirm) with `aria-modal="true"` and `aria-labelledby` pointing at the title; add `aria-describedby` for the body.
@@ -78,4 +84,5 @@ fetching.
 - [ ] Escape closes; unsaved input is confirmed before discard.
 - [ ] Background scroll locked with no layout shift; z-index from the token scale.
 - [ ] Buttons named with verbs; destructive action clearly marked and countable.
+- [ ] Menus stay in the viewport; submenus tolerate diagonal pointer travel and work by keyboard and touch.
 - [ ] Exit faster than entrance; reduced-motion path fades only.

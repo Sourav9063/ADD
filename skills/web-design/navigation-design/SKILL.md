@@ -61,12 +61,26 @@ Once content exceeds what a menu can list, search becomes navigation: put it in 
 at every breakpoint, show recent and suggested entries on focus, group results by type,
 and support arrow + Enter without touching the mouse.
 
+- Use a GET form and keep the term in a readable query parameter (`?q=invoice`) so search is linkable, refresh-safe, and progressively enhanced. Never put secrets or sensitive personal data in a URL.
+- Debounce remote requests, cancel or ignore stale responses, retain the previous results while loading, and distinguish no query, no matches, loading, and failure.
+- Treat the URL as the initial source of truth. Replace intermediate typing updates so Back does not replay every keystroke; push a committed search that users should be able to revisit.
+
 ## Pagination
 
 - Use **cursor pagination on frequently changing data** — offset drifts, so inserting a row at the top makes the same item appear on two pages.
 - Numbered pagination when people jump around or cite positions; Load more for on-demand lists; infinite scroll only for feeds, never above a footer and never for records users must audit.
 - Collapse long ranges to first, last, current, and neighbors with an ellipsis. Never render hundreds of links.
-- Keep the page in the URL, and restore scroll position when returning from a detail view.
+- Put page or opaque cursor in the query string and make pagination controls real links with complete `href`s. Preserve search, filters, sort, and unrelated parameters; reset pagination when any result-defining parameter changes.
+- Validate invalid or out-of-range URL values into a safe canonical state. Restore scroll position when returning from a detail view, but move focus to the result heading after an explicit page change.
+
+## URL state
+
+Search, filters, sort, view/tab, page or cursor, and page size belong in stable query
+parameters when they change what the result view means. Omit defaults and empty values,
+use repeated keys for multi-select values instead of encoded JSON, preserve unrelated
+parameters, and derive initial controls from the URL so refresh, sharing, and Back agree.
+Use `replaceState` for transient changes and `pushState` for committed states worth
+returning to.
 
 ## Accessibility
 
@@ -83,4 +97,5 @@ and support arrow + Enter without touching the mouse.
 - [ ] Active state distinct from hover, plus `aria-current`; parent highlights for child routes.
 - [ ] Real anchors; scroll, expansion, and collapse states persist.
 - [ ] Breadcrumbs only past two levels; command palette supplements, never replaces.
-- [ ] Pagination in the URL, cursor-based on live data, scroll restored on return.
+- [ ] Search and result state use stable query parameters; Back, refresh, and shared links reproduce the view.
+- [ ] Pagination uses real links, retains the query, resets when criteria change, and restores scroll on return.

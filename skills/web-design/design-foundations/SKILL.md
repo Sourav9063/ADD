@@ -54,7 +54,7 @@ never remove the state change itself.
 - **Focus order follows the DOM.** If CSS reorders content, tab order jumps. Fix the DOM, not with `tabindex` above 0.
 - **Skip link** first in the DOM, visible on focus.
 - **Hit targets**: 44×44px minimum on touch, 24×24px minimum on pointer, with 8px between adjacent targets.
-- **Hover is not an interaction**, it is an enhancement. Anything reachable only by hover is unreachable on touch and by keyboard. Design the touch path first.
+- **Hover is not an interaction**, it is an enhancement. Anything reachable only by hover is unreachable on touch and by keyboard. Design the touch path first. Gate hover effects with `@media (hover: hover)` and enlarge controls for coarse pointers with `@media (pointer: coarse)`; detect capability, not device names.
 - Every icon-only control needs an accessible name (`aria-label`); decorative images get `alt=""`.
 - Zoom to 200% and reflow at 320px wide without horizontal scrolling.
 
