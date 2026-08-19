@@ -17,8 +17,8 @@ Works with Claude Code, Codex, Cursor, Gemini CLI, and anything else that reads 
 
 Out of the box, an agent will happily ship a plausible-looking change with no plan, no verification, and a confident summary. This repo fixes that with two things:
 
-- **`AGENTS.md`** — always-on engineering standards: spec-driven development, evidence-first debugging, scope discipline, and a hard rule that a passing check must actually have run.
-- **Skills** — task-specific playbooks the agent pulls in on demand, so you get depth without paying for the context on every prompt.
+- **`AGENTS.md`**: always-on engineering standards: spec-driven development, evidence-first debugging, scope discipline, and a hard rule that a passing check must actually have run.
+- **Skills**: task-specific playbooks the agent pulls in on demand, so you get depth without paying for the context on every prompt.
 
 Nothing here is framework-specific and nothing needs a runtime. It is Markdown, copied into your repo.
 
@@ -46,7 +46,7 @@ for f in CLAUDE.md GEMINI.md; do
 done
 ```
 
-Re-run it any time to update — it replaces from the `## Spec-Driven Development` marker to the end, appends if the marker is missing, and creates the files if they do not exist. Anything you wrote above the marker is kept.
+Re-run it any time to update. It replaces from the `## Spec-Driven Development` marker to the end, appends if the marker is missing, and creates the files if they do not exist. Anything you wrote above the marker is kept.
 
 ### 2. Install the Agent Driven Development skills
 
@@ -88,7 +88,7 @@ done
 
 ### 4. Install the web design skills
 
-Fifteen skills covering the UI surfaces agents get wrong most often — forms, tables, overlays, navigation, motion, copy, and front-end performance.
+Sixteen skills covering the UI surfaces agents get wrong most often: forms, tables, overlays, navigation, motion, copy, and front-end performance.
 
 ```bash
 set -euo pipefail
@@ -143,13 +143,13 @@ echo "ADD installed."
 
 </details>
 
-Prefer to pick and choose? Every skill is a self-contained folder — copy any single directory from [`skills/`](skills/) into `.claude/skills/` and it works on its own.
+Prefer to pick and choose? Every skill is a self-contained folder. Copy any single directory from [`skills/`](skills/) into `.claude/skills/` and it works on its own.
 
 ---
 
 ## What you get
 
-### Workflow skills — [`skills/agent-driven-development/`](skills/agent-driven-development/)
+### Workflow skills: [`skills/agent-driven-development/`](skills/agent-driven-development/)
 
 Coding and programming workflow. These five are the always-on core, bundled into `AGENTS_STANDALONE.md`.
 
@@ -161,20 +161,20 @@ Coding and programming workflow. These five are the always-on core, bundled into
 | [`memory`](skills/agent-driven-development/memory/) | Durable repo-wide decisions and corrections need to persist |
 | [`communication`](skills/agent-driven-development/communication/) | You want terse answers instead of essays |
 
-### Review skills — [`skills/agent-driven-review/`](skills/agent-driven-review/)
+### Review skills: [`skills/agent-driven-review/`](skills/agent-driven-review/)
 
 | Skill | Fires when |
 | --- | --- |
 | [`diagnosing-bugs`](skills/agent-driven-review/diagnosing-bugs/) | Something is broken, failing, flaky, or slow |
 | [`reviewing-changes`](skills/agent-driven-review/reviewing-changes/) | You ask for a review of a branch, PR, or working tree |
 
-### Web design skills — [`skills/web-design/`](skills/web-design/)
+### Web design skills: [`skills/web-design/`](skills/web-design/)
 
-Design rules, motion timings, and accessibility requirements for each UI surface — the specifics an agent otherwise invents from scratch every time.
+Design rules, motion timings, and accessibility requirements for each UI surface: the specifics an agent otherwise invents from scratch every time.
 
 | Skill | Covers |
 | --- | --- |
-| [`design-foundations`](skills/web-design/design-foundations/) | Tokens, spacing, hierarchy, motion scale, contrast, focus — the shared baseline |
+| [`design-foundations`](skills/web-design/design-foundations/) | Tokens, spacing, hierarchy, motion scale, contrast, and focus; the shared baseline |
 | [`form-design`](skills/web-design/form-design/) | Field anatomy, six field states, validation timing, autosave, submit |
 | [`tab-design`](skills/web-design/tab-design/) | Indicator motion, overflow, panel transitions, full APG keyboard support |
 | [`filter-design`](skills/web-design/filter-design/) | Chips, facets, live counts, applied-filter summaries, filtered-empty states |
@@ -190,7 +190,7 @@ Design rules, motion timings, and accessibility requirements for each UI surface
 | [`accessibility-audit`](skills/web-design/accessibility-audit/) | Verification pass on shipped UI against WCAG 2.2 AA |
 | [`frontend-performance`](skills/web-design/frontend-performance/) | Core Web Vitals, bundle size, images, hydration, re-renders, CI budgets |
 
-### Misc skills — [`skills/misc/`](skills/misc/)
+### Misc skills: [`skills/misc/`](skills/misc/)
 
 | Skill | Covers |
 | --- | --- |
@@ -429,7 +429,7 @@ Use full prose when compression risks safety, sequence, or clarity; otherwise pe
 
 ### Questions Are Read-Only
 
-Questions request answers, not changes. If a message asks rather than instructs—including “how hard would it be,” “what are your thoughts,” “why does,” “should we,” “is it possible,” or “can X do Y”—answer without editing. Even for an obvious trivial change, answer first, offer it, and wait for approval.
+Questions request answers, not changes. If a message asks rather than instructs (including "how hard would it be," "what are your thoughts," "why does," "should we," "is it possible," or "can X do Y"), answer without editing. Even for an obvious trivial change, answer first, offer it, and wait for approval.
 ```
 <!-- AGENTS_MD_END -->
 
@@ -443,4 +443,4 @@ The block above is generated from [`AGENTS_STANDALONE.md`](AGENTS_STANDALONE.md)
 
 [`AGENTS.md`](AGENTS.md) in this repo describes the conventions: `skills/` is the canonical catalog, durable guidance lives in `agents/`, and human docs live in `docs/`. Before committing, run `git diff --check` and `diff -ru skills/agent-driven-development .agents/skills`.
 
-New skills are welcome — one directory, one `SKILL.md`, a trigger-oriented `description`, and no rules that duplicate an existing skill.
+New skills are welcome: one directory, one `SKILL.md`, a trigger-oriented `description`, and no rules that duplicate an existing skill.

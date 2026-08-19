@@ -18,18 +18,18 @@ decoration.
 | TTFB | < 800ms | Server and network before anything renders |
 | JS shipped | < 170KB gzip on the critical path | Parse + execute cost |
 
-Judge on p75 of real users on mid-tier Android over 4G — not on your laptop. Lab tools
+Judge on p75 of real users on mid-tier Android over 4G, not on your laptop. Lab tools
 (Lighthouse, DevTools) find causes; field data (RUM, CrUX, `web-vitals`) decides
 priorities. Perceived speed is its own target: anything over ~400ms of silence loses the
 user's attention regardless of what the numbers say (see `feedback-design`).
 
 ## Diagnose first
 
-1. Reproduce on throttled CPU (4–6×) and network — most regressions are invisible unthrottled.
+1. Reproduce on throttled CPU (4–6×) and network: most regressions are invisible unthrottled.
 2. DevTools Performance trace for interactions; the long-task list names the culprit.
 3. Coverage tab for unused JS/CSS; the bundle analyzer for what is actually in the chunk.
 4. React Profiler / `why-did-you-render` for re-render storms.
-5. Network waterfall for request chains — a serialized chain of three round trips beats any micro-optimization for badness.
+5. Network waterfall for request chains: a serialized chain of three round trips beats any micro-optimization for badness.
 
 Write down the number before and after. "Feels faster" is not a result.
 
@@ -38,7 +38,7 @@ Write down the number before and after. "Feels faster" is not a result.
 - Identify the LCP element in DevTools; it is almost always a hero image or a headline blocked by a font.
 - Preload it, serve it at the right size, and never lazy-load it. Lazy-loading the hero is a top-three LCP regression.
 - Kill render-blocking resources: inline critical CSS, defer the rest, `async`/`defer` scripts.
-- Remove request chains — the LCP image should be discoverable in the initial HTML, not fetched by JS after hydration.
+- Remove request chains: the LCP image should be discoverable in the initial HTML, not fetched by JS after hydration.
 - Cache aggressively: immutable hashed assets, a CDN in front, `stale-while-revalidate` for data.
 
 ## INP and main-thread work
@@ -47,7 +47,7 @@ Write down the number before and after. "Feels faster" is not a result.
 - Defer non-urgent state updates (`startTransition`), debounce input handlers (~300ms for search), and throttle scroll/resize with `requestAnimationFrame`.
 - Move heavy parsing, diffing, or crypto to a Web Worker.
 - Virtualize lists past ~100 rows with stable item heights.
-- Memoize the expensive parts only — blanket `memo`/`useMemo` adds cost and hides the real problem, which is usually an unstable context value or a new object literal in props.
+- Memoize the expensive parts only; blanket `memo`/`useMemo` adds cost and hides the real problem, which is usually an unstable context value or a new object literal in props.
 - Animate `transform` and `opacity` exclusively; anything triggering layout drops frames.
 
 ## CLS
@@ -61,7 +61,7 @@ Write down the number before and after. "Feels faster" is not a result.
 
 - Ship less: audit dependencies before adding them (a date library at 70KB for one format call), prefer platform APIs (`Intl`, `URLPattern`, `structuredClone`), and check for a modern lighter alternative.
 - Code-split by route, and dynamic-import anything heavy and below the fold (editors, charts, maps, modals).
-- Tree-shake properly — deep imports, `sideEffects: false`, no barrel files re-exporting a whole library into every page.
+- Tree-shake properly: deep imports, `sideEffects: false`, no barrel files re-exporting a whole library into every page.
 - Keep polyfills targeted to actually supported browsers.
 - In React Server Component frameworks, keep `"use client"` at the leaves; a client boundary high in the tree drags everything beneath it into the bundle.
 - Third-party scripts are usually the single largest cost. Inventory them, load them lazily or via a worker, and delete the ones nobody can name an owner for.
@@ -69,13 +69,13 @@ Write down the number before and after. "Feels faster" is not a result.
 ## Images, fonts, media
 
 - Modern formats (AVIF/WebP), responsive `srcset`/`sizes`, `loading="lazy"` on everything except the LCP element, `fetchpriority="high"` on that one.
-- Serve at display resolution — a 3000px image in a 400px slot is the most common waste in any codebase.
+- Serve at display resolution: a 3000px image in a 400px slot is the most common waste in any codebase.
 - Self-host fonts, subset them, preload only the weights used above the fold, and cap the family at 2 weights + 1 italic.
 - Video: `preload="none"`, a poster image, and never autoplay above the fold on mobile.
 
 ## Data and rendering
 
-- Render static content statically; stream the rest. Do not block the shell on slow data — stream it in with Suspense boundaries.
+- Render static content statically; stream the rest. Do not block the shell on slow data; stream it in with Suspense boundaries.
 - Fetch in parallel, not in a waterfall; collapse N+1 client requests into one endpoint.
 - Prefetch the likely next route on hover/focus.
 - Cache with explicit invalidation, and dedupe in-flight identical requests.

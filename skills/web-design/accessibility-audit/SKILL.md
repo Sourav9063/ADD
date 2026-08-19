@@ -13,12 +13,12 @@ description: Verify an existing interface against WCAG rather than design a new 
 Automated tools catch roughly a third of issues, and never the ones that matter most.
 Run them first because they are cheap, then do the manual passes.
 
-1. **Automated sweep** — axe DevTools or `@axe-core/cli`, plus Lighthouse. Log every violation with selector and rule ID.
-2. **Keyboard pass** — the highest-yield 15 minutes in the audit.
-3. **Structure pass** — headings, landmarks, names, semantics.
-4. **Visual pass** — contrast, zoom, reflow, motion.
-5. **Screen reader pass** — confirm the experience, not just the markup.
-6. **Report** — issue, WCAG criterion, severity, location, fix.
+1. **Automated sweep**: axe DevTools or `@axe-core/cli`, plus Lighthouse. Log every violation with selector and rule ID.
+2. **Keyboard pass**: the highest-yield 15 minutes in the audit.
+3. **Structure pass**: headings, landmarks, names, semantics.
+4. **Visual pass**: contrast, zoom, reflow, motion.
+5. **Screen reader pass**: confirm the experience, not just the markup.
+6. **Report**: issue, WCAG criterion, severity, location, fix.
 
 ## Keyboard pass (unplug the mouse)
 
@@ -46,7 +46,7 @@ Run them first because they are cheap, then do the manual passes.
 
 - Contrast: **4.5:1** body text, **3:1** large text (≥24px, or ≥19px bold), **3:1** for icons, borders, focus rings, and chart strokes. The usual failures hide in muted labels, placeholders, disabled text, and nav links sitting at 1.5–2:1.
 - Check both themes, and check text over images or gradients at its worst point.
-- **No information by color alone** — links inside body text, required fields, status dots, chart series, validation. Around 1 in 12 people cannot rely on red-vs-green.
+- **No information by color alone**: links inside body text, required fields, status dots, chart series, validation. Around 1 in 12 people cannot rely on red-vs-green.
 - Zoom to 200% and reflow at 320px wide: no horizontal scrolling, no clipped content, nothing overlapping.
 - Text spacing override (line-height 1.5, letter 0.12em, word 0.16em, paragraph 2em) does not clip content.
 - `prefers-reduced-motion` honored; nothing flashes more than 3 times per second; auto-playing motion over 5s can be paused.
@@ -61,7 +61,7 @@ handled consistently.
 
 ## Screen reader pass
 
-Test the critical flows — sign in, primary create, checkout — end to end.
+Test the critical flows (sign in, primary create, checkout) end to end.
 
 - VoiceOver + Safari (macOS/iOS), NVDA + Firefox or Chrome (Windows). Two engines beat one.
 - Listen for: correct role and name on every stop, state changes announced (expanded, selected, invalid, busy), dynamic content announced once via the right live region politeness, route changes announced, and nothing read out that should be hidden.
@@ -71,7 +71,7 @@ Test the critical flows — sign in, primary create, checkout — end to end.
 
 One row per issue: **what** (with selector or screenshot), **WCAG criterion**, **severity**
 (blocker = cannot complete the task, major, minor), **who it affects**, and **the concrete
-fix**. Group by fix, not by page — one bad shared component usually explains dozens of
+fix**. Group by fix, not by page; one bad shared component usually explains dozens of
 violations. Verify fixes by rerunning the specific pass that found them, not just axe.
 
 ## Checklist

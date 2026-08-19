@@ -15,7 +15,7 @@ not a desktop layout with a smaller variant.
 
 | Context | Pattern |
 | --- | --- |
-| Mobile, 3–5 primary destinations | **Bottom tab bar** — always visible, thumb-reachable, icon + label |
+| Mobile, 3–5 primary destinations | **Bottom tab bar**: always visible, thumb-reachable, icon + label |
 | Mobile, 6+ destinations | Bottom bar of the top 4 + a "More" sheet |
 | Desktop, 5+ sections or nesting | **Persistent sidebar**, collapsible to icons with labels on hover/focus |
 | Desktop, ≤5 flat sections, marketing | Top bar |
@@ -24,7 +24,7 @@ not a desktop layout with a smaller variant.
 
 **Never hide primary navigation behind a hamburger.** Measured engagement drops around 40%
 on mobile and over 50% on desktop when the primary destinations are one tap away instead
-of zero. The hamburger is for secondary items — settings, help, account.
+of zero. The hamburger is for secondary items: settings, help, account.
 
 A command palette is never the only path to a feature; new users cannot discover what they
 cannot see. Breadcrumbs in a flat structure are clutter, not orientation.
@@ -41,13 +41,13 @@ cannot see. Breadcrumbs in a flat structure are clutter, not orientation.
 ## Active and current state
 
 - The current item is unmistakable: accent bar/pill fill + weight change + color, not color alone. It must survive grayscale.
-- Set `aria-current="page"` on the active link — the visual state is not exposed otherwise.
+- Set `aria-current="page"` on the active link; the visual state is not exposed otherwise.
 - Highlight the parent section when a child route is active, and expand that group by default.
 - Never let hover styling look like the active state.
 
 ## Behavior
 
-- Navigation is `<a href>` — real links, real middle-click, real Back. `onClick` handlers that push routes break every user habit at once.
+- Navigation is `<a href>`: real links, real middle-click, real Back. `onClick` handlers that push routes break every user habit at once.
 - Preserve sidebar scroll position and expanded groups across navigations.
 - Collapsed/expanded sidebar state persists per user.
 - Prefetch on hover/focus for instant transitions; show a top progress bar only past ~300ms.
@@ -67,7 +67,7 @@ and support arrow + Enter without touching the mouse.
 
 ## Pagination
 
-- Use **cursor pagination on frequently changing data** — offset drifts, so inserting a row at the top makes the same item appear on two pages.
+- Use **cursor pagination on frequently changing data**: offset drifts, so inserting a row at the top makes the same item appear on two pages.
 - Numbered pagination when people jump around or cite positions; Load more for on-demand lists; infinite scroll only for feeds, never above a footer and never for records users must audit.
 - Collapse long ranges to first, last, current, and neighbors with an ellipsis. Never render hundreds of links.
 - Put page or opaque cursor in the query string and make pagination controls real links with complete `href`s. Preserve search, filters, sort, and unrelated parameters; reset pagination when any result-defining parameter changes.
@@ -88,7 +88,7 @@ returning to.
 - Skip link as the first focusable element.
 - Expandable groups are `<button aria-expanded>` controlling the list; arrow keys are optional, Enter/Space are not.
 - Breadcrumbs: ordered list, last item is the current page and not a link, with `aria-current="page"`.
-- Announce route changes — move focus to the new page's `<h1>` so screen reader users learn the view changed.
+- Announce route changes: move focus to the new page's `<h1>` so screen reader users learn the view changed.
 
 ## Checklist
 

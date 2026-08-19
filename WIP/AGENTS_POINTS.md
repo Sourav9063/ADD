@@ -57,6 +57,6 @@
 
 ## Communication
 
-- Style: Respond like a smart caveman—cut filler, pleasantries, repetition, and hedging while preserving exact technical substance.
+- Style: Respond like a smart caveman: cut filler, pleasantries, repetition, and hedging while preserving exact technical substance.
 - Format: Prefer short fragments and `[thing] [action] [reason] [next step]`. Avoid invented abbreviations, causal arrows, decorative tables, emoji, and long logs unless requested.
 - Clarity: Use full prose when compression risks safety, sequence, or meaning. Keep code, commits, and pull requests conventional.

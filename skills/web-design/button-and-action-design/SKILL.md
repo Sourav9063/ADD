@@ -19,28 +19,28 @@ One **primary** per view (filled, accent). Everything else is **secondary** (out
 tinted), **tertiary/ghost** (text only), or **destructive** (danger fill, or danger text
 when it is not the main path). Two primaries side by side means neither is primary.
 
-- Size scale: `sm 32 / md 40 / lg 48`px height, with 44px minimum touch targets — pad the hit area rather than inflating the visual.
-- Order on desktop: primary rightmost in dialogs, leftmost in forms and toolbars — pick one per product and never mix. On mobile, stack full width with the primary on top.
+- Size scale: `sm 32 / md 40 / lg 48`px height, with 44px minimum touch targets; pad the hit area rather than inflating the visual.
+- Order on desktop: primary rightmost in dialogs, leftmost in forms and toolbars. Pick one per product and never mix. On mobile, stack full width with the primary on top.
 - Cancel is never the same weight as Confirm.
 
 ## Labels
 
 - Verb + object: **Save changes**, **Delete project**, **Send invite**. Not "OK", not "Submit", not "Yes".
-- The label must match the destination or result — a button reading "Continue" that charges a card is a dark pattern.
-- Sentence case, no truncation, no width jump between states — reserve the widest label's width so loading does not resize the button.
+- The label must match the destination or result: a button reading "Continue" that charges a card is a dark pattern.
+- Sentence case, no truncation, no width jump between states; reserve the widest label's width so loading does not resize the button.
 - Icon-only buttons need `aria-label` and a tooltip on **focus as well as hover**.
 
 ## States
 
 Style all seven: default, hover, focus-visible, active/pressed, loading, disabled, and
-(where relevant) selected. Press feedback under 100ms — a scale to `0.98` or a fill shift.
+(where relevant) selected. Press feedback under 100ms: a scale to `0.98` or a fill shift.
 Hover effects must never be the only signal that something is interactive.
 
 ## Stop disabling submit buttons
 
 A disabled button is removed from the tab order, stays silent to screen readers, fails
 contrast (greyed text lands near 1.9:1), and **cannot fire the pointer events a tooltip
-needs** — so the explanation you attached to it is unreachable. The result is a user
+needs**, so the explanation you attached to it is unreachable. The result is a user
 stuck with no way to learn why.
 
 Instead:
@@ -52,7 +52,7 @@ Instead:
 ## Destructive actions
 
 - Prefer **undo over confirm** for anything reversible (see `feedback-design`). Reserve dialogs for the irreversible.
-- Name the consequence and the count: "Delete 12 files?" — never "Are you sure?".
+- Name the consequence and the count: "Delete 12 files?" Never use "Are you sure?".
 - Reserve destructive button styling for destructive actions; do not spend the same red treatment on routine actions such as Sign out.
 - For catastrophic actions, require typed confirmation of the resource name, keep the danger button as the non-default focus target, and delay permanent deletion behind a cancelable grace period when possible.
 - Put destructive controls in a separated, labelled danger zone. A hold-to-confirm gesture may add friction, but it needs visible progress, release-to-cancel, and an accessible non-hold path.
@@ -71,14 +71,14 @@ reversible actions; payments and irreversible work keep a truthful busy state.
 - Toolbars: group by function with dividers, keep icon sizes consistent, and expose one roving tabindex across the group so Tab does not walk through twelve controls.
 - **Bulk action bars** appear on first selection and state the count. Selection lives in application state, not the DOM, so it survives pagination and supports shift-click ranges. "Select all" means this page; offer the explicit escalation "Select all 247 matching", and update that number when filters change.
 - **FAB** (mobile): one per screen, bottom-right, above the safe area, never covering content or the bottom bar.
-- Swipe actions on list rows: max two per direction, consistent colors and directions across the app, a peek affordance so they are discoverable, a partial-swipe reveal (never instant delete on a full swipe) plus undo — and always a visible alternative path, since a gesture is not accessible on its own.
+- Swipe actions on list rows: max two per direction, consistent colors and directions across the app, a peek affordance so they are discoverable, a partial-swipe reveal (never instant delete on a full swipe) plus undo, and always a visible alternative path, since a gesture is not accessible on its own.
 
 ## Accessibility
 
-- Focus ring visible on every variant, including the filled danger one — check contrast against the button's own fill, not the page.
+- Focus ring visible on every variant, including the filled danger one; check contrast against the button's own fill, not the page.
 - Enter and Space both activate; type is explicit (`type="button"` inside forms, or you get accidental submits).
 - Toggle buttons expose `aria-pressed`; menu triggers expose `aria-expanded` and `aria-haspopup`.
-- Never convey state by color alone — pair with icon, label, or shape.
+- Never convey state by color alone: pair with icon, label, or shape.
 
 ## Checklist
 

@@ -14,18 +14,18 @@ scan whole items, and a grid when the visual is the content.
 Fixed order: media → eyebrow/meta → title → description → metadata → actions. Repeat it
 across every card in the product; scanning depends on the position being predictable.
 
-- **Generous padding** — 20–24px in dense UI, up to 40px for marketing cards. Cramped padding is the single strongest "cheap" signal.
+- **Generous padding**: 20–24px in dense UI, up to 40px for marketing cards. Cramped padding is the single strongest "cheap" signal.
 - **Radius** from the token scale; nested media radius = outer radius − padding.
 - **Two shadows, not one**: a tight dark one for contrast plus a wide soft one for ambience. Add a hairline border at ~10–12% opacity so the edge exists on any background.
 - **Hierarchy through weight and opacity**: title at 600, body at ~60–70% of the title's emphasis. Equal weight everywhere means nothing is read first.
-- Truncate titles at 2 lines and descriptions at 3 (`line-clamp`), with the full text available on the detail view — never in a tooltip only.
+- Truncate titles at 2 lines and descriptions at 3 (`line-clamp`), with the full text available on the detail view, never in a tooltip only.
 - Equal-height cards in a row; align the action row to the bottom with `margin-top: auto` so ragged content does not stagger the buttons.
 
 ## Hover and interaction
 
 - Lift ~8px and expand the shadow over ~200ms `ease-out`. Faster reads as twitchy, slower feels stuck.
-- **Never scale the whole card** — it shifts neighbors and breaks the grid. Scale the *image* to ~1.05 inside an `overflow: hidden` frame so the content presses against the glass while the outer box stays fixed.
-- Reveal secondary actions staggered ~60ms apart, anchored to a reserved row so nothing reflows. On touch and for keyboard users those actions must be permanently present — hover-only actions do not exist on a phone.
+- **Never scale the whole card**: it shifts neighbors and breaks the grid. Scale the *image* to ~1.05 inside an `overflow: hidden` frame so the content presses against the glass while the outer box stays fixed.
+- Reveal secondary actions staggered ~60ms apart, anchored to a reserved row so nothing reflows. On touch and for keyboard users those actions must be permanently present; hover-only actions do not exist on a phone.
 - An interactive card needs a real focus style, not just a hover style, and a cursor/border cue that it is clickable at all.
 
 ## Click targets
@@ -64,20 +64,20 @@ buttons in an `<a>`.
 - The board must reflect the drag: the dragged item lifts with a shadow and slight tilt, the source leaves a placeholder gap, and neighbors animate aside to show exactly where the drop lands.
 - Grab targets need a visible handle; the whole card being draggable makes text unselectable and scrolling unreliable on touch.
 - Auto-scroll near container edges; animate the drop into place rather than snapping.
-- **Always provide a non-drag path** — "Move up/down" in the overflow menu, or keyboard reordering with Space to pick up, arrows to move, Space to drop, Escape to cancel — and announce each move in a live region.
+- **Always provide a non-drag path**: "Move up/down" in the overflow menu, or keyboard reordering with Space to pick up, arrows to move, Space to drop, Escape to cancel. Announce each move in a live region.
 - Persist optimistically and revert visibly on failure.
 
 ## Loading and empty
 
-Skeleton cards in the real grid shape, 3–6 of them, matching the final aspect ratio — see
+Skeleton cards in the real grid shape, 3–6 of them, matching the final aspect ratio; see
 `feedback-design` for thresholds and for the four empty-state types.
 
 ## Accessibility
 
 - The card is not a landmark. Use `<article>`/`<li>` in a real `<ul>`, with the title as the heading at the correct level.
-- Every card in a grid must be reachable in a sane tab order — one stop per card, plus its actions.
+- Every card in a grid must be reachable in a sane tab order: one stop per card, plus its actions.
 - Images that carry meaning get real `alt`; decorative card art gets `alt=""`.
-- Selectable cards use a real checkbox or `role="option"` inside `role="listbox"` with `aria-selected` — not a colored border alone.
+- Selectable cards use a real checkbox or `role="option"` inside `role="listbox"` with `aria-selected`, not a colored border alone.
 - Announce list length and filtered counts in a polite live region.
 
 ## Checklist

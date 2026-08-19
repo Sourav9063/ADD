@@ -204,4 +204,4 @@ Use full prose when compression risks safety, sequence, or clarity; otherwise pe
 
 ### Questions Are Read-Only
 
-Questions request answers, not changes. If a message asks rather than instructs—including “how hard would it be,” “what are your thoughts,” “why does,” “should we,” “is it possible,” or “can X do Y”—answer without editing. Even for an obvious trivial change, answer first, offer it, and wait for approval.
+Questions request answers, not changes. If a message asks rather than instructs (including "how hard would it be," "what are your thoughts," "why does," "should we," "is it possible," or "can X do Y"), answer without editing. Even for an obvious trivial change, answer first, offer it, and wait for approval.

@@ -6,7 +6,7 @@ description: Build or review data tables and list views. Use when creating a tab
 # Data Table Design
 
 Assumes `design-foundations` for tokens and `filter-design` for the controls above the
-table. A table is a system — headers, body, selection, sorting, density, and pagination
+table. A table is a system: headers, body, selection, sorting, density, and pagination
 must agree with each other.
 
 ## Columns
@@ -14,25 +14,25 @@ must agree with each other.
 - Lead with the identifying column (name, ID) and pin it; put actions last.
 - **Right-align numbers, left-align text, and use tabular figures** (`font-variant-numeric: tabular-nums`) so digits stack on one baseline. Proportional digits jitter and defeat scanning.
 - Align decimals and use consistent precision within a column. Units in the header, not repeated in every cell.
-- Dates: one format per table, absolute for records, relative only for recent activity — and then with the absolute value on hover/title.
+- Dates: one format per table, absolute for records, relative only for recent activity, with the absolute value on hover/title.
 - Truncate long text with an ellipsis and expose the full value in a tooltip or expanded row; never wrap one column into three lines while its neighbors sit on one.
 - Show 5–8 columns by default and put the rest behind a column-picker.
 
 ## Header and scrolling
 
 - Header sticks on vertical scroll; the first column freezes on horizontal scroll. Both get a subtle shadow once content slides under them, so they read as elevated rather than overlapping.
-- Header text is a distinct treatment (smaller, uppercase or medium weight, muted) — never the same as body text.
+- Header text is a distinct treatment (smaller, uppercase or medium weight, muted), never the same as body text.
 
 ## Sorting
 
 - **Sort is tri-state: ascending → descending → back to the original order.** A two-state toggle destroys the default ordering permanently, and the default ordering is often the meaningful one.
 - Only the sorted column shows a solid arrow; sortable columns show a muted hint on hover/focus. The whole header cell is the target.
-- Sort server-side across the full set, not just the current page — page-local sorting is a bug users report as data loss.
+- Sort server-side across the full set, not just the current page; page-local sorting is a bug users report as data loss.
 - Persist sort in a query parameter alongside search, filters, page or cursor, and size. Preserve unrelated parameters and reset pagination when sort or result criteria change.
 
 ## Density
 
-Row height is a token with presets — compact 36 / default 48 / comfortable 60 — exposed
+Row height is a token with presets: compact 36 / default 48 / comfortable 60. Expose it
 as one control, not arbitrary spacing per table. Zebra striping at comfortable spacing;
 collapse to hairline row borders when compact. Keep cell padding proportional so the grid
 does not look starved when compact.
@@ -49,7 +49,7 @@ does not look starved when compact.
 ## Row interaction
 
 - Pick one primary row action (usually open) and make the row clickable, but keep interactive cells from swallowing the click.
-- Row actions: 1–2 inline, the rest in an overflow menu. **Do not reveal actions on hover only** — they must be reachable by keyboard and on touch; keep them present at low emphasis instead.
+- Row actions: 1–2 inline, the rest in an overflow menu. **Do not reveal actions on hover only**: they must be reachable by keyboard and on touch; keep them present at low emphasis instead.
 - Inline editing follows `form-design`; additionally keep row height and column width fixed and expose a per-cell save state.
 
 ## Loading, empty, and error
@@ -70,7 +70,7 @@ affordance.
 
 - Server-side pagination with page size options (25/50/100) and a total count. Show `1–25 of 1,248`.
 - Keep page or cursor, size, sort, search, and filters in query parameters. URL state initializes the controls; preserve unrelated parameters and reset pagination when result criteria change.
-- Infinite scroll only for feeds, never for records users must audit or reference — and never above a footer.
+- Infinite scroll only for feeds, never for records users must audit or reference, and never above a footer.
 
 ## Accessibility
 

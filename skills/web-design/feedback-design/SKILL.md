@@ -13,13 +13,13 @@ Assumes `design-foundations` for tokens and motion. Every action needs an answer
 | Wait | Pattern |
 | --- | --- |
 | < 300ms | **Nothing.** A flash of a spinner reads as a glitch, not as feedback |
-| 300ms–3s, known content shape | **Skeleton** in the real layout — same boxes, same rhythm |
+| 300ms–3s, known content shape | **Skeleton** in the real layout: same boxes, same rhythm |
 | 300ms–3s, unknown shape or in-button | **Spinner**, scoped to the thing that is loading |
 | > 3s with known progress | **Progress bar** with percentage, plus time remaining or speed |
 | > 3s without progress | Staged status text ("Compressing… Uploading… Finishing") |
 | Reversible action | **Optimistic update**, no indicator at all |
 
-Never spinner a full page — a lone spinner on a blank screen reads as frozen. Skeletons
+Never spinner a full page; a lone spinner on a blank screen reads as frozen. Skeletons
 are not a default; a skeleton that does not match the final layout causes a visible jolt
 when content lands. Keep the primary structure (nav, header, filters) rendered and load
 only the region that changes. Perceived speed matters more than measured speed: past
@@ -27,13 +27,13 @@ only the region that changes. Perceived speed matters more than measured speed: 
 
 ## Optimistic UI and undo
 
-- Apply reversible actions (like, star, reorder, mark read) instantly and reconcile in the background. On failure, revert visibly and say why — a silent revert is worse than a slow save.
-- Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted — Undo" for 5–10 seconds, and pause the timer on hover or focus. Save the confirmation dialog for the genuinely irreversible.
+- Apply reversible actions (like, star, reorder, mark read) instantly and reconcile in the background. On failure, revert visibly and say why; a silent revert is worse than a slow save.
+- Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted. Undo" for 5–10 seconds, and pause the timer on hover or focus. Save the confirmation dialog for the genuinely irreversible.
 - Undo must be reachable by keyboard before the toast disappears; keep a permanent path (trash, history) as well.
 
 ## Empty states
 
-Four different situations, four different treatments — never one shared "No data".
+Four different situations, four different treatments; never one shared "No data".
 
 - **First run**: icon or illustration, one line of what this screen will hold, one primary CTA to create the first item, and a ghost preview of what a filled state looks like. This is the best onboarding surface in the product.
 - **No results (search)**: echo the query, suggest corrections or broader terms.
@@ -41,7 +41,7 @@ Four different situations, four different treatments — never one shared "No da
 - **Error**: what failed, whether it is being retried, and a Retry button.
 
 A bare blank screen is indistinguishable from a crash. Write like a product, not a log
-file — never "ERROR 404 — result set empty". One CTA, contextual, not "Try refreshing".
+file; never "ERROR 404: result set empty". One CTA, contextual, not "Try refreshing".
 
 ## Errors
 
@@ -72,7 +72,7 @@ enter with a slide + fade, exit faster, and pause the timer on hover or focus.
 
 ## Success
 
-Confirm where the action happened — an inline check on the saved field beats a toast that
+Confirm where the action happened: an inline check on the saved field beats a toast that
 steals attention and vanishes before it is read. Reserve celebration animations (500–800ms,
 with overshoot) for genuine milestones; on every ordinary save they become noise.
 
@@ -86,7 +86,7 @@ and return to, and notify on completion. Never block the whole UI on one export.
 
 - Live regions: `aria-live="polite"` for status and success, `role="alert"` (assertive) for errors. Do not make every toast assertive.
 - Loading containers get `aria-busy="true"`; buttons keep their accessible name while showing a spinner ("Saving…"), and are disabled only for the duration of the request.
-- Toasts need a keyboard-reachable close and enough time to act — WCAG requires a way to extend or dismiss timed content.
+- Toasts need a keyboard-reachable close and enough time to act; WCAG requires a way to extend or dismiss timed content.
 - Never communicate state with color alone: pair with icon and text.
 - Announce result counts and step transitions; a screen reader user gets no benefit from a spinner.
 

@@ -13,16 +13,16 @@ state. Shipping only the trigger row is why tabs feel cheap.
 ## Use tabs only when they fit
 
 - Sibling views of **equal weight** on one subject, 2–7 of them, that the user compares or switches between.
-- **Not** for a sequence — that is a stepper. **Not** for content users need side by side. **Not** for deep-linked destinations with their own sub-navigation — those are routes.
+- **Not** for a sequence; that is a stepper. **Not** for content users need side by side. **Not** for deep-linked destinations with their own sub-navigation; those are routes.
 - If content per tab is short and users want several open, use an accordion instead.
 - Labels are 1–2 words, nouns, parallel in form, never truncated. If a label needs truncation, the label is wrong.
 
 ## Visual rules
 
-- Exactly one active tab, and it must be unmistakable — the difference between active and idle should survive a grayscale screenshot.
+- Exactly one active tab, and it must be unmistakable: the difference between active and idle should survive a grayscale screenshot.
 - **The focus ring and the active state never share a color.** Otherwise keyboard users cannot tell where focus is versus what is selected.
 - Idle tabs stay legible: `text-muted` at ≥4.5:1, not a 40%-opacity ghost.
-- Counts and badges belong after the label, in a muted pill, and must not resize the tab when the number changes — reserve the width.
+- Counts and badges belong after the label, in a muted pill, and must not resize the tab when the number changes; reserve the width.
 - Segmented control (a filled thumb inside a track) for ≤4 short, mutually exclusive options; an underline bar for content sections.
 
 ## Motion
@@ -34,7 +34,7 @@ state. Shipping only the trigger row is why tabs feel cheap.
 
 ## Overflow
 
-**Never wrap the tab row to a second line** — the active indicator's geometry breaks and
+**Never wrap the tab row to a second line**: the active indicator's geometry breaks and
 the row becomes a paragraph.
 
 - Scroll horizontally in a single row with a fade mask on the overflowing edges.
@@ -54,7 +54,7 @@ Do not shrink the desktop bar. Switch components by count and device:
 
 - Reflect the active tab in the URL (`?tab=billing`) so it is linkable, refresh-safe, and Back-navigable.
 - Preserve each panel's scroll position and form state across switches.
-- Load panel data lazily on first activation, then cache. Show a skeleton shaped like that panel — never collapse to a spinner in an empty box.
+- Load panel data lazily on first activation, then cache. Show a skeleton shaped like that panel; never collapse to a spinner in an empty box.
 - Prefetch the adjacent tab's data on hover or focus when it is cheap.
 
 ## Accessibility (ARIA APG)

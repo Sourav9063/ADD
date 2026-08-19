@@ -7,11 +7,11 @@ Reviewed: 2026-08-14.
 ## Adopted
 
 - **Trigger-oriented descriptions.** One capability statement plus explicit activation conditions, in third person, with the "skip" cases named. Descriptions decide selection; bodies only decide execution.
-- **Terminology as an invocation aid.** Reuse canonical engineering terms — `seam`, `code smell`, `spec`, `root cause` — as compact behavior handles. Repeat the term, not its definition. Avoid invented vocabulary.
+- **Terminology as an invocation aid.** Reuse canonical engineering terms - `seam`, `code smell`, `spec`, `root cause` - as compact behavior handles. Repeat the term, not its definition. Avoid invented vocabulary.
 - **Imperative, positive, outcome-linked wording.** State target behavior and completion criteria; reserve prohibitions for costly failure modes.
 - **Repository grounding before writing artifacts.** Inspect and cite the files, symbols, and contracts a change touches. Addresses measured "context blindness" in large repos.
 - **Testable acceptance criteria.** `Given / when / then` gives criteria a shape that maps to checks without adopting a requirements framework.
-- **Good/bad example pairs, sparingly.** Used where abstract wording demonstrably underspecifies output — currently only `communication`.
+- **Good/bad example pairs, sparingly.** Used where abstract wording demonstrably underspecifies output: currently only `communication`.
 - **Durable trigger evaluations.** See `trigger-evaluations.md`. Evaluations before more prose.
 
 ## Deferred
@@ -35,4 +35,4 @@ Reviewed: 2026-08-14.
 - <https://github.com/github/spec-kit>
 - <https://github.com/Fission-AI/OpenSpec>
 - <https://agents.md/>
-- <https://arxiv.org/pdf/2604.05278> — grounding hooks for spec-driven agent workflows
+- <https://arxiv.org/pdf/2604.05278>: grounding hooks for spec-driven agent workflows
