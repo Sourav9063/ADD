@@ -197,6 +197,7 @@ Design rules, motion timings, and accessibility requirements for each UI surface
 | [`create-component`](skills/misc/create-component/) · [`create-component-agnostic`](skills/misc/create-component-agnostic/) | Next.js component conventions |
 | [`create-action`](skills/misc/create-action/) | Types, repository, service, and server action layers |
 | [`writing-agent-guidance`](skills/misc/writing-agent-guidance/) | Editing `AGENTS.md`, skills, or any agent-facing docs |
+| [`unslop`](skills/misc/unslop/) | Stripping AI tells from docs, commits, PRs, and other prose |
 
 ---
 
