@@ -32,19 +32,19 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 ### Errors
 
 - Treat errors as values: handle or propagate, never ignore, and never leave an empty `catch`.
-- Preserve the original cause when wrapping; crash loudly in development and degrade gracefully in production.
+- Preserve the original cause when wrapping; surface failure at the boundary that owns it, and degrade only where that contract allows it.
 - Release resources with `finally`, `defer`, RAII, or the local equivalent rather than by remembering.
 
 ### Concurrency
 
 - Do not share mutable state across threads or tasks; pass ownership or a copy, or guard it with a lock.
-- Acquire locks in one consistent order, and never hold one across I/O, an `await`, or a callback.
+- Acquire locks in one consistent order, and avoid holding one across I/O, an `await`, or a callback unless a documented invariant demands it.
 - Await or explicitly handle every async call, and propagate and honor cancellation through every layer that can block.
 - Keep blocking work off the event loop or request thread, and synchronize on real signals rather than sleeps.
 
 ### Structure
 
-- Prefer composition over inheritance, and depend on abstractions rather than implementations.
+- Prefer composition over inheritance, and depend on an abstraction where it clarifies a real boundary or variation point rather than by default.
 - Apply DRY, SOLID, and design patterns as tools, not goals; use them only when they reduce duplicated knowledge or clarify responsibilities, dependencies, or testability.
 - Keep cohesion high and coupling low, and separate policy from mechanism.
 - Keep internals internal: expose behavior, and return a copy or read-only view rather than a live collection.
@@ -61,16 +61,16 @@ Treat each as a labelled heuristic, not a violation. Documented repository stand
 
 ### Restraint
 
-- Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code, and wait for the third repetition before abstracting.
+- Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code.
 - Choose the simplest thing that works, on boring technology.
 - Delete code your change makes dead, along with debug output, commented-out code, and scratch scaffolding.
 - Optimize only measured bottlenecks, but treat unbounded and N+1 work as a defect: paginate queries, cap fan-out and retries, and keep queries out of per-row loops.
 
 ### Testing
 
-- Test observable behavior at the seam rather than implementation detail, one logical assertion per test.
-- Work red, green, refactor; a bug fix starts with a failing test.
-- Keep tests fast, isolated, and deterministic: no sleeps, no shared state, no network.
+- Test observable behavior at the seam rather than implementation detail, one coherent behavior per test.
+- Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not.
+- Keep tests fast, isolated, and deterministic: no sleeps, no uncontrolled shared state, no uncontrolled network or external service.
 - Cover realistic negative and edge cases for changed behavior; for behavior-preserving refactors, strengthen coverage when risk warrants.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical. Do not mock what you do not own; wrap it and substitute the wrapper.
 
