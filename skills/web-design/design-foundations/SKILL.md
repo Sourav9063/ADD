@@ -15,19 +15,41 @@ reference them, so a theme change is one edit instead of a grep.
 
 - **Space**: one scale, 4px base: `4 8 12 16 24 32 48 64`. No `13px`, no `7px`.
 - **Radius**: `sm 6 / md 10 / lg 16 / full`. Nested corners: inner radius = outer radius − padding.
-- **Type**: 5–7 steps max, each with its own line height. Body 15–16px, line height 1.5.
+- **Type**: 5–7 steps max, each with its own line height. Body 15–16px, line height 1.5. Generate the steps from one ratio rather than picking sizes by eye — 1.2 for dense product UI, 1.25–1.333 for general interfaces, up to 1.618 for editorial and marketing display. Related sizes are what make a screen look composed instead of assembled; round the results to whole pixels.
 - **Color**: semantic names (`surface`, `surface-raised`, `border`, `text`, `text-muted`, `accent`, `danger`), not `gray-400`. Components consume semantic tokens only.
 - **Elevation**: 4 levels max. Shadows must use one consistent light source, with larger blur and lower opacity as elevation rises. Two stacked shadows (tight + soft) read better than one heavy one.
 - **Duration / easing**: see the motion scale below.
 
 ## Hierarchy and layout
 
-- Group with **proximity and spacing before borders**. If a divider is only there because spacing is wrong, fix the spacing.
+- Group with **proximity and spacing before borders**. If a divider is only there because spacing is wrong, fix the spacing. The eye groups by nearness, alignment, and shared enclosure before it reads anything, so space between groups must exceed space within them.
 - One primary action per view. Everything else is secondary or tertiary; competing primaries mean no hierarchy.
-- Establish a grid (12-column desktop, 4-column mobile) and break it deliberately, not accidentally.
+- Establish a grid (12-column desktop, 4-column mobile) and break it deliberately, not accidentally. Proportion the major regions with the same ratio the type scale uses, so sidebar-to-content and image-to-text splits are decisions rather than drags.
+- Beyond proximity, the eye groups by **similarity** (things that look alike are read as one set, so vary treatment only when the meaning varies), **common region** (a shared background or border binds items more strongly than spacing, which is why an unnecessary card fuses unrelated content), and **figure/ground** (one element must sit forward, or the screen has no subject).
 - Contrast within a screen comes from **size, weight, and color**: pick two, not all three, per level.
 - Isolate the option you want chosen (different treatment, not just a badge); uniform cards convert worse than one visually distinct card.
 - Order matters: users recall the first and last items in a list far better than the middle. Put the important entries at the ends.
+
+## Icons
+
+One icon set, one grid (20 or 24px), one stroke width across the whole product. Mixing
+filled and outline styles, or a 1.5px stroke beside a 2px one, is the fastest way to look
+assembled from parts.
+
+- Size icons to the text they sit beside (cap height, not line box) and align optically rather than to the bounding box; a triangle centered by its box reads off-center.
+- Scale stroke with size instead of scaling the SVG: a 16px icon at a 2px stroke rendered from a 24px original looks heavier than its neighbors.
+- Icons carry meaning only when they are conventional. Anything ambiguous gets a label; an icon-only control gets `aria-label` and a tooltip on focus as well as hover.
+- Use `currentColor` so icons inherit state and theme, and give decorative icons `aria-hidden="true"`.
+
+## Gradients
+
+Gradients are depth, not decoration. Two stops from the same hue family, a small
+lightness shift, and a direction consistent with the light source of your shadows.
+
+- Interpolate through `oklch` (or add midpoints) so the middle does not go gray — the "dead zone" of a naive sRGB gradient between complementary hues.
+- Text on a gradient must pass contrast at its **darkest and lightest** point, not on average; add a scrim if it does not.
+- Large-area gradients band on 8-bit displays: add a subtle noise overlay or keep the range short.
+- One gradient per surface. Gradient text, gradient border, and gradient background together read as a template, not a product.
 
 ## Motion scale
 

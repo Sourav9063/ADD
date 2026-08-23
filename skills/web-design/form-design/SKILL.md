@@ -56,12 +56,15 @@ an addition for long forms, not a replacement.
 - **Masked input** (card, phone): format while typing, keep the caret from jumping, never reject characters silently, and submit the unmasked value.
 - **Date**: let people type. A picker is the fallback, not the only path. Default the view near the likely date (birthdays start at years, bookings start at today) and mark today, selected, and disabled dates distinctly.
 - **File upload**: click *and* drop, per-file progress, cancel and retry, state accepted types and size limit before the attempt, and fail one file without losing the others.
-- **Toggle vs checkbox**: toggle = takes effect immediately; checkbox = takes effect on submit. Never a toggle inside a form with a Save button.
+- **Toggle vs checkbox**: toggle = takes effect immediately; checkbox = takes effect on submit. Never a toggle inside a form with a Save button. The thumb must move far enough to read as a position change, the label states the thing being switched (not "On"), and state survives grayscale — a colored track alone fails.
 - **Select**: below ~7 options use radios; above ~15 make it searchable.
+- **Range slider**: pair every slider with a numeric input, since a drag cannot be precise and a 4px handle cannot be hit on touch. Handles need ≥44px hit areas, arrow keys step and Home/End jump, the current value is visible without dragging, and expensive work commits on release, not on every move. Two-handle ranges must not let the handles cross.
+- **Rating**: make the current value readable as text, not only as filled stars. Allow correcting and clearing a submitted rating, support arrow keys over a radio group, and never accept a rating on hover — a stray pointer must not submit an opinion. When displaying an average, show the count beside it and render partial stars truthfully; rounding 3.4 up to four full stars is a small lie users notice.
+- **Color picker**: always allow typing a value (hex or the format you store), show the picked color against the surface it will actually appear on, keep recent and preset swatches, and name swatches for screen readers. A gradient canvas without a text input is unusable by keyboard.
 
 ## Long and multi-step forms
 
-- Split at meaningful boundaries, one topic per step, with a step indicator showing position and total.
+- Split at meaningful boundaries, one topic per step, with a step indicator showing position and total. Visible, incomplete progress is what pulls people through a long form, so show how much is done and how much remains rather than a bare step name; never start the bar at zero when the first step is already behind them.
 - Never lose entered data on Back. Validate each step before advancing.
 - **Autosave**: debounce ~500–1000ms and model `typing / saving / saved / offline / error` explicitly; never claim "Saved" until the server confirms. Queue offline edits locally, show the pending count, and replay oldest first on reconnect.
 - Detect concurrent edits and merge or warn rather than silently applying last-write-wins. Warn before navigation or tab close while unsaved work remains.

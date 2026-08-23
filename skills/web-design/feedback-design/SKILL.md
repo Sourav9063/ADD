@@ -76,6 +76,10 @@ Confirm where the action happened: an inline check on the saved field beats a to
 steals attention and vanishes before it is read. Reserve celebration animations (500–800ms,
 with overshoot) for genuine milestones; on every ordinary save they become noise.
 
+People remember a flow by its worst moment and its last one, not by its average. Spend the
+effort on the sharpest pain (the error, the wait, the rejection) and on the final screen;
+a rough middle with a clean ending is remembered better than an even, forgettable flow.
+
 ## Progress and long tasks
 
 Show real progress, never a fake crawl to 90%. For multi-step work, list the steps and
@@ -85,7 +89,7 @@ and return to, and notify on completion. Never block the whole UI on one export.
 ## Accessibility
 
 - Live regions: `aria-live="polite"` for status and success, `role="alert"` (assertive) for errors. Do not make every toast assertive.
-- Loading containers get `aria-busy="true"`; buttons keep their accessible name while showing a spinner ("Saving…"), and are disabled only for the duration of the request.
+- Loading containers get `aria-busy="true"`; buttons keep their accessible name and their focus while showing a spinner ("Saving…"). Block the repeat submission in the handler rather than removing the control from the tab order (see `button-and-action-design`).
 - Toasts need a keyboard-reachable close and enough time to act; WCAG requires a way to extend or dismiss timed content.
 - Never communicate state with color alone: pair with icon and text.
 - Announce result counts and step transitions; a screen reader user gets no benefit from a spinner.

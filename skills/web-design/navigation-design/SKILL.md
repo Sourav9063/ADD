@@ -57,13 +57,14 @@ cannot see. Breadcrumbs in a flat structure are clutter, not orientation.
 
 ## Search
 
-Once content exceeds what a menu can list, search becomes navigation: put it in the header
-at every breakpoint, show recent and suggested entries on focus, group results by type,
-and support arrow + Enter without touching the mouse.
+Once content exceeds what a menu can list, search becomes navigation. Put it in the header
+at every breakpoint, never behind the hamburger, and keep it reachable by keyboard from
+anywhere. `search-design` owns the input, suggestions, ranking, results, and zero-result
+recovery; this skill only decides that the entry point exists and where it sits.
 
-- Use a GET form and keep the term in a readable query parameter (`?q=invoice`) so search is linkable, refresh-safe, and progressively enhanced. Never put secrets or sensitive personal data in a URL.
-- Debounce remote requests, cancel or ignore stale responses, retain the previous results while loading, and distinguish no query, no matches, loading, and failure.
-- Treat the URL as the initial source of truth. Replace intermediate typing updates so Back does not replay every keystroke; push a committed search that users should be able to revisit.
+Use a GET form and keep the term in a readable query parameter (`?q=invoice`) so search is
+linkable, refresh-safe, and progressively enhanced, under the URL-state rules below. Never
+put secrets or sensitive personal data in a URL.
 
 ## Pagination
 

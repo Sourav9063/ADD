@@ -57,7 +57,7 @@ not change on selection: reserve the space for the check so the row does not ref
 
 ## Range, date, and search facets
 
-- Ranges: two labeled inputs plus the slider; touch cannot hit a 4px handle, so the numeric inputs are the accessible path, and handles need ≥44px hit areas. Show the distribution histogram when you have it.
+- Ranges: two labeled inputs plus the slider, built per `form-design`. Show the distribution histogram above the track when you have it, so users can see where the results actually are.
 - Dates: presets first (`Last 7 days`, `This month`), custom range second.
 - Facet lists longer than ~8: show the top options, add an inline search, then "Show all (23)".
 

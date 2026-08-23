@@ -174,18 +174,21 @@ Design rules, motion timings, and accessibility requirements for each UI surface
 
 | Skill | Covers |
 | --- | --- |
-| [`design-foundations`](skills/web-design/design-foundations/) | Tokens, spacing, hierarchy, motion scale, contrast, and focus; the shared baseline |
+| [`design-foundations`](skills/web-design/design-foundations/) | Tokens, spacing, hierarchy, icons, gradients, motion scale, contrast, and focus; the shared baseline |
 | [`form-design`](skills/web-design/form-design/) | Field anatomy, six field states, validation timing, autosave, submit |
 | [`tab-design`](skills/web-design/tab-design/) | Indicator motion, overflow, panel transitions, full APG keyboard support |
 | [`filter-design`](skills/web-design/filter-design/) | Chips, facets, live counts, applied-filter summaries, filtered-empty states |
 | [`data-table-design`](skills/web-design/data-table-design/) | Alignment, tri-state sort, selection, sticky headers, density, pagination |
-| [`navigation-design`](skills/web-design/navigation-design/) | Sidebars, bottom bars, breadcrumbs, IA depth, search, pagination |
+| [`navigation-design`](skills/web-design/navigation-design/) | Sidebars, bottom bars, breadcrumbs, IA depth, search entry points, pagination |
+| [`search-design`](skills/web-design/search-design/) | Search input, scopes, suggestions, ranking, result snippets, zero results |
 | [`button-and-action-design`](skills/web-design/button-and-action-design/) | Hierarchy, labels, busy vs disabled, destructive and bulk actions |
 | [`card-and-list-design`](skills/web-design/card-and-list-design/) | Card anatomy, hover, click targets, grids, feeds, reordering |
 | [`overlay-design`](skills/web-design/overlay-design/) | Modal vs sheet vs drawer vs popover, focus trapping, z-index scale |
+| [`collaboration-design`](skills/web-design/collaboration-design/) | Presence, live cursors, selection ownership, follow mode, conflict handling |
 | [`feedback-design`](skills/web-design/feedback-design/) | Loading, empty, error, toast, optimistic updates, undo |
 | [`motion-design`](skills/web-design/motion-design/) | Easing, page and shared-element transitions, scroll-driven motion |
 | [`chart-design`](skills/web-design/chart-design/) | Chart choice, axis honesty, series color, tooltips, dashboards |
+| [`landing-page-design`](skills/web-design/landing-page-design/) | Marketing page skeleton, hero, social proof, pricing, conversion CTAs |
 | [`microcopy`](skills/web-design/microcopy/) | Buttons, labels, errors, empty states, tone, translatable strings |
 | [`accessibility-audit`](skills/web-design/accessibility-audit/) | Verification pass on shipped UI against WCAG 2.2 AA |
 | [`frontend-performance`](skills/web-design/frontend-performance/) | Core Web Vitals, bundle size, images, hydration, re-renders, CI budgets |
