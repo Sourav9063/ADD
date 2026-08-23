@@ -16,7 +16,7 @@ must expose who is present, what they control, and what happens when updates con
 
 ## Cursors and selections
 
-- Send pointer samples at a bounded rate and interpolate between them at render speed; do not transmit or render every raw pointer event.
+- Send pointer samples at a bounded rate — roughly 10 positions per second is enough — and interpolate between those ticks so cursors render smoothly at display refresh rate. Rendering raw ticks makes every cursor stutter; transmitting every pointer event floods the channel for no visible gain.
 - Label live cursors, fade idle ones, and cull off-screen updates. Reduced motion removes cursor trails and smooth following, not ownership information.
 - Outline a selected object in its editor's color and name. Use an explicit lock for exclusive edits; explain who owns it and when it can be retried rather than silently dropping input.
 

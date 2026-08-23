@@ -61,7 +61,9 @@ buttons in an `<a>`.
 
 ## Reordering and drag and drop
 
-- The board must reflect the drag: the dragged item lifts with a shadow and slight tilt, the source leaves a placeholder gap, and neighbors animate aside to show exactly where the drop lands.
+- The board must reflect the drag: on pickup the item scales up, deepens its shadow, and tilts slightly — all three together, or it reads as a sticky click rather than a lift. The source leaves a placeholder gap, and neighbors animate aside to show exactly where the drop lands.
+- Show the landing position **before release**, not after: an insertion line between items, a filled highlight for dropping into a container. On a structured surface snap to the nearest valid slot and outline the valid targets during the drag; reserve free positioning for canvases.
+- Pair every drop with a brief undo, the same way a delete gets one. A drag that lands in the wrong column is as costly as a mis-click and just as easy to make.
 - Grab targets need a visible handle; the whole card being draggable makes text unselectable and scrolling unreliable on touch.
 - Auto-scroll near container edges; animate the drop into place rather than snapping.
 - **Always provide a non-drag path**: "Move up/down" in the overflow menu, or keyboard reordering with Space to pick up, arrows to move, Space to drop, Escape to cancel. Announce each move in a live region.

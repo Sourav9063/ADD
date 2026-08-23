@@ -22,7 +22,7 @@ raise them:
 2. **Social proof strip** — logos, user count, or rating, immediately after the claim.
 3. **Problem** — name the pain in the reader's words so they know they are on the right page.
 4. **Solution / how it works** — three steps or three pillars, each with a visual.
-5. **Features as outcomes** — what it does, framed as what they get.
+5. **Features as outcomes** — what it does, framed as what they get. Cap the headline benefits at three and make each one concrete ("save 10 hours a week", not "advanced automation"); a grid of nine features is a spec sheet, and nobody reads it.
 6. **Proof** — testimonials with names, faces, roles, and specific results; case numbers.
 7. **Pricing** — visible, with the recommended plan isolated.
 8. **Objection handling / FAQ** — the real questions from sales and support.
@@ -38,6 +38,7 @@ missing a feature grid.
 - **One primary CTA**, repeated verbatim at the bottom of the page. A secondary CTA may sit beside it as a ghost button ("See how it works"), never as an equal.
 - Set expectations under the button: "Free for 14 days. No card." Removes the biggest hesitation at the moment of the click.
 - A product visual beats an abstract illustration: a real screenshot, a short muted loop, or an interactive demo. Stock photography of people at laptops signals nothing.
+- **No hero carousel.** A slider guarantees most visitors never see slides two through five and costs you the one message you control. Pick the strongest claim and commit to it.
 - Above the fold means the value proposition and the CTA are visible without scrolling at 1280×720 **and** on a 375px phone. Test both, not one.
 
 ## Proof

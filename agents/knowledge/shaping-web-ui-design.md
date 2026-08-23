@@ -13,6 +13,36 @@ against. Its categories - interaction, forms, motion, visual, feedback, navigati
 skill or add one. It is a catalog, not an authority: it states rules without citations, so
 confirm anything load-bearing against the tiers below.
 
+**Re-checking the catalog: skip every pattern listed under "Covered patterns" below and
+review only names that are not on that list.** Each covered page was read in full, not
+skimmed from its tagline, and its concrete rules were merged into the owning skill. Read
+the individual page before concluding a pattern is covered - the taglines and category
+names hide the numbers, thresholds, and sub-rules that are the reason to consult it.
+
+Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on the obvious
+slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
+`/patterns/von-restorff`.
+
+## Covered patterns
+
+All 73 patterns published as of 2026-08-23, by owning skill. Nothing here needs re-reading
+unless the page itself changes.
+
+- **design-foundations** (19): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Dark Mode · Color Accessibility · Visual Hierarchy · Proximity Rule · Gestalt Laws · Von Restorff Effect · Serial Position · Grid System · Golden Ratio · Icon Design Rules · Gradient Design · Focus States · Animation Timing · Hover Trap
+- **form-design** (16): Form Field States · Form Validation Timing · Settings System · Autosave · Stepper Wizard · Inline Editing · Input Masking · Date Pickers · File Upload UX · Password Field UX · OTP Input · Toggle Anatomy · Range Sliders · Star Rating · Color Picker UX · Zeigarnik Effect
+- **feedback-design** (10): Loading States System · Skeleton Loading · Error States · Empty States · Toast Notifications · Notification System · Optimistic UI · Undo UX · Doherty Threshold · Peak-End Rule
+- **overlay-design** (7): Modal Hierarchy · Bottom Sheets · Dropdown Design · Context Menu · Tooltip Design · Command Palette · Z-Index Mastery
+- **button-and-action-design** (5): Disabled Buttons · Destructive Actions · Bulk Actions · Behind the Button · Swipe Actions
+- **card-and-list-design** (3): Perfect Card · Card Hover Anatomy · Drag and Drop
+- **motion-design** (3): Easing Curves · Scroll-Driven Animations · Accordion Disclosure
+- **navigation-design** (2): Navigation Patterns · Pagination
+- **One pattern each**: Search Experience System (`search-design`) · Landing Page Skeleton (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Filter Chips (`filter-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
+
+Two of their rules were reviewed and **deliberately not adopted**: the Error States page's
+"don't validate on submit" (submit must validate everything, focus the first invalid field,
+and announce the count) and the Visual Hierarchy page's prescribed 800/400/300 font weights
+(one product's taste, not a rule). Do not re-add either on a later pass.
+
 ## Authority order
 
 Resolve conflicts in this order. A practitioner post never overrides a spec.

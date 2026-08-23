@@ -37,6 +37,7 @@ Show a panel on focus, before typing:
 - After typing, mix **query completions** ("invoice template") with **direct results** ("Invoice #4417"), visually distinguished; a direct hit skips the results page entirely.
 - Bold the *completion*, not the typed part, so the eye reads what is new.
 - Group by type with a header and an icon; one line per row, no wrapping.
+- **Rank by clicks and popularity, never alphabetically.** Alphabetical order is the tell of an unranked index. Three well-chosen suggestions beat ten noisy ones, so cut the list rather than padding it.
 - Arrow keys move, Enter opens, Escape closes the panel and keeps the query, Tab completes inline if you offer inline completion at all.
 - Never reorder the list while the user is arrowing through it, and never let a late response replace a highlighted row.
 - Suggestions must be optional: the panel never blocks submitting the raw query.

@@ -59,8 +59,14 @@ a dropdown takes 200ms, but never past ~400ms for anything the user is waiting o
 **Accordion / disclosure.** The height-auto problem: animate `grid-template-rows: 0fr → 1fr`
 on a wrapper (or `interpolate-size: allow-keywords` where supported), 250ms ease-out, with
 the content fading slightly behind the height so text does not squash. Rotate the chevron
-on the same timeline. Never animate `max-height` to a guessed value; it makes short panels
-snap and long panels stall.
+on the **same timeline** — a chevron even a few frames out of step with the panel reads as
+broken. Never animate `max-height` to a guessed value; it makes short panels snap and long
+panels stall.
+
+Single-open (one closes as another opens) suits sequential or exclusive content; multi-open
+suits FAQs and reference lists where people compare answers. When an item near the bottom
+of the viewport expands, keep its header pinned in place rather than letting the page jump
+out from under the tap. The header is a `<button>` with `aria-expanded` and `aria-controls`.
 
 **Page and route transitions.** Use the View Transitions API where available. Keep them
 under 300ms, do not block interaction during them, and skip them on Back/Forward where

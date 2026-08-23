@@ -55,7 +55,9 @@ Instead:
 - Name the consequence and the count: "Delete 12 files?" Never use "Are you sure?".
 - Reserve destructive button styling for destructive actions; do not spend the same red treatment on routine actions such as Sign out.
 - For catastrophic actions, require typed confirmation of the resource name, keep the danger button as the non-default focus target, and delay permanent deletion behind a cancelable grace period when possible.
-- Put destructive controls in a separated, labelled danger zone. A hold-to-confirm gesture may add friction, but it needs visible progress, release-to-cancel, and an accessible non-hold path.
+- **Never put the destructive button where the confirm button normally sits.** Muscle memory clicks the position, not the label, and the one dialog where those differ is the one that deletes the account.
+- Put destructive controls in a separated, labelled danger zone. A hold-to-confirm gesture may add friction, but it needs a visible fill over ~300ms, release-to-cancel, and an accessible non-hold path.
+- Keep red for destructive actions only. Spent on sign-out, badges, and routine alerts, it stops meaning danger by the time it matters.
 
 ## Action lifecycle
 

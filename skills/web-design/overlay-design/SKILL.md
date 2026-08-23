@@ -21,8 +21,24 @@ Start with one question: **does this need to block the user?** Almost always, no
 
 Rules of thumb: a modal for a routine action is a punishment. Navigation never goes inside
 a blocking overlay. **Never stack a modal on a modal**: replace the content or use a
-drawer. Tooltips carry hints, never information the user needs to complete the task, and
-never interactive content.
+drawer.
+
+## Dropdowns and menus
+
+- The trigger needs a visible caret, a real hover state, and a focus ring — a low-contrast box with no affordance is not a control. Give it a full-size touch target; a 30px trigger fails on a phone.
+- Measure and **flip above the trigger** when there is no room below, and constrain the menu to the viewport instead of letting it clip.
+- Open in ~150ms. Instant reads as a repaint rather than a response; past ~300ms it drags.
+- Arrow keys move the highlight, Enter selects, Escape closes, and typing jumps to a match. This is not optional.
+- Past ~10 options add a search field; scrolling a long list is not filtering it.
+
+## Tooltips
+
+Hints only, never information required to complete the task, and never interactive content.
+
+- **Delay ~300ms before showing on hover** so a cursor crossing the control does not fire it; show instantly on focus.
+- Cap the width around 300px and hold it to one sentence. Documentation belongs in the interface, not in a tooltip.
+- Point at the trigger with an arrow, and flip near the viewport edge.
+- Dismiss on mouse leave, blur, Escape, and outside tap. A tooltip that survives Escape is a trap for keyboard users.
 
 ## Anatomy
 
@@ -54,14 +70,18 @@ so the connection is obvious. Under `prefers-reduced-motion`, fade only.
 
 ## Stacking
 
-Use a token scale: `dropdown 1000 / sticky 1100 / drawer 1200 / modal 1300 / popover 1400 / toast 1500`. Never write an ad-hoc `z-index: 9999`. Remember `z-index` only applies to positioned elements, and a parent's `transform`, `filter`, or `opacity` creates a stacking context that traps children no matter how high their value. When that bites, portal the overlay to the body instead of escalating numbers.
+Use a token scale: `dropdown 1000 / sticky 1100 / drawer 1200 / modal 1300 / popover 1400 / toast 1500`. Never write an ad-hoc `z-index: 9999`; an escalating number is a symptom of a stacking context upstream, not a fix. Remember `z-index` only applies to positioned elements (`static` ignores it entirely), and a parent's `transform`, `filter`, or `opacity` creates a stacking context that traps children no matter how high their value. Diagnose in the DevTools layers view rather than by incrementing. Use `isolation: isolate` to deliberately contain a subtree's layering, and portal the overlay to the body when it genuinely must escape.
 
 ## Command palette
 
-⌘K is a system, not a search box: fuzzy matching, grouped and ranked results, recent
-commands when empty, inline keyboard shortcut hints, arrow + Enter navigation, Escape to
-close, and one action per row. Debounce remote search and keep the previous results while
-fetching.
+⌘K is a system, not a search box: fuzzy subsequence matching (`stg` finds Settings,
+Storage, and Staging), grouped and ranked results, recent commands when empty, inline
+keyboard shortcut hints, arrow + Enter navigation, and one action per row. Debounce remote
+search and keep the previous results while fetching.
+
+Commands that drill into sub-menus keep a breadcrumb, and **Escape walks back one level**
+before it closes the palette. An async command runs with a spinner inline in the palette,
+which stays open — never freeze the screen behind it.
 
 ## Context menus
 

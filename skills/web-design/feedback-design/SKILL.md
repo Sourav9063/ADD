@@ -21,15 +21,18 @@ Assumes `design-foundations` for tokens and motion. Every action needs an answer
 
 Never spinner a full page; a lone spinner on a blank screen reads as frozen. Skeletons
 are not a default; a skeleton that does not match the final layout causes a visible jolt
-when content lands. Keep the primary structure (nav, header, filters) rendered and load
+when content lands. Give a skeleton a slow shimmer — a static one reads as broken layout
+rather than as loading — and never mix skeletons and spinners in the same view, which
+reads as two different things going wrong. Keep the primary structure (nav, header, filters) rendered and load
 only the region that changes. Perceived speed matters more than measured speed: past
 ~400ms of silence attention leaves, so respond immediately even if the work continues.
 
 ## Optimistic UI and undo
 
 - Apply reversible actions (like, star, reorder, mark read) instantly and reconcile in the background. On failure, revert visibly and say why; a silent revert is worse than a slow save.
-- Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted. Undo" for 5–10 seconds, and pause the timer on hover or focus. Save the confirmation dialog for the genuinely irreversible.
+- Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted. Undo" for 5–10 seconds with a visible countdown ring or bar so the window is legible, and pause the timer on hover or focus. Save the confirmation dialog for the genuinely irreversible.
 - Undo must be reachable by keyboard before the toast disappears; keep a permanent path (trash, history) as well.
+- **Back undo with a soft delete**: flag the record and keep it recoverable for a stated retention window, then hard-delete on expiry. An immediate hard delete makes the Undo button a lie the first time the request loses the race. Where the product has a real undo stack, wire ⌘Z to it rather than relying on the toast alone.
 
 ## Empty states
 
@@ -66,9 +69,14 @@ Pick the wrong surface and people tune all of them out.
 ## Toasts
 
 Five rules: one at a time (queue the rest, cap at ~3 stacked); never cover the primary
-action or the element being acted on; 4–7s for informational, and **errors do not
-auto-dismiss**; at most one action per toast, and never bury a critical action there;
-enter with a slide + fade, exit faster, and pause the timer on hover or focus.
+action or the element being acted on; ~4s for informational, ~7s for warnings, and
+**errors do not auto-dismiss**; at most one action per toast, and never bury a critical
+action there; enter with a slide + fade, exit faster, and pause the timer on hover or focus.
+
+Anchor them out of the way and keep the anchor consistent: a bottom corner on desktop, the
+top edge on mobile where the bottom is thumb territory. Never center-screen — that is a
+modal's position and it reads as one. Pair the type color with an icon and a left accent
+border, close button on desktop, swipe-to-dismiss on touch.
 
 ## Success
 
