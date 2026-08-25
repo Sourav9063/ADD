@@ -40,7 +40,7 @@ Four different situations, four different treatments; never one shared "No data"
 
 - **First run**: icon or illustration, one line of what this screen will hold, one primary CTA to create the first item, and a ghost preview of what a filled state looks like. This is the best onboarding surface in the product.
 - **No results (search)**: echo the query, suggest corrections or broader terms.
-- **Filtered out**: name the active filters and offer Clear all (see `filter-design`).
+- **Filtered out**: name the active filters and offer Clear all (see `search-and-filter-design`).
 - **Error**: what failed, whether it is being retried, and a Retry button.
 
 A bare blank screen is indistinguishable from a crash. Write like a product, not a log
@@ -101,13 +101,3 @@ and return to, and notify on completion. Never block the whole UI on one export.
 - Toasts need a keyboard-reachable close and enough time to act; WCAG requires a way to extend or dismiss timed content.
 - Never communicate state with color alone: pair with icon and text.
 - Announce result counts and step transitions; a screen reader user gets no benefit from a spinner.
-
-## Checklist
-
-- [ ] Sub-300ms actions show nothing; no full-page spinners.
-- [ ] Skeletons match the final layout; the shell stays rendered.
-- [ ] Reversible actions optimistic with visible revert and an Undo window.
-- [ ] All four empty states distinguished, each with one real CTA.
-- [ ] Errors say cause + fix, sit at the right level, and offer Retry.
-- [ ] Toasts queue, do not cover the primary action, and errors persist.
-- [ ] Live regions correct; state never color-only.

@@ -36,7 +36,7 @@ unless the page itself changes.
 - **card-and-list-design** (3): Perfect Card · Card Hover Anatomy · Drag and Drop
 - **motion-design** (3): Easing Curves · Scroll-Driven Animations · Accordion Disclosure
 - **navigation-design** (2): Navigation Patterns · Pagination
-- **One pattern each**: Search Experience System (`search-design`) · Landing Page Skeleton (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Filter Chips (`filter-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
+- **One pattern each**: Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
 
 Two of their rules were reviewed and **deliberately not adopted**: the Error States page's
 "don't validate on submit" (submit must validate everything, focus the first invalid field,
@@ -108,4 +108,6 @@ the repository itself has changed**; what was worth taking is already in the ski
 - `design-foundations` is the shared baseline; section skills assume it and never restate tokens, motion scale, or the accessibility baseline.
 - Five skills are cross-cutting rather than per-surface: `visual-direction` (which runs before the others on new work), `typography-design`, `color-systems`, `responsive-design`, and `internationalization-design`. `design-foundations` owns the token scales; these own what happens to text, color, space, and language downstream of them. Keep the seam there rather than duplicating scale definitions.
 - `accessibility-audit` verifies shipped UI; every other skill covers design time. Keep verification steps out of the section skills.
-- One authoritative location per rule, cross-linked by skill name - for example range sliders live in `form-design` and `filter-design` points at them.
+- One authoritative location per rule, cross-linked by skill name - for example range sliders live in `form-design` and `search-and-filter-design` points at them.
+- **No trailing checklists.** Removed from the group on 2026-08-25, 221 lines that restated body rules. This group was the only one in the repository that ever had them; the rule now lives in `writing-agent-guidance`. Do not reintroduce them here.
+- **Merge before adding**, per `writing-agent-guidance`. Applied twice on 2026-08-25: `search-design` and `filter-design` became `search-and-filter-design` because they served one intent and shared zero-results, URL-state, and loading rules. `tab-design` stayed separate from `navigation-design` on the opposite reasoning, since merging would force tab work to load sidebar and pagination content it never needs; only the duplicated mobile bottom-bar rules were removed from it.

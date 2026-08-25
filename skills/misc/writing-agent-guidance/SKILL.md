@@ -32,9 +32,10 @@ Keep one authoritative source for each durable rule. Point to it elsewhere with 
 ### Write for Reliable Behavior
 
 - Write skill descriptions as one concise capability statement plus distinct trigger branches. Put every invocation condition in the description, not the body.
-- Split a skill when independent user intents need different triggers or are commonly requested separately.
+- Split a skill when independent user intents need different triggers or are commonly requested separately. Merge two that serve one intent, cross-reference constantly, and restate each other's rules. Prefer extending or merging over adding; a new skill earns its place only when a rule has no owner and an agent would otherwise invent it.
 - Use imperative, positive, outcome-linked instructions. Use prohibitions only for costly failure modes and pair them with the target behavior.
 - Give ordered steps explicit completion criteria. Keep reference material beside the concept it qualifies or behind a direct conditional pointer.
+- Do not close a skill with a checklist that restates its body. State a verification action once, in the prose that owns it. A checklist earns its place only as a progress tracker for a long sequential workflow, or as a validation loop with an explicit gate; a trailing summary is duplication that drifts from the rules it copies.
 - Prefer established technical terms over invented vocabulary. Repeat a compact term when it anchors behavior; do not repeat its full meaning.
 - Keep guidance vendor-neutral unless the task targets one harness.
 - Match instruction specificity to task fragility: low freedom (exact steps, no deviation) for fragile, destructive, or fixed-sequence operations; high freedom (heuristics) for open-ended judgment calls; medium freedom (templates, parameterized scripts) when a preferred pattern tolerates variation.

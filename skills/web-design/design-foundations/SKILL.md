@@ -1,6 +1,6 @@
 ---
 name: design-foundations
-description: Apply shared visual, motion, and accessibility baselines when building or reviewing any UI surface. Use when picking spacing, radii, shadows, colors, animation durations, or focus styles, when a UI "looks cheap" or "feels janky", or alongside form-design, tab-design, filter-design, data-table-design, overlay-design, and feedback-design.
+description: Apply shared visual, motion, and accessibility baselines when building or reviewing any UI surface. Use when picking spacing, radii, shadows, colors, animation durations, or focus styles, when a UI "looks cheap" or "feels janky", or alongside form-design, tab-design, search-and-filter-design, data-table-design, overlay-design, and feedback-design.
 ---
 
 # Design Foundations
@@ -115,12 +115,6 @@ hierarchy from opacity tiers of one foreground color (high / medium / disabled) 
 introducing new grays, and desaturate accents roughly 20% so they do not vibrate.
 Re-check contrast in both themes; passing in one proves nothing about the other.
 
-## Review checklist
-
-- [ ] Every value in the diff traces to a token.
-- [ ] Nested radii concentric; borders only where they carry structure, not depth.
-- [ ] Controls read as controls; nothing static is shaped like a button.
-- [ ] Text and non-text contrast pass in both themes.
-- [ ] Tab through the whole surface: visible ring, sane order, no traps, nothing hover-only.
-- [ ] `prefers-reduced-motion` handled; exits faster than entrances.
-- [ ] One primary action; the layout still reads at 320px and at 200% zoom.
+Before handing off any surface, tab through it end to end and confirm every value in the
+diff traces to a token. The keyboard pass is what catches invisible focus, jumped order,
+traps, and hover-only controls, and it takes under a minute.

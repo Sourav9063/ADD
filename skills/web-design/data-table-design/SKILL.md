@@ -5,7 +5,7 @@ description: Build or review data tables and list views. Use when creating a tab
 
 # Data Table Design
 
-Assumes `design-foundations` for tokens and `filter-design` for the controls above the
+Assumes `design-foundations` for tokens and `search-and-filter-design` for the controls above the
 table. A table is a system: headers, body, selection, sorting, density, and pagination
 must agree with each other.
 
@@ -79,13 +79,3 @@ affordance.
 - Each row checkbox has a label naming the row ("Select Ada Lovelace"), not "Select row".
 - Announce result-count changes in a polite live region.
 - Scrollable table containers need `tabindex="0"` and an accessible name so keyboard users can scroll them.
-
-## Checklist
-
-- [ ] Numbers right-aligned with tabular figures; one date format.
-- [ ] Tri-state sort restoring the original order; sorting spans the full dataset.
-- [ ] Sticky header and frozen first column with shadows.
-- [ ] Full-row selection, indeterminate select-all, persistent count, bulk bar with Undo.
-- [ ] No hover-only actions; inline edit does not resize the grid.
-- [ ] Skeletons in column shape; distinct empty vs. filtered-empty states.
-- [ ] Mobile layout is a rethink, not a squeeze.

@@ -102,14 +102,3 @@ can name: the typeface runs small, the measure is narrow, or the product is a de
 professional tool. UI text can go smaller: 14px for inputs and menus, 13px for captions,
 rarely below 12px. Verify at 200% zoom and with an enlarged browser font size, because type
 has to survive the reader changing it.
-
-## Checklist
-
-- [ ] Every size lands on the scale, paired with its role's line height and weight.
-- [ ] Headings descend by level; no heading element chosen for its default size.
-- [ ] Real faces loaded for every weight and style used; no synthesized bold or italic.
-- [ ] Measure capped at 60 to 75 characters; anything wrapping to 3+ lines is at 1.4 or looser.
-- [ ] `balance` on headings, `pretty` on descriptions, `break-word` where strings can overflow.
-- [ ] Tabular numbers on every changing value.
-- [ ] Truncated text stays reachable in full.
-- [ ] Inputs render at 16px on mobile; layout holds at 200% zoom.

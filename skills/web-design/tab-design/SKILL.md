@@ -47,8 +47,9 @@ Do not shrink the desktop bar. Switch components by count and device:
 
 - ≤4 tabs on mobile → full-width segmented control.
 - 5+ on mobile → scrollable pill row, or a bottom sheet picker when labels are long.
-- Primary app navigation on mobile is a bottom bar (max 5, icon + label); on desktop it is a sidebar.
 - Support swipe between panels on touch **only** if panels are not horizontally scrollable themselves.
+
+Tabs are in-page view switching. Primary app navigation is `navigation-design`'s.
 
 ## State and data
 
@@ -74,11 +75,3 @@ Do not shrink the desktop bar. Switch components by count and device:
 - Automatic activation (select on arrow) is fine when panels are cheap; use manual activation with Enter/Space when a panel triggers a fetch.
 - Panel gets `tabindex="0"` only when it holds no focusable child.
 - Closable tabs handle Delete and move focus to the neighbor.
-
-## Checklist
-
-- [ ] Indicator slides, timed with the panel crossfade; panel height does not jump.
-- [ ] Row scrolls instead of wrapping; active tab auto-scrolled into view.
-- [ ] Focus ring visually distinct from the active state.
-- [ ] Arrow/Home/End keys work with roving tabindex; ARIA wired both ways.
-- [ ] Active tab in the URL; panel scroll and form state survive switching.

@@ -59,7 +59,7 @@ cannot see. Breadcrumbs in a flat structure are clutter, not orientation.
 
 Once content exceeds what a menu can list, search becomes navigation. Put it in the header
 at every breakpoint, never behind the hamburger, and keep it reachable by keyboard from
-anywhere. `search-design` owns the input, suggestions, ranking, results, and zero-result
+anywhere. `search-and-filter-design` owns the input, suggestions, ranking, results, and zero-result
 recovery; this skill only decides that the entry point exists and where it sits.
 
 Use a GET form and keep the term in a readable query parameter (`?q=invoice`) so search is
@@ -90,13 +90,3 @@ returning to.
 - Expandable groups are `<button aria-expanded>` controlling the list; arrow keys are optional, Enter/Space are not.
 - Breadcrumbs: ordered list, last item is the current page and not a link, with `aria-current="page"`.
 - Announce route changes: move focus to the new page's `<h1>` so screen reader users learn the view changed.
-
-## Checklist
-
-- [ ] Primary destinations visible at every breakpoint; hamburger holds secondary only.
-- [ ] Bottom bar on mobile, sidebar on desktop, chosen by depth not by reuse.
-- [ ] Active state distinct from hover, plus `aria-current`; parent highlights for child routes.
-- [ ] Real anchors; scroll, expansion, and collapse states persist.
-- [ ] Breadcrumbs only past two levels; command palette supplements, never replaces.
-- [ ] Search and result state use stable query parameters; Back, refresh, and shared links reproduce the view.
-- [ ] Pagination uses real links, retains the query, resets when criteria change, and restores scroll on return.

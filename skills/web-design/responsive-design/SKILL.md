@@ -95,7 +95,7 @@ row does not.
 Detect what the input can do, never what the user agent claims to be.
 
 - `@media (hover: hover)` gates hover-only affordances. Anything reachable only by hover is unreachable on touch.
-- `@media (pointer: coarse)` enlarges targets: 44x44px minimum on touch, 24x24px on fine pointers, with 8px of clearance between adjacent targets.
+- `@media (pointer: coarse)` enlarges targets to the minimums in `design-foundations`.
 - Borderless controls need more clearance than bordered ones, because nothing else marks where one target ends and the next begins. Roughly 12px between adjacent bordered controls, 24px around text and icon-only ones, unless the project has an established density that already works.
 
 ## Plan for growth
@@ -114,15 +114,3 @@ breakage lives between the presets. Finish with 200% zoom and a 320px viewport w
 horizontal scrolling, which is the WCAG reflow requirement rather than a nice-to-have.
 Real devices for anything involving gestures, keyboards, or safe areas; a resized desktop
 browser does not have a notch.
-
-## Checklist
-
-- [ ] Breakpoints justified by where the content stops fitting, not by device presets.
-- [ ] Components adapt with container queries; media queries reserved for page structure.
-- [ ] The adaptation at each break is a named move, not a set of one-off overrides.
-- [ ] Fixed and sticky elements pad for `env(safe-area-inset-*)`.
-- [ ] Off-screen and collapsed content has a visible affordance.
-- [ ] No critical action sits where a resize, scroll, or keyboard can clip it.
-- [ ] Hover gated behind `hover: hover`; targets enlarged for coarse pointers.
-- [ ] No fixed sizes on text containers; buttons sized by their label.
-- [ ] Holds at 320px and at 200% zoom with no horizontal scrolling.

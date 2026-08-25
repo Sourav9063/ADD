@@ -93,14 +93,3 @@ Read it aloud. Then check: Would a new user know what happens next? Does it say 
 thing as the button they came from? Is there a shorter version that keeps the meaning? Does
 it work if the user is angry, or if the number is 0 or 1,000,000? Is anything only in
 English-idiom form?
-
-## Checklist
-
-- [ ] Buttons name the outcome; no OK/Submit/Yes-No pairs.
-- [ ] Visible labels; placeholders only as format examples.
-- [ ] Errors give cause + fix, never blame, never expose internals.
-- [ ] Empty states carry one clear next step, tone matched to the situation.
-- [ ] One term per concept across the entire product.
-- [ ] Plurals, zero states, and long numbers handled.
-- [ ] No placeholder copy, placeholder names, round fake numbers, or filler vocabulary.
-- [ ] Inclusive language; full-sentence strings; no untranslatable idiom.

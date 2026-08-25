@@ -73,13 +73,3 @@ One row per issue: **what** (with selector or screenshot), **WCAG criterion**, *
 (blocker = cannot complete the task, major, minor), **who it affects**, and **the concrete
 fix**. Group by fix, not by page; one bad shared component usually explains dozens of
 violations. Verify fixes by rerunning the specific pass that found them, not just axe.
-
-## Checklist
-
-- [ ] axe/Lighthouse clean, with every remaining exception justified in writing.
-- [ ] Full keyboard traverse: visible focus, logical order, no traps, no hover-only.
-- [ ] Headings, landmarks, names, and form associations correct.
-- [ ] Contrast passes in both themes; no color-only information.
-- [ ] 200% zoom and 320px reflow intact; reduced motion honored.
-- [ ] Critical flows completed with a screen reader in two browser/AT pairs.
-- [ ] Findings mapped to WCAG criteria with owners and fixes.
