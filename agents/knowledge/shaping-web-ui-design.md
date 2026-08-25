@@ -3,7 +3,7 @@
 Where the rules in [`skills/web-design/`](../../skills/web-design/) come from. Read before
 adding a skill to that group, amending a rule, or defending a claim someone disputes.
 
-Reviewed: 2026-08-23.
+Reviewed: 2026-08-25.
 
 ## Pattern catalog
 
@@ -71,6 +71,31 @@ Resolve conflicts in this order. A practitioner post never overrides a spec.
 | Measured behavioral claims | NN/g <https://www.nngroup.com>, Baymard <https://baymard.com> |
 | Cross-system component comparison | Material 3, Apple HIG, Polaris, Atlassian, Carbon, Primer, USWDS |
 
+## Public skill collections
+
+Seven were read in full on 2026-08-25. They are practitioner craft (tier 3): useful for
+failure modes and defaults, never authoritative over a spec. **Do not re-read these unless
+the repository itself has changed**; what was worth taking is already in the skills.
+
+| Collection | Taken |
+| --- | --- |
+| [emilkowalski/skills](https://github.com/emilkowalski/skills) | The strongest source of the seven. Frequency gate for whether to animate, `scale(0)` and origin-aware popover rules, transitions-vs-keyframes interruptibility, `@starting-style`, gesture physics (velocity dismissal, boundary damping, pointer capture, multi-touch), blur to mask crossfades, slow-motion debugging. All into `motion-design`. |
+| [jakubkrehel/skills](https://github.com/jakubkrehel/skills) | The other strong one. Most of `typography-design` and `color-systems` traces here, plus `responsive-design`'s adaptivity rules and `design-foundations`' surfaces section (shadow-as-border, optical alignment, image outlines). |
+| [codeswithroh/tastemaker](https://github.com/codeswithroh/tastemaker) | The framing for `visual-direction`: ground in real pixels, lock the system and reuse it, vary structure not just palette, show rather than tell, variants differ on a named axis. |
+| [ConardLi/garden-skills](https://github.com/ConardLi/garden-skills) | Declare the design system before writing code, confirm a rough pass early, the five-dimension critique in `visual-direction`. |
+| [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills) | Content realism rules into `microcopy`; landing-page intake, page-type table, message-source matching, and ship requirements into `landing-page-design`. |
+| [Owl-Listener/designer-skills](https://github.com/Owl-Listener/designer-skills) | Broad but thin. Only the localization specifics were usable: expansion figures by language, the what-does-not-mirror list, non-Latin script rules. Into `internationalization-design`. |
+| [MengTo/Skills](https://github.com/MengTo/Skills) | Least usable. Sixty style recipes and effect implementations, self-described as drafts. Only the general rules from its Awwwards skill survived, and they duplicated things already covered. |
+
+**Deliberately not adopted**, so a later pass does not re-import them:
+
+- **Named-brand prescriptions.** Mandated typefaces and banned ones, fixed hex lists, required icon libraries, one collection's mandatory "tagline reveal" section. One product's taste stated as a rule, and the same reason the 800/400/300 weight prescription above was declined.
+- **Tooling and scripts.** Palette generators, contrast matrices, anti-slop scanners, asset fetchers. Same constraint as `external-guidance-synthesis.md`: no new dependencies, no validation frameworks.
+- **Persistent memory files** for taste (`.tastemaker/style-lock.md`, cross-project profiles). The idea that a locked system is reused rather than re-derived is in `visual-direction`; the file format and precedence machinery is not.
+- **Fixed animation library choices.** GSAP, Lenis, and Locomotive as defaults. `motion-design` states the constraints a library has to satisfy and leaves the choice to the project.
+- **Per-skill reporting boilerplate.** Several collections end every skill with an identical severity, verification, and table format block. `accessibility-audit` and `reviewing-changes` own reporting here; repeating it in every section skill is context cost for one behavior.
+- **Native mobile platform conventions.** iOS HIG against Material differences are real, but this group is web UI. Out of scope, not wrong.
+
 ## Cautions
 
 - **Numbers need a traceable origin.** Engagement, conversion, and abandonment figures circulate through this genre with the citation stripped. Trace to NN/g, Baymard, or GOV.UK before writing one into a skill; drop the number and keep the direction when the origin cannot be found.
@@ -81,5 +106,6 @@ Resolve conflicts in this order. A practitioner post never overrides a spec.
 ## Skill-group conventions
 
 - `design-foundations` is the shared baseline; section skills assume it and never restate tokens, motion scale, or the accessibility baseline.
+- Five skills are cross-cutting rather than per-surface: `visual-direction` (which runs before the others on new work), `typography-design`, `color-systems`, `responsive-design`, and `internationalization-design`. `design-foundations` owns the token scales; these own what happens to text, color, space, and language downstream of them. Keep the seam there rather than duplicating scale definitions.
 - `accessibility-audit` verifies shipped UI; every other skill covers design time. Keep verification steps out of the section skills.
 - One authoritative location per rule, cross-linked by skill name - for example range sliders live in `form-design` and `filter-design` points at them.

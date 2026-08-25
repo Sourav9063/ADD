@@ -57,6 +57,18 @@ forever.
 not "14/03". Handle singular/plural properly ("1 file" / "2 files"), and never show `0`
 where "None yet" reads better.
 
+## Draft content is content
+
+Placeholder text is the loudest signal that nobody read the screen. Whatever ships into a
+review, a demo, or a screenshot is judged as the product.
+
+- **No Lorem Ipsum.** Write real draft copy at real length. Fake Latin hides every wrapping, truncation, and hierarchy problem the layout has.
+- **No "John Doe", no "Acme Corp".** Use varied, plausible names for people, teams, and products, and vary the string lengths so one long name tests the layout.
+- **No round fake numbers.** `99.99%`, `50%`, and `$100.00` read as invented. Organic figures read as real data.
+- **No filler vocabulary.** "Elevate", "seamless", "unleash", "next-gen", "game changer", "delve", "in the world of". These say nothing and mark the copy as machine-written.
+- **Sentence case for headings**, not Title Case On Everything.
+- **No exclamation marks in success messages**, and no "Oops!" in errors. "Connection failed. Try again" respects the reader more than either.
+
 ## Tone
 
 Match the user's stress level. Playful in an empty state is charming; playful in a failed
@@ -69,10 +81,11 @@ second pass, rewrite it.
 ## Inclusive and international
 
 - Default to they/them for unknown people; avoid "guys", "he/she", "crazy", "sanity check", "master/slave", "blacklist".
-- No idioms or sports metaphors; they do not translate.
-- Leave 30–50% width headroom for translated strings; German and Finnish routinely overflow English button labels.
-- Full sentences as single translatable strings; never concatenate fragments in code.
-- Avoid text baked into images; it cannot be translated or read aloud.
+- No idioms, puns, or sports metaphors; they do not translate and they are the first thing to break in a new market.
+- Write each sentence as one translatable string, and give the translator context for anything a key name alone would not explain.
+
+Layout headroom, RTL, plural rules, and locale formats live in
+`internationalization-design`.
 
 ## Reviewing copy
 
@@ -89,4 +102,5 @@ English-idiom form?
 - [ ] Empty states carry one clear next step, tone matched to the situation.
 - [ ] One term per concept across the entire product.
 - [ ] Plurals, zero states, and long numbers handled.
-- [ ] Inclusive language; strings translatable and given width headroom.
+- [ ] No placeholder copy, placeholder names, round fake numbers, or filler vocabulary.
+- [ ] Inclusive language; full-sentence strings; no untranslatable idiom.

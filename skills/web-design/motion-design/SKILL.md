@@ -19,6 +19,20 @@ Rule of thumb: animate state *changes*, never state itself. If the user will see
 than a few times a session, make it shorter than feels right; motion that delights on
 first view irritates by the tenth.
 
+Frequency decides the budget before taste does:
+
+| How often the user sees it | Budget |
+| --- | --- |
+| 100+ times a day: keyboard shortcuts, command palette, core navigation | None. Ever. |
+| Tens of times a day: hover states, list navigation, frequent toggles | Near-imperceptible, or nothing |
+| Occasional: modals, drawers, toasts, settings | Standard animation |
+| Rare or first-run: onboarding, empty states, success, celebration | Where the delight budget lives |
+
+**Keyboard-initiated actions are a disqualifier, not a judgment call.** A command palette
+that animates open feels slow and disconnected by the twentieth invocation, and the best
+ones do not animate at all. The same goes for decoration on data someone is reading or
+acting on: a chart in a banking app is better still.
+
 ## Curves
 
 | Curve | Use |
@@ -46,13 +60,42 @@ stagger 50ms per item (30ms blurs together, 100ms drags).
 Scale duration with distance and size a little: a full-screen sheet may take 350ms where
 a dropdown takes 200ms, but never past ~400ms for anything the user is waiting on.
 
+Timing can be asymmetric on purpose: slow where the user is deciding, fast where the system
+responds. A hold-to-confirm fill takes two deliberate seconds on press and snaps back in
+200ms on release.
+
+## Physicality
+
+Motion sells weight, and a handful of details are what separate credible from cheap.
+
+- **Never animate from `scale(0)`.** Start at `scale(0.9)` to `scale(0.97)` with `opacity: 0`. Nothing in the physical world appears out of nothing, and the eye reads the difference immediately.
+- **Popovers and menus scale from their trigger**, not from their own center. Set `transform-origin` to the trigger edge. Modals are the exception: they belong to the viewport, so they stay centered.
+- **Press feedback is `scale(0.96)` to `scale(0.98)`** over 100 to 160ms on `:active`. Below 0.95 it reads as exaggerated. It applies to anything pressable, not just buttons.
+- **`translate` percentages are relative to the element's own size**, so `translateY(100%)` moves a toast exactly its own height whatever that turns out to be. Prefer them to hardcoded pixels.
+- **`scale()` scales children too**, including text and icons. That is a feature for press feedback and a problem everywhere else.
+- **Mask an imperfect crossfade with a small blur.** When two states overlap visibly however the easing is tuned, `filter: blur(2px)` during the transition blends them into one perceived change. Keep it well under 20px; heavy blur is expensive, especially in Safari.
+
 ## Build it cheaply
 
 - Animate `transform` and `opacity` only. `width`, `height`, `top`, and `margin` trigger layout on every frame.
-- `will-change` sparingly and temporarily; a permanent one wastes memory on every layer.
-- Prefer CSS for one-shot transitions, the Web Animations API when JS needs to interrupt or reverse, and a spring library only when interactions must be physically interruptible (drag, sheets).
-- Interruptible is the standard: a hover-out mid-animation reverses from the current position, it does not queue or snap.
+- **Name the properties you transition.** `transition: all` fires on every property that happens to change, including ones added later, and is the most common cause of a smeared or surprising transition.
+- `will-change` sparingly and temporarily, only for `transform`, `opacity`, and `filter`. Add it when you see first-frame stutter, not in advance; a permanent one wastes memory on every layer.
+- **CSS transitions are interruptible and retarget from their current position. Keyframes restart from zero.** For anything triggered rapidly (toasts arriving, toggles, hover in and out), use transitions. Reserve keyframes for staged sequences that run once.
+- `@starting-style` gives an entry animation with no JS and no mount flag, so an element added to the DOM transitions in rather than appearing.
+- Prefer CSS for predetermined motion, the Web Animations API when JS needs to interrupt or reverse with CSS-level performance, and a spring library only when interactions must be physically interruptible (drag, sheets).
+- **Do not drive child transforms from a CSS variable on the parent.** Updating it recalculates style for every child. Set `transform` on the element that moves.
+- In motion libraries, shorthand transform props are often animated on the main thread rather than composited. Check what the library actually emits before trusting it under load.
 - Test on a mid-tier Android at 4× CPU throttle. 60fps on your laptop proves nothing.
+
+## Gestures
+
+A drag that snaps to the nearest position is the tell that no one tuned it.
+
+- **Dismiss on velocity, not distance.** A fast flick should dismiss even if it never crossed the threshold. Compare distance over elapsed time against a small constant rather than testing position alone.
+- **Damp at the boundaries.** Dragging past a natural edge moves progressively less, then springs back. Real things slow before they stop; an invisible wall reads as a bug.
+- **Capture the pointer once the drag begins**, so it keeps tracking when the pointer leaves the element's bounds.
+- **Ignore additional touch points** after a drag starts, or a second finger makes the element jump.
+- **Hand velocity off into the release animation.** A spring carries momentum through the handoff; a fixed-duration tween restarts from zero and the gesture visibly dies at the moment the finger lifts.
 
 ## Specific transitions
 
@@ -80,7 +123,17 @@ exactly or the snap at the end undoes the effect.
 positions (FLIP). Items disappearing without their neighbours moving reads as a bug.
 
 **Number changes.** Count up over ~400ms for meaningful metrics; never animate numbers users
-must read continuously.
+must read continuously. Use tabular figures or the digits jitter as they roll; see
+`typography-design`.
+
+**Theme switch.** Flipping light to dark changes color, background, border, and shadow on
+almost every element at once, so every transition on those properties fires together and
+the switch smears instead of snapping. Inject `transition: none !important` globally, force
+a reflow, then remove it on the next frame.
+
+**Icon swaps.** Cross-fade with `opacity`, `scale`, and a small `blur` rather than toggling
+visibility, keeping both icons in the DOM with one absolutely positioned. Toggled
+visibility has no exit, so the outgoing icon vanishes a frame before the new one arrives.
 
 ## Scroll-driven motion
 
@@ -115,13 +168,28 @@ zoom, and spin, so those are the first to go.
 Also: nothing flashes more than 3 times per second, and any looping animation over 5
 seconds needs a pause control.
 
+## Judging feel
+
+Feel cannot be read off the code, so slow it down and look.
+
+- **Replay at 10% speed**, or multiply the duration by five. What is subtly wrong at full speed is obvious at a tenth: a color crossfading through gray, easing that stops rather than settles, a `transform-origin` in the wrong corner, two coordinated properties drifting apart.
+- **Step frame by frame** in the browser's animations panel to catch timing drift between properties that should be on one timeline.
+- **Test gestures on a real device.** A trackpad drag is not a thumb drag, and no simulator reproduces momentum.
+- **Look again the next day.** Imperfections invisible while building surface with fresh eyes.
+
+Motion also never carries information alone: every animated state change needs a static cue
+in color, an icon, or a label, or the state is invisible once the animation finishes.
+
 ## Checklist
 
+- [ ] Frequency checked before anything else; nothing animates on a 100-times-a-day path.
 - [ ] Every animation serves causality, continuity, status, or hierarchy.
 - [ ] Ease-out in, faster ease-in out; `linear` only for continuous motion.
 - [ ] One curve per interaction class across the product.
-- [ ] `transform`/`opacity` only; 60fps on a throttled mid-tier device.
+- [ ] `transform`/`opacity` only, named explicitly; no `transition: all`; 60fps on a throttled mid-tier device.
+- [ ] Nothing animates from `scale(0)`; popovers scale from their trigger.
 - [ ] Animations interruptible and reversible from their current position.
+- [ ] Gestures dismiss on velocity, damp at boundaries, and hand momentum to the release.
 - [ ] Accordions animate via `grid-template-rows`, not guessed `max-height`.
 - [ ] Scroll effects are CSS-native, fire once, and never gate content.
 - [ ] `prefers-reduced-motion` keeps the state change and drops the movement.

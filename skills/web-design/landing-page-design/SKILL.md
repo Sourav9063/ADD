@@ -13,6 +13,29 @@ Decide the job first, in one sentence: *"A technical founder evaluating tools sh
 a free trial."* Audience, moment, single action. Two goals on one page means neither
 happens.
 
+## Before the first section
+
+Collect these, in one batch rather than one question at a time. Where the user cannot
+answer, state a reasonable assumption in a line and keep building rather than stalling.
+
+- **The offer.** What exactly do they get, and what counts as the conversion: a click, a signup, a purchase?
+- **The audience.** Who they are, what they are trying to solve, and the top three reasons they do not buy today.
+- **The traffic source.** Ads, search, social, or email, and what the visitor already knows on arrival. **Match the message to the source**: a page reached from an ad mirrors that ad's headline, promise, and visual tone, or the visitor thinks they clicked the wrong link.
+- **The proof and assets that exist.** Logos, testimonials, numbers, case studies, screenshots, demo video, guarantees. What proof you actually have decides which sections are real and which would have to be invented. Invented proof is not an option; cut the section instead.
+
+Then pick the page type deliberately and say why:
+
+| Type | Use when |
+| --- | --- |
+| Classic hero plus sections | The product is understandable from one hero screenshot. The default. |
+| Long-form story | The reader needs educating, or skepticism is the main obstacle. |
+| Minimal conversion page | High-intent traffic from a known list, or a short offer like a waitlist or download. |
+| Comparison page | Search intent already includes alternatives ("X vs Y", "best for"). |
+
+The skeleton below is the classic form. The others reorder it; they do not skip proof.
+See `visual-direction` for choosing the page's shape and visual register before the copy
+lands in it.
+
 ## Section skeleton
 
 The order is the argument. It works because it answers objections in the sequence people
@@ -58,7 +81,9 @@ missing a feature grid.
 
 ## Rhythm and layout
 
-- Alternate section density: text-heavy, then visual, then short. A page of uniform blocks reads as one long block.
+- **Show it rather than describing it.** A wall of feature cards, each a heading plus two sentences, is the default failure of a marketing page. Before writing a paragraph to explain something, check whether a visual with a caption carries it: a real chart for a speed claim, three panels for a three-step flow, an annotated screenshot for a feature. Prose earns its place in headlines, subheads, and captions.
+- Alternate section density: text-heavy, then visual, then short. A page of uniform blocks reads as one long block. Weight the vertical spacing by role too: the hero and the primary proof section get considerably more room than the connective ones.
+- Build and revise **section by section**, in the order of the argument. Regenerating the whole page on each iteration loses the parts that were already right and makes the diff unreviewable.
 - Generous vertical spacing between sections (64–120px desktop, 48–64px mobile) with tighter spacing inside them; proximity is what makes a section read as one idea.
 - One idea per section, with a heading that states the idea as a sentence.
 - Constrain measure to 60–75 characters; full-width paragraphs are unreadable at desktop widths.
@@ -91,9 +116,32 @@ most. See `motion-design`.
 - Text over hero images or gradients meets contrast at its worst point, not its average.
 - Video is muted by default, captioned, and pausable; nothing autoplays with sound.
 
+## Indexing
+
+Campaign-specific and time-bound offer pages are `noindex`, or they outlive the campaign
+and rank for a promise the product no longer makes. Evergreen offers, where search intent
+matches the promise, get indexed with a real title, meta description, and internal links
+from the homepage and feature pages. Keep the FAQ in plain question-and-answer markup;
+that is the form both search and answer engines can lift.
+
+## Ship requirements
+
+The things that get forgotten and make an otherwise finished page read as a draft:
+
+- A branded favicon, `<title>`, meta description, and `og:image` for social sharing.
+- A custom 404 that offers a way back, and a way back from every page.
+- Privacy policy and terms in the footer; cookie consent where the jurisdiction requires it.
+- Client-side validation on every form, and a real error state rather than a browser alert.
+- No dead links: a control pointing at `#` is either wired up or visually disabled, and the current page is indicated in the navigation.
+- Semantic landmarks (`<nav>`, `<main>`, `<article>`, `<aside>`), a skip link, and alt text on every meaningful image.
+- Every interactive element ships its full state set: hover, active, focus, loading, empty, and error.
+
 ## Checklist
 
 - [ ] One audience, one action, stated in a sentence before any design.
+- [ ] Intake answered or assumptions stated; page type chosen deliberately.
+- [ ] Message matches the traffic source it was built for.
+- [ ] Sections show the product rather than describing it.
 - [ ] Hero states the outcome, names the user, and shows the product; CTA above the fold on mobile and desktop.
 - [ ] Proof is specific and attributed; logos sit near the claim.
 - [ ] Pricing visible, recommended plan isolated, money objections answered.
@@ -101,3 +149,4 @@ most. See `motion-design`.
 - [ ] Reveals fire once and never gate content; reduced motion respected.
 - [ ] Hero image preloaded, third-party scripts audited, CTA and scroll depth instrumented.
 - [ ] One `<h1>`, descriptive CTA names, contrast checked over imagery.
+- [ ] Indexing decision made; ship requirements met and no dead links.
