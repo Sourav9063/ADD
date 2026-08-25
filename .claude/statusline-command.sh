@@ -35,7 +35,7 @@ if [ -n "$five_pct" ] && [ -n "$five_resets" ]; then
     m=$(( (secs_left % 3600) / 60 ))
     [ "$h" -gt 0 ] && time_str="${h}h${m}m" || time_str="${m}m"
   fi
-  parts+=("${five_pct}%:${time_str}")
+  parts+=("$(( 100 - five_pct ))%:${time_str}")
 fi
 
 if [ -n "$seven_pct" ] && [ -n "$seven_resets" ]; then
@@ -45,10 +45,11 @@ if [ -n "$seven_pct" ] && [ -n "$seven_resets" ]; then
   else
     total_min=$(( secs_left / 60 ))
     days=$(( total_min / 1440 ))
-    tenths=$(( (total_min % 1440) * 10 / 1440 ))
-    time_str="${days}.${tenths}d"
+    rem_min=$(( total_min % 1440 ))
+    hours=$(( rem_min / 60 ))
+    time_str="${days}d${hours}h"
   fi
-  parts+=("${seven_pct}%:${time_str}")
+  parts+=("$(( 100 - seven_pct ))%:${time_str}")
 fi
 
 result=""
