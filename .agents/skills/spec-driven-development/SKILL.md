@@ -23,6 +23,9 @@ Keep one authoritative source of truth per durable fact; reference it elsewhere.
 - Domain terms and the team's glossary
 - Invariants
 - Ownership, affected-surface, and navigation guidance
+- Repository structure, coding conventions, and recurring patterns
+
+Prefer facts costly to rediscover. Skip what a quick read gives: signatures, field lists, config values, line-level flow.
 
 Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files.
 
