@@ -1,0 +1,6 @@
+interface:
+  display_name: "Feedback Design"
+  short_description: "Design loading, empty, and error states"
+  default_prompt: "Use $feedback-design to add loading, empty, error, or confirmation feedback."
+policy:
+  allow_implicit_invocation: true

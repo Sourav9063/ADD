@@ -1,0 +1,6 @@
+interface:
+  display_name: "Data Table Design"
+  short_description: "Design data tables and list views"
+  default_prompt: "Use $data-table-design to build or review a table, its columns, sorting, and row actions."
+policy:
+  allow_implicit_invocation: true

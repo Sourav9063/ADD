@@ -1,0 +1,6 @@
+interface:
+  display_name: "Internationalization Design"
+  short_description: "Design UI that survives translation"
+  default_prompt: "Use $internationalization-design to make this UI handle translation, RTL, and locale formats."
+policy:
+  allow_implicit_invocation: true

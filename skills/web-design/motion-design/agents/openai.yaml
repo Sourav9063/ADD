@@ -1,0 +1,6 @@
+interface:
+  display_name: "Motion Design"
+  short_description: "Design and fix UI animation"
+  default_prompt: "Use $motion-design to add or fix transitions, easing, and gesture feedback."
+policy:
+  allow_implicit_invocation: true

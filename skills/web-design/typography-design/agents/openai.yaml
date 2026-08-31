@@ -1,0 +1,6 @@
+interface:
+  display_name: "Typography Design"
+  short_description: "Set and render web type"
+  default_prompt: "Use $typography-design to choose typefaces, build a type scale, and fix text rendering."
+policy:
+  allow_implicit_invocation: true

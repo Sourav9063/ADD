@@ -1,0 +1,6 @@
+interface:
+  display_name: "Visual Direction"
+  short_description: "Choose and hold a visual direction"
+  default_prompt: "Use $visual-direction to set a coherent visual point of view before building this UI."
+policy:
+  allow_implicit_invocation: true

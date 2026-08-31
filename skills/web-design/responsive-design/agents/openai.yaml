@@ -1,0 +1,6 @@
+interface:
+  display_name: "Responsive Design"
+  short_description: "Adapt layouts across viewports"
+  default_prompt: "Use $responsive-design to make this layout work across viewports and input methods."
+policy:
+  allow_implicit_invocation: true

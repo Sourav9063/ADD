@@ -1,0 +1,6 @@
+interface:
+  display_name: "Navigation Design"
+  short_description: "Design navigation and information architecture"
+  default_prompt: "Use $navigation-design to build or review this app navigation and where pages belong."
+policy:
+  allow_implicit_invocation: true

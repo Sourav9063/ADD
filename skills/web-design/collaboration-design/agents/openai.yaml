@@ -1,0 +1,6 @@
+interface:
+  display_name: "Collaboration Design"
+  short_description: "Design real-time collaborative UI"
+  default_prompt: "Use $collaboration-design to add presence, live cursors, or concurrent editing feedback."
+policy:
+  allow_implicit_invocation: true

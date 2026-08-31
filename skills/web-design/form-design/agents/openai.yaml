@@ -1,0 +1,6 @@
+interface:
+  display_name: "Form Design"
+  short_description: "Design forms, inputs, and states"
+  default_prompt: "Use $form-design to build or review this form, its validation, and its error messages."
+policy:
+  allow_implicit_invocation: true

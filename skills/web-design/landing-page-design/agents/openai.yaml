@@ -1,0 +1,6 @@
+interface:
+  display_name: "Landing Page Design"
+  short_description: "Design marketing and conversion pages"
+  default_prompt: "Use $landing-page-design to build or review a landing page, hero, or pricing section."
+policy:
+  allow_implicit_invocation: true

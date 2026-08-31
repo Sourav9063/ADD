@@ -1,0 +1,6 @@
+interface:
+  display_name: "Search and Filter Design"
+  short_description: "Design search, filters, and results"
+  default_prompt: "Use $search-and-filter-design to build or review search, facets, and result states."
+policy:
+  allow_implicit_invocation: true

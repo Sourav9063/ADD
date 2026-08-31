@@ -1,0 +1,6 @@
+interface:
+  display_name: "Card and List Design"
+  short_description: "Design cards, lists, and collections"
+  default_prompt: "Use $card-and-list-design to build or review cards, feeds, and collection layouts."
+policy:
+  allow_implicit_invocation: true

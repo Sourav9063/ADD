@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tab Design"
+  short_description: "Design tabbed interfaces"
+  default_prompt: "Use $tab-design to build or review tabs, segmented controls, and their overflow."
+policy:
+  allow_implicit_invocation: true

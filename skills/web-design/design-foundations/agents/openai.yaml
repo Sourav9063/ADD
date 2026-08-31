@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design Foundations"
+  short_description: "Apply shared visual and motion baselines"
+  default_prompt: "Use $design-foundations to set spacing, radii, shadows, color, and focus styles for this UI."
+policy:
+  allow_implicit_invocation: true

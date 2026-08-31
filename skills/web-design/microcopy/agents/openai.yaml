@@ -1,0 +1,6 @@
+interface:
+  display_name: "Microcopy"
+  short_description: "Write and review interface text"
+  default_prompt: "Use $microcopy to write or sharpen this interface copy."
+policy:
+  allow_implicit_invocation: true

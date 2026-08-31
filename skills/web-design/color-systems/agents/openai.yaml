@@ -1,0 +1,6 @@
+interface:
+  display_name: "Color Systems"
+  short_description: "Build and audit color palettes"
+  default_prompt: "Use $color-systems to generate, extend, or audit this product color palette."
+policy:
+  allow_implicit_invocation: true
