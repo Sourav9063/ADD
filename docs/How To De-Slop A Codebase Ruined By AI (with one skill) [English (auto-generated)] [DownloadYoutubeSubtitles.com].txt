@@ -1,0 +1,707 @@
+You've probably seen the thousands of
+
+LinkedIn CEO posts saying that code is
+
+cheap and they can move faster than ever
+
+before. But what's happening is that AI
+
+has simply accelerated software entropy.
+
+In other words, codebases are falling
+
+apart faster than they ever have before
+
+because every time that you make a
+
+change that doesn't take into account
+
+the entire codebase, you are likely to
+
+introduce little things, weird things
+
+that make the codebase harder to change.
+
+And over time, that just snowballs and
+
+snowballs until you end up with a huge
+
+ball of mud. Sloppy, sloppy mud that is
+
+incredibly hard to reverse if you don't
+
+know how to do it. I've made a video
+
+about this before introducing folks to
+
+the idea of deep modules. And that video
+
+focuses more on prevention, how you can
+
+prevent your setup from getting to that
+
+point. Let's now focus on the cure, how
+
+you can take a codebase that feels like
+
+it's beyond repair and rescue it. And
+
+you can do that with some good old
+
+software fundamentals, as well as my
+
+improved codebase architecture skill.
+
+We're going to be walking through what
+
+this skill does, revisiting some of the
+
+terms we looked at in the other video,
+
+then we're going to take that and apply
+
+it to a real codebase. And this, by the
+
+way, is part of my GitHub Skills Repo,
+
+which is currently sitting at 41.5k
+
+stars. Bonkers. Now, one of the things
+
+that I added to this improved codebase
+
+architecture skill recently was a
+
+glossary of terminology. Having a shared
+
+vocabulary with the AI is super
+
+important because it means that you can
+
+talk using the same language. You can
+
+understand what each other's language is
+
+and you can be a lot more precise with
+
+what you're asking for. This terminology
+
+here is super duper useful and I'm going
+
+to spend a portion of this video going
+
+through what each of these terms
+
+actually mean. Honestly, just
+
+understanding this stuff at a deep level
+
+will make you a better software
+
+developer. So, let's get started by
+
+talking about modules. A module is a
+
+unit of something in your application.
+
+It could be a bunch of React components
+
+that all fit together to form a page. It
+
+could be a bunch of functions inside
+
+your application that are entirely
+
+responsible for authentication. Or it
+
+could simply be the logger that you've
+
+chosen, like a log into the console, log
+
+into a file, or log into a third-party
+
+service. In a good code base, these
+
+modules talk to each other, and they
+
+talk to each other via their interfaces.
+
+An interface is everything a caller must
+
+know to use the module correctly. For
+
+instance, if it's an authentication
+
+module, then it might have a sign-in
+
+method, it might have a sign-out method.
+
+And these methods are the interface to
+
+that module. The methods are not the
+
+only thing that's important, the
+
+interface also includes kind of nebulous
+
+information about how to call the
+
+module. So, perhaps it's documentation,
+
+too. The implementation is then what's
+
+inside the module, what it actually does
+
+when you call sign-in or sign-out. And
+
+so, this is the core primitive that
+
+we're talking about, the modules that
+
+have interfaces and implementations
+
+scattered throughout your application.
+
+These modules can either be deep
+
+modules, or they can be shallow modules.
+
+A deep module hides lots of
+
+implementation behind a relatively
+
+simple interface. A shallow module has a
+
+complex interface and kind of not much
+
+implementation actually behind it. These
+
+ideas are from John Osterhout's book A
+
+Philosophy of Software Design, which I
+
+recommend you pick up a copy of. Deep
+
+modules are considered better than
+
+shallow modules because it hides more
+
+information away from the caller. In
+
+other words, the person who's calling
+
+this, or the function that's calling
+
+this, only needs to know about this tiny
+
+little interface, and they'll get access
+
+to all of this implementation. Lovely.
+
+And so, that's what we describe as
+
+depth, the amount of behavior a caller
+
+can exercise per unit of interface that
+
+they have to learn. Really good
+
+open-source libraries, like TanStack
+
+Query or something, have really good
+
+deep modules. In other words, they're
+
+hiding a lot of complexity behind a
+
+super simple interface. These modules
+
+then interact with each other, and they
+
+have dependencies on each other. For
+
+instance, this module might interact
+
+with this module here, which then
+
+interacts with this module up here, and
+
+this module up here, and they have these
+
+dependency
+
+are called the seams. It's the location
+
+at which the modules interface lives
+
+inside the application. These seams are
+
+usually where you're going to do your
+
+unit testing or your integration
+
+testing. For instance, if we wanted to
+
+test this module in isolation down here,
+
+then we would add a mock or something
+
+just at this seam. So, figuring out
+
+where your seams are going to live in
+
+your application is crucial to getting a
+
+good architecture. When you find out
+
+where a seam is in your application, you
+
+need some concrete thing, a module, that
+
+satisfies that interface. This is what
+
+I'm going to call an adapter, which I'm
+
+taking from hexagonal architecture. For
+
+instance, if you have some kind of
+
+application that depends on a clock
+
+running, then you may want to have a
+
+clock, a normal clock inside here using
+
+the actual living clock, and then inside
+
+some tests, you may want to have an
+
+adapter that is a fake clock. These both
+
+satisfy the interface at that seam, and
+
+it means that you can use the fake clock
+
+in tests, so you don't have to literally
+
+wait 2 weeks for your test to finish.
+
+So, that's how seams and adapters play
+
+together. The benefit of all this is
+
+that these deep modules have two main
+
+properties or two main benefits that you
+
+get from them. For the maintainers, the
+
+people maintaining this module, they get
+
+locality. Changes to that module and
+
+bugs and all the fixes to do with them,
+
+they concentrate in one place, in that
+
+deep module. If it's scattered around
+
+over multiple different modules, then
+
+you have low locality. You want high
+
+locality, grouping and co-locating the
+
+things that matter and that often change
+
+together. The people using this module
+
+will get more leverage the deeper the
+
+module is. In other words, more
+
+capability per unit of interface they
+
+have to learn. And so, when we're
+
+talking about improving our code bases,
+
+these are the two attributes that we're
+
+aiming at. Right, that's enough
+
+knowledge, we know the basic terms of
+
+engagement. Now, let's go and improve a
+
+code base. The code base we're going to
+
+look at is my course video manager code
+
+base, which is the repo of software that
+
+I'm actually using to record this video.
+
+This code base has had, ooh, around
+
+1,500 commits here, and I wouldn't say
+
+it's a ball of mud, but I also wouldn't
+
+say it's perfect, either. It's a React
+
+Router application, it uses effect.ts
+
+under the hood. Uh, let's get into it.
+
+I'm going to open up a new Claude
+
+session inside here and I'm going to run
+
+my improved code base architecture skill
+
+and we'll turn off auto mode. Auto mode
+
+does some funny things with these human
+
+in the loop style flows and so I don't
+
+want it on here. We can see it's going
+
+and exploring and looking through the
+
+code. That's what it's instructed to do
+
+first. Here we go. Explore architecture
+
+for deepening opportunities. Usually a
+
+bad code base is one that has a ton of
+
+shallow modules in it or one that has
+
+very poor leverage for those modules or
+
+poor locality where lots of stuff is
+
+spread in lots of different places.
+
+Okay, it's come back with some
+
+candidates here. Let's bump up the
+
+screen size and hopefully Claude code
+
+won't just destroy itself. Okay, I guess
+
+maybe we're not bumping up the screen
+
+size. Thank you for that Claude code. We
+
+can see it's identified six deepening
+
+opportunities here. These candidates
+
+here are pretty hard to explain because
+
+they sort of require domain knowledge
+
+about my repo, but we can see here that
+
+it's saying that there's a concept that
+
+doesn't have a single seam. In other
+
+words, there are two implementations of
+
+this insertion point and they live
+
+and the seam where they must be
+
+untested. This essentially means that
+
+the front end could make some changes
+
+but the back end because it has a
+
+separate parallel implementation could
+
+be out of sync with it. So this I think
+
+is actually a really good candidate for
+
+refactoring into a single module. We
+
+gain locality. And it says that here we
+
+would gain locality interleaved clip
+
+clip section ordering rule lives in one
+
+place. So let's go and take a look at
+
+that. Let's actually say, yeah, I'd like
+
+to pick one here. That seems like a good
+
+candidate. So let's fire that off and
+
+see what it says. Okay, Claude is
+
+trolling me here. It says, I'd like to
+
+pick one. I meant I meant one. Great.
+
+Okay, so it now has come back with it's
+
+got concrete code on both sides to to
+
+ground this and it enters a grilling
+
+session. And in this grilling session we
+
+can take the ideas inside here and we
+
+can start kind of talking about what a
+
+better solution would be. This is a nice
+
+sentence here. The back end has no end.
+
+Let's not think about that too
+
+literally. What you end up doing with
+
+this skill is you end up talking about
+
+the potential proposed solution, and it
+
+will then propose a shape. And once
+
+that's all done, you can take that and
+
+you can put that in as a GitHub issue
+
+into your issue tracker, which can then
+
+be picked up by an AFK agent. You should
+
+check out my video on Sandcastle if
+
+you're interested in that. Now, in the
+
+course of normal development, what I
+
+would do is go through and thoughtfully
+
+answer each of these questions in turn.
+
+But since I'm doing a video and this is
+
+slightly artificial, I'm going to say,
+
+"Could you just choose your recommended
+
+answers for each of these questions?"
+
+And that should speed us through to
+
+actually making the change or
+
+potentially creating an issue out of
+
+this. So, it's now coming back with a
+
+proposed module shape, and it's also
+
+asking to verify a particular part of
+
+the implementation where end is
+
+collapsed and to sketch the actual
+
+TypeScript interface. Yeah, go ahead and
+
+do both. That sounds great. Let's ping
+
+that off and see what it says. Okay, it
+
+has figured out the implementation
+
+detail it needed, and it's come back and
+
+proposed a design here. So, which of
+
+these functions are going to be
+
+essentially the uh the interface for
+
+this module. And so, we can talk about
+
+this with the AI and figure it out. It's
+
+again come back with two design
+
+decisions that it wants my feedback on.
+
+And here, I think you've got the flavor
+
+of how this skill works and the kind of
+
+conversations that you end up having
+
+with the AI based on this. If I want to
+
+turn this into an issue that my AFK
+
+agent picks up, I can use two PRD or two
+
+issues here. And by the way, if you're
+
+interested in these skills that I'm
+
+talking about, then you should check out
+
+this site here, which is linked below.
+
+I'm going to be creating a real
+
+documentation site for these skills, and
+
+for now, I have a newsletter that you
+
+can sign up to for the latest updates,
+
+as well as tips and tricks and resources
+
+for getting the most out of agents. The
+
+thing that's important to notice here is
+
+just how much this skill demands of you,
+
+the user. This is not an AFK skill that
+
+you can just sort of run and kind of
+
+like uh just rely on to continually
+
+improve your code base. This requires a
+
+judgment call from you, the programmer
+
+sitting above the LLM. I think of agents
+
+as really, really good tactical
+
+programmers. They're able to get on the
+
+ground and make changes quickly. But
+
+they need someone on the level above
+
+them who is the strategic programmer.
+
+And that's what this skill does. It
+
+allows the sergeant to go and run around
+
+the code base and look for potential
+
+improvement
+
+opportunities. But then you, the
+
+general, have to go and actually make
+
+the change and decide what's good for
+
+the long-term health of the code base. I
+
+recommend that you run this skill, you
+
+know, every couple of days, really.
+
+Especially in a code base that's
+
+fast-moving, you're going to come up
+
+with tons
+
+for deepening the code base. And the
+
+deeper you get those modules, the higher
+
+leverage you're going to get out of
+
+them. And leverage as well means
+
+testing. If you have a set of really
+
+nice clear seams in your code base, then
+
+you're going to be able to write really
+
+nice tests around those nice deep
+
+modules. And the better your tests are,
+
+the better the output from the agent is
+
+going to be. One final thought here is
+
+that lots of folks ask me how you would
+
+get started by using AI in a legacy code
+
+base. And a legacy code base is probably
+
+going to have a lot of shallow modules.
+
+It's I mean, we talk about legacy code
+
+bases, what we really mean are bad code
+
+bases. Code bases that are hard to make
+
+changes in. And what you really need
+
+before you start making changes in a
+
+legacy code base is a harness around the
+
+code base to make sure that your changes
+
+don't mess anything up. So for that, you
+
+need tests, test, testing really nice
+
+deep modules that have a lot of leverage
+
+and locality. So running improve code
+
+base architecture is a great place to
+
+start. Thanks for watching, folks, and I
+
+hope that answers some of your questions
+
+about how to solve this never-ending
+
+problem of AI just running away and
+
+creating terrible code bases. I hope you
+
+enjoy the skills. Do follow the link
+
+below if you want to find more of them.
+
+So thanks for watching and I'll see you
+
+in the next one. And what you really
+
+need before you start making changes in
+
+a legacy code bases
+
+
