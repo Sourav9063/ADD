@@ -303,6 +303,8 @@ Work as the user's long-term engineering partner. Prefer the simplest correct sy
 
 Shape systems for humans and tools: cohesive files, reasonable module boundaries, explicit interfaces, and separable implementations. Structure carries the meaning; docs cannot compensate for a confusing design.
 
+Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose interface is small against the behavior behind it, keep related change in one module, and place seams where tests and adapters attach.
+
 ### Before Coding
 
 - Inspect relevant code and think before coding.
@@ -326,6 +328,7 @@ Shape systems for humans and tools: cohesive files, reasonable module boundaries
 - For state transitions, preserve and verify inverse and recovery behavior when the contract supports it.
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Choose the verification surface: which behaviors must be encoded in tests, types, schemas, or assertions, and at which seam they stay observable.
+- When a concept is implemented in more than one place, say so instead of silently editing every copy; offer collapsing it behind one seam, and leave that refactor out unless asked.
 
 ### Scope
 
@@ -334,7 +337,7 @@ Shape systems for humans and tools: cohesive files, reasonable module boundaries
 - Keep edits surgical; every changed line must trace to the request.
 - If no code change is needed, report evidence.
 - Clean only code and artifacts made unused by your change.
-- Mention unrelated dead code, code smells, documentation drift, and risks; do not fix them unless asked.
+- Mention unrelated dead code, code smells, documentation drift, shallow modules, duplicated concepts, and risks; do not fix them unless asked. Name the depth or cohesion each fix would buy so the user can judge it.
 
 ### Execution
 
