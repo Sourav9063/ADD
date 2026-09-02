@@ -43,7 +43,7 @@ Default to the direct two-ref form. Use merge-base form (`<base>...HEAD`) only w
 
 - Security: auth bypass, permission regression, IDOR, CSRF/XSS/SSRF, secret leakage, unsafe redirects, insecure cookies/sessions, injection risk, path traversal, unsafe file upload/download.
 - Correctness: wrong data shape, unchecked null/undefined, stale cache, broken pagination/filter/search params, contract mismatch, hidden runtime assumptions, race conditions, non-idempotent retries.
-- Architecture: separation of concerns, logic in appropriate layer, clear module ownership, contained side effects, respected public contracts, shallow modules that push internals onto callers, and one concept implemented on both sides of a boundary with no shared seam to keep the copies in sync.
+- Architecture: separation of concerns, logic in appropriate layer, clear module ownership, contained side effects, respected public contracts, shallow modules that push internals onto callers, one concept implemented on both sides of a boundary with no shared seam.
 - Maintainability: duplication that can drift, unexplained magic values, speculative abstraction, dead code, unclear naming, inconsistent local patterns, needless public API expansion.
 - Data safety: missing transaction/rollback safety, unsafe migration/backfill, backward-incompatible schema or API change, data loss/corruption risk.
 - Reliability: resource leaks, unbounded work, timeout/retry mistakes, missing cancellation/cleanup, noisy or sensitive logs.
