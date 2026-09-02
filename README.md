@@ -158,7 +158,7 @@ Coding and programming workflow. These five are the always-on core, bundled into
 | [`spec-driven-development`](skills/agent-driven-development/spec-driven-development/) | Work spans files or layers, or you ask for a plan |
 | [`engineering`](skills/agent-driven-development/engineering/) | Non-trivial implementation, refactors, schema and config changes |
 | [`coding`](skills/agent-driven-development/coding/) | Lines of code get written or changed |
-| [`memory`](skills/agent-driven-development/memory/) | Durable repo-wide decisions and corrections need to persist |
+| [`project-memory`](skills/agent-driven-development/project-memory/) | Durable repo-wide decisions and corrections need to persist |
 | [`communication`](skills/agent-driven-development/communication/) | You want terse answers instead of essays |
 
 ### Review skills: [`skills/agent-driven-review/`](skills/agent-driven-review/)

@@ -1,5 +1,5 @@
 ---
-name: memory
+name: project-memory
 description: Read `agents/MEMORY.md` before non-trivial work; curate it after a user correction, rejected pattern, stated preference, or verified repository-wide decision. Compress it when it grows past roughly 50 lines or repeats itself. Do not wait to be asked. Holds durable repository-wide guidance. Skip task notes, guesses, secrets, local details.
 ---
 

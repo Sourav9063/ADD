@@ -1,6 +1,6 @@
 interface:
   display_name: "Repository Memory"
   short_description: "Curate durable repository guidance"
-  default_prompt: "Use $memory to load and curate durable repository guidance."
+  default_prompt: "Use $project-memory to load and curate durable repository guidance."
 policy:
   allow_implicit_invocation: true
