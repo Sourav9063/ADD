@@ -1,6 +1,6 @@
 ---
 name: chart-design
-description: Build or review data visualization. Use when creating a chart, graph, dashboard, sparkline, KPI or metric tile, when choosing a chart type, handling axes, legends, tooltips, or series color, or when a chart is hard to read, misleading, or inaccessible.
+description: Build or review data visualization. Use when creating a chart, graph, sparkline, or metric tile, when choosing a chart type, handling axes, legends, tooltips, or series color, or when a chart is hard to read, misleading, or inaccessible.
 ---
 
 # Chart Design
@@ -23,7 +23,7 @@ in one sentence, the chart has no job.
 | One number | A big number, not a chart |
 | Trend beside a number | Sparkline |
 
-Beyond 5–7 series, no chart works: filter, group into "Other", or use small multiples.
+Beyond 5-7 series, no chart works: filter, group into "Other", or use small multiples.
 Never a dual y-axis: two arbitrary scales manufacture whatever correlation you point at.
 Never 3D or donut-with-a-gradient; the extra dimension encodes nothing and distorts area.
 
@@ -62,13 +62,12 @@ Never 3D or donut-with-a-gradient; the extra dimension encodes nothing and disto
 - Zoom and brush only when the data density justifies it, and always with a reset.
 - Never rely on hover for information required to understand the chart; that data does not exist on a phone.
 
-## Dashboards
+## Charts on a dashboard
 
-- Answer the top question in the first screen; the KPI row leads with a value, its change, and the comparison period spelled out ("vs. last 30 days").
 - One idea per chart, with a title stating the finding ("Signups fell 12% after the pricing change") rather than the axis ("Signups over time").
-- Consistent time range across the dashboard, controlled once at the top.
-- Every chart needs its loading skeleton, its empty state, and its "not enough data yet" state; see `feedback-design`.
-- Offer the underlying table and a CSV export. Serious users always want the numbers.
+- Every chart needs its loading skeleton (`skeleton`), its empty state, and its "not enough data yet" state (`empty-state`).
+
+Layout, KPI tiles, global time range, refresh, and drill-down belong to `dashboard-design`.
 
 ## Accessibility
 

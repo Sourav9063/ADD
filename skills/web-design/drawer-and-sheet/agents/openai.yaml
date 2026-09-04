@@ -1,0 +1,6 @@
+interface:
+  display_name: "Drawer and Sheet"
+  short_description: "Design drawers and bottom sheets"
+  default_prompt: "Use $drawer-and-sheet to build or review this drawer, side panel, or bottom sheet."
+policy:
+  allow_implicit_invocation: true

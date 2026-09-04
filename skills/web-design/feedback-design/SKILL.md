@@ -1,50 +1,51 @@
 ---
 name: feedback-design
-description: Build or review system feedback. Use when adding loading indicators, spinners, skeletons, progress bars, empty states, error screens, success confirmations, toasts, banners, optimistic updates, undo, or when the UI feels slow, silent, or unclear about whether an action worked.
+description: Decide how a system answers the user. Use when choosing between a spinner, skeleton, progress bar, inline message, toast, banner, and dialog, when designing loading, empty, error, and success states for a surface, when adding optimistic updates or undo, or when the UI feels slow, silent, or unclear about whether an action worked.
 ---
 
 # Feedback Design
 
 Assumes `design-foundations` for tokens and motion. Every action needs an answer within
-100ms and a resolution the user can trust.
+100ms and a resolution the user can trust. This skill chooses the response; the surfaces
+own their own rules: `progress-and-spinner`, `skeleton`, `empty-state`, `toast`,
+`alert-banner`, `modal-dialog`.
 
-## Loading: match the pattern to the wait
+## Match the pattern to the wait
 
 | Wait | Pattern |
 | --- | --- |
 | < 300ms | **Nothing.** A flash of a spinner reads as a glitch, not as feedback |
-| 300ms–3s, known content shape | **Skeleton** in the real layout: same boxes, same rhythm |
-| 300ms–3s, unknown shape or in-button | **Spinner**, scoped to the thing that is loading |
+| 300ms-3s, known content shape | **Skeleton** in the real layout |
+| 300ms-3s, unknown shape or in-button | **Spinner**, scoped to the thing that is loading |
 | > 3s with known progress | **Progress bar** with percentage, plus time remaining or speed |
 | > 3s without progress | Staged status text ("Compressing… Uploading… Finishing") |
 | Reversible action | **Optimistic update**, no indicator at all |
 
-Never spinner a full page; a lone spinner on a blank screen reads as frozen. Skeletons
-are not a default; a skeleton that does not match the final layout causes a visible jolt
-when content lands. Give a skeleton a slow shimmer — a static one reads as broken layout
-rather than as loading — and never mix skeletons and spinners in the same view, which
-reads as two different things going wrong. Keep the primary structure (nav, header, filters) rendered and load
-only the region that changes. Perceived speed matters more than measured speed: past
+Never spinner a full page; keep the primary structure (nav, header, filters) rendered and
+load only the region that changes. Perceived speed matters more than measured speed: past
 ~400ms of silence attention leaves, so respond immediately even if the work continues.
+
+## Choosing the notification surface
+
+| Surface | Use for | Dismissal |
+| --- | --- | --- |
+| **Inline** (next to the control) | Validation, per-item results | Resolves with the state |
+| **Toast** (bottom or top corner) | Transient confirmations, undo | Auto after 4-7s |
+| **Banner** (top of page or section) | Persistent conditions: expired card, degraded service | User dismiss or condition clears |
+| **Modal** | Blocking decisions only | Explicit action |
+| **Notification center** | History, async completions | Read state |
+
+Pick the wrong surface and people tune all of them out. The test is duration and
+consequence: transient and minor is a toast, true-until-fixed is a banner, must-decide-now
+is a dialog, belongs-to-one-control is inline.
 
 ## Optimistic UI and undo
 
 - Apply reversible actions (like, star, reorder, mark read) instantly and reconcile in the background. On failure, revert visibly and say why; a silent revert is worse than a slow save.
-- Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted. Undo" for 5–10 seconds with a visible countdown ring or bar so the window is legible, and pause the timer on hover or focus. Save the confirmation dialog for the genuinely irreversible.
+- Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted. Undo" for 5-10 seconds with a visible countdown, and pause the timer on hover or focus (`toast`). Save the confirmation dialog for the genuinely irreversible.
 - Undo must be reachable by keyboard before the toast disappears; keep a permanent path (trash, history) as well.
-- **Back undo with a soft delete**: flag the record and keep it recoverable for a stated retention window, then hard-delete on expiry. An immediate hard delete makes the Undo button a lie the first time the request loses the race. Where the product has a real undo stack, wire ⌘Z to it rather than relying on the toast alone.
-
-## Empty states
-
-Four different situations, four different treatments; never one shared "No data".
-
-- **First run**: icon or illustration, one line of what this screen will hold, one primary CTA to create the first item, and a ghost preview of what a filled state looks like. This is the best onboarding surface in the product.
-- **No results (search)**: echo the query, suggest corrections or broader terms.
-- **Filtered out**: name the active filters and offer Clear all (see `search-and-filter-design`).
-- **Error**: what failed, whether it is being retried, and a Retry button.
-
-A bare blank screen is indistinguishable from a crash. Write like a product, not a log
-file; never "ERROR 404: result set empty". One CTA, contextual, not "Try refreshing".
+- **Back undo with a soft delete**: flag the record and keep it recoverable for a stated retention window, then hard-delete on expiry. An immediate hard delete makes the Undo button a lie the first time the request loses the race. Where the product has a real undo stack, wire ⌘Z to it.
+- Optimistic UI is for cheap, reversible work. Payments and irreversible operations keep a truthful busy state and confirm only after the write commits.
 
 ## Errors
 
@@ -52,52 +53,36 @@ file; never "ERROR 404: result set empty". One CTA, contextual, not "Try refresh
 - Put the error at the level it happened: a field error inline, a section error in that section, a page error as a page. Do not blow away a working screen for one failed widget.
 - Always offer a way forward: Retry, go back, contact support with a prefilled reference.
 - Auto-retry transient network failures a couple of times with backoff before telling the user anything.
-- Never blame the user, never use a modal for a non-blocking error.
-
-## Choosing the notification surface
-
-| Surface | Use for | Dismissal |
-| --- | --- | --- |
-| **Inline** (next to the control) | Validation, per-item results | Resolves with the state |
-| **Toast** (bottom or top corner) | Transient confirmations, undo | Auto after 4–7s |
-| **Banner** (top of page or section) | Persistent conditions: expired card, degraded service | User dismiss or condition clears |
-| **Modal** | Blocking decisions only | Explicit action |
-| **Notification center** | History, async completions | Read state |
-
-Pick the wrong surface and people tune all of them out.
-
-## Toasts
-
-Five rules: one at a time (queue the rest, cap at ~3 stacked); never cover the primary
-action or the element being acted on; ~4s for informational, ~7s for warnings, and
-**errors do not auto-dismiss**; at most one action per toast, and never bury a critical
-action there; enter with a slide + fade, exit faster, and pause the timer on hover or focus.
-
-Anchor them out of the way and keep the anchor consistent: a bottom corner on desktop, the
-top edge on mobile where the bottom is thumb territory. Never center-screen — that is a
-modal's position and it reads as one. Pair the type color with an icon and a left accent
-border, close button on desktop, swipe-to-dismiss on touch.
+- Never blame the user, never use a modal for a non-blocking error, and never put an error the user must act on in a disappearing toast.
 
 ## Success
 
 Confirm where the action happened: an inline check on the saved field beats a toast that
-steals attention and vanishes before it is read. Reserve celebration animations (500–800ms,
-with overshoot) for genuine milestones; on every ordinary save they become noise.
+steals attention and vanishes before it is read. Reserve celebration animations
+(500-800ms, with overshoot) for genuine milestones; on every ordinary save they become
+noise.
 
 People remember a flow by its worst moment and its last one, not by its average. Spend the
-effort on the sharpest pain (the error, the wait, the rejection) and on the final screen;
-a rough middle with a clean ending is remembered better than an even, forgettable flow.
+effort on the sharpest pain (the error, the wait, the rejection) and on the final screen; a
+rough middle with a clean ending is remembered better than an even, forgettable flow.
 
-## Progress and long tasks
+## State completeness
 
-Show real progress, never a fake crawl to 90%. For multi-step work, list the steps and
-mark them off. Let long jobs run in the background with a status entry the user can leave
-and return to, and notify on completion. Never block the whole UI on one export.
+Every data-bearing surface ships five states, not one: **default, loading, empty, error,
+and the too-much case** (long strings, huge numbers, hundreds of rows). Designing only the
+happy path is the most common reason an interface looks unfinished. `empty-state` covers
+the four kinds of empty; `responsive-design` covers overflow behavior.
+
+Three more apply wherever the data source can produce them, and each needs its own
+treatment rather than being folded into "loading" or "error": **partial** (some regions
+resolved, others failed), **stale** (showing a cached or last-known value, which must say
+how old it is), and **offline** (queued work and what happens on reconnect). This is the
+canonical list; other skills select from it rather than restating it.
 
 ## Accessibility
 
-- Live regions: `aria-live="polite"` for status and success, `role="alert"` (assertive) for errors. Do not make every toast assertive.
-- Loading containers get `aria-busy="true"`; buttons keep their accessible name and their focus while showing a spinner ("Saving…"). Block the repeat submission in the handler rather than removing the control from the tab order (see `button-and-action-design`).
-- Toasts need a keyboard-reachable close and enough time to act; WCAG requires a way to extend or dismiss timed content.
+- Live regions: `aria-live="polite"` for status and success, `role="alert"` (assertive) for errors. Do not make every message assertive.
+- Loading containers get `aria-busy="true"`; buttons keep their accessible name and their focus while showing a spinner ("Saving…").
+- Timed content needs a way to extend or dismiss it; hover and focus pause any countdown.
 - Never communicate state with color alone: pair with icon and text.
 - Announce result counts and step transitions; a screen reader user gets no benefit from a spinner.

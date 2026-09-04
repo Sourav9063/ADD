@@ -1,0 +1,6 @@
+interface:
+  display_name: "Select and Combobox"
+  short_description: "Design selects and autocompletes"
+  default_prompt: "Use $select-and-combobox to build or review this select, dropdown, or autocomplete field."
+policy:
+  allow_implicit_invocation: true

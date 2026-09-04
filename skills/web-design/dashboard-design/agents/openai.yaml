@@ -1,0 +1,6 @@
+interface:
+  display_name: "Dashboard Design"
+  short_description: "Design dashboards and analytics homes"
+  default_prompt: "Use $dashboard-design to build or review this dashboard layout, KPI tiles, or drill-down."
+policy:
+  allow_implicit_invocation: true

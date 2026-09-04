@@ -1,0 +1,6 @@
+interface:
+  display_name: "Onboarding Design"
+  short_description: "Design first-run and activation"
+  default_prompt: "Use $onboarding-design to build or review this first-run flow, checklist, or feature announcement."
+policy:
+  allow_implicit_invocation: true

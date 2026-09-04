@@ -1,0 +1,6 @@
+interface:
+  display_name: "Checkbox and Radio"
+  short_description: "Design checkboxes and radios"
+  default_prompt: "Use $checkbox-and-radio to build or review these checkboxes, radios, or their group."
+policy:
+  allow_implicit_invocation: true

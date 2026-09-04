@@ -1,0 +1,6 @@
+interface:
+  display_name: "Modal Dialog"
+  short_description: "Design blocking dialogs"
+  default_prompt: "Use $modal-dialog to build or review this modal, its structure, and its dismissal."
+policy:
+  allow_implicit_invocation: true

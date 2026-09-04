@@ -1,0 +1,6 @@
+interface:
+  display_name: "Auth Flow Design"
+  short_description: "Design sign-in, sign-up, and recovery"
+  default_prompt: "Use $auth-flow-design to build or review this sign-in, sign-up, one-time code, or password reset flow."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "UI Composition"
+  short_description: "Integrate a screen around user intent"
+  default_prompt: "Use $ui-composition to shape and build this screen from the existing design system and components."
+policy:
+  allow_implicit_invocation: true

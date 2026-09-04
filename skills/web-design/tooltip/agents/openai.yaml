@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tooltip"
+  short_description: "Design tooltips and hints"
+  default_prompt: "Use $tooltip to build or review this tooltip and what belongs in it."
+policy:
+  allow_implicit_invocation: true

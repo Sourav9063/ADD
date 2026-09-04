@@ -1,40 +1,24 @@
 ---
 name: button-and-action-design
-description: Build or review buttons and action controls. Use when creating a button, link, icon button, split or dropdown button, floating action button, toolbar, or action menu, when choosing button hierarchy or labels, when handling destructive or bulk actions, or when a button is disabled, loading, or double-submitting.
+description: Build or review the actions on a screen. Use when ranking actions and choosing which is primary, ordering buttons in dialogs and forms, building toolbars, overflow and action menus, bulk action bars, floating action buttons, or swipe actions, and when handling destructive actions, confirmation, and the disabled-submit problem.
 ---
 
 # Button and Action Design
 
-Assumes `design-foundations` for tokens and motion, `feedback-design` for result states.
+Assumes `design-foundations` for tokens and motion, `button` for the control itself, and
+`feedback-design` for result states. This skill is about which actions a screen offers,
+how they rank, and what happens when one is dangerous.
 
-## Link or button
+## Hierarchy and placement
 
-- Navigates to a URL → `<a href>`. Performs an action → `<button>`. This decides middle-click, Back, Enter vs Space, and how screen readers announce it.
-- Never a `<div onClick>`. You lose focus, Enter/Space, and role, and you will rebuild all three badly.
-- A button styled as a link is fine; a link that mutates data is not.
+One **primary** per view. Everything else is secondary, tertiary, or destructive; two
+primaries side by side means neither is primary. Variants, sizes, labels, and states are
+`button`'s job - the decisions here are which action wins and where it sits.
 
-## Hierarchy
-
-One **primary** per view (filled, accent). Everything else is **secondary** (outline or
-tinted), **tertiary/ghost** (text only), or **destructive** (danger fill, or danger text
-when it is not the main path). Two primaries side by side means neither is primary.
-
-- Size scale: `sm 32 / md 40 / lg 48`px height, with 44px minimum touch targets; pad the hit area rather than inflating the visual.
+- Size scale: `sm 32 / md 40 / lg 48`px height; pad the hit area rather than inflating the visual.
 - Order on desktop: primary rightmost in dialogs, leftmost in forms and toolbars. Pick one per product and never mix. On mobile, stack full width with the primary on top.
 - Cancel is never the same weight as Confirm.
-
-## Labels
-
-- Verb + object: **Save changes**, **Delete project**, **Send invite**. Not "OK", not "Submit", not "Yes".
 - The label must match the destination or result: a button reading "Continue" that charges a card is a dark pattern.
-- Sentence case, no truncation, no width jump between states; reserve the widest label's width so loading does not resize the button.
-- Icon-only buttons need `aria-label` and a tooltip on **focus as well as hover**.
-
-## States
-
-Style all seven: default, hover, focus-visible, active/pressed, loading, disabled, and
-(where relevant) selected. Press feedback under 100ms: a scale to `0.98` or a fill shift.
-Hover effects must never be the only signal that something is interactive.
 
 ## Stop disabling submit buttons
 
@@ -68,7 +52,6 @@ reversible actions; payments and irreversible work keep a truthful busy state.
 
 ## Groups, menus, and toolbars
 
-- **Split button**: default action on the left, arrow for alternates on the right, each separately labeled.
 - Beyond ~3 actions in a row, move the rest into an overflow menu (`⋯`) with the destructive item separated at the bottom.
 - Toolbars: group by function with dividers, keep icon sizes consistent, and expose one roving tabindex across the group so Tab does not walk through twelve controls.
 - **Bulk action bars** appear on first selection and state the count. Selection lives in application state, not the DOM, so it survives pagination and supports shift-click ranges. "Select all" means this page; offer the explicit escalation "Select all 247 matching", and update that number when filters change.
@@ -77,7 +60,7 @@ reversible actions; payments and irreversible work keep a truthful busy state.
 
 ## Accessibility
 
-- Focus ring visible on every variant, including the filled danger one; check contrast against the button's own fill, not the page.
-- Enter and Space both activate; type is explicit (`type="button"` inside forms, or you get accidental submits).
-- Toggle buttons expose `aria-pressed`; menu triggers expose `aria-expanded` and `aria-haspopup`.
-- Never convey state by color alone: pair with icon, label, or shape.
+- Menu triggers expose `aria-expanded` and `aria-haspopup`; the menu itself follows `popover-and-menu`.
+- A bulk action bar announces the selection count when it appears, and its actions name what they apply to ("Delete 12 selected files").
+- Gesture-only actions (swipe, drag, long-press) always have a visible equivalent; WCAG 2.2 requires a single-pointer alternative.
+- Per-control focus, naming, and state rules live in `button`.

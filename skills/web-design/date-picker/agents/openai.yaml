@@ -1,0 +1,6 @@
+interface:
+  display_name: "Date Picker"
+  short_description: "Design date and time selection"
+  default_prompt: "Use $date-picker to build or review this date field, calendar, or range picker."
+policy:
+  allow_implicit_invocation: true

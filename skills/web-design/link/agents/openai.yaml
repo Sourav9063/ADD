@@ -1,0 +1,6 @@
+interface:
+  display_name: "Link"
+  short_description: "Design links and their states"
+  default_prompt: "Use $link to build or review these links, their underlines, and their text."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "File Upload"
+  short_description: "Design file and image upload"
+  default_prompt: "Use $file-upload to build or review this upload control, queue, and progress."
+policy:
+  allow_implicit_invocation: true

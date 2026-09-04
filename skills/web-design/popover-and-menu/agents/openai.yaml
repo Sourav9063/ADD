@@ -1,0 +1,6 @@
+interface:
+  display_name: "Popover and Menu"
+  short_description: "Design anchored overlays"
+  default_prompt: "Use $popover-and-menu to build or review this dropdown menu, context menu, or popover."
+policy:
+  allow_implicit_invocation: true

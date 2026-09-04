@@ -1,0 +1,6 @@
+interface:
+  display_name: "Accordion"
+  short_description: "Design collapsible disclosure"
+  default_prompt: "Use $accordion to build or review this accordion or collapsible section."
+policy:
+  allow_implicit_invocation: true

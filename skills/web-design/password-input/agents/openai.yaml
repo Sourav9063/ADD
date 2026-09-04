@@ -1,0 +1,6 @@
+interface:
+  display_name: "Password Input"
+  short_description: "Design password fields"
+  default_prompt: "Use $password-input to build or review this password field, reveal toggle, and rules."
+policy:
+  allow_implicit_invocation: true

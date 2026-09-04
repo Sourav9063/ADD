@@ -1,0 +1,6 @@
+interface:
+  display_name: "Skeleton"
+  short_description: "Design skeleton placeholders"
+  default_prompt: "Use $skeleton to build or review these skeleton placeholders and their transition."
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Text Input"
+  short_description: "Design text fields and textareas"
+  default_prompt: "Use $text-input to build or review this text field, its states, and its keyboard type."
+policy:
+  allow_implicit_invocation: true

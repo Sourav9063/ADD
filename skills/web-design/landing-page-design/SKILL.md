@@ -41,15 +41,15 @@ lands in it.
 The order is the argument. It works because it answers objections in the sequence people
 raise them:
 
-1. **Hero** — what it is, who it is for, one primary CTA.
-2. **Social proof strip** — logos, user count, or rating, immediately after the claim.
-3. **Problem** — name the pain in the reader's words so they know they are on the right page.
-4. **Solution / how it works** — three steps or three pillars, each with a visual.
-5. **Features as outcomes** — what it does, framed as what they get. Cap the headline benefits at three and make each one concrete ("save 10 hours a week", not "advanced automation"); a grid of nine features is a spec sheet, and nobody reads it.
-6. **Proof** — testimonials with names, faces, roles, and specific results; case numbers.
-7. **Pricing** — visible, with the recommended plan isolated.
-8. **Objection handling / FAQ** — the real questions from sales and support.
-9. **Final CTA** — the same action as the hero, restated with the value.
+1. **Hero** - what it is, who it is for, one primary CTA.
+2. **Social proof strip** - logos, user count, or rating, immediately after the claim.
+3. **Problem** - name the pain in the reader's words so they know they are on the right page.
+4. **Solution / how it works** - three steps or three pillars, each with a visual.
+5. **Features as outcomes** - what it does, framed as what they get. Cap the headline benefits at three and make each one concrete ("save 10 hours a week", not "advanced automation"); a grid of nine features is a spec sheet, and nobody reads it.
+6. **Proof** - testimonials with names, faces, roles, and specific results; case numbers.
+7. **Pricing** - visible, with the recommended plan isolated.
+8. **Objection handling / FAQ** - the real questions from sales and support.
+9. **Final CTA** - the same action as the hero, restated with the value.
 
 Cut, do not reorder casually. A page missing proof or pricing loses more than a page
 missing a feature grid.
@@ -93,7 +93,7 @@ missing a feature grid.
 
 Scroll-triggered reveals fire **once**, stay subtle (fade + 8–16px rise, 300–400ms), and
 never gate content: if JS fails or motion is reduced, every word is still there and
-readable. Parallax is a vestibular trigger and a frame-rate cost — use it on one element at
+readable. Parallax is a vestibular trigger and a frame-rate cost - use it on one element at
 most. See `motion-design`.
 
 ## Performance and measurement

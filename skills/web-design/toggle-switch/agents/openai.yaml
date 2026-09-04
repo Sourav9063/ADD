@@ -1,0 +1,6 @@
+interface:
+  display_name: "Toggle Switch"
+  short_description: "Design on/off switches"
+  default_prompt: "Use $toggle-switch to build or review this toggle switch and its immediate effect."
+policy:
+  allow_implicit_invocation: true

@@ -1,11 +1,13 @@
 ---
 name: overlay-design
-description: Build or review layered UI. Use when creating a modal, dialog, confirmation, bottom sheet, drawer, side panel, popover, dropdown menu, tooltip, or command palette, when deciding which of them fits, or when handling scrims, focus trapping, Escape dismissal, scroll locking, or z-index stacking.
+description: Choose and coordinate layered UI. Use when deciding between inline disclosure, a popover, a drawer, a bottom sheet, and a modal, when overlays are stacking or conflicting, or when handling scrims, focus return, Escape order, scroll locking, and the z-index scale across the whole product.
 ---
 
 # Overlay Design
 
-Assumes `design-foundations` for tokens and motion.
+Assumes `design-foundations` for tokens and motion. This skill picks the surface and owns
+what is true of every overlay; each surface owns its own anatomy and keyboard contract:
+`modal-dialog`, `drawer-and-sheet`, `popover-and-menu`, `tooltip`, `command-palette`.
 
 ## Pick the lightest surface that works
 
@@ -14,85 +16,47 @@ Start with one question: **does this need to block the user?** Almost always, no
 | Surface | Use for | Weight |
 | --- | --- | --- |
 | **Inline / expand in place** | Editing, disclosure, anything with surrounding context | None: the default, and the one people skip |
-| **Popover / menu** (~200–320px, anchored to its trigger) | Quick choices, overflow actions, pickers | Dismiss on outside click; no scrim |
+| **Popover / menu** (~200-320px, anchored to its trigger) | Quick choices, overflow actions, pickers | Dismiss on outside click; no scrim |
 | **Drawer / side panel** | Details, secondary navigation, filters on desktop | Dims only what it covers; app stays alive behind |
 | **Bottom sheet** (mobile) | Contextual actions and pickers within thumb reach | Drag handle, snap points, background partly visible |
 | **Modal dialog** | Blocking, destructive, or irreversible decisions only | Full scrim, full attention |
 
-Rules of thumb: a modal for a routine action is a punishment. Navigation never goes inside
-a blocking overlay. **Never stack a modal on a modal**: replace the content or use a
-drawer.
+Rules of thumb: a modal for a routine action is a punishment; navigation never goes inside a
+blocking overlay; a hint is never an overlay you can click. **Never stack a modal on a
+modal** - replace the content or step down to a drawer.
 
-## Dropdowns and menus
+## True of every overlay
 
-- The trigger needs a visible caret, a real hover state, and a focus ring — a low-contrast box with no affordance is not a control. Give it a full-size touch target; a 30px trigger fails on a phone.
-- Measure and **flip above the trigger** when there is no room below, and constrain the menu to the viewport instead of letting it clip.
-- Open in ~150ms. Instant reads as a repaint rather than a response; past ~300ms it drags.
-- Arrow keys move the highlight, Enter selects, Escape closes, and typing jumps to a match. This is not optional.
-- Past ~10 options add a search field; scrolling a long list is not filtering it.
-
-## Tooltips
-
-Hints only, never information required to complete the task, and never interactive content.
-
-- **Delay ~300ms before showing on hover** so a cursor crossing the control does not fire it; show instantly on focus.
-- Cap the width around 300px and hold it to one sentence. Documentation belongs in the interface, not in a tooltip.
-- Point at the trigger with an arrow, and flip near the viewport edge.
-- Dismiss on mouse leave, blur, Escape, and outside tap. A tooltip that survives Escape is a trap for keyboard users.
-
-## Anatomy
-
-- Title that names the decision ("Delete 3 projects?"), body that states consequences, actions bottom-right on desktop, full-width stacked on mobile with the primary on top.
-- Buttons say the verb: **Delete / Cancel**, not OK/Cancel.
-- Destructive primary is `danger`-colored; for irreversible bulk actions, require typed confirmation or an explicit count.
-- Max width ~480px for confirmations, ~640px for forms. Long content scrolls in the body while the header and footer stay pinned.
-- Scrim: black at 40–60% with a short fade. Do not blur the background if it costs frames on low-end devices.
+- **Escape closes**, innermost first, and returns focus to the trigger. Skipping the focus return is the single most common overlay defect.
+- Nothing auto-dismisses on a timer, and nothing closes on scroll - except an anchored popover whose trigger scrolled away.
+- Opening measures first: flip and shift to stay inside the viewport rather than clipping or overflowing the page.
+- The trigger keeps `aria-expanded` and an active state while its surface is open.
+- Content behind a blocking overlay is `inert`; content behind a non-blocking one is not, and must stay fully usable.
+- Lock background scroll only for blocking surfaces, and compensate for the scrollbar width so the page does not jump.
+- Unsaved input asks before it is discarded, in every surface that can hold a form.
 
 ## Motion
 
-Entrance 200–300ms `ease-out`, exit ~150ms. Modals fade + scale from `0.96`; sheets slide
-from the edge; popovers scale from the trigger's corner (`transform-origin` at the anchor)
-so the connection is obvious. Under `prefers-reduced-motion`, fade only.
-
-## Dismissal
-
-- Escape closes every overlay. Outside click closes popovers, drawers, and sheets; for a modal with unsaved input, ask before discarding.
-- Sheets close on swipe-down past a threshold, with velocity-aware snapping.
-- Close button top-right on anything larger than a popover, plus a visible Cancel for decisions.
-- Never auto-dismiss an overlay on a timer, and never close on scroll.
-
-## Focus and scroll
-
-- On open, move focus into the overlay: to the first field, or the container when there is none. Never onto the destructive button.
-- Trap focus while open; Tab cycles and wraps inside.
-- On close: return focus to the element that opened it. Skipping this is the single most common overlay defect.
-- Lock background scroll without a layout shift (compensate for scrollbar width). The overlay's own body scrolls.
+Entrance 200-300ms `ease-out`, exit ~150ms. Modals fade and scale from `0.96`; sheets and
+drawers slide from the edge; popovers scale from the trigger's corner so the connection is
+obvious. Under `prefers-reduced-motion`, fade only (`motion-design`).
 
 ## Stacking
 
-Use a token scale: `dropdown 1000 / sticky 1100 / drawer 1200 / modal 1300 / popover 1400 / toast 1500`. Never write an ad-hoc `z-index: 9999`; an escalating number is a symptom of a stacking context upstream, not a fix. Remember `z-index` only applies to positioned elements (`static` ignores it entirely), and a parent's `transform`, `filter`, or `opacity` creates a stacking context that traps children no matter how high their value. Diagnose in the DevTools layers view rather than by incrementing. Use `isolation: isolate` to deliberately contain a subtree's layering, and portal the overlay to the body when it genuinely must escape.
+Use a token scale: `dropdown 1000 / sticky 1100 / drawer 1200 / modal 1300 / popover 1400 /
+toast 1500`. Never write an ad-hoc `z-index: 9999`; an escalating number is a symptom of a
+stacking context upstream, not a fix.
 
-## Command palette
+`z-index` applies only to positioned elements (`static` ignores it entirely), and a parent's
+`transform`, `filter`, or `opacity` creates a stacking context that traps children no matter
+how high their value. Diagnose in the DevTools layers view rather than by incrementing. Use
+`isolation: isolate` to deliberately contain a subtree, portal to the body when an overlay
+must genuinely escape, and prefer the top layer (native `<dialog>`, the popover API), which
+sidesteps the scale entirely.
 
-⌘K is a system, not a search box: fuzzy subsequence matching (`stg` finds Settings,
-Storage, and Staging), grouped and ranked results, recent commands when empty, inline
-keyboard shortcut hints, arrow + Enter navigation, and one action per row. Debounce remote
-search and keep the previous results while fetching.
+## Coordination
 
-Commands that drill into sub-menus keep a breadcrumb, and **Escape walks back one level**
-before it closes the palette. An async command runs with a spinner inline in the palette,
-which stays open — never freeze the screen behind it.
-
-## Context menus
-
-- Measure before opening and flip or shift the menu to remain inside the viewport while staying anchored to its trigger or pointer.
-- Group actions by intent, separate destructive items at the bottom, and use a safe pointer corridor so diagonal movement into a submenu does not close it.
-- Arrow keys move, typeahead jumps, and Escape closes one submenu level at a time. On touch, long press may open the same actions in a bottom sheet, but every action still needs a visible, non-gesture path.
-
-## Accessibility
-
-- `role="dialog"` (or `alertdialog` for a blocking confirm) with `aria-modal="true"` and `aria-labelledby` pointing at the title; add `aria-describedby` for the body.
-- Content behind should be inert (`inert` attribute or `aria-hidden="true"`) while a modal is open.
-- Menus use `role="menu"`/`menuitem` with arrow-key navigation and typeahead; a popover of arbitrary content should not.
-- Triggers expose `aria-expanded` and `aria-haspopup`; tooltips use `aria-describedby` and must appear on focus, not only hover.
-- Native `<dialog>` with `showModal()` gives you the trap, Escape, and inertness for free; prefer it.
+- One blocking surface at a time. Opening a modal closes open menus and tooltips first.
+- A toast must never appear under a scrim where it cannot be read (`toast`); announce results inside the overlay that produced them.
+- Keyboard shortcuts scoped to a surface stop working when it closes, and global shortcuts are suppressed while a modal is open.
+- Route-backed overlays (a record drawer, a settings modal) belong in the URL so they survive refresh and Back closes them (`navigation-design`).

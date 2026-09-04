@@ -1,0 +1,6 @@
+interface:
+  display_name: "Toast"
+  short_description: "Design transient notifications"
+  default_prompt: "Use $toast to build or review this toast, its timing, and its undo."
+policy:
+  allow_implicit_invocation: true

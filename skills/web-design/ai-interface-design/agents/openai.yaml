@@ -1,0 +1,6 @@
+interface:
+  display_name: "AI Interface Design"
+  short_description: "Design chat, assistant, and agent UI"
+  default_prompt: "Use $ai-interface-design to build or review this chat, streaming response, or agent approval flow."
+policy:
+  allow_implicit_invocation: true

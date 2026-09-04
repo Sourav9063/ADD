@@ -1,0 +1,6 @@
+interface:
+  display_name: "Badge and Tag"
+  short_description: "Design badges, tags, and counts"
+  default_prompt: "Use $badge-and-tag to build or review this status badge, tag, or count indicator."
+policy:
+  allow_implicit_invocation: true

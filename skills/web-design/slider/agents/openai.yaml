@@ -1,0 +1,6 @@
+interface:
+  display_name: "Slider"
+  short_description: "Design range sliders"
+  default_prompt: "Use $slider to build or review this slider, its steps, and its numeric pairing."
+policy:
+  allow_implicit_invocation: true

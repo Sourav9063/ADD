@@ -1,0 +1,6 @@
+interface:
+  display_name: "Button"
+  short_description: "Design a button control"
+  default_prompt: "Use $button to build or review this button, its variants, label, and states."
+policy:
+  allow_implicit_invocation: true

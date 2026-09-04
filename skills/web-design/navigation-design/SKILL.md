@@ -5,8 +5,9 @@ description: Build or review app navigation and information architecture. Use wh
 
 # Navigation Design
 
-Assumes `design-foundations` for tokens and focus rules; `tab-design` owns in-page tabs,
-`overlay-design` owns drawers and command palettes.
+Assumes `design-foundations` for tokens and focus rules. `tab-design` owns in-page tabs,
+`drawer-and-sheet` the mobile menu surface, `command-palette` the ⌘K index, `breadcrumb`
+the trail, and `link` the items themselves.
 
 Choose by **platform and depth, not taste**. Navigation is one system across breakpoints,
 not a desktop layout with a smaller variant.
@@ -15,7 +16,7 @@ not a desktop layout with a smaller variant.
 
 | Context | Pattern |
 | --- | --- |
-| Mobile, 3–5 primary destinations | **Bottom tab bar**: always visible, thumb-reachable, icon + label |
+| Mobile, 3-5 primary destinations | **Bottom tab bar**: always visible, thumb-reachable, icon + label |
 | Mobile, 6+ destinations | Bottom bar of the top 4 + a "More" sheet |
 | Desktop, 5+ sections or nesting | **Persistent sidebar**, collapsible to icons with labels on hover/focus |
 | Desktop, ≤5 flat sections, marketing | Top bar |
@@ -31,10 +32,10 @@ cannot see. Breadcrumbs in a flat structure are clutter, not orientation.
 
 ## Structure
 
-- 5–7 top-level items. More than that means the IA is wrong, not that you need scrolling.
+- 5-7 top-level items. More than that means the IA is wrong, not that you need scrolling.
 - Two levels of nesting max. A third level belongs to in-page tabs or a section sidebar.
 - Group with labeled sections and spacing once you pass ~7 items.
-- Labels are the user's nouns, 1–2 words, consistent with the page title they lead to. If you cannot name it in two words, the grouping is wrong.
+- Labels are the user's nouns, 1-2 words, consistent with the page title they lead to. If you cannot name it in two words, the grouping is wrong.
 - Icons need labels. Icon-only navigation is a memory test that regular users fail on anything but the top 4 items.
 - Put destructive or rarely used items (Sign out, Billing) away from frequent ones.
 
@@ -88,5 +89,4 @@ returning to.
 - `<nav>` landmarks with distinct `aria-label`s ("Main", "Breadcrumb", "Footer") when there is more than one.
 - Skip link as the first focusable element.
 - Expandable groups are `<button aria-expanded>` controlling the list; arrow keys are optional, Enter/Space are not.
-- Breadcrumbs: ordered list, last item is the current page and not a link, with `aria-current="page"`.
 - Announce route changes: move focus to the new page's `<h1>` so screen reader users learn the view changed.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Media Design"
+  short_description: "Design video, audio, and image UI"
+  default_prompt: "Use $media-design to build or review this player, captions, gallery, or lightbox."
+policy:
+  allow_implicit_invocation: true

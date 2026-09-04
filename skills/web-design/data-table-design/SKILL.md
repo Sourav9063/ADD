@@ -56,7 +56,7 @@ does not look starved when compact.
 
 - First load: skeleton rows in the real column layout, 5–10 rows, not a centered spinner.
 - Refetch after sort/filter: keep the old rows, dim them, keep the header live.
-- Empty needs the distinction from `feedback-design`: nothing yet vs. nothing matching the current filters.
+- Empty needs the distinction from `empty-state`: nothing yet vs. nothing matching the current filters.
 - Row-level failures show inline in that row; do not blow away the table for one bad record.
 
 ## Responsive

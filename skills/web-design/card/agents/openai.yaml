@@ -1,0 +1,6 @@
+interface:
+  display_name: "Card"
+  short_description: "Design a card component"
+  default_prompt: "Use $card to build or review this card, its anatomy, and its click target."
+policy:
+  allow_implicit_invocation: true

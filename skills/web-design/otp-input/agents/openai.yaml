@@ -1,0 +1,6 @@
+interface:
+  display_name: "OTP Input"
+  short_description: "Design one-time code entry"
+  default_prompt: "Use $otp-input to build or review this verification code field and its resend."
+policy:
+  allow_implicit_invocation: true

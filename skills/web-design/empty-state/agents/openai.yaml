@@ -1,0 +1,6 @@
+interface:
+  display_name: "Empty State"
+  short_description: "Design empty states"
+  default_prompt: "Use $empty-state to build or review this empty state and which of the four kinds it is."
+policy:
+  allow_implicit_invocation: true

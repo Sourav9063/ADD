@@ -1,0 +1,6 @@
+interface:
+  display_name: "Command Palette"
+  short_description: "Design a command palette"
+  default_prompt: "Use $command-palette to build or review this command palette, its matching, and its modes."
+policy:
+  allow_implicit_invocation: true

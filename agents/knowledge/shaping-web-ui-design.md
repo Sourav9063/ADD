@@ -3,7 +3,7 @@
 Where the rules in [`skills/web-design/`](../../skills/web-design/) come from. Read before
 adding a skill to that group, amending a rule, or defending a claim someone disputes.
 
-Reviewed: 2026-08-25.
+Reviewed: 2026-09-04.
 
 ## Pattern catalog
 
@@ -22,6 +22,12 @@ names hide the numbers, thresholds, and sub-rules that are the reason to consult
 Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on the obvious
 slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
 `/patterns/von-restorff`.
+
+Re-checked on 2026-09-04: its sitemap still lists exactly the 73 pattern pages below, so
+the catalog has published nothing new since 2026-08-23. Check it the cheap way -
+`curl -s https://www.designmotionhq.com/sitemap.xml | grep -o '/patterns/[a-z0-9-]*' | sort -u`
+- rather than by reading the index page, whose category counts and rendered lists are both
+unreliable.
 
 ## Covered patterns
 
@@ -42,6 +48,32 @@ Two of their rules were reviewed and **deliberately not adopted**: the Error Sta
 "don't validate on submit" (submit must validate everything, focus the first invalid field,
 and announce the count) and the Visual Hierarchy page's prescribed 800/400/300 font weights
 (one product's taste, not a rule). Do not re-add either on a later pass.
+
+## Coverage beyond the catalog
+
+Design Motion HQ is one catalog with one editor's blind spots, so on 2026-09-04 the group
+was audited against two broader indexes: <https://uxpatterns.dev/patterns> (component-level,
+by category) and <https://www.aiuxplayground.com/patterns/> (AI surfaces only). Diffing
+their categories against the skill list found five surfaces with no owner, each now a skill:
+
+| Skill | Why it earned one |
+| --- | --- |
+| `ai-interface-design` | The entire AI Intelligence category, plus every chatbot, agent, and cost pattern in the playground. Agents build these constantly and had no rule to consult. |
+| `auth-flow-design` | `form-design` owned the fields; nothing owned the flow, the recovery paths, or WCAG 2.2 SC 3.3.8. |
+| `onboarding-design` | First run was scattered across `feedback-design`, `microcopy`, and `motion-design`, and none of them carried the finding that tours lose to skipping. |
+| `media-design` | Players, captions, galleries, and lightboxes sat between `frontend-performance` and `overlay-design`, owned by neither. |
+| `dashboard-design` | `chart-design` had a Dashboards section that was really page-level layout. It was moved out and that skill now points at the new one. |
+
+Both indexes are tier 3: category maps worth diffing against, not authorities. Every rule in
+the five skills traces to the tiers below - WCAG 2.2 and NIST SP 800-63B for auth, WAI media
+guidance for players, NN/g for chatbots, tours, and dashboards, PAIR for AI failure paths.
+
+**Deliberately not adopted from these two:** per-component pages that restate what a skill
+already owns (their Button, Checkbox, Modal, Tooltip, Pagination entries); domain-specific
+flows the group has no business prescribing (checkout, shopping cart, product card); social
+primitives thin enough to fall out of existing skills (like buttons, share dialogs, comment
+threads - `card-and-list-design` plus `form-design`); and the playground's Design Tools and
+Voice Cloning categories, which are product ideas rather than interface rules.
 
 ## Authority order
 
@@ -69,6 +101,11 @@ Resolve conflicts in this order. A practitioner post never overrides a spec.
 | Layout and content edge cases | Ahmad Shadeed <https://ishadeed.com>; Defensive CSS <https://defensivecss.dev> |
 | Checklists across surfaces | Smashing / Vitaly Friedman, Smart Interface Design Patterns |
 | Measured behavioral claims | NN/g <https://www.nngroup.com>, Baymard <https://baymard.com> |
+| Password rules, credential handling | NIST SP 800-63B-4 <https://pages.nist.gov/800-63-4/sp800-63b.html> |
+| Password length by factor count, enumeration defenses | OWASP ASVS <https://owasp.org/www-project-application-security-verification-standard/> and the OWASP Authentication Cheat Sheet. NIST sets 8 as the floor and recommends 15; the "15 alone, 8 with MFA" split in `auth-flow-design` is OWASP's, so cite it there rather than to NIST |
+| Sign-in markup, autofill and passkey tokens | web.dev sign-in and sign-up form best practices <https://web.dev/articles/sign-in-form-best-practices>; passkeys.dev |
+| Captions, description, player requirements | W3C WAI media guidance <https://www.w3.org/WAI/media/av/> |
+| AI product failure paths and trust | Google PAIR People + AI Guidebook <https://pair.withgoogle.com/guidebook>; Microsoft HAX Toolkit <https://www.microsoft.com/en-us/haxtoolkit/> |
 | Cross-system component comparison | Material 3, Apple HIG, Polaris, Atlassian, Carbon, Primer, USWDS |
 
 ## Public skill collections
@@ -105,9 +142,14 @@ the repository itself has changed**; what was worth taking is already in the ski
 
 ## Skill-group conventions
 
+- `ui-composition` owns the full-screen workflow: discover existing tokens and components, lock user intent and risk, establish hierarchy, map regions to component owners, specify complete states, then reconcile the assembled screen. Component and surface skills remain focused references selected by that workflow.
 - `design-foundations` is the shared baseline; section skills assume it and never restate tokens, motion scale, or the accessibility baseline.
 - Five skills are cross-cutting rather than per-surface: `visual-direction` (which runs before the others on new work), `typography-design`, `color-systems`, `responsive-design`, and `internationalization-design`. `design-foundations` owns the token scales; these own what happens to text, color, space, and language downstream of them. Keep the seam there rather than duplicating scale definitions.
 - `accessibility-audit` verifies shipped UI; every other skill covers design time. Keep verification steps out of the section skills.
-- One authoritative location per rule, cross-linked by skill name - for example range sliders live in `form-design` and `search-and-filter-design` points at them.
+- One authoritative location per rule, cross-linked by skill name. The seam is now **component versus composition**: the component skill owns the control's anatomy, states, and keyboard contract, and the surface skill owns which control to use and what surrounds it. `form-design` picks the control and owns validation timing; `text-input` owns the field. `overlay-design` picks the surface; `modal-dialog` owns the dialog. `feedback-design` picks the response; `toast`, `skeleton`, and `empty-state` own theirs. Never restate a component's rules in the surface that uses it.
+- Related seams from the same pass: `chart-design` owns what is inside a chart and `dashboard-design` the page around it; `auth-flow-design` sets password policy and `password-input` renders it; `feedback-design` owns the response and `onboarding-design` treats the empty state as the first-run surface.
 - **No trailing checklists.** Removed from the group on 2026-08-25, 221 lines that restated body rules. This group was the only one in the repository that ever had them; the rule now lives in `writing-agent-guidance`. Do not reintroduce them here.
-- **Merge before adding**, per `writing-agent-guidance`. Applied twice on 2026-08-25: `search-design` and `filter-design` became `search-and-filter-design` because they served one intent and shared zero-results, URL-state, and loading rules. `tab-design` stayed separate from `navigation-design` on the opposite reasoning, since merging would force tab work to load sidebar and pagination content it never needs; only the duplicated mobile bottom-bar rules were removed from it.
+- **One skill per essential component**, decided on 2026-09-04 and deliberately overriding the group's earlier "merge before adding" default. The reasoning that produced `search-and-filter-design` still holds for surfaces that serve one intent; it does not hold for components. A request to build a select should load the select's rules, not the whole of `form-design`, and the surface skills had grown into references nobody reads to the bottom of. Twenty-six components were extracted from `form-design`, `button-and-action-design`, `overlay-design`, `feedback-design`, `card-and-list-design`, and `navigation-design`, and each parent was trimmed to the composition rules it still owns.
+- The extraction is only worth it if the parents stay trimmed. When a component rule shows up in a surface skill again, delete it there rather than letting the two drift; the surface's job is to say *which* component and *why*, never *how*.
+- Component descriptions state only their positive, focused triggers. `ui-composition` owns the full-page and multi-component trigger in its description, preventing repeated routing prose across the catalog.
+- `tab-design` stays separate from `navigation-design`, since merging would force tab work to load sidebar and pagination content it never needs.

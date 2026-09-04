@@ -1,0 +1,6 @@
+interface:
+  display_name: "Avatar"
+  short_description: "Design avatars and identity"
+  default_prompt: "Use $avatar to build or review this avatar, its fallback, and its stack."
+policy:
+  allow_implicit_invocation: true

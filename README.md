@@ -88,7 +88,7 @@ done
 
 ### 4. Install the web design skills
 
-Sixteen skills covering the UI surfaces agents get wrong most often: forms, tables, overlays, navigation, motion, copy, and front-end performance.
+Fifty-four skills covering a composition workflow, the components and surfaces agents get wrong most often, and the cross-cutting dimensions around them. Full-screen work starts from user intent and the existing design system; focused control work loads one component skill.
 
 ```bash
 set -euo pipefail
@@ -170,10 +170,13 @@ Coding and programming workflow. These five are the always-on core, bundled into
 
 ### Web design skills: [`skills/web-design/`](skills/web-design/)
 
-Design rules, motion timings, and accessibility requirements for each UI surface: the specifics an agent otherwise invents from scratch every time.
+Design rules, motion timings, and accessibility requirements for each component and surface: the specifics an agent otherwise invents from scratch every time. Components own the control, surfaces own the composition around it.
+
+**Components** - [`button`](skills/web-design/button/) · [`link`](skills/web-design/link/) · [`text-input`](skills/web-design/text-input/) · [`select-and-combobox`](skills/web-design/select-and-combobox/) · [`checkbox-and-radio`](skills/web-design/checkbox-and-radio/) · [`toggle-switch`](skills/web-design/toggle-switch/) · [`slider`](skills/web-design/slider/) · [`date-picker`](skills/web-design/date-picker/) · [`file-upload`](skills/web-design/file-upload/) · [`password-input`](skills/web-design/password-input/) · [`otp-input`](skills/web-design/otp-input/) · [`modal-dialog`](skills/web-design/modal-dialog/) · [`drawer-and-sheet`](skills/web-design/drawer-and-sheet/) · [`popover-and-menu`](skills/web-design/popover-and-menu/) · [`tooltip`](skills/web-design/tooltip/) · [`command-palette`](skills/web-design/command-palette/) · [`toast`](skills/web-design/toast/) · [`alert-banner`](skills/web-design/alert-banner/) · [`progress-and-spinner`](skills/web-design/progress-and-spinner/) · [`skeleton`](skills/web-design/skeleton/) · [`empty-state`](skills/web-design/empty-state/) · [`card`](skills/web-design/card/) · [`badge-and-tag`](skills/web-design/badge-and-tag/) · [`avatar`](skills/web-design/avatar/) · [`accordion`](skills/web-design/accordion/) · [`breadcrumb`](skills/web-design/breadcrumb/)
 
 | Skill | Covers |
 | --- | --- |
+| [`ui-composition`](skills/web-design/ui-composition/) | Intent, existing-system discovery, hierarchy, component mapping, state completeness, responsive integration, whole-screen verification |
 | [`design-foundations`](skills/web-design/design-foundations/) | Tokens, spacing, hierarchy, surfaces, icons, gradients, motion scale, contrast, focus, dark mode; the shared baseline |
 | [`visual-direction`](skills/web-design/visual-direction/) | Grounding a direction in references, declaring the system, structural variation, asset sourcing, critique |
 | [`typography-design`](skills/web-design/typography-design/) | Type roles, faces and weights, measure, wrapping, truncation, tabular numbers, optical trim |
@@ -182,17 +185,22 @@ Design rules, motion timings, and accessibility requirements for each UI surface
 | [`internationalization-design`](skills/web-design/internationalization-design/) | Text expansion, RTL mirroring, non-Latin scripts, locale formats, meaning that does not travel |
 | [`motion-design`](skills/web-design/motion-design/) | Whether to animate, curves, physicality, gestures, page and shared-element transitions, scroll-driven motion |
 | [`microcopy`](skills/web-design/microcopy/) | Buttons, labels, errors, empty states, tone, draft content, translatable strings |
-| [`form-design`](skills/web-design/form-design/) | Field anatomy, six field states, validation timing, autosave, submit |
-| [`button-and-action-design`](skills/web-design/button-and-action-design/) | Hierarchy, labels, busy vs disabled, destructive and bulk actions |
+| [`form-design`](skills/web-design/form-design/) | Control choice, field order, validation timing, error copy, multi-step, autosave, submit |
+| [`button-and-action-design`](skills/web-design/button-and-action-design/) | Action ranking and placement, busy vs disabled, destructive and bulk actions |
 | [`navigation-design`](skills/web-design/navigation-design/) | Sidebars, bottom bars, breadcrumbs, IA depth, search entry points, pagination, URL state |
 | [`tab-design`](skills/web-design/tab-design/) | Indicator motion, overflow, panel transitions, full APG keyboard support |
 | [`search-and-filter-design`](skills/web-design/search-and-filter-design/) | Search input, scopes, suggestions, ranking, snippets, chips, facets, applied filters, zero and empty results |
 | [`data-table-design`](skills/web-design/data-table-design/) | Alignment, tri-state sort, selection, sticky headers, density, pagination |
-| [`card-and-list-design`](skills/web-design/card-and-list-design/) | Card anatomy, hover, click targets, grids, feeds, reordering |
-| [`chart-design`](skills/web-design/chart-design/) | Chart choice, axis honesty, series color, tooltips, dashboards |
-| [`overlay-design`](skills/web-design/overlay-design/) | Modal vs sheet vs drawer vs popover, focus trapping, z-index scale |
-| [`feedback-design`](skills/web-design/feedback-design/) | Loading, empty, error, toast, optimistic updates, undo |
+| [`card-and-list-design`](skills/web-design/card-and-list-design/) | Grid vs list vs table, density, virtualization, scroll restoration, reordering |
+| [`chart-design`](skills/web-design/chart-design/) | Chart choice, axis honesty, series color, tooltips, accessible data tables |
+| [`dashboard-design`](skills/web-design/dashboard-design/) | Operational vs analytical, widget layout, KPI tiles, time range, refresh, drill-down |
+| [`overlay-design`](skills/web-design/overlay-design/) | Choosing the surface, rules true of every overlay, z-index scale, coordination |
+| [`feedback-design`](skills/web-design/feedback-design/) | Matching the pattern to the wait, surface choice, optimistic updates, undo, state completeness |
 | [`collaboration-design`](skills/web-design/collaboration-design/) | Presence, live cursors, selection ownership, follow mode, conflict handling |
+| [`ai-interface-design`](skills/web-design/ai-interface-design/) | Chat and assistant surfaces, composer, streaming, citations, agent approvals, cost and limits |
+| [`auth-flow-design`](skills/web-design/auth-flow-design/) | Sign-in and sign-up, passkeys, one-time codes, reset and recovery, sessions and step-up |
+| [`onboarding-design`](skills/web-design/onboarding-design/) | First run, activation path, checklists, coach marks, permission priming, feature announcements |
+| [`media-design`](skills/web-design/media-design/) | Players and controls, captions and transcripts, autoplay, galleries, lightboxes |
 | [`landing-page-design`](skills/web-design/landing-page-design/) | Marketing page skeleton, hero, social proof, pricing, conversion CTAs |
 | [`accessibility-audit`](skills/web-design/accessibility-audit/) | Verification pass on shipped UI against WCAG 2.2 AA |
 | [`frontend-performance`](skills/web-design/frontend-performance/) | Core Web Vitals, bundle size, images, hydration, re-renders, CI budgets |
