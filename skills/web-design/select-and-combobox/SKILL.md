@@ -33,7 +33,7 @@ keyboard contract below.
 
 ## The menu
 
-- Anchor to the trigger, match its width, and flip above when there is no room below. Never let the menu escape the viewport or clip inside an overflow container (`popover-and-menu`, `overlay-design`).
+- Anchor to the trigger, match its width, and flip above when there is no room below. Never let the menu escape the viewport or clip inside an overflow container (`popover-and-menu`).
 - Cap the height and scroll the list, with about 7-10 options visible. Keep the search input pinned above the scroll area.
 - Group with headings when the set has real categories (`<optgroup>` natively), and keep the selected item marked with a check, not only a highlight - highlight is where the cursor is, check is what is chosen.
 - Option rows carry the label first; descriptions and metadata are secondary text, not a second column that pushes the label out.

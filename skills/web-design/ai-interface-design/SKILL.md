@@ -23,7 +23,7 @@ is wrong.
 - Dock it. A floating composer that overlays the last message is the most common mobile bug in this surface; pad the transcript by composer height and let the keyboard push it rather than jump it.
 - Attachments, mode switches, and model choice live in the composer, not in a settings page. Show attached context as removable chips so the user can see exactly what is being sent.
 - Keep the draft. Navigating away, an error, or a rejected request must never eat typed text.
-- Disable send only for an empty composer. During generation the send button becomes **Stop** (see `button-and-action-design` for the busy-state rule).
+- Disable send only for an empty composer. During generation the send button becomes **Stop** (see `button` for the busy-state rule).
 
 ## Streaming
 
@@ -51,7 +51,7 @@ results or anything that must paint as a unit, like a chart or a table.
 ## Agents and tool use
 
 - Show the plan before the actions when a request will take multiple steps, and keep a live step list with what succeeded, what failed, and what is running.
-- **Gate by consequence, not by category.** Reads run freely; writes to the user's data, spend, and anything sent outside the product need an explicit confirm that names the exact action and target - the same rule as `button-and-action-design` for destructive work.
+- **Gate by consequence, not by category.** Reads run freely; writes to the user's data, spend, and anything sent outside the product need an explicit confirm that names the exact action and target - the same rule as `destructive-actions`.
 - Give long-running agents a budget the user sets and can see burn down: steps, time, or spend. Stop at the ceiling and ask, rather than continuing quietly.
 - Checkpoint before each consequential step and expose an undo or restore path. Where a step cannot be undone, say so in the confirm.
 - Pause, resume, and abandon must all work, and an abandoned run must leave the system in a state the user can understand.

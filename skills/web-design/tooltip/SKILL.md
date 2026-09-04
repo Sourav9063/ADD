@@ -5,7 +5,7 @@ description: Build or review a tooltip. Use when adding a hover or focus hint, a
 
 # Tooltip
 
-Assumes `overlay-design` for surface choice. A tooltip is a **hint attached to a control**,
+Assumes `ui-composition` for surface choice. A tooltip is a **hint attached to a control**,
 shown on hover or focus, holding one short line. Everything else people put in tooltips
 belongs somewhere else.
 
@@ -22,14 +22,14 @@ belongs somewhere else.
 - Once one tooltip in a group has opened, open neighbors instantly until the pointer rests elsewhere; re-delaying inside a toolbar feels sticky.
 - Hide immediately on mouse leave, blur, Escape, and outside tap. **A tooltip that survives Escape is a trap.**
 - Never auto-hide on a timer while the pointer is still on the trigger, and never animate longer than ~150ms in either direction.
-- No tooltip on a disabled control: disabled elements do not fire pointer events, so the explanation is unreachable. Keep the control enabled with `aria-disabled` or put the reason in visible text (`button-and-action-design`).
+- No tooltip on a disabled control: disabled elements do not fire pointer events, so the explanation is unreachable. Keep the control enabled with `aria-disabled` or put the reason in visible text (`button`).
 
 ## Placement
 
 - Point at the trigger with an arrow, default above, and flip near the viewport edge; shift along the axis to stay on screen without leaving the arrow orphaned.
 - Never cover the trigger or the content the user is reading - WCAG 2.2 requires that a hover- or focus-triggered overlay not obscure the element that triggered it.
 - Follow the trigger on scroll or close with it; a tooltip stranded mid-page is a rendering bug users notice immediately.
-- Keep it above menus and below modals in the z-index scale (`overlay-design`).
+- Keep it above menus and below modals in the z-index scale (`modal-dialog`).
 
 ## Touch
 

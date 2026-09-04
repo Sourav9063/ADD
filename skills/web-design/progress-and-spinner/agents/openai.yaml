@@ -1,6 +1,0 @@
-interface:
-  display_name: "Progress and Spinner"
-  short_description: "Design loading indicators"
-  default_prompt: "Use $progress-and-spinner to build or review this spinner, progress bar, or long-task status."
-policy:
-  allow_implicit_invocation: true

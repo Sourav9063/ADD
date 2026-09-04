@@ -1,0 +1,6 @@
+interface:
+  display_name: "Icon Design"
+  short_description: "Choose and draw interface icons"
+  default_prompt: "Use $icon-design to pick, size, or audit the icons in this UI."
+policy:
+  allow_implicit_invocation: true

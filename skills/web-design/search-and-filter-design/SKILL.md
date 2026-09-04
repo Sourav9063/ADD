@@ -6,7 +6,7 @@ description: Build or review search and filtering. Use when creating a search in
 # Search and Filter Design
 
 Assumes `design-foundations`. `navigation-design` owns where the entry point sits and the
-URL-state rules; `overlay-design` owns the command palette and the mobile filter sheet.
+URL-state rules; `command-palette` owns the palette and `drawer-and-sheet` the mobile filter sheet.
 
 One task in two halves: **search** produces a result set, **filters** narrow it. Both run
 the same loop, and breaking any link makes users abandon the list or repeat the action:
@@ -119,7 +119,7 @@ users expect to exist.
 - Chip groups are checkboxes (multi) or radios (single), or buttons with `aria-pressed`. A `<div onClick>` is not a filter. Group each facet in a `<fieldset>` with a `<legend>`.
 - Result region is `aria-live="polite"` with a text summary ("42 results, filtered by Red, under $50"), announced on each settled query, not each keystroke.
 - Removable chips expose `aria-label="Remove filter: Red"`, and focus moves to the next chip after removal.
-- The mobile filter sheet follows `overlay-design`: focus trapped, Escape closes, focus returns to the trigger.
+- The mobile filter sheet follows `drawer-and-sheet`: focus trapped, Escape closes, focus returns to the trigger.
 - `<mark>` needs sufficient contrast; matching by background color alone fails.
 
 Before handing off, run the whole loop keyboard-only with a typo'd query: it should

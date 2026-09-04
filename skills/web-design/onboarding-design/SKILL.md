@@ -62,7 +62,7 @@ than the interruption.
 
 ## Accessibility
 
-- A tour step is a dialog: focus moves to it, is trapped while it is open, returns to the anchor on close, and Escape dismisses it (`overlay-design`).
+- A tour step is a dialog: focus moves to it, is trapped while it is open, returns to the anchor on close, and Escape dismisses it (`modal-dialog`).
 - Never obscure the focused element with a tooltip, popover, or sticky bar. Announce each step's content and its position ("Step 2 of 4").
 - Anything timed - a self-advancing step, an auto-dismissing tip - needs a way to pause or extend it.
 - Onboarding motion is decorative; drop it under `prefers-reduced-motion` rather than delaying the content behind it (`motion-design`).

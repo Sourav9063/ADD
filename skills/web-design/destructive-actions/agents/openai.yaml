@@ -1,0 +1,6 @@
+interface:
+  display_name: "Destructive Actions"
+  short_description: "Design deletion and irreversible actions"
+  default_prompt: "Use $destructive-actions to design this delete, revoke, or other irreversible action and its confirmation."
+policy:
+  allow_implicit_invocation: true

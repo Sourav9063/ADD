@@ -35,6 +35,7 @@ headings tell them which - and it is a bad trade otherwise.
 ## Motion
 
 - Animate height over ~200-250ms `ease-out`, with the content fading in slightly behind the height change so text does not appear stretched.
+- **Drive the chevron and the panel from one timing curve.** They are a single object; a chevron that finishes ten frames after the panel reads as a broken animation, and nobody can say why.
 - Height animation must be interruptible: clicking twice quickly reverses from the current position rather than queueing (`motion-design`).
 - Animating to `height: auto` requires measuring the content or using `grid-template-rows: 0fr → 1fr`; a hard-coded max-height either clips long content or makes short content sluggish.
 - Under `prefers-reduced-motion`, toggle instantly.

@@ -31,18 +31,34 @@ unreliable.
 
 ## Covered patterns
 
-All 73 patterns published as of 2026-08-23, by owning skill. Nothing here needs re-reading
-unless the page itself changes.
+All 73 patterns published as of 2026-08-23, by owning skill after the 2026-09-04
+restructure. Nothing here needs re-reading unless the page itself changes.
 
-- **design-foundations** (19): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Dark Mode · Color Accessibility · Visual Hierarchy · Proximity Rule · Gestalt Laws · Von Restorff Effect · Serial Position · Grid System · Golden Ratio · Icon Design Rules · Gradient Design · Focus States · Animation Timing · Hover Trap
-- **form-design** (16): Form Field States · Form Validation Timing · Settings System · Autosave · Stepper Wizard · Inline Editing · Input Masking · Date Pickers · File Upload UX · Password Field UX · OTP Input · Toggle Anatomy · Range Sliders · Star Rating · Color Picker UX · Zeigarnik Effect
-- **feedback-design** (10): Loading States System · Skeleton Loading · Error States · Empty States · Toast Notifications · Notification System · Optimistic UI · Undo UX · Doherty Threshold · Peak-End Rule
-- **overlay-design** (7): Modal Hierarchy · Bottom Sheets · Dropdown Design · Context Menu · Tooltip Design · Command Palette · Z-Index Mastery
-- **button-and-action-design** (5): Disabled Buttons · Destructive Actions · Bulk Actions · Behind the Button · Swipe Actions
-- **card-and-list-design** (3): Perfect Card · Card Hover Anatomy · Drag and Drop
-- **motion-design** (3): Easing Curves · Scroll-Driven Animations · Accordion Disclosure
+- **design-foundations** (11): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Visual Hierarchy · Proximity Rule · Gestalt Laws · Serial Position · Grid System · Focus States
+- **form-design and its controls** (16): Form Field States · Form Validation Timing · Settings System · Autosave · Stepper Wizard · Inline Editing · Input Masking (`form-design`) · Date Pickers (`date-picker`) · File Upload UX (`file-upload`) · Password Field UX (`password-input`) · OTP Input (`otp-input`) · Toggle Anatomy (`toggle-switch`) · Range Sliders (`slider`) · Star Rating and Color Picker UX (`form-design`) · Zeigarnik Effect (`onboarding-design`)
+- **feedback-design and its surfaces** (10): Loading States System and Skeleton Loading (`loading-indicators`) · Error States · Optimistic UI · Undo UX · Doherty Threshold · Peak-End Rule (`feedback-design`) · Empty States (`empty-state`) · Toast Notifications (`toast`) · Notification System (`alert-banner`)
+- **Overlays** (7): Modal Hierarchy (`modal-dialog`) · Bottom Sheets (`drawer-and-sheet`) · Dropdown Design and Context Menu (`popover-and-menu`) · Tooltip Design (`tooltip`) · Command Palette (`command-palette`) · Z-Index Mastery (`design-foundations`)
+- **Actions** (5): Disabled Buttons and Behind the Button (`button`) · Destructive Actions (`destructive-actions`) · Bulk Actions (`data-table-design`) · Swipe Actions (`card-and-list-design`)
+- **Cards and collections** (3): Perfect Card and Card Hover Anatomy (`card`) · Drag and Drop (`drag-and-drop`)
+- **motion-design** (3): Easing Curves · Scroll-Driven Animations · Accordion Disclosure (`accordion`)
 - **navigation-design** (2): Navigation Patterns · Pagination
-- **One pattern each**: Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
+- **color-systems** (3): Dark Mode · Color Accessibility · Gradient Design
+- **One pattern each**: Icon Design Rules (`icon-design`) · Golden Ratio and Von Restorff Effect (`visual-direction`) · Hover Trap (`design-foundations`) · Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
+
+**Re-verified page by page on 2026-09-04** after the component split, to confirm the
+restructure had not dropped rules. All 73 were visited again and their concrete rules
+matched an owning skill, except four that were re-added: the in-field success state
+(`text-input`), the ~2 second skeleton cap (`loading-indicators`), the shared chevron and
+panel timing curve (`accordion`), and sticky hover on touch (`design-foundations`).
+
+Rules confirmed as **deliberate divergences**, not omissions: their radius scale
+(4·8·12·16·24) against ours (`sm 6 / md 10 / lg 16`); the 1.618 spacing multiplier
+(8→13→21→34→55), which their own page admits fights an 8px grid; the Perfect Card page's
+`scale(1.02)` on hover, which contradicts the Card Hover Anatomy page's geometry lock, where
+we follow the latter; and Von Restorff's "3× conversions", dropped for want of a traceable
+origin. Small taste details left out on purpose: shadow glow tinted per industry, 3D lift
+with `rotateX`, parallax layer speeds of 1x/2.5x/5x, the 30ms star-rating stagger, and card
+brand detection from the leading digit in masked input.
 
 Two of their rules were reviewed and **deliberately not adopted**: the Error States page's
 "don't validate on submit" (submit must validate everything, focus the first invalid field,
@@ -61,7 +77,7 @@ their categories against the skill list found five surfaces with no owner, each 
 | `ai-interface-design` | The entire AI Intelligence category, plus every chatbot, agent, and cost pattern in the playground. Agents build these constantly and had no rule to consult. |
 | `auth-flow-design` | `form-design` owned the fields; nothing owned the flow, the recovery paths, or WCAG 2.2 SC 3.3.8. |
 | `onboarding-design` | First run was scattered across `feedback-design`, `microcopy`, and `motion-design`, and none of them carried the finding that tours lose to skipping. |
-| `media-design` | Players, captions, galleries, and lightboxes sat between `frontend-performance` and `overlay-design`, owned by neither. |
+| `media-design` | Players, captions, galleries, and lightboxes sat between `frontend-performance` and the overlay skills, owned by neither. |
 | `dashboard-design` | `chart-design` had a Dashboards section that was really page-level layout. It was moved out and that skill now points at the new one. |
 
 Both indexes are tier 3: category maps worth diffing against, not authorities. Every rule in
@@ -143,13 +159,17 @@ the repository itself has changed**; what was worth taking is already in the ski
 ## Skill-group conventions
 
 - `ui-composition` owns the full-screen workflow: discover existing tokens and components, lock user intent and risk, establish hierarchy, map regions to component owners, specify complete states, then reconcile the assembled screen. Component and surface skills remain focused references selected by that workflow.
-- `design-foundations` is the shared baseline; section skills assume it and never restate tokens, motion scale, or the accessibility baseline.
+- `design-foundations` is the shared baseline; section skills assume it and never restate tokens, motion scale, or the accessibility baseline. **It is kept deliberately small because it loads with every other skill in the group.** On 2026-09-04 it shed icons (to `icon-design`), gradients and dark mode (to `color-systems`), and surface and optical craft (to `visual-direction`), dropping from ~3,150 to ~1,850 tokens. Anything that only matters while styling does not belong here; the test is whether a task that never touches visual polish still needs the rule.
 - Five skills are cross-cutting rather than per-surface: `visual-direction` (which runs before the others on new work), `typography-design`, `color-systems`, `responsive-design`, and `internationalization-design`. `design-foundations` owns the token scales; these own what happens to text, color, space, and language downstream of them. Keep the seam there rather than duplicating scale definitions.
 - `accessibility-audit` verifies shipped UI; every other skill covers design time. Keep verification steps out of the section skills.
-- One authoritative location per rule, cross-linked by skill name. The seam is now **component versus composition**: the component skill owns the control's anatomy, states, and keyboard contract, and the surface skill owns which control to use and what surrounds it. `form-design` picks the control and owns validation timing; `text-input` owns the field. `overlay-design` picks the surface; `modal-dialog` owns the dialog. `feedback-design` picks the response; `toast`, `skeleton`, and `empty-state` own theirs. Never restate a component's rules in the surface that uses it.
+- One authoritative location per rule, cross-linked by skill name. The seam is now **component versus composition**: the component skill owns the control's anatomy, states, and keyboard contract, and the surface skill owns which control to use and what surrounds it. `form-design` picks the control and owns validation timing; `text-input` owns the field. `ui-composition` picks the overlay surface; `modal-dialog` owns the dialog. `feedback-design` picks the response; `loading-indicators`, `toast`, and `empty-state` own theirs. Never restate a component's rules in the surface that uses it.
 - Related seams from the same pass: `chart-design` owns what is inside a chart and `dashboard-design` the page around it; `auth-flow-design` sets password policy and `password-input` renders it; `feedback-design` owns the response and `onboarding-design` treats the empty state as the first-run surface.
 - **No trailing checklists.** Removed from the group on 2026-08-25, 221 lines that restated body rules. This group was the only one in the repository that ever had them; the rule now lives in `writing-agent-guidance`. Do not reintroduce them here.
-- **One skill per essential component**, decided on 2026-09-04 and deliberately overriding the group's earlier "merge before adding" default. The reasoning that produced `search-and-filter-design` still holds for surfaces that serve one intent; it does not hold for components. A request to build a select should load the select's rules, not the whole of `form-design`, and the surface skills had grown into references nobody reads to the bottom of. Twenty-six components were extracted from `form-design`, `button-and-action-design`, `overlay-design`, `feedback-design`, `card-and-list-design`, and `navigation-design`, and each parent was trimmed to the composition rules it still owns.
+- **One skill per essential component**, decided on 2026-09-04 and deliberately overriding the group's earlier "merge before adding" default. The reasoning that produced `search-and-filter-design` still holds for surfaces that serve one intent; it does not hold for components. A request to build a select should load the select's rules, not the whole of `form-design`, and the surface skills had grown into references nobody reads to the bottom of. Twenty-six components were extracted from the surface skills, and each parent was trimmed to the composition rules it still owns; two of those parents were dissolved entirely in the follow-up pass below.
 - The extraction is only worth it if the parents stay trimmed. When a component rule shows up in a surface skill again, delete it there rather than letting the two drift; the surface's job is to say *which* component and *why*, never *how*.
+- Routing between neighbouring skills is checked against [`web-design-trigger-evaluations.md`](web-design-trigger-evaluations.md), which records the expected skill and the near-misses for each seam. Run it after any description change in the group.
 - Component descriptions state only their positive, focused triggers. `ui-composition` owns the full-page and multi-component trigger in its description, preventing repeated routing prose across the catalog.
 - `tab-design` stays separate from `navigation-design`, since merging would force tab work to load sidebar and pagination content it never needs.
+- **Granularity is judged by load cost, not by tidiness**, and the 2026-09-04 pass cut in both directions. Split when one file serves two builds that never co-occur: `drag-and-drop` and `destructive-actions` left `card-and-list-design` and `button-and-action-design`, and `icon-design` left the baseline. Fold when two files answer one question: `skeleton` and `progress-and-spinner` became `loading-indicators`, because choosing between them is a single decision and both restated `feedback-design`'s wait table. `button-and-action-design` and `overlay-design` were dissolved entirely once their components existed - a router that only routes is cheaper as a table inside the skill that already loads.
+- `breadcrumb` folded into `navigation-design` on the same reasoning in reverse: nobody builds one without the surrounding information architecture, so it never loaded alone.
+- **Repeated baseline rules in component skills are a deliberate cost.** Target size appears in ~19 files, "never color alone" in ~17, reduced-motion in ~17. Removing them would save a few hundred tokens per task and break the property that makes a component skill usable on its own. Do not "optimize" them into pointers.

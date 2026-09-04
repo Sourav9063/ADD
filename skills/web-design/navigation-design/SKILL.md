@@ -6,8 +6,9 @@ description: Build or review app navigation and information architecture. Use wh
 # Navigation Design
 
 Assumes `design-foundations` for tokens and focus rules. `tab-design` owns in-page tabs,
-`drawer-and-sheet` the mobile menu surface, `command-palette` the ⌘K index, `breadcrumb`
-the trail, and `link` the items themselves.
+`drawer-and-sheet` the mobile menu surface, `command-palette` the ⌘K index, and `link` the
+items themselves. Breadcrumbs live here, since nobody builds one without the surrounding
+information architecture.
 
 Choose by **platform and depth, not taste**. Navigation is one system across breakpoints,
 not a desktop layout with a smaller variant.
@@ -52,9 +53,23 @@ cannot see. Breadcrumbs in a flat structure are clutter, not orientation.
 - Preserve sidebar scroll position and expanded groups across navigations.
 - Collapsed/expanded sidebar state persists per user.
 - Prefetch on hover/focus for instant transitions; show a top progress bar only past ~300ms.
-- Mobile menus follow `overlay-design`: focus trapped, Escape closes, focus returns to the toggle, background scroll locked.
+- Mobile menus follow `drawer-and-sheet`: focus trapped, Escape closes, focus returns to the toggle, background scroll locked.
 - Respect safe areas (`env(safe-area-inset-bottom)`) on bottom bars, and keep them out of the way of the keyboard.
 - Do not auto-hide navigation on scroll unless the screen is content-first; if you do, reveal it instantly on upward scroll.
+
+## Breadcrumbs
+
+Breadcrumbs answer two questions: where am I, and how do I go up. They are not a history
+trail and not a substitute for primary navigation.
+
+- Earn their place with a real hierarchy at least three levels deep, where users arrive mid-tree from search, links, or notifications. On a flat or two-level product they are clutter, and a trail reading `Home / Settings` should be deleted in favour of the page title.
+- Show the **hierarchy, not the path taken**. A trail that reflects click history changes under the same URL and teaches nothing about the structure. Where two paths reach one page, pick the canonical one and hold it.
+- One per page, directly above the page title, on one line. The current page is the last item, plain text rather than a link, marked `aria-current="page"`.
+- Separators are decorative: a `/` or `›` in a muted color, generated in CSS or marked `aria-hidden`, so a screen reader never reads "Projects slash Acme slash Invoice".
+- **Truncate the middle, not the ends.** The root and the immediate parent carry the navigational value; collapse what is between them into a `…` that opens the hidden ancestors in a menu (`popover-and-menu`). Truncate long individual names with a max width, keeping the full name available on focus.
+- On narrow screens collapse to a single "← Parent name" back link; a wrapped three-line breadcrumb is worse than one clear way up.
+- Each ancestor is a real link to that ancestor's own view, not to a filtered version of the current one. Never animate the trail, and never leave an empty gap while it loads - use a placeholder pill (`loading-indicators`).
+- Wrap in `<nav aria-label="Breadcrumb">` around an ordered list, and pad the items vertically to reach the 24px target minimum.
 
 ## Search
 

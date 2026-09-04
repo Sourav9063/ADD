@@ -13,4 +13,8 @@ Manual checks that each ADD-wide skill fires on its intended prompts and stays q
 | "Tighten the description on this SKILL.md." | writing-agent-guidance | - |
 | "You were wrong about the cache layer; it's per-request." | memory curates `agents/MEMORY.md` | knowledge, plans |
 
+The web-design group has its own table, since it installs separately and its 53 skills sit
+close enough together that most failures are a near-miss rather than silence:
+[`web-design-trigger-evaluations.md`](web-design-trigger-evaluations.md).
+
 Failure signals worth acting on: a skill that never fires on its own row, a skill that fires on a "must not" cell, and a description that needs the user to name the skill explicitly.

@@ -5,7 +5,7 @@ description: Build or review a modal dialog. Use when adding a blocking dialog, 
 
 # Modal Dialog
 
-Assumes `overlay-design` for choosing this surface at all, and `design-foundations` for
+Assumes `ui-composition` for choosing this surface at all, and `design-foundations` for
 tokens and motion. A modal takes the whole screen hostage, so the bar is high: **blocking,
 destructive, or irreversible decisions, and short focused tasks that would lose their
 context elsewhere.** A modal for a routine action is a punishment.

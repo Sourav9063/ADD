@@ -43,8 +43,9 @@ does not look starved when compact.
 - Header checkbox is tri-state: empty → **indeterminate** (dash) → checked. Clicking it from the indeterminate state selects everything; it never clears. Users reach for it to finish a partial selection, not to undo one.
 - "Select all" selects the current page. If more exist, offer the explicit escalation: *"All 25 on this page selected. Select all 1,248?"*
 - Selection state persists across pagination, and the count is always visible.
-- Bulk actions live in a bar that appears on first selection, showing the count, the actions, and a Clear. For reversible deletion, echo the exact count, act immediately, and offer Undo for 5–10 seconds; confirm only irreversible actions (see `feedback-design`).
-- Shift-click selects a range.
+- Bulk actions live in a bar that appears on first selection, showing the count, the actions, and a Clear. It announces the count when it appears, and every action names what it applies to ("Delete 12 selected files"). For reversible deletion, echo the exact count, act immediately, and offer Undo for 5–10 seconds; confirm only irreversible actions (`destructive-actions`).
+- Selection lives in application state, not the DOM, so it survives pagination, sorting, and re-render. Shift-click selects a range.
+- Beyond ~3 bulk actions, move the rest into an overflow menu in the bar, with the destructive one separated at the bottom (`popover-and-menu`).
 
 ## Row interaction
 

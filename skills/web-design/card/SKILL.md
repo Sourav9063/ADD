@@ -53,7 +53,7 @@ and stopping propagation.
 
 - Selected cards use a real checkbox or `role="option"` with `aria-selected`, plus a fill and a check - not a colored border alone (`checkbox-and-radio`).
 - Status lives in one badge, not three (`badge-and-tag`).
-- Loading uses a skeleton card in the same shape (`skeleton`); a card with three empty rows and no shimmer reads as broken.
+- Loading uses a skeleton card in the same shape (`loading-indicators`); a card with three empty rows and no shimmer reads as broken.
 - Disabled or unavailable cards say why, and stay readable rather than dropping to 40% opacity.
 
 ## Accessibility

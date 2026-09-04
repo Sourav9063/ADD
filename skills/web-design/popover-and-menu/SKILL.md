@@ -5,7 +5,7 @@ description: Build or review anchored overlays. Use when adding a dropdown menu,
 
 # Popover and Menu
 
-Assumes `overlay-design` for surface choice and `design-foundations` for tokens. Two
+Assumes `ui-composition` for surface choice and `design-foundations` for tokens. Two
 different things share one visual language, and confusing them is the usual bug:
 
 - A **menu** is a list of commands. Arrow keys move, Enter activates, typeahead jumps, and it closes on selection. `role="menu"` with `menuitem` children.
@@ -28,7 +28,7 @@ different things share one visual language, and confusing them is the usual bug:
 ## Content and structure
 
 - One action per row, with the verb first. Group by intent with dividers and optional group labels.
-- Destructive items go last, separated, in danger color (`button-and-action-design`).
+- Destructive items go last, separated, in danger color (`destructive-actions`).
 - Show keyboard shortcuts right-aligned in the row where they exist; it is the cheapest discoverability in the product.
 - Icons are optional but must be all-or-nothing per group, aligned in a fixed leading column.
 - Disabled items state why in a description or are omitted. A dead row with no explanation is a dead end.

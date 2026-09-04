@@ -35,6 +35,7 @@ Fixed vertical order, always: **label → input → helper text → error text**
 | Focus | 2px ring at 2px offset, ≥3:1, not a soft glow |
 | Filled | Visually distinct from empty only if the design depends on it; never remove the label |
 | Error | Border + icon + message; `aria-invalid="true"` |
+| Success | Inline check inside the field, where the eye already is - never a toast, and only where confirmation earns its place |
 | Disabled | Grayscale fill, `not-allowed` cursor, real `disabled`, with the unlock condition stated nearby |
 | Readonly | Looks like a value, not a control; still focusable and copyable |
 | Loading | In-field spinner with input blocked, so it cannot be mistaken for disabled |

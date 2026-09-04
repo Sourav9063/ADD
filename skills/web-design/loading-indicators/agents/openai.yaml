@@ -1,0 +1,6 @@
+interface:
+  display_name: "Loading Indicators"
+  short_description: "Design spinners, skeletons, progress"
+  default_prompt: "Use $loading-indicators to build or review this loading, skeleton, or progress indicator."
+policy:
+  allow_implicit_invocation: true

@@ -5,7 +5,7 @@ description: Build or review a command palette. Use when adding ⌘K search-and-
 
 # Command Palette
 
-Assumes `overlay-design` for the surface and `search-and-filter-design` for ranking and
+Assumes `ui-composition` for surface choice and `search-and-filter-design` for ranking and
 result presentation. ⌘K is a **system, not a search box**: it is the keyboard user's index
 of everything the product can do, and it earns its place only in a product with enough
 surfaces and actions that navigating them by pointer is slow.

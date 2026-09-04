@@ -26,20 +26,18 @@ items, and a grid when the visual is the content.
 - Reserve aspect ratios on media (`aspect-ratio`) so images do not shift the layout as they load.
 - Avoid a lone orphan card on the last row where an adjusted `minmax` would prevent it.
 
-## Reordering and drag and drop
+## Row actions
 
-- The board must reflect the drag: on pickup the item scales up, deepens its shadow, and tilts slightly - all three together, or it reads as a sticky click rather than a lift. The source leaves a placeholder gap, and neighbors animate aside to show exactly where the drop lands.
-- Show the landing position **before release**, not after: an insertion line between items, a filled highlight for dropping into a container. On a structured surface snap to the nearest valid slot and outline the valid targets during the drag; reserve free positioning for canvases.
-- Pair every drop with a brief undo, the same way a delete gets one. A drag that lands in the wrong column is as costly as a mis-click and just as easy to make.
-- Grab targets need a visible handle; the whole card being draggable makes text unselectable and scrolling unreliable on touch.
-- Auto-scroll near container edges; animate the drop into place rather than snapping.
-- **Always provide a non-drag path**: "Move up/down" in the overflow menu, or keyboard reordering with Space to pick up, arrows to move, Space to drop, Escape to cancel. Announce each move in a live region.
-- Persist optimistically and revert visibly on failure.
+- Reordering, kanban columns, and any pointer-dragged move follow `drag-and-drop`, including its keyboard and menu alternatives.
+- **Swipe actions** on a list row: at most two per direction, with consistent colors and directions across the whole app, and a peek affordance so they are discoverable at all.
+- A partial swipe reveals the action; it never fires it. Full-swipe-to-delete with no confirmation and no undo is how people lose data on a phone in their pocket (`destructive-actions`).
+- Every swipe action has a visible non-gesture path in the row's overflow menu, since a gesture is not accessible on its own.
+- Hover-revealed row actions are permanently visible on touch and for keyboard users, anchored in a reserved column so the row does not reflow.
 
 ## Loading and empty
 
 Skeleton items in the real grid or row shape, 3-6 of them, matching the final aspect ratio
-(`skeleton`). The four kinds of empty state, and which one this collection needs, are
+(`loading-indicators`). The four kinds of empty state, and which one this collection needs, are
 `empty-state`.
 
 ## Accessibility

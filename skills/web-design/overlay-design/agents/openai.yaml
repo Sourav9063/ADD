@@ -1,6 +1,0 @@
-interface:
-  display_name: "Overlay Design"
-  short_description: "Design modals, popovers, and layered UI"
-  default_prompt: "Use $overlay-design to build or review a modal, drawer, popover, or dropdown."
-policy:
-  allow_implicit_invocation: true

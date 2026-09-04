@@ -1,6 +1,0 @@
-interface:
-  display_name: "Breadcrumb"
-  short_description: "Design breadcrumb trails"
-  default_prompt: "Use $breadcrumb to build or review this breadcrumb and its truncation."
-policy:
-  allow_implicit_invocation: true

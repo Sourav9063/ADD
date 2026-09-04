@@ -44,6 +44,19 @@ fill with a label, a new disabled state), that is a decision to record, not a va
 invent inline. Re-deriving per screen is how a product ends up with three type scales and
 four grays without anyone deciding to.
 
+## Surfaces and optical detail
+
+The details nobody can name individually, which together are the difference between
+polished and almost-right. `design-foundations` sets the radius and elevation scales; this
+is how they are applied.
+
+- **Nest radii concentrically.** Outer radius = inner radius + the padding between them. Mismatched radii on closely nested surfaces are the most common source of visual tension in an otherwise clean component. Past roughly 24px of padding the two layers read as separate surfaces, so give each an independent radius instead of forcing the math.
+- **Shadows for depth, borders for structure.** Where a border exists only to lift an element, replace it with layered transparent shadow: a 1px spread ring, a tight contact shadow, and a wider ambient one. Shadows use transparency, so they hold over images and varied backgrounds where a fixed border color was never designed to sit. Keep real borders for dividers, table cell boundaries, input outlines, and selected or focus states, which communicate structure rather than elevation.
+- **Align optically when geometric centering looks wrong.** A button with a trailing icon wants a couple of pixels less padding on the icon side. Fix asymmetric glyphs in the SVG itself where you can, so no component needs a compensating margin (`icon-design`).
+- **Outline images at 1px, low opacity**, so they sit in the same surface language as everything else: pure black at ~10% in light mode, pure white at ~10% in dark. Never a near-black or near-white from the palette, which picks up the surrounding tint and reads as dirt on the image edge. Use `outline` with a negative offset rather than `border`, so it adds no layout width and hugs the corner radius.
+- **Proportion the major regions with the same ratio the type scale uses.** A 62/38 split reads as composed where 55/45 reads as an accident. Gutter width carries tone too: tight gutters feel dense and technical, wide ones editorial.
+- **Isolate the option you want chosen** (different treatment, not just a badge); uniform cards convert worse than one visually distinct card. Isolation only works against a uniform baseline and only if one thing is emphasized - highlight two and they cancel. Combine scale and elevation with the color shift so the emphasis survives grayscale.
+
 ## Vary structure, not just palette
 
 Two pages with different palettes still read as one template when they share a page shape.

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Drag and Drop"
+  short_description: "Design dragging interactions"
+  default_prompt: "Use $drag-and-drop to build or review this reordering, dropzone, or drag interaction."
+policy:
+  allow_implicit_invocation: true

@@ -65,7 +65,7 @@ Never 3D or donut-with-a-gradient; the extra dimension encodes nothing and disto
 ## Charts on a dashboard
 
 - One idea per chart, with a title stating the finding ("Signups fell 12% after the pricing change") rather than the axis ("Signups over time").
-- Every chart needs its loading skeleton (`skeleton`), its empty state, and its "not enough data yet" state (`empty-state`).
+- Every chart needs its loading skeleton (`loading-indicators`), its empty state, and its "not enough data yet" state (`empty-state`).
 
 Layout, KPI tiles, global time range, refresh, and drill-down belong to `dashboard-design`.
 

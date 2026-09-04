@@ -7,8 +7,8 @@ description: Decide how a system answers the user. Use when choosing between a s
 
 Assumes `design-foundations` for tokens and motion. Every action needs an answer within
 100ms and a resolution the user can trust. This skill chooses the response; the surfaces
-own their own rules: `progress-and-spinner`, `skeleton`, `empty-state`, `toast`,
-`alert-banner`, `modal-dialog`.
+own their own rules: `loading-indicators`, `empty-state`, `toast`, `alert-banner`, and
+`modal-dialog`.
 
 ## Match the pattern to the wait
 
@@ -46,6 +46,7 @@ is a dialog, belongs-to-one-control is inline.
 - Undo must be reachable by keyboard before the toast disappears; keep a permanent path (trash, history) as well.
 - **Back undo with a soft delete**: flag the record and keep it recoverable for a stated retention window, then hard-delete on expiry. An immediate hard delete makes the Undo button a lie the first time the request loses the race. Where the product has a real undo stack, wire ⌘Z to it.
 - Optimistic UI is for cheap, reversible work. Payments and irreversible operations keep a truthful busy state and confirm only after the write commits.
+- Client validation provides fast feedback; it does not establish success. Revalidate on the server, show success only after related writes commit, and repaint IDs, totals, permissions, and other trusted values from the response rather than from what was sent.
 
 ## Errors
 

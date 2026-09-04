@@ -102,6 +102,15 @@ Keep them out of the primitive tier and measure the rendered result.
 
 ## Gradients
 
+Gradients are depth, not decoration: two stops from the same hue family, a small lightness
+shift, and a direction consistent with the light source of the product's shadows.
+
+- **Keep hue travel under ~60°.** Neighbouring hues (teal to cyan) blend clean; opposite ones (orange to blue) pass through a muddy gray dead zone.
+- **Move lightness in one direction only.** Dark to light to dark reads as banding, not as form.
+- Prefer a soft radial glow behind content over a full-bleed linear wash; the gradient is ambience, not the surface itself.
+- One gradient per surface. Gradient text, gradient border, and gradient background together read as a template, not a product.
+- Text on a gradient must pass contrast at its **darkest and lightest** point, never on average, and body text never sits on the mid-transition. Add a scrim if it does not pass.
+
 The interpolation space is a look, not a correctness setting. **`in oklab`** is the best
 default: even brightness, no hue surprises. **`in oklch`** is polar, interpolating the hue
 angle and arcing through every hue between the stops, so reach for it when a two-hue
@@ -123,6 +132,15 @@ that does nothing, and an interactive element rendered neutral misleads just as 
 semantic token only in its named role; a separator borrowed as a text color works until
 borders get lighter, and then the text goes with them. Where a color is load-bearing in
 finance, status, or alerts, check `internationalization-design` before hardcoding it.
+
+**Dark mode is not black mode.** Invert intent, not values, and swap a whole token set
+rather than flipping colors at render time. Elevate with progressively lighter surfaces
+rather than darker shadows, since shadow barely reads on a dark base and lightness has to
+carry the depth. Drop pure `#000` and `#fff`: a near-black base around `#121212` leaves room
+to elevate, and off-white text avoids the glare pure white causes on a dark field. Build
+text hierarchy from opacity tiers of one foreground color (high / medium / disabled) instead
+of introducing new grays, and desaturate accents roughly 20% so they do not vibrate.
+Re-check contrast in both themes; passing in one proves nothing about the other.
 
 Every custom color needs light, dark, and increased-contrast variants:
 

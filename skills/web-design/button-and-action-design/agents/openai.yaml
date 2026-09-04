@@ -1,6 +1,0 @@
-interface:
-  display_name: "Button and Action Design"
-  short_description: "Design buttons and action controls"
-  default_prompt: "Use $button-and-action-design to build or review buttons, action menus, and destructive actions."
-policy:
-  allow_implicit_invocation: true

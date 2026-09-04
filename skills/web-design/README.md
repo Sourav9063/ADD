@@ -8,11 +8,11 @@ broken.
 
 | Skill | Covers |
 | --- | --- |
-| `ui-composition` | Intent, existing-system discovery, hierarchy, component mapping, state completeness, responsive integration, whole-screen verification. |
-| `design-foundations` | Tokens, spacing, hierarchy, surfaces, icons, gradients, motion timings, contrast, focus, dark mode. Shared baseline for every other skill here. |
-| `visual-direction` | Choosing a direction and holding it: grounding in references, declaring the system, structural variation, asset sourcing, critique. |
+| `ui-composition` | Intent, existing-system discovery, hierarchy, component mapping, overlay surface choice, state completeness, whole-screen verification. |
+| `design-foundations` | Token layers and scales, z-index, layout and hierarchy, motion timings, contrast, focus, hit targets. Deliberately small: it loads with everything. |
+| `visual-direction` | Choosing a direction and holding it: references, declaring the system, surface and optical craft, structural variation, assets, critique. |
 | `typography-design` | Type roles, faces and weights, measure, wrapping, truncation, tabular numbers, underlines, optical trim. |
-| `color-systems` | Ramp construction, step roles, notation and gamut, gradient interpolation, theme variants, palette audits. |
+| `color-systems` | Ramp construction, step roles, notation and gamut, gradients, dark mode, theme variants, palette audits. |
 | `responsive-design` | Content-driven breakpoints, container queries, safe areas, full-bleed, overflow affordances, input capability. |
 | `internationalization-design` | Text expansion, RTL mirroring, non-Latin scripts, locale formats, meaning that does not travel. |
 | `motion-design` | Whether to animate, curves, physicality, gestures, page and shared-element transitions, scroll-driven motion, reduced motion. |
@@ -39,32 +39,31 @@ One component, one skill: its anatomy, states, keyboard contract, and failure mo
 | `drawer-and-sheet` | Placement, snap points and gesture physics, scroll seam, non-modal drawers, URL state. |
 | `popover-and-menu` | Menu vs popover, anchor positioning and collision, hover intent, submenus, APG menu keyboard. |
 | `tooltip` | What must never be in one, hover delay and focus, placement, touch, WCAG hoverable content. |
+| `icon-design` | One set and one grid, optical sizing, stroke matching, when an icon needs a label, mirroring. |
 | `command-palette` | Fuzzy matching and ranking, rows and shortcut hints, nested modes, async commands, combobox semantics. |
 | `toast` | What belongs in one, the five rules, placement, undo countdown, live-region announcement. |
 | `alert-banner` | Placement by scope, severity without color alone, dismissal and persistence, writing. |
-| `progress-and-spinner` | Indicator choice, honest progress, long tasks and staged status, step indicators. |
-| `skeleton` | When to use one, matching the real layout, shimmer, transition to content, `aria-busy`. |
+| `loading-indicators` | Spinner vs skeleton vs progress bar, honest progress, staged status, step indicators. |
 | `empty-state` | The four kinds, first run as onboarding, in-table and in-widget cases, writing. |
 | `card` | Anatomy order, padding and elevation, stretched links, hover without layout shift, selection. |
 | `badge-and-tag` | Badge vs tag vs count, status without color alone, overflow caps, deterministic tag colors. |
 | `avatar` | Fallbacks as the default case, shape and size scale, stacks, presence, alt text. |
 | `accordion` | Whether to collapse at all, multi-open default, deep links, height animation, `<details>`. |
-| `breadcrumb` | When they earn their place, hierarchy not history, middle truncation, mobile back link. |
+| `drag-and-drop` | Pickup and landing feedback, undo, keyboard and menu alternatives, canvases and dropzones. |
+| `destructive-actions` | Protection by reversibility, confirmation copy, typed confirmation, danger zones, bulk scope. |
 
 ## Surfaces and flows
 
 | Skill | Covers |
 | --- | --- |
 | `form-design` | Control choice, field order and layout, validation timing, error copy, multi-step, autosave, submit. |
-| `button-and-action-design` | Action ranking and placement, the disabled-submit argument, destructive actions, toolbars, bulk bars. |
-| `navigation-design` | Sidebars, bottom bars, IA depth, active state, search entry points, pagination, URL state. |
+| `navigation-design` | Sidebars, bottom bars, IA depth, active state, breadcrumbs, search entry points, pagination, URL state. |
 | `tab-design` | Tab bars, segmented controls, indicator motion, overflow, panel transitions. |
 | `search-and-filter-design` | Search input, scopes, suggestions, ranking, snippets, filter chips, facets, zero results. |
 | `data-table-design` | Column layout, sorting, selection, sticky headers, density, pagination. |
-| `card-and-list-design` | Grid vs list vs table, row density, virtualization, scroll restoration, reordering. |
+| `card-and-list-design` | Grid vs list vs table, row density, virtualization, scroll restoration, row and swipe actions. |
 | `chart-design` | Chart type choice, axis honesty, series color, tooltips, accessible data tables. |
 | `dashboard-design` | Operational vs analytical, widget layout, KPI tiles, time range, refresh, drill-down. |
-| `overlay-design` | Choosing the surface, rules true of every overlay, motion, z-index scale, coordination. |
 | `feedback-design` | Matching the pattern to the wait, notification surface choice, optimistic updates and undo, state completeness. |
 | `collaboration-design` | Presence, live cursors, selection ownership, follow mode, conflict handling. |
 | `ai-interface-design` | Chat and assistant surfaces, composer, streaming, citations, agent approvals, cost and limits. |
@@ -96,7 +95,9 @@ what already shipped. For load and interaction speed, use `frontend-performance`
 
 Every essential component gets its own skill; that granularity is deliberate, so a request
 for one control loads one file instead of a whole surface. Add a skill when a component or
-surface has no owner, and extend rather than duplicate when it does. Keep the directory
+surface has no owner, and extend rather than duplicate when it does. The counterweight is
+load cost: `design-foundations` rides along with every task, so anything that only matters
+while styling belongs in `visual-direction` or `color-systems`, not in the baseline. Keep the directory
 name lowercase kebab-case and the file named `SKILL.md`, and give the frontmatter
 `description` concrete triggers ("Use when building a stepper, wizard, ..."), not a topic
 label. Do not restate foundations rules, and do not restate a component's rules in the
@@ -107,3 +108,5 @@ owns it, rather than restating rules as a list at the end.
 
 Sources, authority order, the catalog this group is audited against, and what was reviewed
 and declined: [`agents/knowledge/shaping-web-ui-design.md`](../../agents/knowledge/shaping-web-ui-design.md).
+After changing any `description` here, check the routing seams against
+[`agents/knowledge/web-design-trigger-evaluations.md`](../../agents/knowledge/web-design-trigger-evaluations.md).

@@ -12,7 +12,7 @@ Assumes `design-foundations` for tokens and motion. Submit-time choices are
 
 - The change applies the moment it is flipped, is reversible, and needs no confirmation.
 - **Never put a switch in a form with a Save button.** The user cannot tell whether the switch already applied or is waiting for Save, and both readings are reasonable.
-- Never use a switch for a destructive or irreversible action, or for anything that costs money on flip. Those need a button and a confirmation (`button-and-action-design`).
+- Never use a switch for a destructive or irreversible action, or for anything that costs money on flip. Those need a button and a confirmation (`destructive-actions`).
 - Two mutually exclusive named modes are a segmented control, not a switch. A switch means on/off of one named thing.
 
 ## Anatomy

@@ -58,7 +58,7 @@ throws away everything the native element gives you for free.
 - Show the count and the current position; an unnumbered carousel hides how much is left. Thumbnails beat dots past about five items.
 - Never auto-advance. If a carousel must rotate, it stops on hover, focus, and interaction, and has a visible pause. Hero carousels on marketing pages are a losing pattern - see `landing-page-design`.
 - Arrows are real buttons, always reachable by keyboard, with swipe as an addition on touch and never as the only path. Slides that scroll out of view stay out of the tab order.
-- A lightbox is a modal: focus trapped, Escape closes, focus returns to the thumbnail that opened it, background scroll locked (`overlay-design`). Keep arrow-key navigation between items and the counter visible.
+- A lightbox is a modal: focus trapped, Escape closes, focus returns to the thumbnail that opened it, background scroll locked (`modal-dialog`). Keep arrow-key navigation between items and the counter visible.
 - Zoom is a control, not a hover trick, and pinch-zoom must not be disabled.
 - Load thumbnails eagerly and full-size images on demand; state the dimensions or file size where the download matters.
 
