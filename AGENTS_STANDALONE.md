@@ -132,7 +132,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 ### Naming
 
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
-- Keep a name one level of abstraction above the code it labels: describe the concept it serves, not the implementation it happens to use. `scheduleRetry` survives a switch from a timer to a queue; `startRetryTimer` does not.
+- Name the concept one level above the code, not the implementation: `scheduleRetry`, not `startRetryTimer`.
 - Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
