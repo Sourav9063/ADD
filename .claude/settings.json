@@ -15,18 +15,13 @@
       "CronCreate",
       "CronDelete",
       "CronList",
-      "ListMcpResourcesTool",
-      "ReadMcpResourceTool",
-      "WaitForMcpServers",
-      "mcp__*",
       "Agent",
-      "EnterPlanMode"
+      "ListAgents"
     ],
     "defaultMode": "auto"
   },
   "model": "opus",
   "disableClaudeAiConnectors": true,
-  "disableBundledSkills": true,
   "syncClaudeAiSkills": false,
   "includeGitInstructions": false,
   "hooks": {
