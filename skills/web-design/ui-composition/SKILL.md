@@ -67,14 +67,13 @@ is always **does this need to block the user?** Almost always, no.
 | --- | --- | --- |
 | Inline / expand in place | Editing, disclosure, anything with surrounding context | None: the default, and the one people skip |
 | Popover / menu, anchored to its trigger | Quick choices, overflow actions, pickers | Dismiss on outside click; no scrim |
-| Drawer / side panel | Details, secondary navigation, filters on desktop | Dims only what it covers; app stays alive behind |
+| Drawer / side panel | Details, navigation, filters | Modal or non-modal; choose explicitly |
 | Bottom sheet (mobile) | Contextual actions and pickers within thumb reach | Drag handle, snap points, background partly visible |
-| Modal dialog | Blocking, destructive, or irreversible decisions only | Full scrim, full attention |
+| Modal dialog | Blocking decisions or focused tasks requiring no background interaction | Inert background, contained focus |
 
-A modal for a routine action is a punishment; navigation never goes inside a blocking
-overlay; a hint is never an overlay you can click. Never stack a modal on a modal - replace
-the content or step down to a drawer. Each surface owns its own contract: `modal-dialog`,
-`drawer-and-sheet`, `popover-and-menu`, `tooltip`, `command-palette`.
+Use modal navigation only when appropriate, such as mobile drawers or command palettes.
+`modal-dialog` owns modal behavior and the unsaved-work nesting exception; other surfaces
+own their contracts: `drawer-and-sheet`, `popover-and-menu`, `tooltip`, `command-palette`.
 
 Whatever the surface: Escape closes innermost first and focus returns to the trigger,
 nothing auto-dismisses on a timer, unsaved input asks before it is discarded, and only
@@ -90,7 +89,7 @@ Resolve cross-component behavior explicitly:
 
 - what owns state and what survives refresh, navigation, or Back;
 - which feedback is inline, transient, persistent, or blocking;
-- how overlays coordinate: one blocking surface at a time, opening a modal closes menus and tooltips first, global shortcuts are suppressed while it is open, a toast never appears under a scrim where it cannot be read, and route-backed overlays live in the URL so refresh and Back behave;
+- how overlays coordinate: one active blocking surface except the modal skill's unsaved-work alert; close menus and tooltips first, suppress conflicting shortcuts, keep feedback readable, and put route-backed overlays in the URL;
 - how selection, filters, pagination, and bulk actions share scope;
 - how the composition reflows, truncates, scrolls, and changes input behavior across
   breakpoints and pointer capabilities.

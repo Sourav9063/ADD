@@ -23,9 +23,8 @@ Animate state *changes*, never state itself. Frequency sets the budget before ta
 | Occasional: modals, drawers, toasts, settings | Standard animation |
 | Rare or first-run: onboarding, empty states, success | Where the delight budget lives |
 
-**Keyboard-initiated actions are a disqualifier, not a judgment call**: a command palette
-that animates open feels slow by the twentieth invocation. Same for decoration on data
-someone is reading or acting on.
+Keyboard actions must respond immediately. Skip decorative motion on frequent actions;
+brief state feedback is acceptable when it does not delay focus, input, or readable content.
 
 ## Curves and timing
 
@@ -59,7 +58,7 @@ in 200ms.
 
 ## Build it cheaply
 
-- Animate `transform` and `opacity` only; `width`, `height`, `top`, `margin` trigger layout every frame.
+- Prefer `transform` and `opacity`; profile necessary layout animation, such as expanding an accordion, on representative devices.
 - **Name the properties you transition.** `transition: all` fires on everything that happens to change, including properties added later.
 - **CSS transitions interrupt and retarget from their current position; keyframes restart from zero.** For anything rapidly triggered (toasts arriving, toggles, hover in and out) use transitions. Reserve keyframes for staged one-shot sequences.
 - `@starting-style` gives entry animation with no JS and no mount flag.

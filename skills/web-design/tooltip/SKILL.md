@@ -20,9 +20,9 @@ belongs somewhere else.
 
 - **Delay ~300ms before showing on hover** so a cursor crossing the control does not fire it. Show **instantly on focus** - a keyboard user asked for it deliberately.
 - Once one tooltip in a group has opened, open neighbors instantly until the pointer rests elsewhere; re-delaying inside a toolbar feels sticky.
-- Hide immediately on mouse leave, blur, Escape, and outside tap. **A tooltip that survives Escape is a trap.**
+- Keep open while the trigger has focus or the pointer is over the trigger or tooltip. Escape dismisses without moving pointer or focus; outside tap also dismisses. Otherwise hide when neither region remains hovered or focused.
 - Never auto-hide on a timer while the pointer is still on the trigger, and never animate longer than ~150ms in either direction.
-- No tooltip on a disabled control: disabled elements do not fire pointer events, so the explanation is unreachable. Keep the control enabled with `aria-disabled` or put the reason in visible text (`button`).
+- Put disabled reasons in visible text; do not depend on a native disabled control receiving hover or focus (`button`).
 
 ## Placement
 
@@ -41,8 +41,7 @@ Touch devices have no hover. Decide explicitly:
 
 ## Accessibility
 
-- WCAG 2.2 requires hoverable content: the tooltip stays open while the pointer moves onto it, is dismissible with Escape without moving focus, and persists until dismissed or the trigger loses hover or focus.
-- Wire it with `aria-describedby` for supplementary hints, and `aria-labelledby` only when the tooltip genuinely is the control's name.
+- Use `role="tooltip"` and `aria-describedby` for supplementary hints; use `aria-labelledby` only when it genuinely supplies the control's name.
 - The tooltip element itself is not focusable and is not in the tab order.
 - Contrast applies: the bubble's text against its own fill, and the bubble against the page.
 - Content that must be announced on demand rather than on hover belongs in visible text, not here.

@@ -31,7 +31,7 @@ Create or update the most relevant file when requested or whenever verified work
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; when committing is authorized, commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 

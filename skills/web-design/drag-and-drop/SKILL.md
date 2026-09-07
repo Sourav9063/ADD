@@ -36,8 +36,8 @@ path for everyone who is not dragging.
 
 ## Keyboard and assistive paths
 
-WCAG 2.2 requires a single-pointer alternative for every dragging movement, and a keyboard
-path is the practical way to satisfy it.
+Provide keyboard operation and a click/tap path without dragging. Keyboard support alone
+does not satisfy WCAG 2.2's single-pointer alternative requirement.
 
 - **Space picks up, arrows move, Space drops, Escape cancels.** Announce each step in a live region: "Picked up Invoice 42, position 3 of 12", "Moved to position 2", "Dropped".
 - Offer the same operations without any gesture: "Move up", "Move down", and "Move to…" in the item's overflow menu (`popover-and-menu`). This is also the fastest path for anyone moving an item across a long list.

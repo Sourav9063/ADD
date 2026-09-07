@@ -20,15 +20,15 @@ state. Shipping only the trigger row is why tabs feel cheap.
 ## Visual rules
 
 - Exactly one active tab, and it must be unmistakable: the difference between active and idle should survive a grayscale screenshot.
-- **The focus ring and the active state never share a color.** Otherwise keyboard users cannot tell where focus is versus what is selected.
+- Keep focus visibly distinct from selection through shape or position, not color alone (`design-foundations`).
 - Idle tabs stay legible: `text-muted` at ≥4.5:1, not a 40%-opacity ghost.
 - Counts and badges belong after the label, in a muted pill, and must not resize the tab when the number changes; reserve the width.
 - Segmented control (a filled thumb inside a track) for ≤4 short, mutually exclusive options; an underline bar for content sections.
 
 ## Motion
 
-- **The active indicator slides, it never teleports.** Animate it between tabs with a spring or `cubic-bezier(0.16, 1, 0.3, 1)` at 200–300ms, and match its timing to the panel transition.
-- Panel change is a crossfade, not a hard cut: fade out ~120ms → ~80ms hold → fade in ~180ms, with a few pixels of directional slide matching the travel direction.
+- Optional indicator motion follows `motion-design`; update selection, focus, and ready content immediately.
+- A brief panel crossfade may preserve continuity; do not hold content back for an exit sequence.
 - Keep panel height stable, or animate the height change. A tab switch that shoves the page is the most common tab defect.
 - Under `prefers-reduced-motion`, cut the slide and keep a short fade.
 

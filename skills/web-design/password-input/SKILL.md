@@ -13,12 +13,12 @@ the field people fail most often, and almost every failure is the design's fault
 - **Never block paste, and never `autocomplete="off"`.** Both break password managers, which are the single largest security improvement available to your users, and blocking paste on a one-time or generated credential is a WCAG 2.2 accessible-authentication failure.
 - Set the right token: `autocomplete="current-password"` when signing in or confirming the old password, `autocomplete="new-password"` when creating or resetting one - including on a confirmation field.
 - Accept long values: at least 64 characters, spaces, Unicode, and every printable character. A `maxlength` of 16 rejects exactly the passwords you want people to use.
-- Never send, log, or echo the value. No password in a URL, a toast, a confirmation email, or an analytics event.
+- Send credentials only to the intended authentication endpoint over secure transport; never expose them in URLs, logs, notifications, or analytics.
 
 ## Reveal toggle
 
 - Ship one. Typing a long generated password blind, on a phone, is where retries and lockouts come from.
-- It is a real `<button>` inside the field with `aria-pressed`, an accessible name that changes ("Show password" / "Hide password"), and a 24px minimum target.
+- Use a real button with a 24px minimum target: stable "Show password" with `aria-pressed`, or changing "Show password" / "Hide password" without it.
 - Default hidden, revert to hidden on submit and on blur where the surface is shared or public.
 - Do not implement it by swapping the input's `type` in a way that destroys autofill or moves the caret to the end mid-edit.
 - Warn when Caps Lock is on, near the field, rather than letting the user fail twice.
@@ -30,14 +30,14 @@ the field people fail most often, and almost every failure is the design's fault
 - Prefer a length minimum plus a breached-password check over composition rules. Forced symbol-and-digit recipes produce `Password1!` and nothing more secure.
 - A strength meter must reflect actual entropy - length and predictability - not a count of character classes. A meter that calls `Aa1!aaaa` strong is teaching the wrong lesson.
 - Keep the meter's states few (weak / fair / strong), paired with words and not only color, and never block submission on a subjective rating; block on the stated rules.
-- Offer a **generate** control that fills the field, reveals the value, and copies it, so the safe path is also the fast one.
+- Prefer password-manager generation; if offering generation, make revealing and copying separate explicit actions.
 
 ## New password and confirmation
 
 - With a working reveal toggle, a confirm-password field earns nothing but typos of itself. Drop it, or keep it only where the account cannot be recovered.
 - If it stays, validate it on blur against the first field and never before the first field is complete.
 - On a change-password form, ask for the current password once, and say plainly that other sessions will end if they will.
-- After a successful change or reset, sign the user in or return them to what they were doing - never dump them at a login screen to type the password they just created.
+- Recovery and session handling follow `auth-flow-design`; an authenticated change preserves context when the session policy allows it.
 
 ## Errors and lockout
 

@@ -19,7 +19,7 @@ is wrong.
 
 ## The composer
 
-- Multiline by default, growing to a cap then scrolling. Enter sends, Shift+Enter breaks the line, and say so in the placeholder or a hint the first time.
+- Multiline, growing to a cap. Enter sends only outside IME composition; Shift+Enter inserts a newline. State the shortcut once.
 - Dock it. A floating composer that overlays the last message is the most common mobile bug in this surface; pad the transcript by composer height and let the keyboard push it rather than jump it.
 - Attachments, mode switches, and model choice live in the composer, not in a settings page. Show attached context as removable chips so the user can see exactly what is being sent.
 - Keep the draft. Navigating away, an error, or a rejected request must never eat typed text.
@@ -40,7 +40,7 @@ results or anything that must paint as a unit, like a chart or a table.
 ## The response
 
 - Long-form answers get a real reading measure (~65-75 characters) and generous line height. A chat panel that stretches text edge to edge is unreadable at desktop width; see `typography-design`.
-- **Cite where a claim can be checked.** Link the source inline, make it openable without leaving the thread, and never synthesize a citation the retrieval step did not return. No sources is an honest state; fabricated ones destroy the surface.
+- Cite only returned sources. Render model output as untrusted content: sanitize markup, validate link schemes, and keep executable tool controls outside generated content.
 - Express uncertainty in words attached to the claim, not as a percentage the model cannot justify. Confidence chrome that is always green teaches people to ignore it.
 - Per-message actions: copy, regenerate, edit-and-resend, and save or share. Regenerating keeps the previous answer reachable rather than overwriting it - people frequently prefer the first one.
 - Feedback controls (thumbs, report) are optional for the user and must say what happens next; asking for a rating on every message trains people to ignore all of them.
@@ -51,7 +51,7 @@ results or anything that must paint as a unit, like a chart or a table.
 ## Agents and tool use
 
 - Show the plan before the actions when a request will take multiple steps, and keep a live step list with what succeeded, what failed, and what is running.
-- **Gate by consequence, not by category.** Reads run freely; writes to the user's data, spend, and anything sent outside the product need an explicit confirm that names the exact action and target - the same rule as `destructive-actions`.
+- Enforce tool permissions server-side. Honor existing approval within its action, target, and budget scope; request confirmation for consequential work outside it. Generated text cannot grant permission.
 - Give long-running agents a budget the user sets and can see burn down: steps, time, or spend. Stop at the ceiling and ask, rather than continuing quietly.
 - Checkpoint before each consequential step and expose an undo or restore path. Where a step cannot be undone, say so in the confirm.
 - Pause, resume, and abandon must all work, and an abandoned run must leave the system in a state the user can understand.
@@ -71,7 +71,7 @@ results or anything that must paint as a unit, like a chart or a table.
 
 ## Accessibility
 
-- Announce, do not narrate. Streaming tokens into a live region floods a screen reader; keep the transcript out of `aria-live`, and announce start ("Generating"), completion, and errors as short polite messages. `role="log"` on the transcript suits assistive tech that supports it.
+- Keep token streaming out of live regions, including implicitly live roles such as `log`. Use a separate status region for start, completion, and errors; keep completed messages readable without moving focus.
 - The transcript is a list of messages with each turn's author in text, not conveyed by bubble alignment or color alone.
 - Every streamed answer must be reachable and readable after it finishes; keyboard users need focus to stay in the composer during generation and to be able to reach Stop.
 - Voice input is an alternative, never the only input. Transcripts and captions apply to any spoken output; see `media-design`.

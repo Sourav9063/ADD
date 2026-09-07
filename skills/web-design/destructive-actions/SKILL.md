@@ -27,9 +27,9 @@ when the request loses the race (`feedback-design`).
 
 - **Name the consequence and the count**: "Delete 12 files?" and, in the body, what else goes with them ("Their 340 comments will also be deleted"). Never "Are you sure?", which adds a click and no information.
 - The confirm button repeats the verb and the object: **Delete 12 files**, not OK, not Yes.
-- The destructive button is `danger`-colored, is **not** the default focus target, and never sits where the confirm button normally sits in your other dialogs - muscle memory clicks position, not label (`modal-dialog`).
+- Keep consistent action placement, danger styling, and safe initial focus (`modal-dialog`).
 - Say what is *not* affected when that is the real question ("Your invoices stay available for export").
-- For typed confirmation, ask for the resource's own name, show it beside the field, and keep the button disabled only in this one case - here the disabled state is the point (`button`).
+- For typed confirmation, show the resource's name beside the field and keep the action unavailable until it matches (`button`).
 - Do not use a countdown-then-enable button as the only friction; it delays everyone and stops no one.
 
 ## Bulk and scope

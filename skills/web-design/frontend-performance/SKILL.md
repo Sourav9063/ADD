@@ -48,7 +48,7 @@ Write down the number before and after. "Feels faster" is not a result.
 - Move heavy parsing, diffing, or crypto to a Web Worker.
 - Virtualize lists past ~100 rows with stable item heights.
 - Memoize the expensive parts only; blanket `memo`/`useMemo` adds cost and hides the real problem, which is usually an unstable context value or a new object literal in props.
-- Animate `transform` and `opacity` exclusively; anything triggering layout drops frames.
+- Favor `transform` and `opacity`; profile necessary layout animation (`motion-design`).
 
 ## CLS
 
@@ -61,9 +61,9 @@ Write down the number before and after. "Feels faster" is not a result.
 
 - Ship less: audit dependencies before adding them (a date library at 70KB for one format call), prefer platform APIs (`Intl`, `URLPattern`, `structuredClone`), and check for a modern lighter alternative.
 - Code-split by route, and dynamic-import anything heavy and below the fold (editors, charts, maps, modals).
-- Tree-shake properly: deep imports, `sideEffects: false`, no barrel files re-exporting a whole library into every page.
+- Use supported package exports; mark only verified side-effect-free modules as such. Preserve CSS and initialization imports, and inspect the production bundle.
 - Keep polyfills targeted to actually supported browsers.
-- In React Server Component frameworks, keep `"use client"` at the leaves; a client boundary high in the tree drags everything beneath it into the bundle.
+- Keep client-only code behind narrow import boundaries. Server-rendered children passed into a client component do not become client modules merely by nesting there.
 - Third-party scripts are usually the single largest cost. Inventory them, load them lazily or via a worker, and delete the ones nobody can name an owner for.
 
 ## Images, fonts, media

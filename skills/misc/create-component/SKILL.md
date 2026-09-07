@@ -1,11 +1,11 @@
 ---
 name: create-component
-description: Create a UI component, client component, or data provider following mapsense Next.js conventions. Use when user asks to build a server component, client component, provider, filter panel, table, form, map UI, or reusable UI.
+description: Create UI components and providers using the mapsense profile below. Use only in repositories already using its paths and helpers, or when explicitly asked to adopt this profile.
 ---
 
 # Create Component
 
-Create requested UI component, client component, or data provider.
+Verify the listed paths and helpers first; otherwise follow the repository's existing component patterns.
 
 Request: `$ARGUMENTS`
 

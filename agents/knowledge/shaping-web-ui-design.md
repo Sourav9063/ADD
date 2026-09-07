@@ -93,6 +93,11 @@ Voice Cloning categories, which are product ideas rather than interface rules.
 
 ## Authority order
 
+2026-09-06 correctness corrections supersede conflicting catalog recipes: reuse existing
+UI primitives; preserve normal authentication after recovery; distinguish modality,
+pointer alternatives, and WCAG levels; keep retries and async state truthful. Evidence
+and deferred proposals: [`skills audit`](../../docs/skills-audit-2026-09-06.md).
+
 Resolve conflicts in this order. A practitioner post never overrides a spec.
 
 1. **Specification.** WCAG 2.2, ARIA APG, HTML/MDN. Settles keyboard contracts, roles, contrast ratios, target sizes.

@@ -57,8 +57,8 @@ keyboard contract below.
 Follow the APG combobox pattern; users have this contract memorized:
 
 - Down or Alt+Down opens the menu with the current value focused; typing opens it and filters.
-- Up and Down move the active option, Home and End jump to first and last, and the active option scrolls into view.
-- Enter selects the active option and closes; Tab selects and moves on; Escape closes and restores the previous value, and a second Escape clears the input.
+- Up and Down move the active option and scroll it into view. Preserve native text-editing keys in editable inputs.
+- Enter accepts; Tab leaves; Escape closes. Choose commit-on-blur, Home/End, and clearing behavior for the actual APG variant rather than applying one contract to every picker.
 - Typeahead on a non-searchable select jumps to the first option starting with the typed characters.
 - Focus stays on the input while `aria-activedescendant` marks the active option; do not move DOM focus into the list.
 

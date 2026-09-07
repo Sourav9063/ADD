@@ -28,12 +28,12 @@ without the question. Cancel stays "Cancel".
 **Labels**: nouns, above the field, persistent. A placeholder is not a label; it vanishes
 mid-answer. Use placeholders only for format examples (`name@company.com`).
 
-**Helper text**: set expectations *before* the mistake: "8+ characters, one number" beats
-an error after the fact. Say why you need unusual data ("We use this to calculate tax").
+**Helper text**: state requirements before entry ("Up to 5 files, 10 MB each"). Explain
+unusual data asks. Credential wording follows `auth-flow-design`.
 
-**Errors**: three parts: what happened, why, what to do next. *"That email's already
-registered; sign in instead?"* Not "Invalid input". Keep the message beside the thing that
-failed, and put the stack trace behind Details with a copyable reference ID.
+**Errors**: state what happened and the next action: "Upload failed: file exceeds 10 MB.
+Choose a smaller file." Keep errors beside the failure; expose a support reference, not
+stack traces or sensitive diagnostics.
 
 **Empty states**: one line of what belongs here, one line of value, one CTA to the first
 real step. Write like a product, not a log file: never "No records found" on a first run.
@@ -64,7 +64,7 @@ review, a demo, or a screenshot is judged as the product.
 
 - **No Lorem Ipsum.** Write real draft copy at real length. Fake Latin hides every wrapping, truncation, and hierarchy problem the layout has.
 - **No "John Doe", no "Acme Corp".** Use varied, plausible names for people, teams, and products, and vary the string lengths so one long name tests the layout.
-- **No round fake numbers.** `99.99%`, `50%`, and `$100.00` read as invented. Organic figures read as real data.
+- **Label sample data.** Use varied values to test layouts; never present fabricated metrics or identities as real proof.
 - **No filler vocabulary.** "Elevate", "seamless", "unleash", "next-gen", "game changer", "delve", "in the world of". These say nothing and mark the copy as machine-written.
 - **Sentence case for headings**, not Title Case On Everything.
 - **No exclamation marks in success messages**, and no "Oops!" in errors. "Connection failed. Try again" respects the reader more than either.

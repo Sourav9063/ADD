@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Apply repository engineering judgment to non-trivial implementation, bug fixes after diagnosis, refactors, code reviews, schema or config changes, and technical design: scoping, risk, tradeoffs, verification, and completion. Use for behavior or shared-contract changes across files or layers. Skip diagnosis-only requests, planning-only requests, simple renames, copy edits, and isolated mechanical changes. For line-level code craft, use `coding`.
+description: Apply repository engineering judgment to non-trivial implementation, bug fixes after diagnosis, refactors, code reviews, schema or config changes, and technical design, covering scoping, risk, tradeoffs, verification, and completion. Use for behavior or shared-contract changes across files or layers. Skip diagnosis-only requests, planning-only requests, simple renames, copy edits, and isolated mechanical changes. For line-level code craft, use `coding`.
 ---
 
 ## Engineering Principles

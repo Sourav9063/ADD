@@ -1,6 +1,6 @@
 ---
 name: coding
-description: Apply hands-on code craft standards while writing, editing, refactoring, or reviewing code: control flow, functions, naming, state, error handling, concurrency, code smells, tests, and code-level security. Use whenever lines of code change. Skip planning-only requests, diagnosis-only requests, prose edits, and pure configuration or data changes.
+description: Apply hands-on code craft standards while writing, editing, refactoring, or reviewing code, covering control flow, functions, naming, state, error handling, concurrency, code smells, tests, and code-level security. Use whenever lines of code change. Skip planning-only requests, diagnosis-only requests, prose edits, and pure configuration or data changes.
 ---
 
 ## Coding

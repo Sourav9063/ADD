@@ -53,7 +53,7 @@ is a dialog, belongs-to-one-control is inline.
 - Say what happened, why, and what to do next, in the user's terms. Keep the technical detail behind a "Details" disclosure and log the correlation ID.
 - Put the error at the level it happened: a field error inline, a section error in that section, a page error as a page. Do not blow away a working screen for one failed widget.
 - Always offer a way forward: Retry, go back, contact support with a prefilled reference.
-- Auto-retry transient network failures a couple of times with backoff before telling the user anything.
+- Retry transient failures with bounded backoff only when replay is safe; reconcile timed-out writes before retrying (`engineering`).
 - Never blame the user, never use a modal for a non-blocking error, and never put an error the user must act on in a disappearing toast.
 
 ## Success

@@ -109,8 +109,8 @@ when translated. See `internationalization-design`.
 ## Testing order
 
 Test the smallest and largest supported sizes first; those break first. Then sweep the
-sizes between, resizing continuously rather than jumping between preset widths, because
-breakage lives between the presets. Finish with 200% zoom and a 320px viewport with no
-horizontal scrolling, which is the WCAG reflow requirement rather than a nice-to-have.
+sizes between, resizing continuously rather than jumping between preset widths. Test 200%
+text resizing and reflow at 320 CSS px; allow horizontal scrolling only for content needing
+two-dimensional layout, such as tables (`accessibility-audit`).
 Real devices for anything involving gestures, keyboards, or safe areas; a resized desktop
 browser does not have a notch.

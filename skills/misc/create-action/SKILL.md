@@ -1,11 +1,11 @@
 ---
 name: create-action
-description: Create a full 3-layer feature with types, repository, service, and server action following this repository's storage boundaries. Use when user asks to build CRUD, actions, service/repository layers, external API integrations, or a new backend feature.
+description: Create backend features using the types/repository/service/action profile below. Use for CRUD or integrations only in repositories already using these paths and helpers, or when explicitly asked to adopt this profile.
 ---
 
 # Create Action
 
-Create a full 3-layer feature for requested entity or workflow.
+Verify the listed paths and helpers before applying this profile; otherwise follow the repository's existing boundaries.
 
 Request: `$ARGUMENTS`
 
@@ -40,6 +40,7 @@ Request: `$ARGUMENTS`
 - Import types from `@/types/<name>` and repository functions from `@/repository/<name>`.
 - Keep only business logic, orchestration, and Zod runtime validation here.
 - Validate request-independent domain rules and repository responses via `schema.safeParse()`.
+- Enforce resource and tenant permissions here for every entry point; an action's role gate is not object authorization.
 - Throw `AppError(status, msg)` for expected failures (400/403/404/409/422/502...).
 - Do not parse `FormData`, query-param arrays, cookies, headers, or other request shapes.
 - Do not call DB/API clients, perform cache invalidation, or handle request concerns here.
@@ -55,36 +56,12 @@ Request: `$ARGUMENTS`
   - `createAction.admin(async (user, ...args) => ...)` - admin only
 - Non-public callbacks receive `user` first; prefix `_user` if unused.
 - Parse and normalize request inputs here: `FormData`, query-param arrays, empty strings, headers, and action-state arguments.
+- Parse pagination as finite bounded integers: positive limits, nonnegative offsets. Default only missing values; reject invalid input.
 - Call services only. Never call repositories or storage clients directly, including for trivial reads.
 - Add `_prevState: FooState` after `user` only for `useActionState`.
 - Keep action state types in `src/types/<name>.ts`.
 - Keep `revalidatePath`/`revalidateTag` in actions after mutations.
 - API routes perform equivalent request parsing and call services through `withApiHandler`.
-
-Example:
-
-```ts
-"use server";
-
-import { revalidatePath } from "next/cache";
-import { createAction } from "@/lib/create-action";
-import { listFoos, updateFooWorkflow } from "@/services/foo";
-
-export const getFoos = createAction.reviewer(
-  async (_user, rawLimit: unknown, rawOffset: unknown) => {
-    const limit = Number(rawLimit) || 50;
-    const offset = Number(rawOffset) || 0;
-    return listFoos({ limit, offset });
-  },
-);
-
-export const updateFoo = createAction.reviewer(
-  async (user, id: number, patch: FooPatch) => {
-    await updateFooWorkflow(id, patch, user);
-    revalidatePath("/foo");
-  },
-);
-```
 
 ## Output
 

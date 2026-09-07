@@ -86,7 +86,7 @@ An interface with no real imagery reads as unfinished whatever the tokens are, a
 fabricated substitutes read worse than nothing.
 
 - **Do not hand-author illustrations** as SVG or CSS path data. Use real assets or mark the slot honestly pending. Geometric brand marks, interface icons, and data graphics are fine to author.
-- **Avatars are photographs**, never initials-in-a-circle, silhouettes, or generated people presented as real customers.
+- Avatar images and fallbacks follow `avatar`; never present stock or generated faces as real customers.
 - **For brand work the logo is non-negotiable.** A brand is recognized by its mark and product imagery, not its hex codes. If the real mark cannot be sourced, stop and ask rather than shipping a colored rectangle.
 - **Never invent proof.** No fabricated testimonials, no logo walls of non-customers, no invented metrics. Omit the section instead.
 

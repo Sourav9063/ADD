@@ -41,7 +41,7 @@ when it fails, and how someone gets back in.
 ## Reset, recovery, and lockout
 
 - Reset requests get one message whether or not the account exists, and that message says to check spam and how long the link lasts.
-- Reset links are single-use and short-lived. On success, sign the user in, tell them other sessions were ended, and notify the account by email.
+- Reset links are single-use and short-lived. After recovery, use normal sign-in, including required factors; notify the account and confirm session revocation only after it succeeds.
 - Before identity is established, nonexistent, locked, disabled, and credential-mismatch cases use the same generic response, HTTP status, and approximately equal timing. Offer reset or support without confirming which condition occurred.
 - After the user proves control through an authenticated session or recovery channel, name an actionable condition such as lockout, expired link, or unverified email, including how to resolve it and how long it lasts.
 

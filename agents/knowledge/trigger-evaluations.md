@@ -9,6 +9,9 @@ Manual checks that each ADD-wide skill fires on its intended prompts and stays q
 | "Write me a plan for the checkout rewrite." | spec-driven-development creates or updates `agents/plans/<name>.md` | - |
 | "Why is the session test flaky?" | diagnosing-bugs investigates only | engineering implements a fix |
 | "Login breaks on expired tokens, fix it." | diagnosing-bugs then engineering: reproduce, fix, verify | - |
+| "Can you fix this login bug?" | diagnosing-bugs then authorized fix | approval request based only on question wording |
+| "Should we fix this login bug?" | analysis and advice | implementation |
+| "Build CRUD using the existing backend patterns" with no profile helpers present | existing repository conventions | create-action profile |
 | "Review my branch against main." | reviewing-changes with a resolved target and concrete findings | - |
 | "Tighten the description on this SKILL.md." | writing-agent-guidance | - |
 | "You were wrong about the cache layer; it's per-request." | memory curates `agents/MEMORY.md` | knowledge, plans |

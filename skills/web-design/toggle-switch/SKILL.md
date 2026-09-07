@@ -33,8 +33,8 @@ Assumes `design-foundations` for tokens and motion. Submit-time choices are
 
 - Flip optimistically, then reconcile. Waiting for a round trip before moving the thumb makes the control feel broken (`feedback-design`).
 - Show progress **in place** - a small spinner in or beside the switch - never a page-level loader, and keep the control interactive-looking rather than disabled.
-- On failure, roll back visibly, keep the row in place, and say why inline. A switch that silently returns to its old position teaches the user the product is unreliable.
-- Debounce rapid flips and send the final state; never queue three requests for three flips.
+- Roll back confirmed failures of the current intent and explain inline. Reconcile unknown outcomes; stale failures must not undo newer intent (`feedback-design`).
+- Coalesce rapid flips; serialize or version writes and ignore stale responses so the server's final state matches the latest intent. Debounce alone cannot order in-flight writes.
 - If the effect is slow to take hold ("Applying to 2,400 devices"), say so under the label with the pending count rather than pretending it is done.
 
 ## Groups and dependencies

@@ -5,10 +5,9 @@ description: Build or review a drawer, side panel, or bottom sheet. Use when add
 
 # Drawer and Sheet
 
-Assumes `ui-composition` for surface choice and `motion-design` for gesture physics. A
-drawer keeps the app alive behind it; a modal does not. Use one when the user needs the
-context they came from - filters against a visible list, details beside a table, a picker
-above the page that produced it.
+Assumes `ui-composition` for surface choice and `motion-design` for gestures. Drawers may
+be modal or non-modal; choose whether the background remains interactive. Use them for
+details, filters, or contextual tasks beside the originating view.
 
 ## Placement
 

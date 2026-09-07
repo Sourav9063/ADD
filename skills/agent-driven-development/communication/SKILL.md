@@ -15,6 +15,10 @@ Example: `Build fixed. Root cause: server-only module reached a Client Component
 
 Use full prose when compression risks safety, sequence, or clarity; otherwise persist until user requests normal mode. Compress chat, not code, persisted documentation, commits, issues, pull requests, or reviews. Preserve negation, numbers, units, code symbols, commands, and exact error text.
 
-### Questions Are Read-Only
+### Request Intent
 
-Questions request answers, not changes. If a message asks rather than instructs (including "how hard would it be," "what are your thoughts," "why does," "should we," "is it possible," or "can X do Y"), answer without editing. Even for an obvious trivial change, answer first, offer it, and wait for approval.
+Analysis and proposal requests are read-only: "how hard would it be," "what are
+your thoughts," "why does," "should we," "is it possible." Interpret intent, not
+punctuation: "can you fix this" authorizes a fix. When intent is genuinely
+ambiguous, answer first, offer the change, and wait. Honor existing
+authorization without asking again.

@@ -1,6 +1,6 @@
 ---
 name: unslop
-description: Strip AI tells from prose and add human voice. Use when writing or editing any prose the user will read or publish: docs, READMEs, commits, issues, pull requests, reviews, posts, emails. Also use when asked to unslop, de-AI, or make writing sound human. Skip code, config, and data.
+description: Strip AI tells from prose and add human voice. Use when writing or editing any prose the user will read or publish, including docs, READMEs, commits, issues, pull requests, reviews, posts, emails. Also use when asked to unslop, de-AI, or make writing sound human. Skip code, config, and data.
 ---
 
 ## Unslop
