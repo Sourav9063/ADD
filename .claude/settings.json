@@ -50,8 +50,14 @@
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
-  "effortLevel": "low",
+  "effortLevel": "medium",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    }
+  },
   "awaySummaryEnabled": false,
+  "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "editorMode": "vim",
   "preferredNotifChannel": "notifications_disabled",
