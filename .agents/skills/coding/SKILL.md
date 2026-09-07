@@ -1,6 +1,6 @@
 ---
 name: coding
-description: Apply hands-on code craft standards while writing, editing, refactoring, or reviewing code: control flow, functions, naming, state, error handling, concurrency, code smells, tests, and code-level security. Use whenever lines of code change. Skip planning-only requests, diagnosis-only requests, prose edits, and pure configuration or data changes.
+description: Apply hands-on code craft standards while writing, editing, refactoring, or reviewing code, covering control flow, functions, naming, state, error handling, concurrency, code smells, tests, and code-level security. Use whenever lines of code change. Skip planning-only requests, diagnosis-only requests, prose edits, and pure configuration or data changes.
 ---
 
 ## Coding
@@ -18,6 +18,7 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 ### Naming
 
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
+- Keep a name one level of abstraction above the code it labels: describe the concept it serves, not the implementation it happens to use. `scheduleRetry` survives a switch from a timer to a queue; `startRetryTimer` does not.
 - Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
