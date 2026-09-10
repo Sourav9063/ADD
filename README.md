@@ -264,7 +264,7 @@ Create or update the most relevant file when requested or whenever verified work
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; when committing is authorized, commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 
@@ -370,6 +370,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 ### Naming
 
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
+- Name the concept one level above the code, not the implementation: `scheduleRetry`, not `startRetryTimer`.
 - Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
@@ -446,9 +447,13 @@ Example: `Build fixed. Root cause: server-only module reached a Client Component
 
 Use full prose when compression risks safety, sequence, or clarity; otherwise persist until user requests normal mode. Compress chat, not code, persisted documentation, commits, issues, pull requests, or reviews. Preserve negation, numbers, units, code symbols, commands, and exact error text.
 
-### Questions Are Read-Only
+### Request Intent
 
-Questions request answers, not changes. If a message asks rather than instructs (including "how hard would it be," "what are your thoughts," "why does," "should we," "is it possible," or "can X do Y"), answer without editing. Even for an obvious trivial change, answer first, offer it, and wait for approval.
+Analysis and proposal requests are read-only: "how hard would it be," "what are
+your thoughts," "why does," "should we," "is it possible." Interpret intent, not
+punctuation: "can you fix this" authorizes a fix. When intent is genuinely
+ambiguous, answer first, offer the change, and wait. Honor existing
+authorization without asking again.
 ```
 <!-- AGENTS_MD_END -->
 
