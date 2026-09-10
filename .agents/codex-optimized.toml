@@ -1,0 +1,74 @@
+# Lean Codex configuration for coding-focused sessions.
+#
+# Codex does not load configuration from `.agents/`. Copy or merge these
+# settings into `~/.codex/config.toml`, or into `.codex/config.toml` for a
+# trusted project. Restart Codex after changing the active configuration.
+
+# Remove multi-agent collaboration tools and web search from the tool catalog.
+agents.enabled = false
+web_search = "disabled"
+
+# Bound the always-visible skill catalog. Skill bodies still load when invoked.
+skills.max_context_tokens = 1500
+
+[features]
+# Remove persisted-goal and automatic-continuation tools.
+goals = false
+sleep_tool = false
+
+# Remove optional visual and desktop-control tool groups.
+browser_use = false
+computer_use = false
+image_generation = false
+
+# Avoid advertising or installing remote plugin capabilities.
+remote_plugin = false
+skill_mcp_dependency_install = false
+
+# Keep the primary local coding tools.
+shell_tool = true
+unified_exec = true
+
+[tools]
+view_image = false
+
+# Disable connector/app tools by default. Add a specific app override only when
+# a session needs it: `[apps.<id>] enabled = true`.
+[apps._default]
+enabled = false
+
+# The Node REPL carries browser and computer-control capabilities that are not
+# needed for ordinary repository work.
+[mcp_servers.node_repl]
+enabled = false
+
+# Disable the optional plugins currently installed in the user's Codex setup.
+[plugins."browser@openai-bundled"]
+enabled = false
+
+[plugins."visualize@openai-bundled"]
+enabled = false
+
+[plugins."documents@openai-primary-runtime"]
+enabled = false
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = false
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = false
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = false
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = false
+
+[plugins."sites@openai-bundled"]
+enabled = false
+
+[plugins."google-calendar@openai-curated"]
+enabled = false
+
+[plugins."slack@openai-curated"]
+enabled = false
