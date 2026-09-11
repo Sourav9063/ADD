@@ -135,6 +135,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
 - Name caller intent: `scheduleRetry`, not `startRetryTimer`. Expose provider or algorithm details only when callers choose or depend on them.
 - Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
+- At public boundaries, document what callers cannot infer from the signature: preconditions, ownership, units, and thread-safety.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
 ### Data and State
@@ -160,6 +161,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 
 ### Structure
 
+- Search for an existing helper, type, or error before adding one; extend the owner rather than writing a parallel implementation beside it.
 - Prefer composition over inheritance, and depend on an abstraction where it clarifies a real boundary or variation point rather than by default.
 - Apply DRY, SOLID, and design patterns as tools, not goals; use them only when they reduce duplicated knowledge or clarify responsibilities, dependencies, or testability.
 - Keep cohesion high and coupling low, and separate policy from mechanism.
