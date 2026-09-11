@@ -133,7 +133,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 ### Naming
 
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
-- Name caller intent: `scheduleRetry`, not `startRetryTimer`. Expose provider or algorithm details only when callers choose or depend on them; renaming alone cannot repair misplaced responsibility.
+- Name caller intent: `scheduleRetry`, not `startRetryTimer`. Expose provider or algorithm details only when callers choose or depend on them.
 - Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
@@ -168,16 +168,15 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 
 ### Smells
 
-Treat smells as heuristics; repository standards prevail. Leave lint-enforced style to tools. Fix within scope; mention the rest. Verify refactored callers and contracts together; reject extractions that merely relocate complexity or increase shared state.
+Treat smells as heuristics; repository standards prevail. Leave lint-enforced style to tools. Fix within scope; mention the rest.
 
-- Naming and modelling: Mysterious Name (rename it, or admit the design is unclear), Primitive Obsession (give the concept its own type), Data Clumps (bundle fields that travel together), Speculative Generality (delete abstraction the task does not need).
+- Naming and modelling: Mysterious Name (rename it), Primitive Obsession (give the concept its own type), Data Clumps (bundle fields that travel together), Speculative Generality (delete abstraction the task does not need).
 - Placement: Duplicated Knowledge (one owner for rules that change together, even twice; similar syntax alone is insufficient), Feature Envy (move behavior to its responsible module), Repeated Switches (centralize recurring dispatch).
 - Module shape: Shotgun Surgery (one change scattered across many files; gather it), Divergent Change (one module edited for unrelated reasons; split it).
 - Indirection: Message Chains (hide object internals; transparent data traversal is fine), Middle Man (remove meaningless delegation; preserve intent boundaries), Refused Bequest (replace unused inheritance with composition).
-
-Extract shared policy into its existing owner; expose actual caller choices as typed inputs. Success means fewer callers change when policy changes, not merely fewer repeated lines.
-
-When shared code accumulates caller-specific branches, consider inlining and separating responsibilities before adding options.
+- Verify refactored callers and contracts together; reject extractions that merely relocate complexity or increase shared state.
+- Extract shared policy into its existing owner and expose actual caller choices as typed inputs; success means fewer callers change when policy changes, not merely fewer repeated lines.
+- When shared code accumulates caller-specific branches, inline it and separate responsibilities before adding options.
 
 ### Restraint
 
