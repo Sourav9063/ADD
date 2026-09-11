@@ -63,6 +63,8 @@ Treat smells as heuristics; repository standards prevail. Leave lint-enforced st
 
 Extract shared policy into its existing owner; expose actual caller choices as typed inputs. Success means fewer callers change when policy changes, not merely fewer repeated lines.
 
+When shared code accumulates caller-specific branches, consider inlining and separating responsibilities before adding options.
+
 ### Restraint
 
 - Follow YAGNI: add no speculative feature, abstraction, configuration, or docs that merely paraphrase code.
@@ -76,6 +78,7 @@ Extract shared policy into its existing owner; expose actual caller choices as t
 - Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not.
 - Keep tests fast, isolated, and deterministic: no sleeps, no uncontrolled shared state, no uncontrolled network or external service.
 - Cover realistic negative and edge cases for changed behavior; for behavior-preserving refactors, strengthen coverage when risk warrants.
+- Before refactoring poorly understood code, capture relevant current behavior in characterization tests; distinguish observed behavior from intended correctness.
 - Verify uncertain dependency behavior with focused experiments; retain contract tests where integration risk warrants.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical. Do not mock what you do not own; wrap it and substitute the wrapper.
 
