@@ -36,6 +36,15 @@
 
 Brooks's Law, Conway's Law, Hofstadter's Law, Parkinson's Law, and related ideas help with organization, architecture, staffing, and estimation. They provide context for engineering decisions but rarely translate into universal line-by-line coding rules.
 
-## Clean Code and Extraction
+## Literature and Design Judgment
 
 `coding` owns extraction guidance inspired by Robert C. Martin's *Clean Code*, chapters 2, 3, 6, and 17 ([contents](https://www.informit.com/store/clean-code-a-handbook-of-agile-software-craftsmanship-9780132350884)). His [companion example](https://www.informit.com/articles/article.aspx?p=1313447) preserves caller intent while sharing implementation. Literal extraction can remove repetition without correcting responsibility; this distinction motivates the guidance.
+
+Complementary sources behind `coding`'s literature cue:
+
+- Martin Fowler, [Refactoring](https://martinfowler.com/books/refactoring.html): behavior-preserving transformations, including extraction and its inverse, inlining.
+- John Ousterhout, [A Philosophy of Software Design](https://web.stanford.edu/~ouster/cgi-bin/aposd.php): information hiding and deep modules; assess complexity removed from callers relative to interface cost.
+- Sandi Metz, [The Wrong Abstraction](https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction): recover from shared code distorted by caller-specific branches; preserving an existing abstraction is not inherently valuable.
+- Michael Feathers, [Working Effectively with Legacy Code](https://www.informit.com/articles/article.aspx?p=359417) and [Characterization Testing](https://michaelfeathers.silvrback.com/characterization-testing): seams and tests for safely changing unfamiliar code; observed behavior does not establish intended correctness.
+
+These sources supply judgment, not additional checklists. The skill retains local constraints and observed-failure corrections; literature references neither replace those rules nor require rereading the books for each task.
