@@ -35,3 +35,7 @@
 ## Broader Context
 
 Brooks's Law, Conway's Law, Hofstadter's Law, Parkinson's Law, and related ideas help with organization, architecture, staffing, and estimation. They provide context for engineering decisions but rarely translate into universal line-by-line coding rules.
+
+## Clean Code and Extraction
+
+`coding` owns extraction guidance inspired by Robert C. Martin's *Clean Code*, chapters 2, 3, 6, and 17 ([contents](https://www.informit.com/store/clean-code-a-handbook-of-agile-software-craftsmanship-9780132350884)). His [companion example](https://www.informit.com/articles/article.aspx?p=1313447) preserves caller intent while sharing implementation. Literal extraction can remove repetition without correcting responsibility; this distinction motivates the guidance.

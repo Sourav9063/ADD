@@ -1,6 +1,6 @@
 ---
 name: engineering
-description: Apply repository engineering judgment to non-trivial implementation, bug fixes after diagnosis, refactors, code reviews, schema or config changes, and technical design: scoping, risk, tradeoffs, verification, and completion. Use for behavior or shared-contract changes across files or layers. Skip diagnosis-only requests, planning-only requests, simple renames, copy edits, and isolated mechanical changes. For line-level code craft, use `coding`.
+description: Apply repository engineering judgment to non-trivial implementation, bug fixes after diagnosis, refactors, code reviews, schema or config changes, and technical design, covering scoping, risk, tradeoffs, verification, and completion. Use for behavior or shared-contract changes across files or layers. Skip diagnosis-only requests, planning-only requests, simple renames, copy edits, and isolated mechanical changes. For line-level code craft, use `coding`.
 ---
 
 ## Engineering Principles
@@ -42,7 +42,7 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For state transitions, preserve and verify inverse and recovery behavior when the contract supports it.
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Choose the verification surface: which behaviors must be encoded in tests, types, schemas, or assertions, and at which seam they stay observable.
-- When a concept is implemented in more than one place, say so instead of silently editing every copy; offer collapsing it behind one seam, and leave that refactor out unless asked.
+- When the requested work creates or changes duplicated knowledge, consolidate it at the narrowest shared seam within scope using `coding`. Mention unrelated duplication without expanding the task.
 
 ### Scope
 

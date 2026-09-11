@@ -10,15 +10,16 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 ### Functions and Flow
 
 - Flatten conditionals with guard clauses: return early, fail fast, drop `else` after a returning `if`, and state conditions positively.
-- Keep each function and loop body doing one thing at one level of abstraction, small enough to read whole.
-- Keep parameter lists short; more than three usually means a missing type, and a boolean flag means two functions.
+- Keep functions cohesive at one abstraction level: orchestration expresses intent; boundary code owns encoding, serialization, and provider details.
+- Keep parameters cohesive; split flags selecting distinct operations, not boolean domain data. Never hide inputs in mutable fields to shorten signatures.
 - Separate command from query, advertise side effects in the name, keep functions pure by default, and push I/O to the edges.
+- Enforce required call order through data dependencies or one owning operation.
 - Name every meaningful constant; no magic numbers.
 
 ### Naming
 
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
-- Name the concept one level above the code, not the implementation: `scheduleRetry`, not `startRetryTimer`.
+- Name caller intent: `scheduleRetry`, not `startRetryTimer`. Expose provider or algorithm details only when callers choose or depend on them; renaming alone cannot repair misplaced responsibility.
 - Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
@@ -53,12 +54,14 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 
 ### Smells
 
-Treat each as a labelled heuristic, not a violation. Documented repository standards override them, and anything a linter enforces is not worth relitigating. Fix what sits inside your edit surface and mention the rest.
+Treat smells as heuristics; repository standards prevail. Leave lint-enforced style to tools. Fix within scope; mention the rest. Verify refactored callers and contracts together; reject extractions that merely relocate complexity or increase shared state.
 
 - Naming and modelling: Mysterious Name (rename it, or admit the design is unclear), Primitive Obsession (give the concept its own type), Data Clumps (bundle fields that travel together), Speculative Generality (delete abstraction the task does not need).
-- Placement: Duplicated Code (extract once the third repetition fires), Feature Envy (move the method onto the data it uses), Repeated Switches (replace a recurring cascade with polymorphism or one shared map).
+- Placement: Duplicated Knowledge (one owner for rules that change together, even twice; similar syntax alone is insufficient), Feature Envy (move behavior to its responsible module), Repeated Switches (centralize recurring dispatch).
 - Module shape: Shotgun Surgery (one change scattered across many files; gather it), Divergent Change (one module edited for unrelated reasons; split it).
-- Indirection: Message Chains (hide the walk behind one method), Middle Man (cut what only delegates), Refused Bequest (drop inheritance the subclass ignores in favor of composition).
+- Indirection: Message Chains (hide object internals; transparent data traversal is fine), Middle Man (remove meaningless delegation; preserve intent boundaries), Refused Bequest (replace unused inheritance with composition).
+
+Extract shared policy into its existing owner; expose actual caller choices as typed inputs. Success means fewer callers change when policy changes, not merely fewer repeated lines.
 
 ### Restraint
 
@@ -73,6 +76,7 @@ Treat each as a labelled heuristic, not a violation. Documented repository stand
 - Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not.
 - Keep tests fast, isolated, and deterministic: no sleeps, no uncontrolled shared state, no uncontrolled network or external service.
 - Cover realistic negative and edge cases for changed behavior; for behavior-preserving refactors, strengthen coverage when risk warrants.
+- Verify uncertain dependency behavior with focused experiments; retain contract tests where integration risk warrants.
 - Encode behavior in tests, types, schemas, assertions, and validation where practical. Do not mock what you do not own; wrap it and substitute the wrapper.
 
 ### Security
