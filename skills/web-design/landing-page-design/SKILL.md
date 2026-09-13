@@ -56,17 +56,19 @@ missing a feature grid.
 
 ## Hero
 
-- **Headline states the outcome, not the category.** "Ship your API docs in an afternoon" beats "Developer documentation platform". No jargon, no cleverness that costs comprehension.
+- **Headline states the outcome, not the category.** "Ship your API docs in an afternoon" beats "Developer documentation platform". Name the concrete outcome in the headline and the audience in the subtitle. Cut AI-generated buzzwords ("supercharge", "seamless", "powerful") that sell adjectives because they have no product to name.
 - One subheadline of a single sentence: who it is for and how it works.
-- **One primary CTA**, repeated verbatim at the bottom of the page. A secondary CTA may sit beside it as a ghost button ("See how it works"), never as an equal.
+- **One primary CTA**, repeated verbatim at the bottom of the page. A secondary CTA may sit beside it as a ghost button or text link with an arrow (moving visual weight to roughly 90/10), never as an equal button side by side splitting the click.
+- **Neutral background, zero decorative blobs.** Keep the background neutral and give the product visual and the primary button the only accent color on the page. Gradient smears and ambient purple blobs are decorative filler for missing product substance.
 - Set expectations under the button: "Free for 14 days. No card." Removes the biggest hesitation at the moment of the click.
-- A product visual beats an abstract illustration: a real screenshot, a short muted loop, or an interactive demo. Stock photography of people at laptops signals nothing.
+- A product visual beats an abstract illustration: a real screenshot, a short muted loop, or an interactive demo. Stock photography of people at laptops signals nothing. Replace boilerplate three-card icon-in-a-circle rows ("Fast, Secure, Easy") with a real product visual annotated with callouts pointing to interface features.
 - **No hero carousel.** A slider guarantees most visitors never see slides two through five and costs you the one message you control. Pick the strongest claim and commit to it.
 - Above the fold means the value proposition and the CTA are visible without scrolling at 1280×720 **and** on a 375px phone. Test both, not one.
 
 ## Proof
 
 - Specific beats superlative: "Cut onboarding from 3 weeks to 4 days" beats "Loved by teams everywhere".
+- Replace vague aggregate counters ("Trusted by 10,000+ teams" above five unrecognizable gray logos) with one verifiable customer quote: a name, a role, a company, and a measurable result with units (e.g. closing the month in 3 hours instead of a week).
 - Testimonials need a name, a role, a company, and a photo. Anonymous quotes read as invented.
 - Put logos near the claim they support, in grayscale at consistent optical size, with permission to use them.
 - Numbers get context: "12,000 teams" means something; "millions of events" does not.

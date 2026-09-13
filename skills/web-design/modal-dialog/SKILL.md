@@ -47,7 +47,7 @@ When none exists, prefer native `<dialog>` with `showModal()` over hand-rolled b
 
 - On open, move focus into the dialog: the first field, or the container when there is none. Never onto the destructive button.
 - Trap focus while open. On close, return it to the trigger or a logical successor if the trigger was removed.
-- Make the background inert and lock its scroll without layout shift. `aria-hidden` alone does not block focus or pointer interaction.
+- Make the background inert and lock its scroll without layout shift (`body:has(dialog[open]) { overflow: hidden }` locks scroll declaratively and reverts on close with zero script cleanup). `aria-hidden` alone does not block focus or pointer interaction.
 - On mobile, a modal that would fill the viewport should be a full-screen sheet with its own back affordance instead (`drawer-and-sheet`).
 
 ## Accessibility

@@ -3,7 +3,7 @@
 Where the rules in [`skills/web-design/`](../../skills/web-design/) come from. Read before
 adding a skill to that group, amending a rule, or defending a claim someone disputes.
 
-Reviewed: 2026-09-04.
+Reviewed: 2026-09-13.
 
 ## Pattern catalog
 
@@ -23,27 +23,29 @@ Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on th
 slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
 `/patterns/von-restorff`.
 
-Re-checked on 2026-09-04: its sitemap still lists exactly the 73 pattern pages below, so
-the catalog has published nothing new since 2026-08-23. Check it the cheap way -
+Re-checked on 2026-09-13: its sitemap lists 76 pattern pages. Three new patterns have been
+published since the 2026-09-04 audit: CSS Has Selector (`/patterns/css-has-selector`),
+De-AI Landing Hero (`/patterns/de-ai-landing-hero`), and Reverse-Engineered Linear
+(`/patterns/reverse-engineered-linear`). Check it the cheap way -
 `curl -s https://www.designmotionhq.com/sitemap.xml | grep -o '/patterns/[a-z0-9-]*' | sort -u`
 - rather than by reading the index page, whose category counts and rendered lists are both
 unreliable.
 
 ## Covered patterns
 
-All 73 patterns published as of 2026-08-23, by owning skill after the 2026-09-04
-restructure. Nothing here needs re-reading unless the page itself changes.
+All 76 patterns published as of 2026-09-13, by owning skill after the 2026-09-13
+audit. Nothing here needs re-reading unless the page itself changes.
 
-- **design-foundations** (11): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Visual Hierarchy · Proximity Rule · Gestalt Laws · Serial Position · Grid System · Focus States
+- **design-foundations** (12): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Visual Hierarchy · Proximity Rule · Gestalt Laws · Serial Position · Grid System · Focus States · CSS Has Selector (`design-foundations`, also informing `checkbox-and-radio`, `form-design`, `card`, and `modal-dialog`)
 - **form-design and its controls** (16): Form Field States · Form Validation Timing · Settings System · Autosave · Stepper Wizard · Inline Editing · Input Masking (`form-design`) · Date Pickers (`date-picker`) · File Upload UX (`file-upload`) · Password Field UX (`password-input`) · OTP Input (`otp-input`) · Toggle Anatomy (`toggle-switch`) · Range Sliders (`slider`) · Star Rating and Color Picker UX (`form-design`) · Zeigarnik Effect (`onboarding-design`)
 - **feedback-design and its surfaces** (10): Loading States System and Skeleton Loading (`loading-indicators`) · Error States · Optimistic UI · Undo UX · Doherty Threshold · Peak-End Rule (`feedback-design`) · Empty States (`empty-state`) · Toast Notifications (`toast`) · Notification System (`alert-banner`)
 - **Overlays** (7): Modal Hierarchy (`modal-dialog`) · Bottom Sheets (`drawer-and-sheet`) · Dropdown Design and Context Menu (`popover-and-menu`) · Tooltip Design (`tooltip`) · Command Palette (`command-palette`) · Z-Index Mastery (`design-foundations`)
 - **Actions** (5): Disabled Buttons and Behind the Button (`button`) · Destructive Actions (`destructive-actions`) · Bulk Actions (`data-table-design`) · Swipe Actions (`card-and-list-design`)
 - **Cards and collections** (3): Perfect Card and Card Hover Anatomy (`card`) · Drag and Drop (`drag-and-drop`)
-- **motion-design** (3): Easing Curves · Scroll-Driven Animations · Accordion Disclosure (`accordion`)
+- **motion-design** (4): Easing Curves · Animation Timing · Scroll-Driven Animations · Accordion Disclosure (`accordion`)
 - **navigation-design** (2): Navigation Patterns · Pagination
 - **color-systems** (3): Dark Mode · Color Accessibility · Gradient Design
-- **One pattern each**: Icon Design Rules (`icon-design`) · Golden Ratio and Von Restorff Effect (`visual-direction`) · Hover Trap (`design-foundations`) · Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
+- **One or two patterns each**: Icon Design Rules (`icon-design`) · Golden Ratio, Von Restorff Effect, and Reverse-Engineered Linear (`visual-direction`) · Hover Trap (`design-foundations`) · Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton and De-AI Landing Hero (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
 
 **Re-verified page by page on 2026-09-04** after the component split, to confirm the
 restructure had not dropped rules. All 73 were visited again and their concrete rules
@@ -60,10 +62,12 @@ origin. Small taste details left out on purpose: shadow glow tinted per industry
 with `rotateX`, parallax layer speeds of 1x/2.5x/5x, the 30ms star-rating stagger, and card
 brand detection from the leading digit in masked input.
 
-Two of their rules were reviewed and **deliberately not adopted**: the Error States page's
+Three of their rules were reviewed and **deliberately not adopted**: the Error States page's
 "don't validate on submit" (submit must validate everything, focus the first invalid field,
-and announce the count) and the Visual Hierarchy page's prescribed 800/400/300 font weights
-(one product's taste, not a rule). Do not re-add either on a later pass.
+and announce the count), the Visual Hierarchy page's prescribed 800/400/300 font weights
+(one product's taste, not a rule), and the CSS Has Selector page's disabled submit button
+recipe `form:has(:user-invalid) button { opacity: .4 }` (submit must remain clickable to
+report errors, per `button` and `form-design`). Do not re-add any on a later pass.
 
 ## Coverage beyond the catalog
 

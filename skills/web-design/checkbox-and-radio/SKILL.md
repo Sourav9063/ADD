@@ -42,7 +42,7 @@ arrow-key roving wrong.
 
 ## Card and tile options
 
-- A selectable card is still an input: the whole card is the label, the underlying control keeps focus and state, and the selected style is more than a border color - pair it with a check mark and a fill.
+- A selectable card is still an input: the whole card is the label, the underlying control keeps focus and state, and the selected style is more than a border color - pair it with a check mark and a fill. Style the container with `.card:has(:checked)` to update border, fill, and check mark directly from the DOM without mirroring state into component classes.
 - Keep interactive elements out of the card's label (a link inside a selectable card is a click target conflict). If the card needs a "Learn more", place it outside the label region.
 
 ## Consent and agreement

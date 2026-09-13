@@ -20,7 +20,12 @@ Never start from a vibe adjective. Stop at the first rung with something on it:
 
 1. **What the user gave you.** Screenshots, Figma, brand kit, reference sites. Read the actual pixels: palette, type pairing, density, radius, shadow depth, motion feel.
 2. **The product's existing surfaces.** **Code beats screenshots** by a wide margin, so when a codebase exists spend the effort extracting its real tokens rather than inferring from an image.
-3. **A named anchor.** "Linear-like" or "editorial like print" means specific traits: hierarchy, pacing, contrast, image treatment, motion. Name those, not the brand.
+3. **A named anchor.** "Linear-like" or "editorial like print" means specific traits: hierarchy, pacing, contrast, image treatment, motion. Name those, not the brand. For an engineered, high-density direction ("Linear-like"), specify:
+   - **Value-stacked depth**: drop shadows yield to three stacked background values (base, surface, raised surface) separated by 1px hairline borders (`rgba(255, 255, 255, 0.08)` in dark mode); hover shifts surface value, not elevation.
+   - **Density as competence**: 13px text, 32px row heights, letter-spacing pulled in by 1% (`-0.01em`) to pack records without vertical sprawl.
+   - **Accent restraint**: collapse palette noise to one accent color used twice (selected row and primary button); status is a neutral monochrome icon, not colored pills.
+   - **Immediate feel**: print keyboard shortcuts next to actions (`C`, `Cmd+K`); hover feedback under ~80ms, transitions under 150ms with zero bounce or overshoot.
+   - **Alignment discipline**: strict 4px grid; 16px icons centered on text line; labels left-aligned, numbers and dates right-aligned, nothing arbitrarily centered.
 4. **Nothing.** Say plainly that with no reference the result is a reasonable default rather than their taste, propose a direction, and confirm once before building.
 
 From a reference, extract the reusable **structure** (macrostructure, archetypes, type and

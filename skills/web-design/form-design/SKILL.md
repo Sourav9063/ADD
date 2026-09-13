@@ -47,7 +47,9 @@ Fixed vertical order, always: **label → input → helper text → error text**
 
 **Never disable the submit button as the only validation feedback.** Let it be pressed and
 show the errors; a dead button with no explanation leaves the user stuck, guessing which
-field is wrong (`button`).
+field is wrong (`button`). Never use `form:has(:user-invalid) button` to disable or dim submit.
+Style field containers with `.field:has(:user-invalid)` to coordinate border, label, and error
+icon at once: `:user-invalid` ensures styles fire after blur, not on first paint.
 
 ## Error copy
 

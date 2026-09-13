@@ -38,6 +38,7 @@ Reuse these instead of literals; justify local optical or content-driven excepti
 - **A container's own padding is at most the gap to its neighbours.** Content cards want at least 24px of internal padding; a compact stat tile is a different component, not the same one shrunk.
 - **Weight section spacing by role.** Uniform section padding down a page makes everything read as equally important, which is to say not important at all.
 - **Keep controls visually distinct from content.** Every interactive element needs a background, a border, an underline, or a consistent control zone; a badge shaped like the buttons around it collects dead clicks.
+- **Style containers from DOM state with `:has()`** instead of duplicating state into framework code: `.plan:has(:checked)` styles a selectable card when its input is checked, `.field:has(:user-invalid)` coordinates border, label, and error icon without custom error flags, `body:has(dialog[open])` locks scroll declaratively without JS cleanup effects, and quantity queries (`.grid:has(> :nth-child(n + 5))`) adjust density by child count.
 - Users recall the first and last items in a list far better than the middle. Put the important entries at the ends.
 
 ## Motion scale
