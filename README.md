@@ -372,7 +372,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 
 - Names reveal intent and scale with scope: `i` in a tight loop, `retryBackoffMs` in a module. Booleans read as predicates; abbreviations a new reader must decode do not belong.
 - Name caller intent: `scheduleRetry`, not `startRetryTimer`. Expose provider or algorithm details only when callers choose or depend on them.
-- Code states what, comments state why. Explain rationale, constraints, or non-obvious behavior, and never use a comment to compensate for confusing code.
+- Code states what, comments state why: rationale, constraints, non-obvious behavior. Default to no comment, and never use a comment to compensate for confusing code. Never narrate the next lines, restate a condition or label, or describe the edit you just made.
 - At public boundaries, document what callers cannot infer from the signature: preconditions, ownership, units, and thread-safety.
 - A name that resists writing signals a design problem; fix the design rather than the name.
 
