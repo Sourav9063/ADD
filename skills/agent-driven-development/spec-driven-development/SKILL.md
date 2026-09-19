@@ -9,7 +9,7 @@ Use SDD when a change affects behavior or contracts, requires design decisions, 
 
 A specification defines observable behavior and constraints. A plan records technical execution state. Use lightweight acceptance criteria by default; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
 
-Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code.
+Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code. `project-memory` owns `MEMORY.md` and the repository-wide rules learned from corrections; a rule there binds the spec, the plan, and the implementation.
 
 Executable artifacts define behavior: code, tests, schemas, configuration, and other runnable files. Docs record decisions, constraints, and context they cannot. When sources conflict, follow explicit task requirements and executable contracts; report unresolved conflicts before changing behavior; align affected docs.
 

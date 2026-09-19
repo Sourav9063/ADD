@@ -4,7 +4,7 @@ Use SDD when a change affects behavior or contracts, requires design decisions, 
 
 A specification defines observable behavior and constraints. A plan records technical execution state. Use lightweight acceptance criteria by default; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
 
-Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code.
+Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code. `project-memory` owns `MEMORY.md` and the repository-wide rules learned from corrections; a rule there binds the spec, the plan, and the implementation.
 
 Executable artifacts define behavior: code, tests, schemas, configuration, and other runnable files. Docs record decisions, constraints, and context they cannot. When sources conflict, follow explicit task requirements and executable contracts; report unresolved conflicts before changing behavior; align affected docs.
 
@@ -41,11 +41,25 @@ A plan is the durable execution state that survives context loss. During impleme
 Implement and verify against code, tests, schemas, and configuration.
 ## Memory
 
-Treat `agents/MEMORY.md` as learned, curated, repository-wide guidance subordinate to `AGENTS.md` and scoped instructions.
+`agents/MEMORY.md` is the project's learned extension of `AGENTS.md`: the repository-specific rules, rejected patterns, and preferences taught here that defaults and training do not supply. Read it alongside `AGENTS.md`, and the `CLAUDE.md` or `GEMINI.md` pointer where a project uses one, before non-trivial work and treat it as binding. It stays subordinate to `AGENTS.md` and to narrower scoped instructions.
 
-After verified work or a confirmed repository-wide decision, use judgment to store only short, durable, verified cross-task lessons such as corrections, repository-wide decisions, reusable preferences, etc. Do not wait for the user to ask.
+### Reinforcement loop
 
-Update stale or conflicting entries. Never store task details, temporary context, guesses, implementation-specific knowledge, or secrets. Store domain facts in Knowledge.
+Learn inside the session, not after it:
+
+1. Notice the signal: a correction to work you produced, a rejected pattern or approach, a repeated instruction, a stated preference, or a repository-wide decision you verified.
+2. Write the rule before resuming the task the signal interrupted.
+3. Apply it for the rest of the session and load it before similar work later.
+
+A repeated correction is a memory failure, not a one-off. When the user repeats an instruction, or shows frustration at behavior they already corrected, record it that session in wording strict enough that the behavior cannot recur, and say that you did.
+
+Record the rule, not the incident. Write one imperative line naming the trigger and the required or forbidden behavior, for example: "Do not add explanatory comments; let names and structure carry intent." Drop the apology, the narration, and any rationale that does not change when the rule applies.
+
+Update stale or conflicting entries. Never store task details, temporary context, guesses, implementation-specific knowledge, or secrets.
+
+### Division with Knowledge and Plans
+
+Memory holds repository-wide behavioral rules. `agents/knowledge/` holds domain facts, invariants, and architecture decisions. `agents/plans/` holds execution state. Route each capture to exactly one of the three and reference it from the others; when a memory rule depends on a domain fact, store the fact in Knowledge and keep a pointer.
 
 ### Compression
 
