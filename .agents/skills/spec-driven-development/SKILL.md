@@ -9,7 +9,7 @@ Use SDD when a change affects behavior or contracts, requires design decisions, 
 
 A specification defines observable behavior and constraints. A plan records technical execution state. Use lightweight acceptance criteria by default; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
 
-Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code.
+Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code. `project-memory` owns `MEMORY.md` and the repository-wide rules learned from corrections; a rule there binds the spec, the plan, and the implementation.
 
 Executable artifacts define behavior: code, tests, schemas, configuration, and other runnable files. Docs record decisions, constraints, and context they cannot. When sources conflict, follow explicit task requirements and executable contracts; report unresolved conflicts before changing behavior; align affected docs.
 
@@ -31,7 +31,7 @@ Create or update the most relevant file when requested or whenever verified work
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; when committing is authorized, commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
 
 Before writing:
 
