@@ -1,57 +1,51 @@
 #!/usr/bin/env bash
+# Claude Code statusline: model, effort, context use, and both rate-limit
+# windows shown as "remaining, surplus vs even-burn pace, time to reset".
+# Everything happens in one jq pass so each redraw costs a single process.
 
-IFS=$'\x1f' read -r model effort ctx_used five_pct five_left seven_pct seven_left < <(
-  jq -r '
-    def num(v): if (v | type) == "number" then (v | round | tostring) else "" end;
-    def left(v): if (v | type) == "number" then ((v - now) | floor | tostring) else "" end;
-    def cap: if . == "" then "" else (.[0:1] | ascii_upcase) + (.[1:] | ascii_downcase) end;
-    [
-      (.model.id // "" | ltrimstr("claude-") | split("-")[0] // "" | cap),
-      (.effort.level // "" | cap),
-      num(.context_window.used_percentage),
-      num(.rate_limits.five_hour.used_percentage),
-      left(.rate_limits.five_hour.resets_at),
-      num(.rate_limits.seven_day.used_percentage),
-      left(.rate_limits.seven_day.resets_at)
-    ] | join("")'
-)
+exec jq -r '
+  def cap: if . == "" then "" else (.[0:1] | ascii_upcase) + (.[1:] | ascii_downcase) end;
+  def clamp: if . > 100 then 100 elif . < 0 then 0 else . end;
 
-# Always carry an explicit sign so the surplus reads as a delta, not a level.
-signed() { [ "$1" -ge 0 ] && printf '+%d%%' "$1" || printf '%d%%' "$1"; }
+  # Colour unless NO_COLOR is set; dim carries labels and separators so the
+  # numbers are the only thing competing for attention.
+  def c($code): if ($ENV.NO_COLOR // "") == "" then "\u001b[\($code)m\(.)\u001b[0m" else . end;
+  def dim: c(2);
 
-parts=()
+  def hm: if . <= 0 then "0m"
+          else (. / 3600 | floor) as $h | (. % 3600 / 60 | floor) as $m
+          | if $h > 0 then "\($h)h\($m)m" else "\($m)m" end
+          end;
+  def dh: (. / 86400 | floor) as $d
+          | if $d > 0 then "\($d)d\(. % 86400 / 3600 | floor)h" else hm end;
 
-[ -n "$model" ] && parts+=("$model")
-[ -n "$effort" ] && parts+=("$effort")
-[ -n "$ctx_used" ] && parts+=("CTX:${ctx_used}%")
+  def pct(v): if (v | type) == "number" then (v | round) else null end;
+  def secs(v): if (v | type) == "number" then ((v - now) | floor) else null end;
 
-if [ -n "$five_pct" ] && [ -n "$five_left" ]; then
-  if [ "$five_left" -le 0 ]; then
-    time_str="0m"
-  else
-    h=$(( five_left / 3600 ))
-    m=$(( five_left % 3600 / 60 ))
-    [ "$h" -gt 0 ] && time_str="${h}h${m}m" || time_str="${m}m"
-  fi
-  # Even-burn pace: the % you'd still have if usage tracked the clock
-  # (5h=100%, 2h30m=50%). Surplus is remaining minus that, signed.
-  pace=$(( (five_left * 100 + 9000) / 18000 ))
-  [ "$pace" -gt 100 ] && pace=100
-  [ "$pace" -lt 0 ] && pace=0
-  parts+=("$(( 100 - five_pct ))%:${time_str}:$(signed $(( 100 - five_pct - pace )))")
-fi
+  # $total is the window length in seconds: the share of it still on the clock
+  # is the quota you would have left burning evenly, so remaining minus that
+  # is the surplus. Positive means ahead of budget.
+  def window($label; used; resets; $total; $days):
+    pct(used) as $used | secs(resets) as $left
+    | if $used == null or $left == null then empty
+      else (100 - $used) as $rem
+      | (($left * 100 / $total) | round | clamp) as $pace
+      | ($rem - $pace) as $surplus
+      | (if $surplus >= 0 then "+\($surplus)%" else "\($surplus)%" end
+         | c(if $surplus >= 0 then 32 elif $surplus >= -10 then 33 else 31 end)) as $delta
+      | ($left | if $days then dh else hm end) as $reset
+      | "\($label | dim) \($rem)% \($delta) \($reset | dim)"
+      end;
 
-if [ -n "$seven_pct" ] && [ -n "$seven_left" ]; then
-  if [ "$seven_left" -le 0 ]; then
-    time_str="0d"
-  else
-    time_str="$(( seven_left / 86400 ))d$(( seven_left % 86400 / 3600 ))h"
-  fi
-  # Same surplus against the 7-day window (604800s).
-  pace=$(( (seven_left * 100 + 302400) / 604800 ))
-  [ "$pace" -gt 100 ] && pace=100
-  [ "$pace" -lt 0 ] && pace=0
-  parts+=("$(( 100 - seven_pct ))%:${time_str}:$(signed $(( 100 - seven_pct - pace )))")
-fi
-
-printf '%s\n' "$(IFS='|'; s="${parts[*]}"; echo "${s//|/ • }")"
+  [
+    (.model.id // "" | ltrimstr("claude-") | split("-")[0] // "" | cap),
+    (.effort.level // "" | cap),
+    (pct(.context_window.used_percentage)
+     | if . == null then empty else "\("ctx" | dim) \(.)%" end),
+    window("5h"; .rate_limits.five_hour.used_percentage;
+                 .rate_limits.five_hour.resets_at; 18000; false),
+    window("7d"; .rate_limits.seven_day.used_percentage;
+                 .rate_limits.seven_day.resets_at; 604800; true)
+  ]
+  | map(select(. != "")) | join(" • " | dim)
+'
