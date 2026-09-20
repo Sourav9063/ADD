@@ -50,9 +50,10 @@ Each window renders as `<remaining>%(<surplus>) <time-to-reset>`, e.g.
 Skip all escapes when `NO_COLOR` is set to a non-empty value.
 
 - `•` separators: bright/bold (`\e[1m`).
-- Surplus, including its parentheses: dim plus a color by margin —
-  green `\e[2;32m` when >= 0, yellow `\e[2;33m` when >= -10, red
-  `\e[2;31m` otherwise.
+- Surplus, including its parentheses: dim plus a color by margin — green
+  `\e[2;32m` above +5, yellow `\e[2;33m` across the near-pace band +5 to -5
+  inclusive, red `\e[2;31m` below -5. Always show the sign and the value,
+  negatives included (`(-2)`, `(-27)`).
 - Everything else — model, effort, `CTX`, the percentages, the reset
   durations — unstyled default terminal text.
 

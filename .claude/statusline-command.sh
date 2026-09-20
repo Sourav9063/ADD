@@ -28,7 +28,7 @@ exec jq -r '
       | (100 - $used) as $rem
       | ($rem - (($left * 100 / $total) | round)) as $surplus
       | (if $surplus >= 0 then "(+\($surplus))" else "(\($surplus))" end
-         | c("2;\(if $surplus >= 0 then 32 elif $surplus >= -10 then 33 else 31 end)")) as $delta
+         | c("2;\(if $surplus > 5 then 32 elif $surplus >= -5 then 33 else 31 end)")) as $delta
       | "\($rem)%\($delta) \($left | if $days then dh else hm end)"
       end;
 
