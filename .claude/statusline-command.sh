@@ -16,6 +16,9 @@ IFS=$'\x1f' read -r model effort ctx_used five_pct five_left seven_pct seven_lef
     ] | join("")'
 )
 
+# Always carry an explicit sign so the surplus reads as a delta, not a level.
+signed() { [ "$1" -ge 0 ] && printf '+%d%%' "$1" || printf '%d%%' "$1"; }
+
 parts=()
 
 [ -n "$model" ] && parts+=("$model")
@@ -30,7 +33,12 @@ if [ -n "$five_pct" ] && [ -n "$five_left" ]; then
     m=$(( five_left % 3600 / 60 ))
     [ "$h" -gt 0 ] && time_str="${h}h${m}m" || time_str="${m}m"
   fi
-  parts+=("$(( 100 - five_pct ))%:${time_str}")
+  # Even-burn pace: the % you'd still have if usage tracked the clock
+  # (5h=100%, 2h30m=50%). Surplus is remaining minus that, signed.
+  pace=$(( (five_left * 100 + 9000) / 18000 ))
+  [ "$pace" -gt 100 ] && pace=100
+  [ "$pace" -lt 0 ] && pace=0
+  parts+=("$(( 100 - five_pct ))%:${time_str}:$(signed $(( 100 - five_pct - pace )))")
 fi
 
 if [ -n "$seven_pct" ] && [ -n "$seven_left" ]; then
@@ -39,7 +47,11 @@ if [ -n "$seven_pct" ] && [ -n "$seven_left" ]; then
   else
     time_str="$(( seven_left / 86400 ))d$(( seven_left % 86400 / 3600 ))h"
   fi
-  parts+=("$(( 100 - seven_pct ))%:${time_str}")
+  # Same surplus against the 7-day window (604800s).
+  pace=$(( (seven_left * 100 + 302400) / 604800 ))
+  [ "$pace" -gt 100 ] && pace=100
+  [ "$pace" -lt 0 ] && pace=0
+  parts+=("$(( 100 - seven_pct ))%:${time_str}:$(signed $(( 100 - seven_pct - pace )))")
 fi
 
 printf '%s\n' "$(IFS='|'; s="${parts[*]}"; echo "${s//|/ • }")"
