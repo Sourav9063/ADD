@@ -382,6 +382,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 
 - Prefer immutable values, the narrowest workable scope, and no global mutable state.
 - Make illegal states unrepresentable. Parse, do not validate: convert untrusted input into a safe type once at the boundary, then trust it inside.
+- Model external payloads in your own vocabulary and translate at one adapter, so an upstream rename or reshape changes that adapter rather than every call site.
 - Do not lie to the type system: no `any`, unchecked cast, non-null assertion, or suppression comment standing in for real uncertainty.
 - Distinguish absent, empty, and zero, and respect each domain: exact decimals for money, explicit instants and zones for time, locale-aware comparison for user text, range checks where overflow is possible.
 - Keep one source of truth; derive values rather than duplicating them.
@@ -390,6 +391,7 @@ Done means requested behavior works; for cross-cutting changes, applicable consu
 
 - Treat errors as values: handle or propagate, never ignore, and never leave an empty `catch`.
 - Preserve the original cause when wrapping; surface failure at the boundary that owns it, and degrade only where that contract allows it.
+- Pair the human-readable message with a stable machine-readable code or type so callers branch on failure without parsing text.
 - Release resources with `finally`, `defer`, RAII, or the local equivalent rather than by remembering.
 
 ### Concurrency
