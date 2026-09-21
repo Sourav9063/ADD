@@ -3,7 +3,7 @@
 Where the rules in [`skills/web-design/`](../../skills/web-design/) come from. Read before
 adding a skill to that group, amending a rule, or defending a claim someone disputes.
 
-Reviewed: 2026-09-13.
+Reviewed: 2026-09-21.
 
 ## Pattern catalog
 
@@ -23,17 +23,24 @@ Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on th
 slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
 `/patterns/von-restorff`.
 
-Re-checked on 2026-09-13: its sitemap lists 76 pattern pages. Three new patterns have been
-published since the 2026-09-04 audit: CSS Has Selector (`/patterns/css-has-selector`),
+Re-checked on 2026-09-21: its sitemap still lists the same 76 pattern pages, with the
+newest three unchanged since 2026-09-07 - CSS Has Selector (`/patterns/css-has-selector`),
 De-AI Landing Hero (`/patterns/de-ai-landing-hero`), and Reverse-Engineered Linear
-(`/patterns/reverse-engineered-linear`). Check it the cheap way -
-`curl -s https://www.designmotionhq.com/sitemap.xml | grep -o '/patterns/[a-z0-9-]*' | sort -u`
-- rather than by reading the index page, whose category counts and rendered lists are both
-unreliable.
+(`/patterns/reverse-engineered-linear`), all merged in the 2026-09-13 audit. Check it the
+cheap way, rather than by reading the index page, whose category counts and rendered lists
+are both unreliable:
+
+```sh
+curl -sL https://designmotionhq.com/sitemap.xml | tr '<' '\n' \
+  | grep -o 'patterns/[a-z0-9-]*' | sort -u
+```
+
+Use the apex domain and `-L`; the `www` host 301s, and the XML wraps, so a `grep` over
+un-split lines misses entries. Sort by `lastmod` to see only what is new.
 
 ## Covered patterns
 
-All 76 patterns published as of 2026-09-13, by owning skill after the 2026-09-13
+All 76 patterns published as of 2026-09-21, by owning skill after the 2026-09-13
 audit. Nothing here needs re-reading unless the page itself changes.
 
 - **design-foundations** (12): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Visual Hierarchy · Proximity Rule · Gestalt Laws · Serial Position · Grid System · Focus States · CSS Has Selector (`design-foundations`, also informing `checkbox-and-radio`, `form-design`, `card`, and `modal-dialog`)
@@ -46,6 +53,15 @@ audit. Nothing here needs re-reading unless the page itself changes.
 - **navigation-design** (2): Navigation Patterns · Pagination
 - **color-systems** (3): Dark Mode · Color Accessibility · Gradient Design
 - **One or two patterns each**: Icon Design Rules (`icon-design`) · Golden Ratio, Von Restorff Effect, and Reverse-Engineered Linear (`visual-direction`) · Hover Trap (`design-foundations`) · Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton and De-AI Landing Hero (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
+
+**Re-verified page by page on 2026-09-21**, all 76 read in full rather than trusted from
+this list. Every concrete rule matched an owning skill, usually at finer grain than the
+page states it, except one that was added: `z-index` is inert on a statically positioned
+element, and `isolation: isolate` contains a component's layers (`design-foundations`). The
+escalation-to-`9999` diagnosis came with it. Two more divergences were confirmed rather than
+adopted - their "three fields maximum per step", against `form-design`'s split at meaningful
+boundaries, and their search-field threshold of ~10 options, against `select-and-combobox`'s
+control-by-option-count table.
 
 **Re-verified page by page on 2026-09-04** after the component split, to confirm the
 restructure had not dropped rules. All 73 were visited again and their concrete rules

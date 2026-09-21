@@ -25,7 +25,7 @@ Reuse these instead of literals; justify local optical or content-driven excepti
 - **Type**: 5-7 steps max, each with its own line height. Body 15-16px, line height 1.5. Generate the steps from one ratio rather than picking sizes by eye - 1.2 for dense product UI, 1.25-1.333 for general interfaces, up to 1.618 for editorial and marketing display. Round to whole pixels. `typography-design` covers what happens to text after the scale exists.
 - **Color**: semantic names (`surface`, `border`, `text`, `accent`, `danger`); component tokens may alias them. `color-systems` builds the ramps underneath.
 - **Elevation**: 4 levels max, one consistent light source, larger blur and lower opacity as elevation rises. Stack two or three shadows rather than one heavy blur - a tight contact shadow (~2px) anchors the element, a mid spread (~12px) gives it body, a wide ambient one (~32px) sets it in the room. One flat drop shadow on everything reads as unfinished.
-- **Z-index**: reuse the overlay system's stacking policy. Child values cannot escape ancestor stacking contexts; increasing them blindly will not fix clipping. Use the top layer where appropriate.
+- **Z-index**: reuse the overlay system's stacking policy. It does nothing on a statically positioned element, and child values cannot escape ancestor stacking contexts, so increasing them blindly will not fix clipping - an escalation to `9999` is a stacking-context bug upstream, not a depth problem. Give a component `isolation: isolate` so its internal layers stay its own. Use the top layer where appropriate.
 - **Duration / easing**: see the motion scale below.
 
 ## Hierarchy and layout
