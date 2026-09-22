@@ -28,6 +28,7 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 
 - Prefer immutable values, the narrowest workable scope, and no global mutable state.
 - Make illegal states unrepresentable. Parse, do not validate: convert untrusted input into a safe type once at the boundary, then trust it inside.
+- Model external payloads in your own vocabulary and translate at one adapter, so an upstream rename or reshape changes that adapter rather than every call site.
 - Do not lie to the type system: no `any`, unchecked cast, non-null assertion, or suppression comment standing in for real uncertainty.
 - Distinguish absent, empty, and zero, and respect each domain: exact decimals for money, explicit instants and zones for time, locale-aware comparison for user text, range checks where overflow is possible.
 - Keep one source of truth; derive values rather than duplicating them.
@@ -36,6 +37,7 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 
 - Treat errors as values: handle or propagate, never ignore, and never leave an empty `catch`.
 - Preserve the original cause when wrapping; surface failure at the boundary that owns it, and degrade only where that contract allows it.
+- Pair the human-readable message with a stable machine-readable code or type so callers branch on failure without parsing text.
 - Release resources with `finally`, `defer`, RAII, or the local equivalent rather than by remembering.
 
 ### Concurrency
@@ -48,6 +50,7 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 ### Structure
 
 - Search for an existing helper, type, or error before adding one; extend the owner rather than writing a parallel implementation beside it.
+- Follow the repository's existing layout when adding code: constants, pure helpers, and cross-cutting utilities belong in the module that already owns their kind, not inline in the first consumer. Keep single-use definitions local.
 - Prefer composition over inheritance, and depend on an abstraction where it clarifies a real boundary or variation point rather than by default.
 - Apply DRY, SOLID, and design patterns as tools, not goals; use them only when they reduce duplicated knowledge or clarify responsibilities, dependencies, or testability.
 - Keep cohesion high and coupling low, and separate policy from mechanism.
