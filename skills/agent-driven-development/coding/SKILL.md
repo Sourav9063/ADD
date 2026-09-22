@@ -50,6 +50,7 @@ description: Apply hands-on code craft standards while writing, editing, refacto
 ### Structure
 
 - Search for an existing helper, type, or error before adding one; extend the owner rather than writing a parallel implementation beside it.
+- Follow the repository's existing layout when adding code: constants, pure helpers, and cross-cutting utilities belong in the module that already owns their kind, not inline in the first consumer. Keep single-use definitions local.
 - Prefer composition over inheritance, and depend on an abstraction where it clarifies a real boundary or variation point rather than by default.
 - Apply DRY, SOLID, and design patterns as tools, not goals; use them only when they reduce duplicated knowledge or clarify responsibilities, dependencies, or testability.
 - Keep cohesion high and coupling low, and separate policy from mechanism.
