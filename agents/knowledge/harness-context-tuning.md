@@ -1,6 +1,6 @@
 # Harness Context Tuning
 
-What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository.
+What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree.
 
 Supersedes two earlier passes. See [Superseded Findings](#superseded-findings) before trusting any older number.
 
@@ -74,7 +74,7 @@ These were measured in print mode, so treat them as a lower bound and as orderin
 | `includeGitInstructions: false` | 1,738 | 402 |
 | `disableBundledSkills: true` | 1,432 | 2,003 |
 
-`disableBundledSkills` is the one lever left on the table. The final config keeps bundled skills, which is most of the 2.3k skills row. Turning them off should take that row to about 800, based on a project-only reading of 783 earlier in the same session. Not confirmed interactively.
+`disableBundledSkills` saves about 100 tokens, not 2k. The `Skills` row is carved out of the tool total, so hiding skills moves tokens back into `System tools`. See [2026-09-23 Recheck](#2026-09-23-recheck).
 
 ## Deny Rules Are Worth Real Tokens Interactively
 
@@ -100,10 +100,43 @@ Measured at zero in every arm, print and interactive.
 
 Two zeros depend on account state rather than the setting:
 
-- `syncClaudeAiSkills` is zero because no synced skill directory exists. Authoring skills on claude.ai makes it cost real tokens.
+- `syncClaudeAiSkills` was zero because no synced skill directory existed. By 2026-09-23 the account synced 12 `anthropic-skills:*` skills. The key is ignored in project `.claude/settings.json`; it works only from `~/.claude/settings.json` or `.claude/settings.local.json`.
 - `disableClaudeAiConnectors` reads zero in print mode only. Interactively it removes MCP tool schemas and is part of the 18k.
 
-Invalid values fail silently. `"theme": "totally-bogus-theme-xyz"` is accepted with no error, so a typo in any string setting will not surface.
+Invalid values fail silently for free-form keys. `"theme": "totally-bogus-theme-xyz"` is accepted with no error. Keys with a closed enum are rejected when Claude Code edits the file: `disableDeepLinkRegistration`, `disableAutoMode`, and `disableBypassPermissionsMode` take the string `"disable"`, not `true`.
+
+## 2026-09-23 Recheck
+
+Claude Code 2.1.280, Opus 5.5, interactive `/context`. 2.1.280 added no new settings keys over 2.1.278.
+
+| Config | Where | Total |
+| --- | --- | --- |
+| No settings anywhere | `judi-dashboard` | ~25k |
+| Only deny `ScheduleWakeup` and `autoMemoryEnabled: false` | this repository | ~23.6k |
+| Full config, `Agent` denied, git instructions off | `judi-dashboard` | ~6.8k |
+| Current config: full, `Agent` allowed, git instructions on | this repository | ~9.2k |
+
+The stripped config was a mistake driven by print mode. It kept only the two items print mode ranked highest and removed the feature flags and deny entries print mode scored at zero. The prefix returned to near stock. The rule in [Measure Interactively Or Not At All](#measure-interactively-or-not-at-all) held again.
+
+Current config decisions:
+
+- **`Agent` is allowed.** Subagents keep search and exploration out of the main context, which outweighs the ~2k up front cost. `ListAgents` stays denied.
+- **`includeGitInstructions` is on.** It is optional. It encodes commit and PR safety rules the model mostly follows anyway, for about 0.2k.
+- **`skillOverrides` turns off only `loop` and `schedule`**, which fail against the denied scheduling tools. Hiding other skills is not worth the lines.
+- **Synced claude.ai skills stay listed.** Removing them needs `syncClaudeAiSkills: false` in user or local settings.
+
+### Hiding Skills Saves Almost Nothing
+
+The `/context` `Skills` row is an estimate subtracted from the tool total. Hiding skills moves tokens between rows and barely changes the total.
+
+- Seven synced skills set `"off"` interactively: `Skills` 5.3k to 3.6k, `System tools` 1.1k to 2.8k, total 9.2k to 9.1k.
+- All bundled skills hidden in print mode, by `skillOverrides` or `disableBundledSkills`: total 5.1k to 5.0k.
+
+`skillOverrides` does accept synced names such as `anthropic-skills:docx`. Use it to keep the model from invoking a skill, not to save tokens. Only denying the `Skill` tool removed real tokens (~0.7k), and that also disables project skills.
+
+### Print Mode Probes, Ranking Only
+
+`claude -p --setting-sources project "/context"` loads only the project file and reports a separate `System tools (deferred)` row. Settings in `~/.claude/settings.json` otherwise union into the deny list and mask per entry deltas. Print mode still omits interactive features, so read these as ordering hints: deny `ScheduleWakeup` ~1.7k, deny `Agent` ~1.1k, deny `ReportFindings` ~0.8k, `autoMemoryEnabled: false` ~0.7k, `disableClaudeAiConnectors` ~0.6k, deny `ListAgents` ~0.4k, `includeGitInstructions: false` ~0.2k. Everything else read zero, including feature flags that are worth thousands interactively.
 
 ## Prefix Cost Model
 
