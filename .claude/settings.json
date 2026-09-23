@@ -3,8 +3,8 @@
   "skillOverrides": {
     "dataviz": "user-invocable-only",
     "claude-api": "user-invocable-only",
-    "loop": "user-invocable-only",
-    "schedule": "user-invocable-only",
+    "loop": "off",
+    "schedule": "off",
     "run": "user-invocable-only",
     "init": "user-invocable-only",
     "fewer-permission-prompts": "user-invocable-only",
@@ -16,8 +16,19 @@
   },
   "env": {
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1"
+    "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1",
+    "CLAUDE_CODE_DISABLE_CRON": "1",
+    "CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL": "1",
+    "CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY": "1",
+    "DISABLE_INSTALL_GITHUB_APP_COMMAND": "1",
+    "CLAUDE_CODE_HIDE_SETTINGS_HINT": "1"
   },
+  "skillListingMaxDescChars": 400,
+  "autoDreamEnabled": false,
+  "agentPushNotifEnabled": false,
+  "spinnerTipsEnabled": false,
+  "promptSuggestionEnabled": false,
+  "disableDeepLinkRegistration": "disable",
   "includeGitInstructions": false,
   "permissions": {
     "deny": [
