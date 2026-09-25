@@ -1,9 +1,5 @@
 {
   "syncClaudeAiSkills": false,
-  "skillOverrides": {
-    "loop": "off",
-    "schedule": "off"
-  },
   "env": {
     "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1"
   },
@@ -22,7 +18,12 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "opus",
   "disableClaudeAiConnectors": true,
+  "skillOverrides": {
+    "loop": "off",
+    "schedule": "off"
+  },
   "hooks": {
     "PreToolUse": [
       {
@@ -49,11 +50,13 @@
       "effortLevel": "medium"
     }
   },
+  "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
+  "askUserQuestionTimeout": "5m",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "editorMode": "vim",
-  "preferredNotifChannel": "notifications_disabled",
+  "preferredNotifChannel": "auto",
   "autoCompactEnabled": true,
-  "model": "opus"
+  "agentPushNotifEnabled": true
 }
