@@ -1,44 +1,48 @@
 ## Spec-Driven Development
 
-Use SDD when a change affects behavior or contracts, requires design decisions, crosses meaningful boundaries, or exceeds a local edit.
+Use SDD when a change affects behavior or contracts, needs design decisions, crosses boundaries, or exceeds a local edit. A spec defines intended observable behavior and constraints; a plan records execution state. Default to lightweight acceptance criteria; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
 
-A specification defines observable behavior and constraints. A plan records technical execution state. Use lightweight acceptance criteria by default; add stronger artifacts for public contracts, migrations, security boundaries, or cross-repository work.
+### Source of Truth
 
-Read `agents/MEMORY.md` and only relevant files under `agents/knowledge/` and `agents/plans/`; create or update them when needed. Write them for repeated reading: each fact once, no filler or restated code. `project-memory` owns `MEMORY.md` and the repository-wide rules learned from corrections; a rule there binds the spec, the plan, and the implementation.
+Code is the source of truth for current behavior: source, tests, schemas, configuration, and other executable files. Task requirements and specs define intended behavior. Knowledge and plans are helpers: they record why the code is shaped this way and what happens next, never what the code already says.
 
-Executable artifacts define behavior: code, tests, schemas, configuration, and other runnable files. Docs record decisions, constraints, and context they cannot. When sources conflict, follow explicit task requirements and executable contracts; report unresolved conflicts before changing behavior; align affected docs.
+- Verify before trusting. Treat every knowledge or plan claim about current code as a lead; confirm it in code before acting on it.
+- Code wins over docs about current behavior. When such a claim contradicts code, fix the doc in the same change.
+- When the code looks wrong, report it and get approval before changing behavior.
+- Task requirements change code first; docs follow the code.
+- Acceptance criteria change only with the user's approval; a gap between them and code is remaining work, not a stale doc.
+- Never restate code: no signatures, field lists, config values, or line-level flow. Name the owning file instead.
+- Keep each durable fact in one place, written for repeated reading; reference it elsewhere.
 
-Keep one authoritative source of truth per durable fact; reference it elsewhere.
+Read `agents/MEMORY.md` and only the relevant knowledge and plan files. `project-memory` owns `MEMORY.md`; its rules bind spec, plan, and implementation.
 
 ### Knowledge
 
-`agents/knowledge/` stores concise, topic-scoped, code-verified:
+`agents/knowledge/` records, in concise topic-scoped files, the reasoning code cannot express:
 
-- Architecture decisions and rejected alternatives
-- Domain terms and the team's glossary
-- Invariants
-- Ownership, affected-surface, and navigation guidance
-- Repository structure, coding conventions, and recurring patterns
+- Architecture decisions, rejected alternatives, and why
+- Domain terms and glossary
+- Invariants and constraints
+- Ownership, affected-surface maps, and navigation
+- Conventions and recurring patterns
 
-Prefer facts costly to rediscover. Skip what a quick read gives: signatures, field lists, config values, line-level flow.
-
-Create or update the most relevant file when requested or whenever verified work establishes uncaptured reusable knowledge. Prefer updating existing files.
+Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Extend existing files before adding new ones.
 
 ### Plans
 
-`agents/plans/` stores working and finalized technical execution state, including open decisions, risks, and verification checks. Decompose multi-step work into ordered, independently verifiable tasks with a checkpoint after each; when committing is authorized, commit at task boundaries so a failed or reverted step costs one task, not the whole plan. Create or update a precisely named `.md` file after repository search when the user asks to create, write, save, or produce a plan, or when multi-step work benefits from durable execution state.
+`agents/plans/` holds execution state: goal, decisions, open questions, risks, ordered tasks, and verification checks. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal, or state them before implementation when no plan is warranted.
+
+Create or update a precisely named `.md` file, after a repository search, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
 
 Before writing:
 
-1. Resolve minor details with judgment and code investigation.
+1. Resolve minor details through code investigation and judgment.
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, or architecture.
-3. Record unresolved material choices as open decisions when the user requested a draft. They block implementation, not plan creation.
+3. When the user requested a draft, record unresolved material choices as open decisions. They block implementation, not plan creation.
 
-For public-contract, migration, security-boundary, or cross-repository plans, get an independent review (a fresh session, subagent, or reviewer) before implementation starts; fresh context catches wrong turns baked into the original reasoning.
+For public-contract, migration, security-boundary, or cross-repository plans, get an independent review (fresh session, subagent, or reviewer) before implementation; fresh context catches wrong turns baked into the original reasoning.
 
-A plan is the durable execution state that survives context loss. During implementation, keep it current as verified facts emerge. When resuming work, re-read the plan first and re-verify any claim it does not back with a recorded check.
-
-Implement and verify against code, tests, schemas, and configuration.
+During implementation, update the plan as verified facts emerge; mark a task done only after its check passes. When resuming, re-read the plan, then re-verify in code every claim about current code without a recorded check. When code has diverged from the plan's execution state, trust the code and revise the plan; acceptance criteria stay unless the user changes them. When the plan completes, move its durable decisions into `agents/knowledge/` and delete the plan; git keeps the history.
 ## Memory
 
 `agents/MEMORY.md` holds the repository-wide rules taught here that defaults do not supply. Read it with `AGENTS.md`, or the `CLAUDE.md` or `GEMINI.md` pointer where a project uses one, before non-trivial work; treat it as binding but subordinate to `AGENTS.md` and to narrower scoped instructions. When a new instruction conflicts with a recorded rule, raise it immediately and settle it before acting; never pick a side silently.
