@@ -155,7 +155,8 @@ These keys do nothing in project `.claude/settings.json`. They take effect only 
 
 - **Synced claude.ai skills and plugins are off** via `syncClaudeAiSkills` and `syncClaudeAiPlugins`. Per [Hiding Skills Saves Almost Nothing](#hiding-skills-saves-almost-nothing), expect little prefix saving. The point is keeping them from triggering.
 - **`skillOverrides` hides more.** `dataviz`, `claude-api`, `keybindings-help`, and `fewer-permission-prompts` are `"off"`. `code-review`, `simplify`, `security-review`, `run`, and `init` are `"user-invocable-only"`, so they stay typable. This controls invocation, not tokens.
-- **`feedbackDrafts: "off"`** removes the `SendFeedback` tool. It is a tool-row lever, unmeasured.
+- **`feedbackDrafts: "off"`** removes the `SendFeedback` tool, but only from user settings. `SendFeedback` is also denied so the project file works alone. It is a tool-row lever, unmeasured.
+- **Deny `EnterWorktree` and `ExitWorktree`.** Agent view and background sessions are off, so worktrees go unused. These are deferred tools, so only their names load. The main value is preventing unexpected worktree switches.
 - **`disableArtifact` became `enableArtifact: false`.** The old key is deprecated.
 - **Deny `Read(**/.env)` and `Read(**/.env.*)`.** This is for secret safety, not tokens. Scoped rules save nothing.
 - **`disableRemoteControl` stays unset.** Remote Control is in use, so its schemas are accepted as a cost. `inputNeededNotifEnabled` and `agentPushNotifEnabled` are on.

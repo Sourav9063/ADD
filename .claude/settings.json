@@ -18,6 +18,9 @@
       "CronDelete",
       "CronList",
       "ListAgents",
+      "SendFeedback",
+      "EnterWorktree",
+      "ExitWorktree",
       "Read(**/.env)",
       "Read(**/.env.*)"
     ],
