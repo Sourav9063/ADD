@@ -17,14 +17,13 @@ Code is the source of truth for current behavior: source, tests, schemas, config
 - Task requirements change code first; docs follow the code.
 - Acceptance criteria change only with the user's approval; a gap between them and code is remaining work, not a stale doc.
 - Never restate code: no signatures, field lists, config values, or line-level flow. Name the owning file instead.
-- Keep each durable fact in one place; reference it elsewhere.
-- Write for repeated reading: no filler.
+- Keep each durable fact in one place, written for repeated reading; reference it elsewhere.
 
 Read `agents/MEMORY.md` and only the relevant knowledge and plan files. `project-memory` owns `MEMORY.md`; its rules bind spec, plan, and implementation.
 
 ### Knowledge
 
-`agents/knowledge/` records, in concise topic-scoped files, the reasoning code cannot express, verified against current code:
+`agents/knowledge/` records, in concise topic-scoped files, the reasoning code cannot express:
 
 - Architecture decisions, rejected alternatives, and why
 - Domain terms and glossary
@@ -36,9 +35,9 @@ Record only what is costly to rediscover. Update the owning file when verified w
 
 ### Plans
 
-`agents/plans/` holds execution state: goal, decisions, open questions, risks, ordered tasks, and verification checks. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal, or state them before implementation when no plan is warranted. Code and passing checks decide when a task is done.
+`agents/plans/` holds execution state: goal, decisions, open questions, risks, ordered tasks, and verification checks. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal, or state them before implementation when no plan is warranted.
 
-Create or update a precisely named `.md` file, after searching the repository, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
+Create or update a precisely named `.md` file, after a repository search, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
 
 Before writing:
 
@@ -48,4 +47,4 @@ Before writing:
 
 For public-contract, migration, security-boundary, or cross-repository plans, get an independent review (fresh session, subagent, or reviewer) before implementation; fresh context catches wrong turns baked into the original reasoning.
 
-During implementation, update the plan as verified facts emerge; mark a task done only after its check passes. When resuming, re-read the plan, then re-verify in code every claim without a recorded check. When code has diverged from the plan's execution state, trust the code and revise the plan; acceptance criteria stay unless the user changes them. When the plan completes, move its durable decisions into `agents/knowledge/` and delete the plan; git keeps the history.
+During implementation, update the plan as verified facts emerge; mark a task done only after its check passes. When resuming, re-read the plan, then re-verify in code every claim about current code without a recorded check. When code has diverged from the plan's execution state, trust the code and revise the plan; acceptance criteria stay unless the user changes them. When the plan completes, move its durable decisions into `agents/knowledge/` and delete the plan; git keeps the history.
