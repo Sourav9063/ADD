@@ -1,5 +1,8 @@
 {
   "syncClaudeAiSkills": false,
+  "syncClaudeAiPlugins": false,
+  "feedbackDrafts": "off",
+  "askUserQuestionTimeout": "5m",
   "env": {
     "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1"
   },
@@ -22,7 +25,16 @@
   "disableClaudeAiConnectors": true,
   "skillOverrides": {
     "loop": "off",
-    "schedule": "off"
+    "schedule": "off",
+    "dataviz": "off",
+    "claude-api": "off",
+    "keybindings-help": "off",
+    "fewer-permission-prompts": "off",
+    "code-review": "user-invocable-only",
+    "simplify": "user-invocable-only",
+    "security-review": "user-invocable-only",
+    "run": "user-invocable-only",
+    "init": "user-invocable-only"
   },
   "hooks": {
     "PreToolUse": [
@@ -39,20 +51,22 @@
   },
   "disableAgentView": true,
   "disableWorkflows": true,
-  "disableArtifact": true,
+  "enableArtifact": false,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
   "effortLevel": "medium",
   "modelSettings": {
-    "claude-opus-5": {
+    "claude-opus-5-5": {
       "effortLevel": "medium"
     }
   },
+  "bashOutputMaxChars": 8000,
+  "autoCompactWindow": 200000,
+  "showClearContextOnPlanAccept": true,
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
-  "askUserQuestionTimeout": "5m",
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "editorMode": "vim",
