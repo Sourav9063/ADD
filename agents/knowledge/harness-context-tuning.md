@@ -1,6 +1,6 @@
 # Harness Context Tuning
 
-What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree.
+What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update).
 
 Supersedes two earlier passes. See [Superseded Findings](#superseded-findings) before trusting any older number.
 
@@ -137,6 +137,38 @@ The `/context` `Skills` row is an estimate subtracted from the tool total. Hidin
 ### Print Mode Probes, Ranking Only
 
 `claude -p --setting-sources project "/context"` loads only the project file and reports a separate `System tools (deferred)` row. Settings in `~/.claude/settings.json` otherwise union into the deny list and mask per entry deltas. Print mode still omits interactive features, so read these as ordering hints: deny `ScheduleWakeup` ~1.7k, deny `Agent` ~1.1k, deny `ReportFindings` ~0.8k, `autoMemoryEnabled: false` ~0.7k, `disableClaudeAiConnectors` ~0.6k, deny `ListAgents` ~0.4k, `includeGitInstructions: false` ~0.2k. Everything else read zero, including feature flags that are worth thousands interactively.
+
+## 2026-09-26 Config Update
+
+`.claude/settings.json` is now a complete, standalone file meant to be copied to `~/.claude/settings.json`. Scopes were checked against the settings reference; token effects were **not re-measured**. Run interactive `/context` after installing it.
+
+### Scope Traps
+
+These keys do nothing in project `.claude/settings.json`. They take effect only from user settings, or local where noted:
+
+- `syncClaudeAiSkills`, `syncClaudeAiPlugins`: user or local.
+- `feedbackDrafts`, `askUserQuestionTimeout`, `vimInsertModeRemaps`: user only.
+- `permissions.defaultMode: "auto"`: ignored in project and local files.
+- `effortLevel` in user settings is legacy: Opus 5.5 ignores it and reads `modelSettings["claude-opus-5-5"]`. Keep both. The top-level key covers older models.
+
+### Changes Superseding the 2026-09-23 Decisions
+
+- **Synced claude.ai skills and plugins are off** via `syncClaudeAiSkills` and `syncClaudeAiPlugins`. Per [Hiding Skills Saves Almost Nothing](#hiding-skills-saves-almost-nothing), expect little prefix saving. The point is keeping them from triggering.
+- **`skillOverrides` hides more.** `dataviz`, `claude-api`, `keybindings-help`, and `fewer-permission-prompts` are `"off"`. `code-review`, `simplify`, `security-review`, `run`, and `init` are `"user-invocable-only"`, so they stay typable. This controls invocation, not tokens.
+- **`feedbackDrafts: "off"`** removes the `SendFeedback` tool. It is a tool-row lever, unmeasured.
+- **`disableArtifact` became `enableArtifact: false`.** The old key is deprecated.
+- **Deny `Read(**/.env)` and `Read(**/.env.*)`.** This is for secret safety, not tokens. Scoped rules save nothing.
+- **`disableRemoteControl` stays unset.** Remote Control is in use, so its schemas are accepted as a cost. `inputNeededNotifEnabled` and `agentPushNotifEnabled` are on.
+
+### Per-Turn Levers
+
+These keys shrink conversation growth, not the prefix. That growth dominates in long sessions; see [Subscription Priorities](#subscription-priorities).
+
+- `autoCompactWindow: 200000`: compact at 200k instead of near the 1M window.
+- `bashOutputMaxChars: 8000`: default 30000. Overflow is saved to a file. This stacks with the rtk hook.
+- `respondToBashCommands: false`: `!` output enters context without a model reply.
+- `showClearContextOnPlanAccept: true`: offers a fresh context when approving a plan.
+- `promptCacheTtl: "1h"`: fewer cache misses across breaks, at a higher write price. This is cost, not tokens.
 
 ## Prefix Cost Model
 

@@ -17,11 +17,14 @@
       "CronCreate",
       "CronDelete",
       "CronList",
-      "ListAgents"
+      "ListAgents",
+      "Read(**/.env)",
+      "Read(**/.env.*)"
     ],
     "defaultMode": "auto"
   },
   "model": "opus",
+  "fallbackModel": ["claude-sonnet-5"],
   "disableClaudeAiConnectors": true,
   "skillOverrides": {
     "loop": "off",
@@ -65,12 +68,21 @@
   "bashOutputMaxChars": 8000,
   "autoCompactWindow": 200000,
   "showClearContextOnPlanAccept": true,
+  "plansDirectory": "./agents/plans",
+  "respondToBashCommands": false,
+  "viewMode": "focus",
+  "promptCacheTtl": "1h",
+  "spinnerTipsEnabled": false,
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "editorMode": "vim",
+  "vimInsertModeRemaps": {
+    "ii": "<Esc>"
+  },
   "preferredNotifChannel": "auto",
   "autoCompactEnabled": true,
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "inputNeededNotifEnabled": true
 }

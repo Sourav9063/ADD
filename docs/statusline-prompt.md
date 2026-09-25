@@ -89,4 +89,4 @@ Show me the rendered output piped through `cat -v` so I can check the escapes.
 ## Notes
 
 - The `{}` and missing-field cases are the ones that actually bite: `jq`'s `ascii_upcase` throws on `null`, so the model lookup needs an explicit `// ""` fallback after the `split`. Listing those inputs in the prompt is what forces the failure to surface during setup rather than in the live statusline.
-- The prompt asks for a direct edit because `Agent` (and therefore the `statusline-setup` subagent) is denied in `~/.claude/settings.json`. Drop that assumption if the subagent is available.
+- The prompt asks for a direct edit, which works whether or not `Agent` is denied. The current config allows `Agent`, so the `statusline-setup` subagent is also an option.
