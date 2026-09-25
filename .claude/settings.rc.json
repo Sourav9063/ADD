@@ -5,6 +5,7 @@
     "schedule": "off"
   },
   "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1"
   },
   "permissions": {
@@ -12,6 +13,7 @@
       "DesignSync",
       "NotebookEdit",
       "SendMessage",
+      "PushNotification",
       "RemoteTrigger",
       "ReportFindings",
       "ScheduleWakeup",
@@ -37,6 +39,7 @@
     ]
   },
   "disableAgentView": true,
+  "disableRemoteControl": true,
   "disableWorkflows": true,
   "disableArtifact": true,
   "statusLine": {
