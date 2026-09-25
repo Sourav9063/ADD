@@ -14,3 +14,4 @@
 - `project-memory` is the project's reinforcement loop: `MEMORY.md` extends `AGENTS.md` with rules learned from corrections, and a repeated correction is recorded that session as a memory failure. It runs beside `spec-driven-development`, which owns knowledge and plans.
 - Do not use em dashes anywhere in repository prose. Use a colon for labels or introduced explanations, a spaced hyphen (` - `) for a true aside, and `-` for an empty table cell.
 - Keep skill descriptions as plain single-line YAML; rewrite internal colons instead of using folded scalars.
+- Never delete `WIP/` drafts unless asked; when the file a draft targets changes, update the draft in the same change.
