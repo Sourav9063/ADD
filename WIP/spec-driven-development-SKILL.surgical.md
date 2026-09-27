@@ -1,3 +1,5 @@
+> Status: applied. The Source of Truth proposal landed in `skills/agent-driven-development/spec-driven-development/SKILL.md` through `sdd v2` and later audits, which reworded and extended it. Kept as a record of the proposal; the live skill wins wherever they differ.
+
 ---
 name: spec-driven-development
 description: Use when work spans several files or layers, changes behavior or shared contracts, or the user asks for a plan. Re-check mid-task when scope grows past the first estimate. Also use before reading or writing `agents/knowledge/` or `agents/plans/`, which it owns. Skip renames, copy edits, isolated mechanical changes.

@@ -159,7 +159,7 @@ Coding and programming workflow. These five are the always-on core, bundled into
 | [`engineering`](skills/agent-driven-development/engineering/) | Non-trivial implementation, refactors, schema and config changes |
 | [`coding`](skills/agent-driven-development/coding/) | Lines of code get written or changed |
 | [`project-memory`](skills/agent-driven-development/project-memory/) | Durable repo-wide decisions and corrections need to persist |
-| [`communication`](skills/agent-driven-development/communication/) | You want terse answers instead of essays |
+| [`communication`](skills/agent-driven-development/communication/) | Session start, and whenever you ask for terse answers |
 
 ### Review skills: [`skills/agent-driven-review/`](skills/agent-driven-review/)
 
@@ -214,6 +214,24 @@ Design rules, motion timings, and accessibility requirements for each component 
 
 ---
 
+## Tune the harness (optional)
+
+The guidance is only part of what fills an agent's context. The tool schemas and features the harness loads by default fill much more of it. This repo's Claude Code config trims that fixed prefix, mostly by disabling and denying tools a coding session never uses. An earlier version of it measured about 27.6k down to 8.3k tokens (70%) per interactive session. Later changes have not been re-measured.
+
+`.claude/settings.json` is a complete, standalone file meant for `~/.claude/settings.json`. Several of its keys, including `permissions.defaultMode` and `syncClaudeAiSkills`, do nothing in a project file. Before you copy it, change or remove the personal choices: vim mode, fullscreen TUI, the `rtk` Bash hook, and the statusline script path.
+
+| File | What it is |
+| --- | --- |
+| [`.claude/settings.json`](.claude/settings.json) | The main config: tool denies, skill overrides, per-turn output limits, auto-compact, `plansDirectory: ./agents/plans` |
+| [`.claude/settings.ask.json`](.claude/settings.ask.json) | Stricter variant: asks before destructive shell commands and denies subagents and MCP |
+| [`.claude/settings.rc.json`](.claude/settings.rc.json) | Smaller variant that keeps Remote Control available |
+| [`.agents/codex-optimized.toml`](.agents/codex-optimized.toml) | Lean Codex config to merge into `~/.codex/config.toml` |
+| [`docs/statusline-prompt.md`](docs/statusline-prompt.md) | Prompt that builds the statusline in [`.claude/statusline-command.sh`](.claude/statusline-command.sh) |
+
+[`agents/knowledge/harness-context-tuning.md`](agents/knowledge/harness-context-tuning.md) records what each lever costs, how it was measured, and which keys work at which settings scope. Read it before adapting the config, and re-measure with `/context` in a real interactive session. `claude -p` understates the cost.
+
+---
+
 ## How it fits together
 
 ```
@@ -221,7 +239,8 @@ your-repo/
 ├── AGENTS.md              # always-on standards (this repo's guidance appended)
 ├── CLAUDE.md              # @AGENTS.md
 ├── GEMINI.md              # @AGENTS.md
-├── .claude/skills/        # on-demand playbooks
+├── .claude/skills/        # on-demand playbooks (Claude Code)
+├── .agents/skills/        # same playbooks (Codex and other agents)
 └── agents/
     ├── MEMORY.md          # curated, repo-wide lessons
     ├── knowledge/         # verified domain facts and decisions
@@ -486,6 +505,6 @@ The block above is generated from [`AGENTS_STANDALONE.md`](AGENTS_STANDALONE.md)
 
 ## Contributing
 
-[`AGENTS.md`](AGENTS.md) in this repo describes the conventions: `skills/` is the canonical catalog, durable guidance lives in `agents/`, and human docs live in `docs/`. Before committing, run `git diff --check` and `diff -ru skills/agent-driven-development .agents/skills`.
+[`AGENTS.md`](AGENTS.md) in this repo describes the conventions: `skills/` is the canonical catalog, durable guidance lives in `agents/`, and human docs live in `docs/`. Before committing, run the checks listed under its Commands section. Edit only `skills/`; the maintainer syncs the installed copies in `.agents/` and `.claude/`.
 
 New skills are welcome: one directory, one `SKILL.md`, a trigger-oriented `description`, and no rules that duplicate an existing skill.

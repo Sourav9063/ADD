@@ -16,31 +16,34 @@ Use this structure for new projects or when expanding this one:
 
 ```text
 your-project/
-├── CLAUDE.md                         # Team agent instructions, committed
-├── AGENTS.md                         # Optional Codex-compatible entrypoint, committed
-├── GEMINI.md                         # Optional Gemini-specific entrypoint, committed
+├── AGENTS.md                         # Team agent instructions, committed
+├── CLAUDE.md                         # `@AGENTS.md` pointer for Claude Code
+├── GEMINI.md                         # `@AGENTS.md` pointer for Gemini CLI
 │
 ├── .claude/
 │   ├── settings.json                 # Team permissions/config, committed
 │   ├── settings.local.json           # Personal overrides, gitignored
 │   ├── commands/                     # Claude commands
-│   ├── skills/                       # Claude-compatible workflows
+│   ├── skills/                       # Claude Code skills
 │   ├── agents/                       # Specialized subagent personas
-│   ├── docs/                         # Shared reference docs
 │   └── worktrees/                    # Isolated worktree sessions, usually gitignored
 │
+├── .agents/
+│   └── skills/                       # Same skills for Codex and other agents
+│
 ├── agents/
+│   ├── MEMORY.md                     # Repository-wide rules learned from corrections
 │   ├── knowledge/                    # Durable architecture notes
 │   └── plans/                        # Task-specific plans
 │
 └── src/
-    ├── CLAUDE.md                     # Optional folder-level rules for app code
+    ├── AGENTS.md                     # Optional folder-level rules for app code
     ├── repository/
-    │   └── CLAUDE.md                 # Optional data-access rules
+    │   └── AGENTS.md                 # Optional data-access rules
     ├── services/
-    │   └── CLAUDE.md                 # Optional business-logic rules
+    │   └── AGENTS.md                 # Optional business-logic rules
     └── app/
-        └── CLAUDE.md                 # Optional routing/UI rules
+        └── AGENTS.md                 # Optional routing/UI rules
 ```
 
 Global personal instructions belong outside the repo:
@@ -57,36 +60,36 @@ Global personal instructions belong outside the repo:
 
 ## What Each File Is For
 
-`CLAUDE.md` is the main project instruction file. It should contain durable team rules: architecture, commands, testing expectations, safety rules, coding style, and communication preferences.
+`AGENTS.md` is the main project instruction file. It should contain durable team rules: architecture, commands, testing expectations, safety rules, coding style, and communication preferences. Append the ADD guidance from `AGENTS_STANDALONE.md` below the project-specific part; the README install script does this.
 
-`AGENTS.md` and `GEMINI.md` are compatibility entrypoints for other tools. In this repo they should mirror `CLAUDE.md` so different agents receive the same project rules. Keep them synchronized if they stay duplicated.
+`CLAUDE.md` and `GEMINI.md` contain only `@AGENTS.md`, so every tool loads the same rules without a second copy to keep in sync.
+
+`agents/MEMORY.md` holds repository-wide rules the agent learned from corrections. The `project-memory` skill maintains it.
 
 `AI.md` is documentation for humans. It explains how the instruction system is organized. It should not be treated as the primary operational prompt.
 
-`.claude/skills/*/SKILL.md` files are reusable workflows for Claude. Use them for tasks like creating components, creating actions, reviewing merge requests, or any workflow that has repeated steps.
+`.claude/skills/*/SKILL.md` files are reusable workflows for Claude Code. Use them for tasks like creating components, creating actions, reviewing merge requests, or any workflow that has repeated steps.
 
 `.claude/commands/*.md` files are command prompts. Use them for short, user-invoked workflows.
 
-`.codex/skills/*/SKILL.md` files are Codex-compatible workflow copies. Keep them aligned with Claude skills only when both tools need the workflow.
-
-`.agents/skills/` can hold shared skill sources that are copied or adapted into tool-specific folders.
+`.agents/skills/` holds the same skills for Codex and other agents that read that folder. Install both copies from one source so they never diverge.
 
 `agents/knowledge/` stores durable technical notes. Use it for architecture constraints, implementation patterns, API contracts, deployment notes, state-management decisions, and permission rules.
 
 `agents/plans/` stores task-scoped plans. Use it when work is non-trivial, crosses layers, or needs alignment before implementation.
 
-## Folder-Level `CLAUDE.md`
+## Folder-Level Instructions
 
-Folder-level `CLAUDE.md` files are local overrides for a subtree. Claude should apply the nearest applicable instructions in addition to the root file.
+Folder-level `AGENTS.md` files are local overrides for a subtree. Agents apply the nearest applicable instructions in addition to the root file.
 
-Use folder-level `AGENTS.md` or `GEMINI.md` only when a non-Claude tool needs the same scoped instructions. If duplicated, keep those files synchronized with the folder-level `CLAUDE.md`.
+Claude Code loads folder-level `CLAUDE.md`, not `AGENTS.md`, so put a `CLAUDE.md` containing `@AGENTS.md` beside each one. Do the same with `GEMINI.md` when Gemini CLI is in use.
 
 Use folder-level files when a directory has rules that are:
 
 - More specific than root instructions.
 - Stable enough to be committed.
 - Important enough that missing them causes bugs or churn.
-- Too detailed for the root `CLAUDE.md`.
+- Too detailed for the root `AGENTS.md`.
 
 Avoid folder-level files when:
 
@@ -98,25 +101,25 @@ Avoid folder-level files when:
 Good examples:
 
 ```text
-src/repository/CLAUDE.md
+src/repository/AGENTS.md
 ```
 
 Use for SQL/data-access rules: no business logic, mapping rules, transaction expectations, DB error handling.
 
 ```text
-src/services/CLAUDE.md
+src/services/AGENTS.md
 ```
 
 Use for business logic rules: Zod validation, `AppError`, service response shape, domain invariants.
 
 ```text
-src/app/api/CLAUDE.md
+src/app/api/AGENTS.md
 ```
 
 Use for REST route rules: `withApiHandler`, `handleServiceResponse`, cache invalidation, auth handling.
 
 ```text
-src/app/(dashboard)/CLAUDE.md
+src/app/(dashboard)/AGENTS.md
 ```
 
 Use for UI route rules: Server/Client split, `searchParams`, `useQueryState`, skeletons, guards, layout density.
@@ -168,11 +171,11 @@ Use skills for repeatable workflows:
 - The steps to create an action.
 - The steps to review a branch.
 
-Do not put everything into `CLAUDE.md`. Root instructions should stay small enough to load every time.
+Do not put everything into `AGENTS.md`. Root instructions should stay small enough to load every time.
 
 ## How I Use Agents For Programming
 
-1. Put durable rules in `CLAUDE.md`.
+1. Put durable rules in `AGENTS.md`; point `CLAUDE.md` and `GEMINI.md` at it.
 2. Put detailed architecture notes in `agents/knowledge/`.
 3. Put task plans in `agents/plans/` before large implementation work.
 4. Use skills for repeated workflows.
@@ -204,7 +207,7 @@ Read agents/knowledge/api-implementation.md and implement the smallest compatibl
 
 - Commit team instructions. Keep personal preferences in global agent config.
 - Keep root instructions short and durable.
-- Prefer path-scoped `CLAUDE.md` files over bloating the root file.
+- Prefer path-scoped `AGENTS.md` files over bloating the root file.
 - Prefer skills for workflows and knowledge files for facts.
 - Keep generated or dependency folders out of project policy. For example, `node_modules/*/AGENTS.md` or `node_modules/*/CLAUDE.md` belongs to dependencies, not this repo.
 - Name files after the workflow or domain they govern.
@@ -216,9 +219,9 @@ Read agents/knowledge/api-implementation.md and implement the smallest compatibl
 - Avoid secrets in any committed AI instruction file.
 - Treat AI output like any other code: review diffs, run checks, and verify behavior.
 
-## Full Root `CLAUDE.md`
+## Example Root Instructions
 
-Current content:
+A project root file from 2026-08, before this repository's guidance was bundled into `AGENTS_STANDALONE.md`. Its SDD, working-rules, and communication sections are now superseded by that bundle; the project-specific sections still show what belongs above it.
 
 ```md
 @/Users/Sourav/.codex/RTK.md

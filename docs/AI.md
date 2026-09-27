@@ -18,7 +18,7 @@ CLI tools have a more stable standard across vendors. Most support similar patte
 - Markdown files are your friend.
 - Project memory must be explicit, short, and versioned.
 - I do not use auto memory as source of truth.
-- I update `CLAUDE.md` frequently.
+- I update `AGENTS.md` frequently; `CLAUDE.md` and `GEMINI.md` only contain `@AGENTS.md`.
 - Every project must have one agent folder: `.claude/`, `.agent/`, `.agents/`, or `.gemini/`.
 - Permissions must ask before risky actions.
 - Plans must be saved when work is complex.
@@ -132,7 +132,7 @@ Use for:
 
 #### Project Root `CLAUDE.md`
 
-Main source of truth for current project.
+Main instructions for current project. In ADD projects this file is just `@AGENTS.md`; the rules live in `AGENTS.md` so every agent reads the same ones.
 
 Use for:
 
@@ -192,8 +192,8 @@ Memory hierarchy:
 
 Rules:
 
-- Do not rely on auto memory.
-- Update `CLAUDE.md` frequently.
+- Do not rely on auto memory; ADD keeps learned rules in `agents/MEMORY.md` instead.
+- Update `AGENTS.md` frequently.
 - Keep memory concise.
 - Prefer facts over preferences.
 - Add gotchas immediately after discovering them.
@@ -275,11 +275,13 @@ Example:
 ```json
 {
   "permissions": {
-    "allow": ["Read:*", "Bash:git:*", "Write:*:*.md"],
-    "deny": ["Read:.env*", "Bash:sudo:*"]
+    "allow": ["Read", "Bash(git status)", "Bash(git diff *)", "Edit(**/*.md)"],
+    "deny": ["Read(**/.env)", "Read(**/.env.*)", "Bash(sudo *)"]
   }
 }
 ```
+
+Settings also decide how much context every session starts with. Denying unused tools and turning off unused features cut this repository's fixed prefix by about 70%. See [`../.claude/settings.json`](../.claude/settings.json) and [`../agents/knowledge/harness-context-tuning.md`](../agents/knowledge/harness-context-tuning.md) for the config, the measurements, and which keys work only from user settings.
 
 ### 7. Permissions And Safety
 
@@ -302,11 +304,11 @@ Recommended deny rules:
 {
   "permissions": {
     "deny": [
-      "Read:.env*",
-      "Bash:rm:*",
-      "Bash:sudo:*",
-      "WebFetch:*",
-      "WebSearch:*"
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Bash(sudo *)",
+      "WebFetch",
+      "WebSearch"
     ]
   }
 }
@@ -318,138 +320,20 @@ Use allow rules for routine safe operations:
 {
   "permissions": {
     "allow": [
-      "Read:*",
-      "Grep:*",
-      "Glob:*",
-      "Bash:git status",
-      "Bash:git diff",
-      "Bash:npm run lint",
-      "Bash:bun run lint",
-      "Write:*:*.md"
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(npm run lint)",
+      "Bash(bun run lint)",
+      "Edit(**/*.md)"
     ]
   }
 }
 ```
 
-Use ask rules for risky commands. Keep this in local settings unless team explicitly agrees to share it.
-
-```json
-{
-  "permissions": {
-    "ask": [
-      "Bash(rm *)",
-      "Bash(rmdir *)",
-      "Bash(mv *)",
-      "Bash(dd *)",
-      "Bash(shred *)",
-      "Bash(truncate *)",
-      "Bash(sudo *)",
-      "Bash(chmod *)",
-      "Bash(chown *)",
-      "Bash(kill *)",
-      "Bash(killall *)",
-      "Bash(pkill *)",
-      "Bash(launchctl *)",
-      "Bash(systemctl *)",
-      "Bash(crontab *)",
-      "Bash(eval *)",
-      "Bash(source *)",
-      "Bash(. *)",
-      "Bash(bash *)",
-      "Bash(sh *)",
-      "Bash(zsh *)",
-      "Bash(python *)",
-      "Bash(python3 *)",
-      "Bash(node *)",
-      "Bash(ruby *)",
-      "Bash(perl *)",
-      "Bash(osascript *)",
-      "Bash(at *)",
-      "Bash(nohup *)",
-      "Bash(mkfs *)",
-      "Bash(diskutil *)",
-      "Bash(fdisk *)",
-      "Bash(mount *)",
-      "Bash(umount *)",
-      "Bash(passwd *)",
-      "Bash(dscl *)",
-      "Bash(useradd *)",
-      "Bash(userdel *)",
-      "Bash(usermod *)",
-      "Bash(visudo *)",
-      "Bash(defaults write *)",
-      "Bash(csrutil *)",
-      "Bash(spctl *)",
-      "Bash(pmset *)",
-      "Bash(git clone *)",
-      "Bash(git pull*)",
-      "Bash(git fetch*)",
-      "Bash(git push*)",
-      "Bash(git reset --hard*)",
-      "Bash(git clean *)",
-      "Bash(git rebase *)",
-      "Bash(git config *)",
-      "Bash(git remote *)",
-      "Bash(git submodule *)",
-      "Bash(git filter-branch*)",
-      "Bash(npm install*)",
-      "Bash(npm i *)",
-      "Bash(npx *)",
-      "Bash(bun install*)",
-      "Bash(bun add *)",
-      "Bash(bun i *)",
-      "Bash(bunx *)",
-      "Bash(pip install*)",
-      "Bash(pip3 install*)",
-      "Bash(yarn add *)",
-      "Bash(pnpm install*)",
-      "Bash(pnpm add *)",
-      "Bash(brew install*)",
-      "Bash(brew upgrade*)",
-      "Bash(gem install*)",
-      "Bash(curl *)",
-      "Bash(wget *)",
-      "Bash(fetch *)",
-      "Bash(ssh *)",
-      "Bash(scp *)",
-      "Bash(sftp *)",
-      "Bash(rsync *)",
-      "Bash(nc *)",
-      "Bash(netcat *)",
-      "Bash(telnet *)",
-      "Bash(ftp *)",
-      "Bash(nmap *)",
-      "Bash(docker pull*)",
-      "Bash(docker push*)",
-      "Bash(docker run*)",
-      "Bash(docker-compose *)",
-      "Bash(gh *)",
-      "Bash(aws *)",
-      "Bash(gcloud *)",
-      "Bash(az *)",
-      "Bash(kubectl *)",
-      "Bash(terraform *)",
-      "Bash(helm *)",
-      "Bash(ansible *)",
-      "Bash(ngrok *)",
-      "Bash(cloudflared *)",
-      "Bash(psql *)",
-      "Bash(mysql *)",
-      "Bash(mongo *)",
-      "Bash(mongosh *)",
-      "Bash(redis-cli *)"
-    ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/statusline-command.sh"
-  },
-  "effortLevel": "medium",
-  "editorMode": "vim",
-  "remoteControlAtStartup": false,
-  "model": "opus"
-}
-```
+Use ask rules for risky commands: deletes, moves, shells and interpreters, git history and remotes, installs, network, containers, cloud CLIs, and database clients. Keep this in local settings unless team explicitly agrees to share it. The full list lives in [`../.claude/settings.ask.json`](../.claude/settings.ask.json); copy it from there rather than from here.
 
 Do not auto-approve destructive operations. Asking slows nothing compared to recovering deleted files or leaked secrets.
 

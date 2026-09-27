@@ -1,5 +1,7 @@
 # Integrate UI Components
 
+Status: complete. `ui-composition` owns multi-component screen work; `auth-flow-design` carries the enumeration and password-length rules. Verified 2026-09-27 against the skills.
+
 ## Goal
 
 Make web-design guidance produce coherent screens from the repository's existing design

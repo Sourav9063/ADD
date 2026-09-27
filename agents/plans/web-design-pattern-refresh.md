@@ -1,5 +1,7 @@
 # Web Design Pattern Refresh
 
+Status: complete. All work items are checked; `collaboration-design` is in the catalog.
+
 ## Acceptance criteria
 
 - Add the newly identified Design Motion guidance to the narrowest existing skill.

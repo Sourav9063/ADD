@@ -1,5 +1,7 @@
 # Skill correctness refinements
 
+Status: complete. The audit records pre-change findings; its opening now links here to distinguish proposed work from implemented corrections.
+
 Scope: apply the highest-impact corrections from `docs/skills-audit-2026-09-06.md` with short replacements. Preserve core ADD except request-intent and commit-authority clarifications. Keep reusable guidance framework-neutral; retain existing project profiles with narrower applicability. No catalog restructure or new workflow machinery.
 
 1. Correct authentication, accessibility, replay safety, and contradictory UI rules.
@@ -7,8 +9,6 @@ Scope: apply the highest-impact corrections from `docs/skills-audit-2026-09-06.m
 3. Check changed prose, metadata, references, bundle equality, and word-count impact; exercise representative prompts with a fresh agent.
 
 Acceptance: no new stack prescriptions, no expanded core workflow, shorter combined changed skill bodies, no whitespace errors, and no unsupported claims of runtime verification.
-
-Status: complete. The audit records pre-change findings; its opening now links here to distinguish proposed work from implemented corrections.
 
 Validation:
 
