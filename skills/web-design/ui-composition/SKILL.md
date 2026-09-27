@@ -9,7 +9,8 @@ Think through the interface before rendering it. The unit of design is the user'
 the database schema and not a collection of individually polished controls.
 
 Always load `design-foundations`. Load `visual-direction` when the visual system is missing,
-unclear, new, or supplied through a reference. Select only the surface and component skills
+unclear, new, or supplied through a reference, and `design-refinement` when the task
+restyles, polishes, or tunes a screen that already ships. Select only the surface and component skills
 that materially affect this screen; their detailed contracts remain authoritative.
 
 ## Discover the system already present
@@ -119,3 +120,8 @@ Review the assembled screen, not just its parts:
 
 Exercise the highest-risk path and at least one failure path. Compare the result with the
 design brief and remove anything that does not serve it.
+
+Inspect in bounded rounds rather than one tweak per screenshot. Build the whole change,
+settle or disable entrance motion, then capture desktop and a narrow phone width in one
+batch, adding any viewport the user reported. Fix every finding in one batch and confirm
+with a single further round. If items remain after that, report them instead of looping.

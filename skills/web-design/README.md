@@ -11,6 +11,7 @@ broken.
 | `ui-composition` | Intent, existing-system discovery, hierarchy, component mapping, overlay surface choice, state completeness, whole-screen verification. |
 | `design-foundations` | Token layers and scales, z-index, layout and hierarchy, motion timings, contrast, focus, hit targets. Deliberately small: it loads with everything. |
 | `visual-direction` | Choosing a direction and holding it: references, declaring the system, surface and optical craft, structural variation, assets, critique. |
+| `design-refinement` | Changing an interface that already ships: polish, redesign, or tune bolder, quieter, simpler, without breaking URLs, labels, fields, or claims. |
 | `typography-design` | Type roles, faces and weights, measure, wrapping, truncation, tabular numbers, underlines, optical trim. |
 | `color-systems` | Ramp construction, step roles, notation and gamut, gradients, dark mode, theme variants, palette audits. |
 | `responsive-design` | Content-driven breakpoints, container queries, safe areas, full-bleed, overflow affordances, input capability. |
@@ -86,7 +87,9 @@ Use `ui-composition` first for a page, screen, flow, or other multi-component ta
 component skills the composition needs. For focused work on one established component, use
 that component skill directly with `design-foundations`. Component skills own the control;
 surface skills own the composition around it. `visual-direction` runs before implementation
-when the visual system is new, unclear, or supplied through a reference.
+when the visual system is new, unclear, or supplied through a reference. `design-refinement`
+runs instead of starting fresh when the interface already ships and the request is to
+redesign, polish, or retune it.
 
 `design-foundations` covers accessibility at design time; `accessibility-audit` verifies
 what already shipped. For load and interaction speed, use `frontend-performance`.
@@ -105,6 +108,15 @@ surface that uses it - link instead.
 
 Skills here carry no trailing checklist. State a verification action once, in the prose that
 owns it, rather than restating rules as a list at the end.
+
+## Sources
+
+These skills are original writing informed by specs, research, and practitioner craft. Public
+skill collections served as inspiration, never copied text. Among them,
+[Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) and
+[pbakaus/impeccable](https://github.com/pbakaus/impeccable) shaped `design-refinement` and
+parts of `visual-direction`, `ui-composition`, `landing-page-design`, `typography-design`,
+`color-systems`, `motion-design`, and `microcopy`.
 
 Sources, authority order, the catalog this group is audited against, and what was reviewed
 and declined: [`agents/knowledge/shaping-web-ui-design.md`](../../agents/knowledge/shaping-web-ui-design.md).

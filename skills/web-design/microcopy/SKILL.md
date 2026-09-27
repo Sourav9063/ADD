@@ -65,6 +65,8 @@ review, a demo, or a screenshot is judged as the product.
 - **No Lorem Ipsum.** Write real draft copy at real length. Fake Latin hides every wrapping, truncation, and hierarchy problem the layout has.
 - **No "John Doe", no "Acme Corp".** Use varied, plausible names for people, teams, and products, and vary the string lengths so one long name tests the layout.
 - **Label sample data.** Use varied values to test layouts; never present fabricated metrics or identities as real proof.
+- **Distrust invented precision.** "4.9 from 2,847 reviews", "99.97% uptime", or "saves 37% of your week" look sourced because they are oddly exact. Without a real source, remove the figure or mark it as a placeholder in the handoff list.
+- **Run the swap test on headlines.** If a competitor could paste the line onto their page unchanged, it says nothing about this product. Name the specific thing it does, for whom, in the product's own vocabulary.
 - **No filler vocabulary.** "Elevate", "seamless", "unleash", "next-gen", "game changer", "delve", "in the world of". These say nothing and mark the copy as machine-written.
 - **Sentence case for headings**, not Title Case On Everything.
 - **No exclamation marks in success messages**, and no "Oops!" in errors. "Connection failed. Try again" respects the reader more than either.

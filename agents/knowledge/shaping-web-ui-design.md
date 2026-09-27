@@ -151,7 +151,7 @@ Resolve conflicts in this order. A practitioner post never overrides a spec.
 
 ## Public skill collections
 
-Seven were read in full on 2026-08-25. They are practitioner craft (tier 3): useful for
+Seven were read in full on 2026-08-25 and two more on 2026-09-27. They are practitioner craft (tier 3): useful for
 failure modes and defaults, never authoritative over a spec. **Do not re-read these unless
 the repository itself has changed**; what was worth taking is already in the skills.
 
@@ -164,6 +164,8 @@ the repository itself has changed**; what was worth taking is already in the ski
 | [elayadesign/ai-design-skills](https://github.com/elayadesign/ai-design-skills) | Content realism rules into `microcopy`; landing-page intake, page-type table, message-source matching, and ship requirements into `landing-page-design`. |
 | [Owl-Listener/designer-skills](https://github.com/Owl-Listener/designer-skills) | Broad but thin. Only the localization specifics were usable: expansion figures by language, the what-does-not-mirror list, non-Latin script rules. Into `internationalization-design`. |
 | [MengTo/Skills](https://github.com/MengTo/Skills) | Least usable. Sixty style recipes and effect implementations, self-described as drafts. Only the general rules from its Awwwards skill survived, and they duplicated things already covered. |
+| [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | Read 2026-09-27. The one-line read and its dials, the accent, radius, and theme locks, and the named-design-system rule into `visual-direction`; hero element cap, logo-strip, section-shape, and CTA-label rules into `landing-page-design`; invented precision into `microcopy`; the redesign audit, never-change list, and lever order into `design-refinement`. |
+| [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Read 2026-09-27. Visitor modes, commit-over-safe, browser-surface theming, tinted shadows, the decoration tells, and the whole-look calibration into `visual-direction`; refine-versus-redesign, polish triage, and the bolder, quieter, and simpler passes into `design-refinement`; bounded inspection rounds into `ui-composition`; color strategy and scene-chosen theme into `color-systems`; one-family product type, display cap, and tracking floor into `typography-design`; one authored motion moment into `motion-design`. |
 
 **Deliberately not adopted**, so a later pass does not re-import them:
 
@@ -172,6 +174,7 @@ the repository itself has changed**; what was worth taking is already in the ski
 - **Persistent memory files** for taste (`.tastemaker/style-lock.md`, cross-project profiles). The idea that a locked system is reused rather than re-derived is in `visual-direction`; the file format and precedence machinery is not.
 - **Fixed animation library choices.** GSAP, Lenis, and Locomotive as defaults. `motion-design` states the constraints a library has to satisfy and leaves the choice to the project.
 - **Per-skill reporting boilerplate.** Several collections end every skill with an identical severity, verification, and table format block. `accessibility-audit` and `reviewing-changes` own reporting here; repeating it in every section skill is context cost for one behavior.
+- **From taste-skill and impeccable (2026-09-27):** numeric dial values as configuration, framework-specific recipes (Tailwind classes, React component code), named-font ban lists, the hard ban on eyebrows (kept as restraint instead), and impeccable's machinery: the dice-rolled concept seed, decision pages, comp-diff gates, detectors, `DESIGN.md` and `PRODUCT.md` files, and one-command-per-verb routing. The ideas those tools enforce are in the skills; the tools are not.
 - **Native mobile platform conventions.** iOS HIG against Material differences are real, but this group is web UI. Out of scope, not wrong.
 
 ## Cautions

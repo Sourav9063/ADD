@@ -21,6 +21,29 @@ the product actually renders. A `warning` ramp nothing imports is maintenance fo
 pixels. A second accent earns its place only when two things must be distinguishable at a
 glance, and it must never sit adjacent to the first.
 
+## Decide how much color before which color
+
+Pick the strategy, then the hues:
+
+| Strategy | Shape | Suits |
+| --- | --- | --- |
+| Restrained | Neutrals plus one accent | Apps, dashboards, docs: the default where people operate or read |
+| Committed | One saturated hue owns a large share of the surface | A brand-led landing page, a campaign, a welcome screen |
+| Full palette | Three or four named roles, each with a job | Editorial, illustration-heavy, or multi-category products |
+| Drenched | The background is the color | A single statement page or section |
+
+A bolder strategy commits at the scale of whole regions, not accents sprinkled over a neutral
+page. In a restrained system the accent marks action, selection, and state only; used as
+decoration it stops meaning "you can act here".
+
+**Choose light or dark from the use scene, not the category.** Write one sentence about who
+uses this, where, and under what light: a clinician on a bright ward, a developer at night, a
+shopper on a phone outdoors. "Developer tool, so dark" is a reflex, not a reason.
+
+**Never set gray text on a colored surface.** Secondary text on a tinted or saturated fill
+takes a lighter or darker step of that fill's own hue, then passes contrast. A neutral gray
+there reads as dirt.
+
 ## Every step has a job
 
 A ramp is not a gradient to pick from by eye. Generate the steps these roles call for, skip

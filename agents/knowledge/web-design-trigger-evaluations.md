@@ -5,7 +5,7 @@ for a request, and that its neighbours stay quiet. Run after changing any descri
 group, splitting a skill, or folding one away.
 
 Companion to [`trigger-evaluations.md`](trigger-evaluations.md), which covers the ADD-wide
-skills. This group is large (53 skills) and its seams are close together, so most routing
+skills. This group is large (54 skills) and its seams are close together, so most routing
 failures here are a near-miss rather than nothing firing at all.
 
 No harness exists. Read the agent's opening moves on a fresh session and confirm which
@@ -71,6 +71,10 @@ the rest, or a one-control request that pays for the whole workflow.
 | Prompt | Expected | Must not fire |
 | --- | --- | --- |
 | "Make it look less generic" | `visual-direction` | `design-foundations` alone |
+| "Redesign our marketing site, it looks dated" | `design-refinement`, then `visual-direction` | `visual-direction` alone |
+| "Polish the settings page before launch" | `design-refinement` | `visual-direction` |
+| "Make the pricing section bolder" | `design-refinement` and `landing-page-design` | `ui-composition` |
+| "Tone this dashboard down, it is too loud" | `design-refinement` | `color-systems` alone |
 | "Our icons look inconsistent" | `icon-design` | `design-foundations` |
 | "Build a dark theme" | `color-systems` | `design-foundations` |
 | "Add breadcrumbs to the project pages" | `navigation-design` | a search for a breadcrumb skill |

@@ -39,6 +39,9 @@ here. Never pick `<h3>` because its default size looked right.
 - Serve `.woff2`. `.ttf` and `.otf` are desktop formats with no web compression.
 - Rarely more than two families, three at the absolute limit. Pair for contrast, not similarity: a serif headline over a sans body reads as deliberate, two near-identical sans-serifs read as an accident.
 - **Load the weights and styles the design uses.** A browser will synthesize a missing bold or italic by shearing and smearing the regular face. `font-synthesis: none` turns that off, but it erases the emphasis rather than reporting it, so set it only after confirming every required bold, italic, and small-cap form survives the whole fallback stack.
+- **Choose faces from the product's world, not its category.** A serif is not the default for a creative or premium brief, nor a monospace for a technical one; the association is the reflex, not a reason. If the face is the first one that comes to mind for the category, look further before committing.
+- **Product UI is usually one family.** An app, dashboard, or tool rarely needs a display and body pairing; one well-tuned sans carries headings, labels, data, and body. Give it a fixed rem scale with a tight ratio, since a fluid heading that shrinks inside a sidebar looks worse, and reserve fluid `clamp()` sizing for marketing and editorial display type.
+- **Emphasize within the family.** Stress a word in a headline with the italic or a heavier weight of the same face. Switching to a second family mid-sentence reads as a template trick, not emphasis.
 - Below 18px, stay at weight 400 or heavier. Weights under 300 are display-only at 28px and up; at text sizes they disappear.
 
 **Prefer the property to the raw feature tag.** `font-weight: 650` over
@@ -50,7 +53,10 @@ stylistic sets that have no property of their own.
 ## Spacing within text
 
 - **Line height by role.** Headings around 1.1, body 1.5 to 1.6, always unitless so it scales with the font size. Tight leading is for short text: anything that wraps to three or more lines needs at least 1.4, including a card description in a height-constrained row.
-- **Letter spacing by size.** Large headings usually want slightly negative tracking (around -0.02em). Small uppercase labels need slightly positive (around 0.05em), or the caps crowd. Body copy at reading sizes needs neither.
+- **Letter spacing by size.** Large headings usually want slightly negative tracking (around -0.02em), never tighter than about -0.04em or letters collide. Small uppercase labels need slightly positive (around 0.05em), or the caps crowd. Body copy at reading sizes needs neither.
+- **Cap display size** around 6rem (96px). Past that a headline stops reading as text and starts wrapping one word per line on ordinary laptops.
+- **Clear descenders in tight display lines.** An italic or script headline at a line height near 1 clips its descenders and swashes when a parent sets `overflow: hidden` or the text uses `background-clip: text`. Add block padding to the text element rather than loosening the leading.
+- **More space above a heading than below it**, so the heading binds to the content it introduces, not the section it ends.
 - **Cap the measure at 60 to 75 characters.** Past that the eye loses the start of the next line. Any unit works as long as a cap exists.
 - **Trim the font's built-in leading** where text must sit optically centered in a button or badge: `text-box: trim-both cap alphabetic`. Treat it as progressive enhancement; unsupported browsers keep the default and look the way they do today.
 

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design Refinement"
+  short_description: "Redesign, polish, or tune an existing UI"
+  default_prompt: "Use $design-refinement to improve this existing interface without breaking what it does."
+policy:
+  allow_implicit_invocation: true

@@ -26,6 +26,13 @@ Animate state *changes*, never state itself. Frequency sets the budget before ta
 Keyboard actions must respond immediately. Skip decorative motion on frequent actions;
 brief state feedback is acceptable when it does not delay focus, input, or readable content.
 
+**On a page, author one moment instead of scattering many.** The same fade-up on every
+section is the template signature; one orchestrated sequence where it carries meaning (the
+product demonstrating itself, a transition between the argument's beats) is what reads as
+designed. Keep everything else still or near-still. If the brief promises motion, the build
+shows it; if it does not, do not add motion to make the work look finished. Product surfaces
+load straight into the task, with no page-load choreography.
+
 ## Curves and timing
 
 | Curve | Use |

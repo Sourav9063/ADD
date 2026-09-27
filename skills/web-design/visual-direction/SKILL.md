@@ -36,12 +36,21 @@ is copying, not designing.
 
 Two short blocks before the first component:
 
-- **The read.** Surface type (marketing narrative, app shell, transactional form, data view, editor, settings), audience, and where this lands on the dials that change output: visual variance, motion intensity, information density, asset dependence. A dashboard earns trust by getting out of the way; a launch page can perform.
-- **The system.** Concrete values, not adjectives: palette roles, type families and scale, spacing base, radius strategy, elevation levels, motion curves and durations. "Modern and clean" is not a system. Build each per `color-systems`, `typography-design`, and `design-foundations`.
+- **The read.** One line: surface type (marketing narrative, app shell, transactional form, data view, editor, settings), audience, and where this lands on the dials that change output: visual variance, motion intensity, information density, asset dependence. Name what the visitor came to do, judged by the surface rather than the product, since one company ships all of these: be **persuaded** (landing, pricing), **operate** (app, dashboard), **read** (docs, articles), or **experience** (portfolio, showcase). Operate and read surfaces earn trust by getting out of the way and reward familiar patterns; persuade and experience surfaces can perform. Ask one question only when two readings of the brief would produce different pages.
+- **The system.** Concrete values, not adjectives: palette roles, type families and scale, spacing base, radius strategy, elevation levels, motion curves and durations. "Modern and clean" is not a system. Build each per `color-systems`, `typography-design`, and `design-foundations`. Hold three locks across every screen: one accent, one radius family, and one page theme, so sections do not flip between light and dark unless the argument needs a deliberate break.
+
+When the brief names an established design system (Material, Fluent, Carbon, Apple's
+platform look), use its official package and conventions rather than an imitation, and use
+one system per project. Label approximations honestly: a web rendition of a native material
+is an approximation, and saying so beats claiming parity.
 
 Confirm the system before the full build. A rough pass with real tokens and placeholder
 content beats a polished screen in the wrong direction, because the wrong direction gets
 scrapped whole.
+
+The craft floor across these skills holds the mechanics; it never picks the direction. When
+torn between a refined, safe rendition and a committed one the brief allows, commit, then
+use the floor to make the committed version clear.
 
 Then it is a constraint, not a suggestion. Every later screen references the recorded values
 instead of re-deriving them, and where the system lacks a pairing the screen needs (a badge
@@ -58,6 +67,8 @@ is how they are applied.
 - **Nest radii concentrically.** Outer radius = inner radius + the padding between them. Mismatched radii on closely nested surfaces are the most common source of visual tension in an otherwise clean component. Past roughly 24px of padding the two layers read as separate surfaces, so give each an independent radius instead of forcing the math.
 - **Shadows for depth, borders for structure.** Where a border exists only to lift an element, replace it with layered transparent shadow: a 1px spread ring, a tight contact shadow, and a wider ambient one. Shadows use transparency, so they hold over images and varied backgrounds where a fixed border color was never designed to sit. Keep real borders for dividers, table cell boundaries, input outlines, and selected or focus states, which communicate structure rather than elevation.
 - **Align optically when geometric centering looks wrong.** A button with a trailing icon wants a couple of pixels less padding on the icon side. Fix asymmetric glyphs in the SVG itself where you can, so no component needs a compensating margin (`icon-design`).
+- **Give shadows a light source.** A shadow has a vertical offset and a blur, tinted toward the hue of the surface beneath it rather than neutral black. A zero-offset colored glow around a card is a halo, not depth.
+- **Theme the browser's own surfaces.** `::selection`, `caret-color`, `accent-color` for native checkboxes, radios, and range inputs, `scrollbar-color` where a scroll area is visible, the focus ring, and `text-underline-offset`. Left at defaults, the browser's blue breaks an otherwise consistent palette at the moment someone interacts.
 - **Outline images at 1px, low opacity**, so they sit in the same surface language as everything else: pure black at ~10% in light mode, pure white at ~10% in dark. Never a near-black or near-white from the palette, which picks up the surrounding tint and reads as dirt on the image edge. Use `outline` with a negative offset rather than `border`, so it adds no layout width and hugs the corner radius.
 - **Proportion the major regions with the same ratio the type scale uses.** A 62/38 split reads as composed where 55/45 reads as an accident. Gutter width carries tone too: tight gutters feel dense and technical, wide ones editorial.
 - **Isolate the option you want chosen** (different treatment, not just a badge); uniform cards convert worse than one visually distinct card. Isolation only works against a uniform baseline and only if one thing is emphasized - highlight two and they cancel. Combine scale and elevation with the color shift so the emphasis survives grayscale.
@@ -131,5 +142,19 @@ cards then testimonial then CTA then footer; every section the same height and p
 sets; dead links and no current-page indication; glass and blur on everything rather than one
 layer; bento grids and pricing tables with nothing to hold; copy that describes the product
 without ever showing it.
+
+Decoration that imitates detail is its own family: a small uppercase eyebrow above every
+heading, numbered sections (`01`, `02`), version or build labels on a marketing page, pulsing
+status dots and scroll cues that mean nothing, identical icon-heading-sentence cards, cards
+nested in cards, a thick colored stripe down one side of a card, a giant metric as the hero,
+monospace worn as a costume on a product that is not a terminal, and hard offset shadows
+outside a deliberately brutalist system.
+
+Generated interfaces also cluster into a few whole looks regardless of subject: warm cream
+ground with a high-contrast serif and a terracotta accent; near-black with one neon accent and
+glowing edges; editorial hairlines with italic display serif and small tracked mono labels;
+beige and brass "premium". Each is legitimate when the brief asks for it. When the brief left
+the look open, test it: if someone could guess the aesthetic from the product category alone,
+the direction came from the category, not the product, so rework it.
 
 Any tell that survives should be a choice you can defend, not one you missed.

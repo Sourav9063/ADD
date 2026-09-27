@@ -179,6 +179,7 @@ Design rules, motion timings, and accessibility requirements for each component 
 | [`ui-composition`](skills/web-design/ui-composition/) | Intent, existing-system discovery, hierarchy, component mapping, state completeness, responsive integration, whole-screen verification |
 | [`design-foundations`](skills/web-design/design-foundations/) | Token layers and scales, z-index, layout and hierarchy, motion scale, contrast, focus, hit targets; the shared baseline |
 | [`visual-direction`](skills/web-design/visual-direction/) | Grounding a direction in references, declaring the system, structural variation, asset sourcing, critique |
+| [`design-refinement`](skills/web-design/design-refinement/) | Polishing, redesigning, or tuning an existing interface bolder, quieter, or simpler while preserving what must not move |
 | [`typography-design`](skills/web-design/typography-design/) | Type roles, faces and weights, measure, wrapping, truncation, tabular numbers, optical trim |
 | [`color-systems`](skills/web-design/color-systems/) | Ramp construction, step roles, notation and gamut, gradient interpolation, theme variants, palette audits |
 | [`responsive-design`](skills/web-design/responsive-design/) | Content-driven breakpoints, container queries, safe areas, full-bleed, overflow affordances |

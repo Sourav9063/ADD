@@ -64,6 +64,9 @@ missing a feature grid.
 - A product visual beats an abstract illustration: a real screenshot, a short muted loop, or an interactive demo. Stock photography of people at laptops signals nothing. Replace boilerplate three-card icon-in-a-circle rows ("Fast, Secure, Easy") with a real product visual annotated with callouts pointing to interface features.
 - **No hero carousel.** A slider guarantees most visitors never see slides two through five and costs you the one message you control. Pick the strongest claim and commit to it.
 - Above the fold means the value proposition and the CTA are visible without scrolling at 1280×720 **and** on a 375px phone. Test both, not one.
+- **Keep the hero to four text elements or fewer**: headline, one subline of about twenty words at most, the CTA group, and the expectation line. A badge, eyebrow, stat row, and second paragraph stacked above the button push it below the fold and dilute the claim.
+- **Apply the memory test.** If a visitor left after one viewport, what would they describe an hour later? If the honest answer is a mood, the hero states a category instead of demonstrating what only this product does.
+- A logo strip sits below the hero as logos only, at one optical size, not inside the hero and not wrapped in a paragraph about trust. One scrolling marquee per page at most.
 
 ## Proof
 
@@ -88,6 +91,9 @@ missing a feature grid.
 - Build and revise **section by section**, in the order of the argument. Regenerating the whole page on each iteration loses the parts that were already right and makes the diff unreviewable.
 - Generous vertical spacing between sections (64–120px desktop, 48–64px mobile) with tighter spacing inside them; proximity is what makes a section read as one idea.
 - One idea per section, with a heading that states the idea as a sentence.
+- **Vary the section shapes.** Use each layout family (split text and image, grid, full-bleed media, list) for what it suits rather than repeating the first one that worked, and stop alternating left-right splits after two in a row. A bento grid has exactly as many cells as there is real content; a cell invented to fill the grid is padding.
+- Reserve small eyebrow labels for the occasional section that needs a category cue, not every heading; used everywhere they become noise the eye learns to skip.
+- **One intent, one label.** Two CTAs leading to the same place get the same words; "Get started", "Start free", and "Try it now" on one page read as three offers. Keep every CTA label on one line at every width.
 - Constrain measure to 60–75 characters; full-width paragraphs are unreadable at desktop widths.
 - Keep the visual language consistent with the product; a marketing page that looks nothing like the app breaks trust at signup.
 
