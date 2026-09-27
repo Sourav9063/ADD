@@ -23,7 +23,7 @@ Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on th
 slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
 `/patterns/von-restorff`.
 
-Re-checked on 2026-09-21: its sitemap still lists the same 76 pattern pages, with the
+Re-checked on 2026-09-27 (last full read 2026-09-21): its sitemap still lists the same 76 pattern pages, with the
 newest three unchanged since 2026-09-07 - CSS Has Selector (`/patterns/css-has-selector`),
 De-AI Landing Hero (`/patterns/de-ai-landing-hero`), and Reverse-Engineered Linear
 (`/patterns/reverse-engineered-linear`), all merged in the 2026-09-13 audit. Check it the
