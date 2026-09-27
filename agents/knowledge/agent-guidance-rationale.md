@@ -26,3 +26,7 @@
 
 - Add no further generic planning, testing, or verification rules without repeated failures or a confirmed cross-tool gap.
 - Do not copy project-specific operational context into the reusable ADD layer.
+
+## Audit Follow-Up
+
+The 2026-09-06 audit (`docs/skills-audit-2026-09-06.md`) was applied as a focused correctness pass: authentication, accessibility, replay safety, contradictory UI rules, and request-intent and commit-authority clarifications, with no new stack prescriptions and shorter combined skill bodies. Broad taste edits, catalog restructuring, extra lifecycle machinery, and other proposals were deferred.

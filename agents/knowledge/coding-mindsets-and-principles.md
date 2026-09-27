@@ -48,3 +48,16 @@ Complementary sources behind `coding`'s literature cue:
 - Michael Feathers, [Working Effectively with Legacy Code](https://www.informit.com/articles/article.aspx?p=359417) and [Characterization Testing](https://michaelfeathers.silvrback.com/characterization-testing): seams and tests for safely changing unfamiliar code; observed behavior does not establish intended correctness.
 
 These sources supply judgment, not additional checklists. The skill retains local constraints and observed-failure corrections; literature references neither replace those rules nor require rereading the books for each task.
+
+## Rule Revisions
+
+Absolute `coding` rules were loosened where they rejected valid work, and each exception carries a cost:
+
+- Errors surface at the boundary that owns them and degrade only where that contract allows; some production failures must stop processing.
+- Holding a lock across I/O, an `await`, or a callback requires a documented invariant; caches, schedulers, and framework-managed concurrency made the absolute unfollowable.
+- Depend on an abstraction only at a real boundary or variation point; the old default contradicted Speculative Generality and YAGNI.
+- One coherent behavior per test, not one assertion; proving one behavior can need several.
+- Reproduce a bug with a failing test where practical, and say so when skipped; mandatory TDD conflicted with earlier guidance.
+- Tests avoid uncontrolled shared state and uncontrolled network; the absolutes rejected valid integration and end-to-end tests.
+
+Rejected: rewriting "Parse, do not validate", scoping distrust to trust boundaries, softening parameter-count guidance, broad hedging (conditionals weaken directive force; an agent scanning for permission finds it), trimming the smell catalog or adding a size budget, and a six-phase evaluation process for an 84-line file.

@@ -15,3 +15,5 @@
 - Do not use em dashes anywhere in repository prose. Use a colon for labels or introduced explanations, a spaced hyphen (` - `) for a true aside, and `-` for an empty table cell.
 - Keep skill descriptions as plain single-line YAML; rewrite internal colons instead of using folded scalars.
 - Never delete `WIP/` drafts unless asked; when the file a draft targets changes, update the draft in the same change.
+- Keep completed plans in `agents/plans/` marked complete at the top; delete one only when knowledge fully absorbs it. Agents do not search git history, so deleting a plan loses its rationale, verification record, and rejected paths.
+- Questions get answers only; never edit in response to a question, including rhetorical or suggestive ones, until the user approves.
