@@ -4,7 +4,9 @@
   "feedbackDrafts": "off",
   "askUserQuestionTimeout": "5m",
   "env": {
-    "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1"
+    "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5-5",
+    "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1"
   },
   "permissions": {
     "deny": [
@@ -27,7 +29,7 @@
     "defaultMode": "auto"
   },
   "model": "opus",
-  "fallbackModel": ["claude-sonnet-5"],
+  "fallbackModel": ["claude-sonnet-5-5"],
   "disableClaudeAiConnectors": true,
   "skillOverrides": {
     "loop": "off",
@@ -66,6 +68,9 @@
   "modelSettings": {
     "claude-opus-5-5": {
       "effortLevel": "medium"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "high"
     }
   },
   "bashOutputMaxChars": 8000,

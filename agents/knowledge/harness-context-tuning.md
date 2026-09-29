@@ -160,6 +160,7 @@ These keys do nothing in project `.claude/settings.json`. They take effect only 
 - **`disableArtifact` became `enableArtifact: false`.** The old key is deprecated.
 - **Deny `Read(**/.env)` and `Read(**/.env.*)`.** This is for secret safety, not tokens. Scoped rules save nothing.
 - **`disableRemoteControl` stays unset.** Remote Control is in use, so its schemas are accepted as a cost. `inputNeededNotifEnabled` and `agentPushNotifEnabled` are on.
+- **Subagents and fallback run on Sonnet 5.5.** `CLAUDE_CODE_SUBAGENT_MODEL` plus `CLAUDE_CODE_SUBAGENT_MODEL_FORCE=1` (v2.1.257+) pin every subagent, including Explore and Plan, to save Opus budget. `fallbackModel` is `claude-sonnet-5-5`. `modelSettings["claude-sonnet-5-5"].effortLevel: "high"` is unverified for subagents: the docs say subagents inherit session effort unless agent frontmatter sets `effort`. Check with a subagent before relying on it.
 
 ### Per-Turn Levers
 

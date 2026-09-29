@@ -1,0 +1,6 @@
+interface:
+  display_name: "Showreel"
+  short_description: "Portfolio-level quality, no extra scope"
+  default_prompt: "Use $showreel to deliver this at portfolio quality without adding unrequested scope."
+# policy:
+  # allow_implicit_invocation: false
