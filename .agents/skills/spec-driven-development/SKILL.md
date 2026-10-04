@@ -30,7 +30,7 @@ Code is the source of truth for current behavior: source, tests, schemas, config
 - Ownership, affected-surface maps, and navigation
 - Conventions and recurring patterns
 
-Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Extend existing files before adding new ones.
+Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Search and extend existing files before adding new ones.
 
 ### Plans
 
@@ -52,6 +52,7 @@ For public-contract, migration, security-boundary, or cross-repository plans, ge
 - When implementation reveals a material decision the plan does not cover, or an acceptance criterion proves ambiguous or impossible, pause, record it in the plan, and resolve it with the user before continuing.
 - When code has diverged from the plan's execution state, trust the code and revise the plan.
 - When resuming, re-read the plan, re-verify in code every unverified claim about current code, then continue from the first incomplete task.
+- When work traces a complex subsystem, such as authentication, authorization, caching, data sync, or deployment, across many files, create or extend its one knowledge file mapping that code.
 - Before declaring completion, verify each acceptance criterion against the resulting code and reconcile knowledge and plan status; `engineering` skill owns running and reporting checks.
 - When the plan completes, move its durable decisions into `agents/knowledge/`. Delete the plan only when nothing else is left; otherwise mark it complete at the top and keep it.
 - A plan marked complete is a record of past work, read for its reasoning, never resumed as open tasks.
