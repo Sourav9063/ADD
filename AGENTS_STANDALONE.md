@@ -22,12 +22,10 @@ Code is the source of truth for current behavior: source, tests, schemas, config
 - Architecture decisions, rejected alternatives, and why
 - Domain terms and glossary
 - Invariants and constraints
-- Ownership, affected-surface maps, and navigation
+- Ownership, affected-surface maps, and navigation; one file per complex cross-file subsystem, such as auth or deployment
 - Conventions and recurring patterns
 
-Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Extend existing files before adding new ones.
-
-Give each complex subsystem whose behavior spans many files, such as authentication, authorization, or deployment, one knowledge file that connects its code: entry points, owning files, how they hand off, invariants, and where each kind of change lands. Name files and symbols; never copy their code. Create it when work had to trace the subsystem across files; search `agents/knowledge/` first and extend the subsystem's file instead of spreading it across topic files.
+Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Search and extend existing files before adding new ones.
 
 ### Plans
 
