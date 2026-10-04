@@ -27,6 +27,8 @@ Code is the source of truth for current behavior: source, tests, schemas, config
 
 Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Extend existing files before adding new ones.
 
+Give each complex subsystem whose behavior spans many files, such as authentication, authorization, or deployment, one knowledge file that connects its code: entry points, owning files, how they hand off, invariants, and where each kind of change lands. Name files and symbols; never copy their code. Create it when work had to trace the subsystem across files; search `agents/knowledge/` first and extend the subsystem's file instead of spreading it across topic files.
+
 ### Plans
 
 `agents/plans/` holds execution state: goal, decisions, open questions, risks, and ordered tasks with checkpoints. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal, or state them before implementation when no plan is warranted.
