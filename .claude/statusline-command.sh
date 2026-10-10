@@ -3,7 +3,28 @@
 # windows shown as "remaining (surplus vs even-burn pace) time-to-reset".
 # Everything happens in one jq pass so each redraw costs a single process.
 
-exec jq -r '
+settings="$HOME/.claude/settings.json"
+[ -r "$settings" ] || settings=/dev/null
+
+exec jq -r --slurpfile st "$settings" '
+  # Context use against the effective window. Claude Code reports
+  # used_percentage relative to context_window_size (e.g. 1M), but
+  # autoCompactWindow caps the usable window (e.g. 200k), so rescale tokens
+  # against the smaller of the two.
+  def ctx:
+    (.context_window // {}) as $cw
+    | ($cw.context_window_size // null) as $size
+    | ($st[0].autoCompactWindow // null) as $ac
+    | (if ($size | type) == "number" and ($ac | type) == "number" then ([$size, $ac] | min)
+       else ($size // $ac) end) as $win
+    | (if ($cw.used_percentage | type) == "number" and ($size | type) == "number"
+         then ($cw.used_percentage * $size / 100)
+       else null end) as $tok
+    | if ($tok | type) == "number" and ($win | type) == "number" and $win > 0
+        then ($tok * 100 / $win | round)
+      elif ($cw.used_percentage | type) == "number" then ($cw.used_percentage | round)
+      else null end;
+
   def cap: if . == "" then "" else (.[0:1] | ascii_upcase) + (.[1:] | ascii_downcase) end;
 
   # Colour unless NO_COLOR is set. Only the separators and the surplus carry
@@ -35,7 +56,7 @@ exec jq -r '
   [
     (.model.id // "" | ltrimstr("claude-") | split("-")[0] // "" | cap),
     (.effort.level // "" | cap),
-    (pct(.context_window.used_percentage) | if . == null then empty else "CTX \(.)%" end),
+    (ctx | if . == null then empty else "CTX \(.)%" end),
     window(.rate_limits.five_hour.used_percentage;
            .rate_limits.five_hour.resets_at; 18000; false),
     window(.rate_limits.seven_day.used_percentage;

@@ -79,7 +79,6 @@
       "effortLevel": "high"
     }
   },
-  "autoCompactWindow": 200000,
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "showClearContextOnPlanAccept": true,

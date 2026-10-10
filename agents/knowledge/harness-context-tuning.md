@@ -166,7 +166,6 @@ These keys do nothing in project `.claude/settings.json`. They take effect only 
 
 These keys shrink conversation growth, not the prefix. That growth dominates in long sessions; see [Subscription Priorities](#subscription-priorities).
 
-- `autoCompactWindow: 200000`: compact at 200k instead of near the 1M window.
 - `bashOutputMaxChars: 8000`: default 30000. Overflow is saved to a file. This stacks with the rtk hook.
 - `respondToBashCommands: false`: `!` output enters context without a model reply.
 - `showClearContextOnPlanAccept: true`: offers a fresh context when approving a plan.
