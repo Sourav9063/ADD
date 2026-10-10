@@ -158,7 +158,7 @@
   "disableAgentView": true,
   "disableRemoteControl": true,
   "disableWorkflows": true,
-  "disableArtifact": true,
+  "enableArtifact": false,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"

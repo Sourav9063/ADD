@@ -41,14 +41,14 @@
   "disableAgentView": true,
   "disableRemoteControl": true,
   "disableWorkflows": true,
-  "disableArtifact": true,
+  "enableArtifact": false,
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline-command.sh"
   },
   "effortLevel": "medium",
   "modelSettings": {
-    "claude-opus-5": {
+    "claude-opus-5-5": {
       "effortLevel": "medium"
     }
   },

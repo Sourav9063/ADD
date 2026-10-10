@@ -1,6 +1,6 @@
 # Harness Context Tuning
 
-What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update).
+What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update). Settings rechecked against the changelog through 2.1.296 on 2026-10-10; see [2026-10-10 Changelog Review](#2026-10-10-changelog-review).
 
 Supersedes two earlier passes. See [Superseded Findings](#superseded-findings) before trusting any older number.
 
@@ -88,7 +88,7 @@ Finer per entry attribution is unmeasured and needs one restart per probe.
 
 Denying a bare tool name removes its definition only when that tool would otherwise load, so value concentrates in a few entries. A scoped rule such as `Read(./secrets/**)` blocks use and saves nothing.
 
-Do not deny `ToolSearch`, `TaskOutput`, or `TaskStop`. The first loads deferred tools; the other two are needed for background Bash.
+Do not deny `ToolSearch` or `TaskStop`. The first loads deferred tools; the second stops background Bash. `TaskOutput` was removed in 2.1.277.
 
 ## Confirmed Non-Levers
 
@@ -170,6 +170,18 @@ These keys shrink conversation growth, not the prefix. That growth dominates in 
 - `respondToBashCommands: false`: `!` output enters context without a model reply.
 - `showClearContextOnPlanAccept: true`: offers a fresh context when approving a plan.
 - `promptCacheTtl: "1h"`: fewer cache misses across breaks, at a higher write price. This is cost, not tokens.
+
+## 2026-10-10 Changelog Review
+
+Claude Code 2.1.296. Checked against the changelog from 2.1.281 and the settings and env var references; no token effects were measured.
+
+- **`autoCompactWindow` is unset by user choice.** Opus 5.5, Sonnet 5.5 (2.1.284), and Haiku 5.5 (2.1.293) default to 1M windows, so compaction now runs near 1M and per-turn cost grows with it; see [Subscription Priorities](#subscription-priorities). To cap again, set `autoCompactWindow` (100000 to 1000000), run `/autocompact` (saves to `modelSettings.<model>.autoCompactWindow` from 2.1.288, which wins over the top-level key), or set `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`.
+- **Status line `used_percentage` is relative to `context_window_size`,** which is 1M on these models. Rescale only when a compact cap is set.
+- **`permissions.defaultMode: "auto"` is now the interactive default** (2.1.284). Keep it explicit so the config does not depend on that default.
+- **`subagentPromptCacheTtl` stays unset.** It covers subagents, compaction, and helper requests. Subagents are short-lived, so a 1h write rarely pays back.
+- **`skillListingBudgetFraction` defaults to 1% of the context window,** so a 1M window allows a 10k skill listing where 200k allowed 2k. The listing costs only what the skills need; unmeasured whether it grew.
+- **`CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL` (2.1.296) is not set.** `disableWorkflows` is on, and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` already covers workflow agents.
+- **The `.claude/settings.ask.json` and `.claude/settings.rc.json` variants** now use `enableArtifact: false` in place of the deprecated `disableArtifact`, and `.claude/settings.rc.json` targets `claude-opus-5-5`.
 
 ## Prefix Cost Model
 
