@@ -94,6 +94,7 @@
   },
   "preferredNotifChannel": "auto",
   "autoCompactEnabled": true,
+  "idleCompaction": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true
 }

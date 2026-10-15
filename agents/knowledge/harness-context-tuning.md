@@ -1,6 +1,6 @@
 # Harness Context Tuning
 
-What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update). Settings rechecked against the changelog through 2.1.296 on 2026-10-10; see [2026-10-10 Changelog Review](#2026-10-10-changelog-review).
+What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update). Settings rechecked against the changelog through 2.1.296 on 2026-10-10; see [2026-10-10 Changelog Review](#2026-10-10-changelog-review). Rechecked through 2.1.300 on 2026-10-15; see [2026-10-15 Changelog Review](#2026-10-15-changelog-review).
 
 Supersedes two earlier passes. See [Superseded Findings](#superseded-findings) before trusting any older number.
 
@@ -182,6 +182,16 @@ Claude Code 2.1.296. Checked against the changelog from 2.1.281 and the settings
 - **`skillListingBudgetFraction` defaults to 1% of the context window,** so a 1M window allows a 10k skill listing where 200k allowed 2k. The listing costs only what the skills need; unmeasured whether it grew.
 - **`CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL` (2.1.296) is not set.** `disableWorkflows` is on, and `CLAUDE_CODE_SUBAGENT_MODEL_FORCE` already covers workflow agents.
 - **The `.claude/settings.ask.json` and `.claude/settings.rc.json` variants** now use `enableArtifact: false` in place of the deprecated `disableArtifact`, and `.claude/settings.rc.json` targets `claude-opus-5-5`.
+
+## 2026-10-15 Changelog Review
+
+Claude Code 2.1.300. Checked against the changelog from 2.1.291; no token effects were measured.
+
+- **`idleCompaction: true` is explicit** (2.1.299, default on). A conversation over 200K left idle about 54 minutes is compacted before the 1h prompt cache expires, so the next message reads a summary instead of re-writing the full context. It pairs with `promptCacheTtl: "1h"` and the uncapped 1M window. `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the 200K minimum; unset. Not yet added to the `.claude/settings.ask.json` and `.claude/settings.rc.json` variants.
+- **The rtk hook keeps the default `onFailure`** (2.1.295). `onFailure: "block"` would block every Bash call when `rtk` is missing or fails. From 2.1.300, hook `updatedInput` is validated like model input; the rtk rewrite only changes `command`, so it is unaffected.
+- **Subagent effort can now be set per call.** The Agent tool takes an `effort` parameter (2.1.292), and subagent frontmatter takes `autoCompactWindow` (2.1.296). Whether `modelSettings["claude-sonnet-5-5"].effortLevel` applies to subagents without either is still unverified.
+- **`CLAUDE_CODE_DISABLE_FILE_MENTIONS` stays unset** (2.1.299). It sends `@` mention paths instead of contents, so the model spends an extra Read turn to get the same tokens.
+- **No change needed for:** MCP allow-rule narrowing (2.1.299; no MCP rules here, connectors off), gzip request bodies (2.1.300; default on), and Haiku 5.5 as the default Haiku (2.1.293; already in `modelSettings`).
 
 ## Prefix Cost Model
 
