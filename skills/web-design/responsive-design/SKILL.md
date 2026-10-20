@@ -69,6 +69,11 @@ margins with a visible radius; a button glued to three edges reads as system chr
 clips against curved corners. Edge-to-edge is correct only when it is deliberately platform
 chrome.
 
+A fixed bottom bar also needs space reserved in the scrolling content for its full rendered
+height, including safe-area padding. Otherwise the final row and its actions disappear
+under the bar. Account for wrapped labels and enlarged text rather than assuming a fixed
+height; use scroll padding where needed so focused controls can scroll clear of the chrome.
+
 ## Hidden content needs an affordance
 
 Hiding complexity is good. Hiding it with no cue is a trap.

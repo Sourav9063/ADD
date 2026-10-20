@@ -1,3 +1,5 @@
+> Status: historical draft. The live guidance is `AGENTS_STANDALONE.md` at the repository root. Its 2026-10-20 refinements supersede this draft on verification evidence, test expectations, task decomposition, safety assumptions, performance claims, and mechanical reinforcement; those additions were subsequently compacted without changing behavior. The live communication skill also requires approval before edits in response to any question.
+
 ## Spec-Driven Development
 
 Use SDD for non-trivial work. First read relevant files in `agents/knowledge/`, `agents/plans/`, and `agents/MEMORY.md`.

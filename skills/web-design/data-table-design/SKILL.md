@@ -15,7 +15,7 @@ must agree with each other.
 - **Right-align numbers, left-align text, and use tabular figures** (`font-variant-numeric: tabular-nums`) so digits stack on one baseline. Proportional digits jitter and defeat scanning.
 - Align decimals and use consistent precision within a column. Units in the header, not repeated in every cell.
 - Dates: one format per table, absolute for records, relative only for recent activity, with the absolute value on hover/title.
-- Truncate long text with an ellipsis and expose the full value in a tooltip or expanded row; never wrap one column into three lines while its neighbors sit on one.
+- In the wide layout, truncate long text with an ellipsis and expose the full value in a tooltip or expanded row, keeping row heights consistent. Narrow layouts follow the responsive rules below; exact amounts follow `typography-design`.
 - Show 5–8 columns by default and put the rest behind a column-picker.
 
 ## Header and scrolling
@@ -41,8 +41,9 @@ does not look starved when compact.
 
 - Make the whole row a selection target (row tint + accent left bar + checkbox), not a 16px checkbox.
 - Header checkbox is tri-state: empty → **indeterminate** (dash) → checked. Clicking it from the indeterminate state selects everything; it never clears. Users reach for it to finish a partial selection, not to undo one.
-- "Select all" selects the current page. If more exist, offer the explicit escalation: *"All 25 on this page selected. Select all 1,248?"*
+- "Select all" selects the current page. If more exist, offer the explicit escalation: *"All 25 on this page selected. Select all 1,248 matching records?"*
 - Selection state persists across pagination, and the count is always visible.
+- When filters change, clear selection or reconcile it with the new matching set, then update selected and matching counts before allowing a bulk action. Never silently extend selection to newly matching rows.
 - Bulk actions live in a bar that appears on first selection, showing the count, the actions, and a Clear. It announces the count when it appears, and every action names what it applies to ("Delete 12 selected files"). For reversible deletion, echo the exact count, act immediately, and offer Undo for 5–10 seconds; confirm only irreversible actions (`destructive-actions`).
 - Selection lives in application state, not the DOM, so it survives pagination, sorting, and re-render. Shift-click selects a range.
 - Beyond ~3 bulk actions, move the rest into an overflow menu in the bar, with the destructive one separated at the bottom (`popover-and-menu`).
@@ -62,10 +63,15 @@ does not look starved when compact.
 
 ## Responsive
 
-Do not shrink a 10-column table to 375px. Below ~768px, switch to stacked cards with a
-label-value pair per field, or keep a two-column summary table with an expandable detail
-row. Horizontal scroll is acceptable only with a frozen first column and a visible scroll
-affordance.
+Adapt when the columns stop fitting, using `responsive-design`'s content-driven breakpoint.
+For reading one record at a time, use stacked cards with explicit field labels or a summary
+row with expandable detail. Keep identity, status, the decision-driving value, and actions
+reachable; do not discard fields to make the layout fit.
+
+When comparing across rows requires the table, keep it in its own horizontal scroll
+container with a frozen identifying column and a visible scroll affordance. The surrounding
+page still reflows, and text inside individual cells must wrap or expand accessibly. Keep
+selection, sort, and pagination state when switching presentations.
 
 ## Pagination
 

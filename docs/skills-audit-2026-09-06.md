@@ -41,7 +41,7 @@ The password reveal button combines a changing label with `aria-pressed`. Choose
 
 | Conflict | Proposed owner and resolution |
 | --- | --- |
-| `communication` treats question-shaped language as read-only, even when it expresses a request | `communication` owns request intent and the read-only default for analysis, proposals, and genuine ambiguity; phrase cues are evidence, not the rule. `engineering` owns scope once action is authorized. |
+| The audit proposed inferring authorization from question-shaped requests | Superseded by the user's 2026-10-20 correction. `communication` keeps all questions read-only, including rhetorical or suggestive ones, until the user approves. `engineering` owns scope once action is authorized. |
 | SDD says commit at task boundaries; engineering says commit when authorized | SDD should say “when committing is authorized.” Checkpoints need not be commits. |
 | `visual-direction` bans initials avatars; `avatar` makes initials the normal fallback | `avatar` owns identity fallbacks. Visual direction should prohibit fabricated customer identity only. |
 | `ui-composition` bans navigation in blocking overlays; command palettes and mobile navigation use modal behavior | Choose modality by interaction requirements. Permit navigation in accessible modal navigation surfaces. |
@@ -86,7 +86,7 @@ Do not add more broad skills yet. Testing, security, architecture, and reliabili
 | Skill | Verdict and proposed change |
 | --- | --- |
 | [coding](../skills/agent-driven-development/coding/SKILL.md) | Refine. Retain behavior tests, boundary parsing, cleanup, cancellation, and YAGNI. Soften boolean-parameter, three-parameter, third-duplication, and mocking rules into context-dependent heuristics. Distinguish test types: controlled integration tests can use real services. Avoid requiring a wrapper solely to mock it. |
-| [communication](../skills/agent-driven-development/communication/SKILL.md) | Refine. Make terse grammar an explicit preference instead of a universal session mode. Keep request intent and the read-only default here; distinguish “can you fix” from analysis and proposal cues, and defer scope after authorization to `engineering`. |
+| [communication](../skills/agent-driven-development/communication/SKILL.md) | Refine. Make terse grammar an explicit preference instead of a universal session mode. The request-authorization proposal was superseded by the user's 2026-10-20 correction: keep all questions read-only until approval, including “can you fix” and rhetorical or suggestive questions. Defer scope after authorization to `engineering`. |
 | [engineering](../skills/agent-driven-development/engineering/SKILL.md) | Retain and extend narrowly. Add conditional rollout and production verification; clarify safe replay. Make untrusted-source handling cover all embedded instructions, not only directives leading to destructive or external actions. |
 | [project-memory](../skills/agent-driven-development/project-memory/SKILL.md) | Refine. Scope each stored rule and retain its evidence when rediscovery is costly. Do not merge by “strictest” if that changes the original applicability. Compress without silently broadening policy. |
 | [spec-driven-development](../skills/agent-driven-development/spec-driven-development/SKILL.md) | Refine. Tie acceptance criteria to checks, qualify commit authority, and distinguish intended behavior from current buggy executable behavior. Add meaningful-boundary wording to the trigger so file count alone does not cause planning overhead. |

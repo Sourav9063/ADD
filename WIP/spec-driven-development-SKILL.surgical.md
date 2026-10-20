@@ -1,4 +1,4 @@
-> Status: applied. The Source of Truth proposal landed in `skills/agent-driven-development/spec-driven-development/SKILL.md` through `sdd v2` and later audits, which reworded and extended it. Kept as a record of the proposal; the live skill wins wherever they differ.
+> Status: applied. The Source of Truth proposal landed in `skills/agent-driven-development/spec-driven-development/SKILL.md` through `sdd v2` and later audits, which reworded and extended it. The 2026-10-20 refinement adds behavioral task slices, dependencies, acceptance checks, and staged migrations to the live Plans section; those additions were subsequently compacted without changing behavior. Kept as a record of the proposal; the live skill wins wherever they differ.
 
 ---
 name: spec-driven-development

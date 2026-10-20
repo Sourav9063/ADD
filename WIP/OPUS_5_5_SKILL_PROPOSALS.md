@@ -2,6 +2,8 @@
 
 Status: parked. Applied once, then reverted: current agents work well without these changes. Revisit if an observed failure matches one below.
 
+Maintenance note (2026-10-20): the approved external-skill refinements changed the core targets independently of these parked proposals. The live `engineering` skill now ties verification to the resulting change; the external-source additions were subsequently compacted without changing behavior. The user reaffirmed `communication`'s strict questions-read-only rule; do not replace it with inferred authorization. These do not adopt the other proposals below; rebase any future edits on the live skills.
+
 Source: "Getting the most out of Opus 5.5 in Claude and Claude Code", Addy Osmani, claude.dev, 2026-09-22.
 
 ## Proposals
@@ -31,7 +33,7 @@ Each entry: target, proposed text, the article claim behind it, and the failure 
   > Keep going through steps that do not need the user. Put status notes in the same message as the next action; do not end a turn by naming the next step, offering to continue, or listing choices that do not block the work. Stop only when you cannot continue without the user, or before deleting data, force-pushing, or changing anything outside the repository.
 - Claim: on long tasks Opus 5.5 sometimes stops early to report: a summary naming the next step, an offer to continue, or choices that don't block the work. It follows instructions that name these stops.
 - Apply if: runs end with "Want me to continue?" often.
-- Conflict to check: `communication` › Request Intent intentionally stops on ambiguous intent. Keep that stop.
+- Conflict to check: `communication` › Questions Are Read-Only requires approval before edits in response to a question, including rhetorical or suggestive ones. Keep that stop.
 
 ### 4. Shape of the end-of-run summary
 

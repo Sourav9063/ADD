@@ -29,4 +29,4 @@
 
 ## Audit Follow-Up
 
-The 2026-09-06 audit (`docs/skills-audit-2026-09-06.md`) was applied as a focused correctness pass: authentication, accessibility, replay safety, contradictory UI rules, and request-intent and commit-authority clarifications, with no new stack prescriptions and shorter combined skill bodies. Broad taste edits, catalog restructuring, extra lifecycle machinery, and other proposals were deferred.
+The 2026-09-06 audit (`docs/skills-audit-2026-09-06.md`) was applied as a focused correctness pass: authentication, accessibility, replay safety, contradictory UI rules, and request-authorization and commit-authority clarifications, with no new stack prescriptions and shorter combined skill bodies. The user superseded the request-authorization interpretation on 2026-10-20: preserve `communication`'s strict questions-read-only rule until approval. Broad taste edits, catalog restructuring, extra lifecycle machinery, and other proposals were deferred.

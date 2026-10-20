@@ -2,7 +2,9 @@
 
 Status: complete. The audit records pre-change findings; its opening now links here to distinguish proposed work from implemented corrections.
 
-Scope: apply the highest-impact corrections from `docs/skills-audit-2026-09-06.md` with short replacements. Preserve core ADD except request-intent and commit-authority clarifications. Keep reusable guidance framework-neutral; retain existing project profiles with narrower applicability. No catalog restructure or new workflow machinery.
+The request-authorization interpretation below was superseded by the user's 2026-10-20 correction: all questions remain read-only until approval, including rhetorical or suggestive ones. The live `communication` skill owns that boundary.
+
+Scope: apply the highest-impact corrections from `docs/skills-audit-2026-09-06.md` with short replacements. Preserve core ADD except request-authorization and commit-authority clarifications. Keep reusable guidance framework-neutral; retain existing project profiles with narrower applicability. No catalog restructure or new workflow machinery.
 
 1. Correct authentication, accessibility, replay safety, and contradictory UI rules.
 2. Align the two core changes with the standalone bundle; leave generated README workflow-owned and installed skill sync user-owned.

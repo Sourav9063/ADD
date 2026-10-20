@@ -79,7 +79,14 @@ take the page with it (`feedback-design`).
 ## Density, responsive, and accessibility
 
 - Density is a deliberate choice per audience; a monitoring wall and a laptop review are not the same screen. Offer a comfortable/compact toggle rather than shipping one cramped default (`responsive-design`).
-- Reflow to a single column in importance order below the breakpoint, and never rely on hover for anything required to read a widget - that information does not exist on touch.
+- Reflow widget regions in importance order as space narrows; compact KPI groups follow the mobile reading path below. Never rely on hover for anything required to read a widget - that information does not exist on touch.
 - Headings give the dashboard a real structure so a screen reader can navigate widget by widget; each widget is a labeled region.
 - Numbers, deltas, and statuses are readable as text without the chart: state the finding in the header or a visually hidden summary, and expose the table (`chart-design`).
 - Status colors carry an icon and a word. A red tile is meaningless to a colorblind user and to anyone glancing from across the room.
+
+## Mobile reading path
+
+- Keep the dashboard's main answer and active time range ahead of supporting detail. Paired KPI tiles work only while the longest values and labels fit; stack them when they stop fitting rather than shrinking their text.
+- Adapt record widgets through `data-table-design` and chart widgets through `chart-design`. Preserve the comparison or decision each widget supports, and keep detail reachable when reducing what is shown at once.
+- Use `navigation-design` for the mobile navigation pattern and `search-and-filter-design` with `drawer-and-sheet` when filters move into a sheet. Keep the applied range and filters evident after the controls move.
+- Check large and negative amounts through `typography-design`, focused fields through `text-input`, and bottom-bar clearance through `responsive-design`. Test a real phone with the keyboard open and the final record scrolled into view.

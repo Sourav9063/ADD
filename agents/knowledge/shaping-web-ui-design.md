@@ -13,17 +13,17 @@ against. Its categories - interaction, forms, motion, visual, feedback, navigati
 skill or add one. It is a catalog, not an authority: it states rules without citations, so
 confirm anything load-bearing against the tiers below.
 
-**Re-checking the catalog: skip every pattern listed under "Covered patterns" below and
-review only names that are not on that list.** Each covered page was read in full, not
-skimmed from its tagline, and its concrete rules were merged into the owning skill. Read
-the individual page before concluding a pattern is covered - the taglines and category
-names hide the numbers, thresholds, and sub-rules that are the reason to consult it.
+Use the sitemap to discover new patterns, then review their individual pages. Previously
+covered pages need re-reading when their content changes or the user identifies a possible
+gap. Unchanged counts, URLs, and `lastmod` values do not establish unchanged content or
+cover additions elsewhere on the site. Read the relevant section before concluding it is
+covered; taglines alone hide the concrete rules.
 
 Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on the obvious
 slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
 `/patterns/von-restorff`.
 
-Re-checked on 2026-09-27 (last full read 2026-09-21): its sitemap still lists the same 76 pattern pages, with the
+Re-checked on 2026-10-20 (last full read 2026-09-21): its sitemap still lists the same 76 pattern pages, with the
 newest three unchanged since 2026-09-07 - CSS Has Selector (`/patterns/css-has-selector`),
 De-AI Landing Hero (`/patterns/de-ai-landing-hero`), and Reverse-Engineered Linear
 (`/patterns/reverse-engineered-linear`), all merged in the 2026-09-13 audit. Check it the
@@ -40,8 +40,26 @@ un-split lines misses entries. Sort by `lastmod` to see only what is new.
 
 ## Covered patterns
 
+The 2026-10-20 sitemap comparison found no new URLs or newer `lastmod` values. A spot check
+of [Bulk Actions](https://designmotionhq.com/patterns/bulk-actions) found one underspecified
+rule: matching counts must track filter changes. `data-table-design` now makes the
+all-matching scope explicit and requires clearing or reconciling selection before bulk
+actions after a filter change. This was a targeted spot check, not a full page-by-page audit.
+
+A follow-up on mobile dashboards found a separate
+[Responsive overview](https://designmotionhq.com/#:~:text=Responsive.) on the homepage,
+outside the pattern catalog. It names tables, amounts, inputs, touch targets, and bottom
+bars below 640px, but does not publish the skill's full rules. Our mobile additions are
+original synthesis: `dashboard-design` owns the mobile reading path, `data-table-design`
+owns record adaptation, `typography-design` owns amount wrapping, and `responsive-design`
+owns clearance around fixed bars. Existing input sizing, target sizes, and navigation
+contracts stay with their owners. Preserve content-driven breakpoints rather than adopting
+640px as a universal cutoff. Check table reflow against
+[WCAG Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html) and fixed chrome
+against [Focus Not Obscured](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html).
+
 All 76 patterns published as of 2026-09-21, by owning skill after the 2026-09-13
-audit. Nothing here needs re-reading unless the page itself changes.
+audit. This records that audit's coverage; use the re-checking rule above for later reviews.
 
 - **design-foundations** (12): Design Tokens · Design System Kit · Shadow Elevation · Depth Layers · Border Radius · Visual Hierarchy · Proximity Rule · Gestalt Laws · Serial Position · Grid System · Focus States · CSS Has Selector (`design-foundations`, also informing `checkbox-and-radio`, `form-design`, `card`, and `modal-dialog`)
 - **form-design and its controls** (16): Form Field States · Form Validation Timing · Settings System · Autosave · Stepper Wizard · Inline Editing · Input Masking (`form-design`) · Date Pickers (`date-picker`) · File Upload UX (`file-upload`) · Password Field UX (`password-input`) · OTP Input (`otp-input`) · Toggle Anatomy (`toggle-switch`) · Range Sliders (`slider`) · Star Rating and Color Picker UX (`form-design`) · Zeigarnik Effect (`onboarding-design`)

@@ -79,6 +79,13 @@ every update. Apply `font-variant-numeric: tabular-nums` to any value that chang
 any column of figures. In tables, numbers align to the trailing edge and text to the
 leading edge.
 
+Keep a monetary amount's sign, digits, and currency together when they fit; let the
+surrounding label wrap first. Test long localized and negative values before choosing a
+tile width. When an exact amount will not fit, widen or reflow its container rather than
+clipping digits, inserting an ellipsis, or shrinking the type. Compact notation belongs on
+overview metrics with the exact value reachable; retain exact amounts for invoices and
+other records used to make financial decisions.
+
 Truncate with `text-overflow: ellipsis` on one line, `line-clamp` on several. Truncation
 hides content, so when the hidden text matters, keep the full value reachable through a
 tooltip, a title attribute, or an expanded view. A clamp with no way to expand is data

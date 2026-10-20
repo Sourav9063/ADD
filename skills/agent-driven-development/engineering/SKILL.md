@@ -42,6 +42,7 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For state transitions, preserve and verify inverse and recovery behavior when the contract supports it.
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Choose the verification surface: which behaviors must be encoded in tests, types, schemas, or assertions, and at which seam they stay observable.
+- Test critical safety assumptions against real code and dependency versions in use; report unproven assumptions.
 - When the requested work creates or changes duplicated knowledge, consolidate it at the narrowest shared seam within scope using `coding`. Mention unrelated duplication without expanding the task.
 
 ### Scope
@@ -58,7 +59,8 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For multi-step work, give a brief plan and explicit success checks.
 - Run the narrowest relevant verification first; choose focused tests, lint, typecheck, or build based on the changed seam, then broaden only as risk warrants.
 - Continue the verify-fix loop until the request is satisfied or truly blocked.
-- Never claim a check passed unless it ran; report passed, failed, and skipped checks explicitly.
+- Claim passes only from actual runs; report scope and passed, failed, or skipped status. Rerun checks invalidated by edits.
+- Benchmark equivalent workloads and configurations; verify successful work and correct outputs, repeat runs, and report variation and end-to-end impact.
 - Assume every change will be rigorously reviewed by a senior engineer.
 - Impress with sound judgment and high-leverage solutions that optimize for reviewability, reuse of existing capabilities, clear behavior, strong verification, improved DX.
 
