@@ -38,6 +38,8 @@ Record only what is costly to rediscover. Update the owning file when verified w
 
 Create or update a precisely named `.md` file, after a repository search, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
 
+Prefer tasks delivering one observable behavior across layers; name dependencies and acceptance checks. Stage compatibility when migrations cannot land safely in behavioral slices.
+
 Before writing:
 
 1. Resolve minor details through code investigation and judgment.

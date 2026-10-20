@@ -79,7 +79,8 @@ Treat smells as heuristics; repository standards prevail. Leave lint-enforced st
 ### Testing
 
 - Test observable behavior at the seam rather than implementation detail, one coherent behavior per test.
-- Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not.
+- Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not. Confirm failure exposes the intended defect.
+- Derive expectations from requirements or worked examples, never the implementation.
 - Keep tests fast, isolated, and deterministic: no sleeps, no uncontrolled shared state, no uncontrolled network or external service.
 - Cover realistic negative and edge cases for changed behavior; for behavior-preserving refactors, strengthen coverage when risk warrants.
 - Before refactoring poorly understood code, capture relevant current behavior in characterization tests; distinguish observed behavior from intended correctness.

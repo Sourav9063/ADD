@@ -18,6 +18,8 @@ Learn inside the session, not after it:
 
 A repeated correction is a memory failure, not a one-off: record it that session in wording strict enough that the behavior cannot recur, and say that you did.
 
+Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope.
+
 Record the rule, not the incident: one imperative line naming the trigger and the required or forbidden behavior, for example "Do not add explanatory comments; let names and structure carry intent." Drop apology, narration, and rationale that does not change when the rule applies. Update stale or conflicting entries: a user overriding a rule is a signal too, so narrow the entry to its real scope or delete it, and say which. Never store task details, guesses, implementation specifics, or secrets; domain facts go to `agents/knowledge/`, execution state to `agents/plans/`.
 
 ### Compression
