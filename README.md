@@ -291,6 +291,8 @@ Record only what is costly to rediscover. Update the owning file when verified w
 
 Create or update a precisely named `.md` file, after a repository search, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
 
+Prefer tasks delivering one observable behavior across layers; name dependencies and acceptance checks. Stage compatibility when migrations cannot land safely in behavioral slices.
+
 Before writing:
 
 1. Resolve minor details through code investigation and judgment.
@@ -324,6 +326,8 @@ Learn inside the session, not after it:
 4. Apply it for the rest of the session.
 
 A repeated correction is a memory failure, not a one-off: record it that session in wording strict enough that the behavior cannot recur, and say that you did.
+
+Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope.
 
 Record the rule, not the incident: one imperative line naming the trigger and the required or forbidden behavior, for example "Do not add explanatory comments; let names and structure carry intent." Drop apology, narration, and rationale that does not change when the rule applies. Update stale or conflicting entries: a user overriding a rule is a signal too, so narrow the entry to its real scope or delete it, and say which. Never store task details, guesses, implementation specifics, or secrets; domain facts go to `agents/knowledge/`, execution state to `agents/plans/`.
 
@@ -369,6 +373,7 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For state transitions, preserve and verify inverse and recovery behavior when the contract supports it.
 - Understand why code exists before removing it. Preserve behavior and interfaces unless the task or approved plan changes them. When a task authorizes a public interface change, prefer additive or versioned changes with a deprecation path over breaking removal.
 - Choose the verification surface: which behaviors must be encoded in tests, types, schemas, or assertions, and at which seam they stay observable.
+- Test critical safety assumptions against real code and dependency versions in use; report unproven assumptions.
 - When the requested work creates or changes duplicated knowledge, consolidate it at the narrowest shared seam within scope using `coding`. Mention unrelated duplication without expanding the task.
 
 ### Scope
@@ -385,7 +390,8 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For multi-step work, give a brief plan and explicit success checks.
 - Run the narrowest relevant verification first; choose focused tests, lint, typecheck, or build based on the changed seam, then broaden only as risk warrants.
 - Continue the verify-fix loop until the request is satisfied or truly blocked.
-- Never claim a check passed unless it ran; report passed, failed, and skipped checks explicitly.
+- Claim passes only from actual runs; report scope and passed, failed, or skipped status. Rerun checks invalidated by edits.
+- Benchmark equivalent workloads and configurations; verify successful work and correct outputs, repeat runs, and report variation and end-to-end impact.
 - Assume every change will be rigorously reviewed by a senior engineer.
 - Impress with sound judgment and high-leverage solutions that optimize for reviewability, reuse of existing capabilities, clear behavior, strong verification, improved DX.
 
@@ -466,7 +472,8 @@ Treat smells as heuristics; repository standards prevail. Leave lint-enforced st
 ### Testing
 
 - Test observable behavior at the seam rather than implementation detail, one coherent behavior per test.
-- Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not.
+- Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not. Confirm failure exposes the intended defect.
+- Derive expectations from requirements or worked examples, never the implementation.
 - Keep tests fast, isolated, and deterministic: no sleeps, no uncontrolled shared state, no uncontrolled network or external service.
 - Cover realistic negative and edge cases for changed behavior; for behavior-preserving refactors, strengthen coverage when risk warrants.
 - Before refactoring poorly understood code, capture relevant current behavior in characterization tests; distinguish observed behavior from intended correctness.
