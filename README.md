@@ -325,9 +325,11 @@ Learn inside the session, not after it:
 3. Write the rule before resuming the task the signal interrupted.
 4. Apply it for the rest of the session.
 
-A repeated correction is a memory failure, not a one-off: record it that session in wording strict enough that the behavior cannot recur, and say that you did.
+A repeated correction is a memory failure, not a one-off: record or refine the rule that session and say that you did. Check whether the existing rule was loaded, understood, applicable, and consistent with other instructions; fix the demonstrated cause rather than merely strengthening wording or duplicating guidance.
 
-Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope.
+Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope. Verify that added enforcement rejects a representative invalid case and accepts the intended valid case, then remove prose it makes redundant.
+
+Keep inferred lessons within their verified scope. Repeated existing patterns alone do not establish a preference; promote a local lesson beyond its project only by explicit decision. Record explicit user preferences immediately; uncertain inferences remain investigation, not binding memory.
 
 Record the rule, not the incident: one imperative line naming the trigger and the required or forbidden behavior, for example "Do not add explanatory comments; let names and structure carry intent." Drop apology, narration, and rationale that does not change when the rule applies. Update stale or conflicting entries: a user overriding a rule is a signal too, so narrow the entry to its real scope or delete it, and say which. Never store task details, guesses, implementation specifics, or secrets; domain facts go to `agents/knowledge/`, execution state to `agents/plans/`.
 
@@ -388,7 +390,10 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 ### Execution
 
 - For multi-step work, give a brief plan and explicit success checks.
+- When parallel editing is authorized, assign disjoint write ownership and serialize edits to shared files.
+- Track processes and temporary state you create for verification; clean up only what you own and preserve existing user sessions.
 - Run the narrowest relevant verification first; choose focused tests, lint, typecheck, or build based on the changed seam, then broaden only as risk warrants.
+- Verify changed behavior through the interface its users exercise, including relevant side effects; state what each check establishes and what remains unverified.
 - Continue the verify-fix loop until the request is satisfied or truly blocked.
 - Claim passes only from actual runs; report scope and passed, failed, or skipped status. Rerun checks invalidated by edits.
 - Benchmark equivalent workloads and configurations; verify successful work and correct outputs, repeat runs, and report variation and end-to-end impact.
@@ -471,8 +476,8 @@ Treat smells as heuristics; repository standards prevail. Leave lint-enforced st
 
 ### Testing
 
-- Test observable behavior at the seam rather than implementation detail, one coherent behavior per test.
-- Work red, green, refactor; reproduce a bug with a failing test before fixing it where practical, and say so when it is not. Confirm failure exposes the intended defect.
+- Test observable behavior at the seam rather than implementation detail, one coherent behavior per test. Assess whether a plausible behavioral regression would fail the test and a behavior-preserving internal change would leave it passing.
+- Complete one behavior's red-green-refactor cycle before adding the next; let each result inform the next test. Reproduce a bug with a failing test before fixing it where practical, and say so when it is not. Confirm failure exposes the intended defect.
 - Derive expectations from requirements or worked examples, never the implementation.
 - Keep tests fast, isolated, and deterministic: no sleeps, no uncontrolled shared state, no uncontrolled network or external service.
 - Cover realistic negative and edge cases for changed behavior; for behavior-preserving refactors, strengthen coverage when risk warrants.
