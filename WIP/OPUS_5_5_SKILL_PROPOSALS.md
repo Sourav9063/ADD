@@ -4,6 +4,8 @@
 
 Status: parked. Applied once, then reverted: current agents work well without these changes. Revisit if an observed failure matches one below.
 
+Adoption (2026-11-08): [the WIP refinement plan](../agents/plans/wip-guidance-refinements.md) applies proposal 7's reproducible-finding requirement, preserving all severity levels and distinguishing observed evidence from reasoned risks. The Side Finding is resolved by a pointer from landing-page-design to visual-direction. Other proposals stay parked.
+
 Maintenance note (2026-10-20): the approved external-skill refinements changed the core targets independently of these parked proposals. The live `engineering` skill now ties verification to the resulting change; the external-source additions were subsequently compacted without changing behavior. The user reaffirmed `communication`'s strict questions-read-only rule; do not replace it with inferred authorization. These do not adopt the other proposals below; rebase any future edits on the live skills.
 
 Source: "Getting the most out of Opus 5.5 in Claude and Claude Code", Addy Osmani, claude.dev, 2026-09-22.

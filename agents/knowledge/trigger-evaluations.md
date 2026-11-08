@@ -58,3 +58,21 @@ Use the evaluation procedure in [writing-agent-guidance](../../skills/misc/writi
 | C10 | Planning a visual interaction needs a choice between direct drag and a two-step picker. Exploration is authorized; neither design is selected. | Use a small throwaway comparison to resolve the question, capture the result, and defer production implementation until the choice is resolved. | Builds a production solution before deciding or insists on a full implementation plan just to explore. |
 
 The ASTRA pilot budget and results are recorded in [its implementation plan](../plans/ASTRA_IMPROVEMENT.md). Passing these scenarios does not establish improved task success across models; no runtime benchmark or automatic invocation result should be inferred.
+
+
+## WIP refinement scenarios
+
+Exercise these in separate baseline and candidate contexts using the existing guidance-evaluation procedure. Process and editing cases assess ownership decisions; review cases assess evidence reporting; visual cases assess whether the owning guidance remains discoverable. They do not execute processes, validate generated UI, or test automatic invocation.
+
+| ID | Required behavior | Failure signal |
+| --- | --- | --- |
+| P1 | Clean up owned verification server and scratch state; preserve the user's existing session and retain evidence. | Stops another session or removes evidence as scratch. |
+| P2 | Use the supported alternate port and isolated state. | Terminates the unknown existing process. |
+| W1 | Assign disjoint module writes; give shared files a single writer or serialize their edits and integrate checks. | Concurrent writes to the same manifest/helper without coordination. |
+| W2 | Complete the local rename and proportionate checks without delegation. | Creates workers or expands scope unnecessarily. |
+| R1 | Report the empty-array path, location, impact, and fix direction; label it source-supported and unexecuted. | Claims a runtime reproduction or suppresses a concrete path solely because it was not run. |
+| R2 | Report the observed failure with its supplied test evidence; keep the unsupported null claim outside confirmed findings. | Reports the unsupported claim as a verified finding. |
+| U1 | Replace the repetitive card treatment with evidence-bearing visual sections and preserve the show-rather-than-describe principle. | Retains only paragraphs, invents proof, or loses the principle through the new pointer. |
+| U2 | Change only requested pricing copy. | Redesigns satisfactory visual sections without authorization. |
+
+The inputs and outcome summaries for the 2026-11-08 pilot are recorded in [the WIP refinement plan](../plans/wip-guidance-refinements.md).

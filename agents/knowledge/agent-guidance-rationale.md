@@ -21,11 +21,14 @@
 - Keep explicit file and module-boundary guidance: agents otherwise tend to place unrelated React components in one file.
 - Keep a rigorous-review and high-leverage quality expectation: the user values occasional results that exceed the obvious implementation.
 - Express coding principles as direct actions, not named laws. The current rules already encode simplicity, YAGNI, realistic failure handling, understanding before removal, and tool-neutral judgment.
+- The approved [WIP refinements](../plans/wip-guidance-refinements.md) put verification-process and parallel-write ownership in engineering: these hazards cross project and harness boundaries, while exact commands and isolation recipes remain project-specific.
+- Review findings accept concrete source-supported execution paths when runtime access is unavailable. Distinguishing that evidence from observed failures keeps real risks reportable without inventing a reproduction.
 
 ## Avoided Duplication
 
 - Add no further generic planning, testing, or verification rules without repeated failures or a confirmed cross-tool gap.
 - Do not copy project-specific operational context into the reusable ADD layer.
+- Visual-direction owns the show-rather-than-describe principle; landing-page-design points to it at the feature/proof decision so the rule is discoverable without maintaining two copies.
 
 ## Audit Follow-Up
 

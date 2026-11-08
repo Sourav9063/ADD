@@ -1,3 +1,5 @@
+> Maintenance (2026-11-08): [WIP refinements](../agents/plans/wip-guidance-refinements.md) add verification-process ownership and conditional parallel-write ownership to the live engineering skill. Rebase this draft on that owner.
+
 > Maintenance (2026-11-08): the [ASTRA plan](../agents/plans/ASTRA_IMPROVEMENT.md) updates this draft's live targets for scoped learning, repeated-correction diagnosis, enforcement evidence, behavioral verification, incremental tests, and guidance evaluation. Rebase future proposals on the canonical skills; this draft does not override those changes.
 
 > Status: historical draft. The live guidance is `AGENTS_STANDALONE.md` at the repository root. Its 2026-10-20 refinements supersede this draft on verification evidence, test expectations, task decomposition, safety assumptions, performance claims, and mechanical reinforcement; those additions were subsequently compacted without changing behavior. The live communication skill also requires approval before edits in response to any question.

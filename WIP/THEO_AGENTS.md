@@ -4,6 +4,8 @@
 
 Status: proposed
 
+Adoption (2026-11-08): [the WIP refinement plan](../agents/plans/wip-guidance-refinements.md) applies process/state ownership during verification and disjoint writes for authorized parallel edits in the canonical engineering skill. The remaining proposals retain their existing status.
+
 ## Source
 
 - Video: [I made Claude smarter by writing it a letter](https://www.youtube.com/watch?v=e1snsuY4lTI&t)

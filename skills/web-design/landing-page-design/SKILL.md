@@ -86,7 +86,7 @@ missing a feature grid.
 
 ## Rhythm and layout
 
-- **Show it rather than describing it.** A wall of feature cards, each a heading plus two sentences, is the default failure of a marketing page. Before writing a paragraph to explain something, check whether a visual with a caption carries it: a real chart for a speed claim, three panels for a three-step flow, an annotated screenshot for a feature. Prose earns its place in headlines, subheads, and captions.
+- For feature and proof sections, apply [visual-direction's Show, do not tell guidance](../visual-direction/SKILL.md#show-do-not-tell) to choose visuals that carry the argument.
 - Alternate section density: text-heavy, then visual, then short. A page of uniform blocks reads as one long block. Weight the vertical spacing by role too: the hero and the primary proof section get considerably more room than the connective ones.
 - Build and revise **section by section**, in the order of the argument. Regenerating the whole page on each iteration loses the parts that were already right and makes the diff unreviewable.
 - Generous vertical spacing between sections (64–120px desktop, 48–64px mobile) with tighter spacing inside them; proximity is what makes a section read as one idea.
