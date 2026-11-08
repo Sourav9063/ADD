@@ -45,6 +45,7 @@ is a dialog, belongs-to-one-control is inline.
 - Prefer **undo over confirm** for reversible destructive actions: perform it, show "Deleted. Undo" for 5-10 seconds with a visible countdown, and pause the timer on hover or focus (`toast`). Save the confirmation dialog for the genuinely irreversible.
 - Undo must be reachable by keyboard before the toast disappears; keep a permanent path (trash, history) as well.
 - **Back undo with a soft delete**: flag the record and keep it recoverable for a stated retention window, then hard-delete on expiry. An immediate hard delete makes the Undo button a lie the first time the request loses the race. Where the product has a real undo stack, wire ⌘Z to it.
+- For a send that cannot be recalled, offer undo through a visible delay before dispatch. Undo cancels the queued send; hiding the confirmation after delivery cannot retract it. Show pending, cancelled, and sent states from the actual dispatch status.
 - Optimistic UI is for cheap, reversible work. Payments and irreversible operations keep a truthful busy state and confirm only after the write commits.
 - Client validation provides fast feedback; it does not establish success. Revalidate on the server, show success only after related writes commit, and repaint IDs, totals, permissions, and other trusted values from the response rather than from what was sent.
 

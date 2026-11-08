@@ -36,10 +36,20 @@ Record the baseline so nothing disappears by accident:
 - analytics events, test IDs, and form field `name` and `id` values that integrations read;
 - brand assets, legal and compliance copy, and every factual claim or figure on the page.
 
+Capture the target before editing at representative widths and relevant states when it
+can be rendered. Compare after using the same content, viewport, theme, and state, so data
+or loading differences do not masquerade as design changes. If rendering is unavailable,
+state that limit rather than claiming a visual comparison.
+
 **Never change silently:** URLs, navigation labels, form field names, analytics hooks, the
 logo, legal copy, and product claims. Each is load-bearing outside the page: bookmarks and
 search ranking, muscle memory, autofill and integrations, reporting, trademark, and law.
 Change one only when the request authorizes it, and name each change in the report.
+
+Distinguish replacing a literal with an equivalent token from changing its rendered value.
+Snapping spacing to a nearby step or adding elevation changes appearance; it is not a
+visual no-op. Change shared tokens or component contracts only within the requested scope,
+and check other consumers when they are affected.
 
 ## Redesign: the old look is evidence, not authority
 

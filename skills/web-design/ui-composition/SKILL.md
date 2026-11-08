@@ -13,6 +13,9 @@ unclear, new, or supplied through a reference, and `design-refinement` when the 
 restyles, polishes, or tunes a screen that already ships. Select only the surface and component skills
 that materially affect this screen; their detailed contracts remain authoritative.
 
+For an audit or review, use the review mode below to inspect and report. Apply fixes when
+the request includes them.
+
 ## Discover the system already present
 
 Inspect the repository before proposing UI:
@@ -34,7 +37,7 @@ When no system exists, define the minimum tokens and primitives this screen need
 
 Before choosing layout, establish:
 
-- who uses the screen and the job they came to complete;
+- who uses the screen, how often, and the job they came to complete;
 - the single outcome that makes the screen successful;
 - the most frequent path and the worst costly or irreversible mistake;
 - the information needed to decide, and what can wait until later;
@@ -43,6 +46,8 @@ Before choosing layout, establish:
 Use supplied context immediately. Ask only about a missing answer that would materially
 change the interface; otherwise state a reasonable assumption and continue. Summarize the
 result as a short design brief so implementation decisions can be checked against it.
+Use frequency to choose the tradeoff: repeat operators benefit from shortcuts and compact
+scanning; occasional users need recognizable labels and enough context to decide.
 
 ## Build the hierarchy
 
@@ -125,3 +130,20 @@ Inspect in bounded rounds rather than one tweak per screenshot. Build the whole 
 settle or disable entrance motion, then capture desktop and a narrow phone width in one
 batch, adding any viewport the user reported. Fix every finding in one batch and confirm
 with a single further round. If items remain after that, report them instead of looping.
+
+## Review an existing interface
+
+Keep the review within the named screen, flow, or change. Inspect the actual source and
+rendered interface when available; for a screenshot or description, state which behavior
+cannot be checked. Follow the main task, its most consequential action, and a recovery path.
+Load only the component skills those paths need; use `accessibility-audit` for WCAG checks.
+
+Treat searches for suspicious values as leads. Check shared styles, component contracts,
+and reachable states before calling a match a defect. A screenshot can show hierarchy,
+but cannot establish that undo, persistence, focus return, or server failure recovery works.
+
+For each finding, name the location, the action or condition that exposes it, the user
+impact, and the smallest concrete fix. Rank by consequences and reach, not by distance
+from a suggested pixel value. Group repeated instances by their shared cause. Distinguish
+verified defects from assumptions and optional visual preferences; zero findings is valid.
+Close with the paths and states checked and the material gaps in verification.

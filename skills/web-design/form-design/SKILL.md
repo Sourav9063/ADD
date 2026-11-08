@@ -37,6 +37,14 @@ Fixed vertical order, always: **label → input → helper text → error text**
 - Group related fields under a heading or `<fieldset>`, and order them the way the user holds the information, not the way the database stores it.
 - Ask for less. Every field costs completions; if you cannot say what a field is for, cut it.
 
+## Defaults and repeated entry
+
+Reuse valid information already supplied in the same process: prefill it or let the user
+select it rather than type it again. Keep editable defaults visible and preserve the user's
+corrections across later prefills. Ask again when the information is stale, re-entry is
+essential, or security requires it. Defaults must not opt users into paid additions,
+publishing, permissions, or destructive work; consent follows `checkbox-and-radio`.
+
 ## Validation timing
 
 1. **On blur**: validate a field when focus leaves it. Late enough that the user finished, early enough that they are still thinking about it.
@@ -48,8 +56,11 @@ Fixed vertical order, always: **label → input → helper text → error text**
 **Never disable the submit button as the only validation feedback.** Let it be pressed and
 show the errors; a dead button with no explanation leaves the user stuck, guessing which
 field is wrong (`button`). Never use `form:has(:user-invalid) button` to disable or dim submit.
-Style field containers with `.field:has(:user-invalid)` to coordinate border, label, and error
-icon at once: `:user-invalid` ensures styles fire after blur, not on first paint.
+Style native validity with `.field:has(:user-invalid)` to coordinate border, label, and error
+icon after user interaction. The browser controls when it matches; it does not guarantee
+validation on blur. For the timing above or custom rules, use the form's validation state
+and style `.field:has([aria-invalid="true"])`. CSS does not supply the error message or
+its accessible association.
 
 ## Error copy
 
@@ -61,13 +72,14 @@ an addition for long forms, not a replacement.
 ## Inputs this skill still owns
 
 - **Masked input** (card, phone): format while typing in fixed chunks, keep the caret directly after the character just typed rather than jumping to the end, and validate on blur so nothing reads "invalid" mid-entry. On paste, strip separators and reformat instead of rejecting. Store and submit the unmasked value.
-- **Rating**: make the current value readable as text, not only as filled stars. Fill stars ahead of the cursor so the value previews before commit, keep that preview separate from the committed value, and snap back when the pointer leaves without clicking. Allow correcting and clearing a submitted rating, support arrow keys over a radio group, and never accept a rating on hover - a stray pointer must not submit an opinion. When displaying an average, show the count beside it and render partial fills truthfully; rounding 3.4 up to four full stars is a small lie users notice.
+- **Rating**: make the current value readable as text, not only as filled stars. Fill stars ahead of the cursor so the value previews before commit, keep that preview separate from the committed value, and snap back when the pointer leaves without clicking. Allow correcting and clearing a submitted rating, support arrow keys over a radio group, and never accept a rating on hover. If half-star input is useful, expose every increment to keyboard and touch with a name such as "3.5 out of 5"; tiny half-star hit areas cannot be the only path.
+- **Rating summaries**: show the numeric average and response count, with fractional fills matching the value; 4.4 means 40% of the fifth star, not five full stars. Where users compare reviews, include counts by score so the average does not hide a polarized distribution.
 - **Color picker**: always allow typing a value (hex, or `oklch` when you want predictable lightness steps), show the picked color against the surface it will actually appear on, and keep recent and preset swatches within one tap. Show a live contrast result while picking rather than after review, so a failing choice is caught at the moment it is made. Preview alpha over both light and dark backgrounds - a white canvas hides what transparency actually does. A gradient canvas with no text input is unusable by keyboard; name swatches for screen readers.
 
 ## Long and multi-step forms
 
 - Split at meaningful boundaries, one topic per step, with a step indicator showing position and total. Visible, incomplete progress is what pulls people through a long form, so show how much is done and how much remains rather than a bare step name; never start the bar at zero when the first step is already behind them.
-- Never lose entered data on Back. Validate each step before advancing.
+- Persist recoverable draft edits and step position during entry and at step changes, so Back and refresh restore progress within the current step too. Choose storage appropriate to the data's sensitivity; keep credentials and payment secrets out of persistent browser storage. Validate each step before advancing.
 - **Autosave**: debounce ~500-1000ms and model `typing / saving / saved / offline / error` explicitly; never claim "Saved" until the server confirms. Queue offline edits locally, show the pending count, and replay oldest first on reconnect.
 - Detect concurrent edits and merge or warn rather than silently applying last-write-wins. Warn before navigation or tab close while unsaved work remains.
 

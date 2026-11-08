@@ -25,7 +25,7 @@ Reuse these instead of literals; justify local optical or content-driven excepti
 - **Type**: 5-7 steps max, each with its own line height. Body 15-16px, line height 1.5. Generate the steps from one ratio rather than picking sizes by eye - 1.2 for dense product UI, 1.25-1.333 for general interfaces, up to 1.618 for editorial and marketing display. Round to whole pixels. `typography-design` covers what happens to text after the scale exists.
 - **Color**: semantic names (`surface`, `border`, `text`, `accent`, `danger`); component tokens may alias them. `color-systems` builds the ramps underneath.
 - **Elevation**: 4 levels max, one consistent light source, larger blur and lower opacity as elevation rises. Stack two or three shadows rather than one heavy blur - a tight contact shadow (~2px) anchors the element, a mid spread (~12px) gives it body, a wide ambient one (~32px) sets it in the room. One flat drop shadow on everything reads as unfinished.
-- **Z-index**: reuse the overlay system's stacking policy. It does nothing on a statically positioned element, and child values cannot escape ancestor stacking contexts, so increasing them blindly will not fix clipping - an escalation to `9999` is a stacking-context bug upstream, not a depth problem. Give a component `isolation: isolate` so its internal layers stay its own. Use the top layer where appropriate.
+- **Z-index**: reuse the overlay system's stacking policy. It applies to positioned elements and to flex/grid items even when their position is static. Child values cannot escape ancestor stacking contexts, so inspect those contexts and overflow clipping before increasing a number to `9999`. Give a component `isolation: isolate` when its internal layers need containment. Use the top layer where appropriate.
 - **Duration / easing**: see the motion scale below.
 
 ## Hierarchy and layout
@@ -38,7 +38,7 @@ Reuse these instead of literals; justify local optical or content-driven excepti
 - **A container's own padding is at most the gap to its neighbours.** Content cards want at least 24px of internal padding; a compact stat tile is a different component, not the same one shrunk.
 - **Weight section spacing by role.** Uniform section padding down a page makes everything read as equally important, which is to say not important at all.
 - **Keep controls visually distinct from content.** Every interactive element needs a background, a border, an underline, or a consistent control zone; a badge shaped like the buttons around it collects dead clicks.
-- **Style containers from DOM state with `:has()`** instead of duplicating state into framework code: `.plan:has(:checked)` styles a selectable card when its input is checked, `.field:has(:user-invalid)` coordinates border, label, and error icon without custom error flags, `body:has(dialog[open])` locks scroll declaratively without JS cleanup effects, and quantity queries (`.grid:has(> :nth-child(n + 5))`) adjust density by child count.
+- **Style containers from existing DOM state with `:has()`** rather than mirroring it just for styling: `.plan:has(:checked)` styles a selectable card, `.app:has(> aside)` adapts a shell to its sidebar, and `.grid:has(> :nth-child(n + 5))` adjusts density by child count. Validation timing belongs to `form-design`; modal scroll locking to `modal-dialog`.
 - Users recall the first and last items in a list far better than the middle. Put the important entries at the ends.
 
 ## Motion scale

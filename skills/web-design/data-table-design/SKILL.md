@@ -16,7 +16,7 @@ must agree with each other.
 - Align decimals and use consistent precision within a column. Units in the header, not repeated in every cell.
 - Dates: one format per table, absolute for records, relative only for recent activity, with the absolute value on hover/title.
 - In the wide layout, truncate long text with an ellipsis and expose the full value in a tooltip or expanded row, keeping row heights consistent. Narrow layouts follow the responsive rules below; exact amounts follow `typography-design`.
-- Show 5–8 columns by default and put the rest behind a column-picker.
+- Choose visible columns from the user's comparison task, not the schema. Combine related identity fields where they scan as one unit; move rarely needed metadata to expanded detail or a column-picker. Start with a small useful set and add a column when the task needs it, without imposing a fixed column cap.
 
 ## Header and scrolling
 
@@ -39,7 +39,7 @@ does not look starved when compact.
 
 ## Selection and bulk actions
 
-- Make the whole row a selection target (row tint + accent left bar + checkbox), not a 16px checkbox.
+- Show selection with a checkbox, row tint, and an accent marker. Enlarge the checkbox's hit area without covering links or actions; row-space activation follows the interaction model below.
 - Header checkbox is tri-state: empty → **indeterminate** (dash) → checked. Clicking it from the indeterminate state selects everything; it never clears. Users reach for it to finish a partial selection, not to undo one.
 - "Select all" selects the current page. If more exist, offer the explicit escalation: *"All 25 on this page selected. Select all 1,248 matching records?"*
 - Selection state persists across pagination, and the count is always visible.
@@ -50,7 +50,7 @@ does not look starved when compact.
 
 ## Row interaction
 
-- Pick one primary row action (usually open) and make the row clickable, but keep interactive cells from swallowing the click.
+- Give non-interactive row space one default action: open details or toggle selection. Keep a real detail link and a separate checkbox when both operations exist. Nested links, buttons, and fields act independently; activating them must not also open or select the row.
 - Row actions: 1–2 inline, the rest in an overflow menu. **Do not reveal actions on hover only**: they must be reachable by keyboard and on touch; keep them present at low emphasis instead.
 - Inline editing follows `form-design`; additionally keep row height and column width fixed and expose a per-cell save state.
 

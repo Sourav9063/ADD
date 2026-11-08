@@ -3,7 +3,7 @@
 Where the rules in [`skills/web-design/`](../../skills/web-design/) come from. Read before
 adding a skill to that group, amending a rule, or defending a claim someone disputes.
 
-Reviewed: 2026-09-21.
+Reviewed: 2026-11-08.
 
 ## Pattern catalog
 
@@ -13,7 +13,7 @@ against. Its categories - interaction, forms, motion, visual, feedback, navigati
 skill or add one. It is a catalog, not an authority: it states rules without citations, so
 confirm anything load-bearing against the tiers below.
 
-Use the sitemap to discover new patterns, then review their individual pages. Previously
+Use the sitemap and rendered index to discover patterns, then review their individual pages. Previously
 covered pages need re-reading when their content changes or the user identifies a possible
 gap. Unchanged counts, URLs, and `lastmod` values do not establish unchanged content or
 cover additions elsewhere on the site. Read the relevant section before concluding it is
@@ -23,22 +23,32 @@ Page URLs are `/patterns/<kebab-case-title>`, with two exceptions that 404 on th
 slug: Autosave is `/patterns/autosave-ux` and Von Restorff Effect is
 `/patterns/von-restorff`.
 
-Re-checked on 2026-10-20 (last full read 2026-09-21): its sitemap still lists the same 76 pattern pages, with the
-newest three unchanged since 2026-09-07 - CSS Has Selector (`/patterns/css-has-selector`),
+Re-checked on 2026-11-08: the index and sitemap list the same 76 pattern pages, with the
+newest three still dated 2026-09-07 - CSS Has Selector (`/patterns/css-has-selector`),
 De-AI Landing Hero (`/patterns/de-ai-landing-hero`), and Reverse-Engineered Linear
-(`/patterns/reverse-engineered-linear`), all merged in the 2026-09-13 audit. Check it the
-cheap way, rather than by reading the index page, whose category counts and rendered lists
-are both unreliable:
-
-```sh
-curl -sL https://designmotionhq.com/sitemap.xml | tr '<' '\n' \
-  | grep -o 'patterns/[a-z0-9-]*' | sort -u
-```
-
-Use the apex domain and `-L`; the `www` host 301s, and the XML wraps, so a `grep` over
-un-split lines misses entries. Sort by `lastmod` to see only what is new.
+(`/patterns/reverse-engineered-linear`), all merged in the 2026-09-13 audit. Every pattern's
+Key insights and Do / Don't sections were read again, along with the homepage. The layer
+and component-family links filter the existing catalog rather than adding pattern pages.
+No new URLs were found; without archived page bodies, this does not prove unchanged text.
+Use `lastmod` to prioritize reading, never as a substitute for it.
 
 ## Covered patterns
+
+The 2026-11-08 read found coverage gaps in existing patterns rather than new catalog entries:
+
+- [Star Rating](https://designmotionhq.com/patterns/star-rating) informs optional half-step input and score distributions in `form-design`. Every selectable increment needs keyboard and touch access; fractional display remains distinct from input precision. The page's 44% fill for a 4.4 average is an arithmetic error: the fifth star is 40% filled.
+- [Stepper Wizard](https://designmotionhq.com/patterns/stepper-wizard) calls for surviving refresh as well as Back. `form-design` now covers restoring values and step position with storage appropriate to sensitivity. The current page explicitly groups by context, not field count, so the historical three-fields divergence below no longer describes its recommendation. Its disabled-Next recipe is still declined: validate when advancing and explain blockers.
+- [Undo UX](https://designmotionhq.com/patterns/undo-ux) includes delayed send. `feedback-design` now distinguishes cancelling dispatch during a delay from pretending to recall an already delivered message.
+
+CSS claims from [CSS Has Selector](https://designmotionhq.com/patterns/css-has-selector)
+and [Z-Index Mastery](https://designmotionhq.com/patterns/z-index-mastery) needed correction,
+not direct adoption. `design-foundations` now includes static flex/grid items in z-index
+applicability ([MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/z-index)).
+`form-design` distinguishes browser-controlled `:user-invalid` timing from explicit blur
+validation ([MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:user-invalid)).
+`modal-dialog` uses `dialog:modal` for native modal scroll locking, since `[open]` also
+matches non-modal dialogs ([MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:modal)).
+The shared baseline points to those owners rather than repeating their recipes.
 
 The 2026-10-20 sitemap comparison found no new URLs or newer `lastmod` values. A spot check
 of [Bulk Actions](https://designmotionhq.com/patterns/bulk-actions) found one underspecified
@@ -73,9 +83,10 @@ audit. This records that audit's coverage; use the re-checking rule above for la
 - **One or two patterns each**: Icon Design Rules (`icon-design`) · Golden Ratio, Von Restorff Effect, and Reverse-Engineered Linear (`visual-direction`) · Hover Trap (`design-foundations`) · Search Experience System and Filter Chips (`search-and-filter-design`) · Landing Page Skeleton and De-AI Landing Hero (`landing-page-design`) · Data Table (`data-table-design`) · Tabs System (`tab-design`) · Charts That Lie (`chart-design`) · Microcopy (`microcopy`) · Live Cursors (`collaboration-design`)
 
 **Re-verified page by page on 2026-09-21**, all 76 read in full rather than trusted from
-this list. Every concrete rule matched an owning skill, usually at finer grain than the
+this list. That audit reported every concrete rule matched an owning skill, usually at finer grain than the
 page states it, except one that was added: `z-index` is inert on a statically positioned
 element, and `isolation: isolate` contains a component's layers (`design-foundations`). The
+static-position claim was too broad; the 2026-11-08 correction above supersedes it. The
 escalation-to-`9999` diagnosis came with it. Two more divergences were confirmed rather than
 adopted - their "three fields maximum per step", against `form-design`'s split at meaningful
 boundaries, and their search-field threshold of ~10 options, against `select-and-combobox`'s
@@ -169,8 +180,10 @@ Resolve conflicts in this order. A practitioner post never overrides a spec.
 
 ## Public skill collections
 
-Seven were read in full on 2026-08-25 and two more on 2026-09-27. They are practitioner craft (tier 3): useful for
-failure modes and defaults, never authoritative over a spec. **Do not re-read these unless
+Seven were read in full on 2026-08-25 and two more on 2026-09-27. On 2026-11-08, the
+reasoning bodies and command guidance in `alexisltt/ux-engine`, and the skill and references
+in `klimofey/design-motion`, were compared with the existing owners. They are practitioner
+craft (tier 3): useful for failure modes and defaults, never authoritative over a spec. **Do not re-read these unless
 the repository itself has changed**; what was worth taking is already in the skills.
 
 | Collection | Taken |
@@ -184,6 +197,15 @@ the repository itself has changed**; what was worth taking is already in the ski
 | [MengTo/Skills](https://github.com/MengTo/Skills) | Least usable. Sixty style recipes and effect implementations, self-described as drafts. Only the general rules from its Awwwards skill survived, and they duplicated things already covered. |
 | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) | Read 2026-09-27. The one-line read and its dials, the accent, radius, and theme locks, and the named-design-system rule into `visual-direction`; hero element cap, logo-strip, section-shape, and CTA-label rules into `landing-page-design`; invented precision into `microcopy`; the redesign audit, never-change list, and lever order into `design-refinement`. |
 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Read 2026-09-27. Visitor modes, commit-over-safe, browser-surface theming, tinted shadows, the decoration tells, and the whole-look calibration into `visual-direction`; refine-versus-redesign, polish triage, and the bolder, quieter, and simpler passes into `design-refinement`; bounded inspection rounds into `ui-composition`; color strategy and scene-chosen theme into `color-systems`; one-family product type, display cap, and tracking floor into `typography-design`; one authored motion moment into `motion-design`. |
+| [alexisltt/ux-engine](https://github.com/alexisltt/ux-engine/tree/57a386c1ad0aa4836a37126dc193b020aaaebd3d) | Reviewed 2026-11-08. Useful gaps concerned frequency-sensitive intent and a concrete audit mode (`ui-composition`), task-selected columns (`data-table-design`), and known-value defaults (`form-design`). Independent evaluation also exposed competing row-opening and selection instructions; row behavior must follow the task rather than a universal whole-row selection recipe. Intent, hierarchy, state completeness, token discovery, and visual character already had owners; extend them rather than importing eight skills or creating a competing UX auditor. |
+| [klimofey/design-motion](https://github.com/klimofey/design-motion/tree/8bfe6b50d5a3094acec4e63adc907f364f7c4c33) | Reviewed 2026-11-08. Its refactor and audit modes prompted controlled before/after comparisons and honest token-substitution scope (`design-refinement`), plus checking search hits against rendered behavior (`ui-composition`). Its animation-event dependency prompted a cancellation-safe lifecycle rule (`motion-design`). Most pattern craft already came from the shared public catalog. |
+
+For these additions, redundant entry is checked against
+[WCAG 3.3.7](https://www.w3.org/WAI/WCAG22/Understanding/redundant-entry.html), including its
+essential, security, and invalid-information exceptions. Motion lifecycle handling follows
+the browser's [animation end](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationend_event)
+and [transition end](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionend_event)
+contracts; preserving a near-zero duration is not a substitute for handling cancellation.
 
 **Deliberately not adopted**, so a later pass does not re-import them:
 
@@ -194,6 +216,7 @@ the repository itself has changed**; what was worth taking is already in the ski
 - **Per-skill reporting boilerplate.** Several collections end every skill with an identical severity, verification, and table format block. `accessibility-audit` and `reviewing-changes` own reporting here; repeating it in every section skill is context cost for one behavior.
 - **From taste-skill and impeccable (2026-09-27):** numeric dial values as configuration, framework-specific recipes (Tailwind classes, React component code), named-font ban lists, the hard ban on eyebrows (kept as restraint instead), and impeccable's machinery: the dice-rolled concept seed, decision pages, comp-diff gates, detectors, `DESIGN.md` and `PRODUCT.md` files, and one-command-per-verb routing. The ideas those tools enforce are in the skills; the tools are not.
 - **Native mobile platform conventions.** iOS HIG against Material differences are real, but this group is web UI. Out of scope, not wrong.
+- **From ux-engine and design-motion (2026-11-08):** compulsory brief locks, `DESIGN.md`, fixed F/Z scanning patterns, a five-column limit, three required typefaces, and minimum finding counts. These substitute process or taste for task evidence. Keep audit permission separate from fixing, and judge severity by user impact rather than a number or regex match. Their conflicting confirm/undo recipes do not supersede `destructive-actions`; their reported fixture scores are not evidence of ADD improvement. Do not import hooks, commands, subagents, or their duplicated component catalogs.
 
 ## Cautions
 

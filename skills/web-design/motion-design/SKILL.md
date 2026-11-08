@@ -70,6 +70,7 @@ in 200ms.
 - **CSS transitions interrupt and retarget from their current position; keyframes restart from zero.** For anything rapidly triggered (toasts arriving, toggles, hover in and out) use transitions. Reserve keyframes for staged one-shot sequences.
 - `@starting-style` gives entry animation with no JS and no mount flag.
 - CSS for predetermined motion, the Web Animations API when JS must interrupt or reverse, a spring library only when interactions must be physically interruptible.
+- Keep state completion, cleanup, and focus handling valid when motion is skipped or cancelled. `animationend` and `transitionend` may never fire after cancellation or removal; use the component's lifecycle and a cancellation/no-motion path rather than relying on an end event alone.
 - **Do not drive child transforms from a CSS variable on the parent**; it recalculates style for every child. Set `transform` on the element that moves.
 - Motion-library shorthand transform props are often main-thread rather than composited. Check what the library emits before trusting it under load.
 - `will-change` sparingly, only for `transform`, `opacity`, `filter`, and only once you see first-frame stutter.
