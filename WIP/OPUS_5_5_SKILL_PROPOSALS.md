@@ -1,3 +1,5 @@
+> Maintenance (2026-11-08): the [ASTRA plan](../agents/plans/ASTRA_IMPROVEMENT.md) updates this draft's live targets for scoped learning, repeated-correction diagnosis, enforcement evidence, behavioral verification, incremental tests, and guidance evaluation. Rebase future proposals on the canonical skills; this draft does not override those changes.
+
 # Opus 5.5 Skill Proposals
 
 Status: parked. Applied once, then reverted: current agents work well without these changes. Revisit if an observed failure matches one below.

@@ -16,9 +16,11 @@ Learn inside the session, not after it:
 3. Write the rule before resuming the task the signal interrupted.
 4. Apply it for the rest of the session.
 
-A repeated correction is a memory failure, not a one-off: record it that session in wording strict enough that the behavior cannot recur, and say that you did.
+A repeated correction is a memory failure, not a one-off: record or refine the rule that session and say that you did. Check whether the existing rule was loaded, understood, applicable, and consistent with other instructions; fix the demonstrated cause rather than merely strengthening wording or duplicating guidance.
 
-Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope.
+Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope. Verify that added enforcement rejects a representative invalid case and accepts the intended valid case, then remove prose it makes redundant.
+
+Keep inferred lessons within their verified scope. Repeated existing patterns alone do not establish a preference; promote a local lesson beyond its project only by explicit decision. Record explicit user preferences immediately; uncertain inferences remain investigation, not binding memory.
 
 Record the rule, not the incident: one imperative line naming the trigger and the required or forbidden behavior, for example "Do not add explanatory comments; let names and structure carry intent." Drop apology, narration, and rationale that does not change when the rule applies. Update stale or conflicting entries: a user overriding a rule is a signal too, so narrow the entry to its real scope or delete it, and say which. Never store task details, guesses, implementation specifics, or secrets; domain facts go to `agents/knowledge/`, execution state to `agents/plans/`.
 

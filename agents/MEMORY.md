@@ -4,6 +4,7 @@
 - Only `AGENTS_STANDALONE.md` guidance belongs in target projects; this repository's `agents/` content exists to curate it and is not distributed.
 - The agent-guidance block in `README.md` is generated from `AGENTS_STANDALONE.md` by `.github/workflows/embed-agents.yml`; do not update it manually.
 - Preserve the repository's lightweight, judgment-driven, vendor-neutral SDD model. Add mandatory workflow machinery only after an explicit repository-wide decision.
+- Design ADD around the working repository as the agent's persistent learning environment: turn corrections and verified outcomes into scoped guidance or executable enforcement, while core skills supply technical and engineering judgment.
 - Keep core ADD changes surgical and information-dense; compress external-source additions without weakening behavior, rather than broadly compressing existing guidance. Make targeted edits and retain useful detail. Favor existing typed contracts and UI primitives; keep guidance framework-neutral.
 - Keep the skill catalog limited to the user's original work; use external skill collections as inspiration, not copied content.
 - When refreshing external guidance, unchanged catalog counts, URLs, or sitemap dates do not prove unchanged content; inspect user-named topics and relevant site sections before declaring coverage complete.

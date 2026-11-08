@@ -2,7 +2,7 @@
 
 What ADD takes from outside sources, what it declined, and why. Borrow principles, not text, tooling, or skill catalogs.
 
-Reviewed: 2026-10-20. The latest pass compared pstack, Matt Pocock's skills, and Superpowers with the five core ADD skills.
+Reviewed: 2026-11-08. The [ASTRA implementation plan](../plans/ASTRA_IMPROVEMENT.md) records the comparison of pstack, Matt Pocock, and Superpowers plus selected additional collections, its source snapshots, and the bounded evaluation results.
 
 ## Adopted
 
@@ -16,12 +16,17 @@ Reviewed: 2026-10-20. The latest pass compared pstack, Matt Pocock's skills, and
 - **Evidence quality at existing seams.** Superpowers' completion checks and pstack's safety proofs and benchmark discipline sharpen [engineering](../../skills/agent-driven-development/engineering/SKILL.md). Extend its existing verification rules rather than adding another workflow or fixed run count.
 - **Independent expectations and behavioral slices.** Matt Pocock's testing antipatterns clarify [coding](../../skills/agent-driven-development/coding/SKILL.md); its task decomposition clarifies [SDD](../../skills/agent-driven-development/spec-driven-development/SKILL.md). Retain judgment about testing scope and staged migrations.
 - **Mechanical reinforcement.** pstack's correction loop extends [project-memory](../../skills/agent-driven-development/project-memory/SKILL.md) toward executable enforcement. Keep immediate memory recording and existing authority boundaries; enforcement starts as a proposal when outside scope.
+- **Scoped learning and recurrence diagnosis.** Keep inferred lessons within verified project scope, distinguish explicit preferences from repeated code patterns, and repair retrieval or instruction conflicts before intensifying a repeated rule. The ASTRA pilot avoided an additional memory rule in the stale-pointer case; it did not demonstrate a general task-success improvement.
+- **Evidence for enforcement and behavior.** Check valid and invalid cases when adding enforcement; verify changed behavior through its users' interface. Keep test cycles incremental and assess whether tests detect behavioral regressions while surviving internal refactors.
+- **Fresh-context learning evaluation.** [writing-agent-guidance](../../skills/misc/writing-agent-guidance/SKILL.md) owns comparison with previous guidance, recurrence and excluded cases, and reporting trial limits. Scenarios and evidence stay outside memory; core skills do not gain an evaluation framework.
 
 ## Deferred
 
 - Change deltas in `ADDED / MODIFIED / REMOVED` form against a living baseline (OpenSpec). Attractive for brownfield auditing; revisit if plan drift becomes a real cost.
 - Mandatory TDD as an explicitly invoked skill. Needs a confirmed preference first.
 - Progressive disclosure through bundled reference files. ADD skills are all well under the 500-line guidance, so splitting would add navigation cost for no token saving.
+- Separate review-reception and planning-experiment rules. Both baseline and candidate handled those ASTRA scenarios correctly; current compatibility, evidence, and planning guidance was sufficient in this pilot. Revisit on a demonstrated failure.
+- The repeated-fix premise check in `diagnosing-bugs`. It was explicitly deferred to a separate review-skill change in the ASTRA plan.
 
 ## Rejected
 
@@ -30,6 +35,7 @@ Reviewed: 2026-10-20. The latest pass compared pstack, Matt Pocock's skills, and
 - Copying external skill catalogs. The catalog stays the user's own work.
 - Inferring change authorization from questions. The user reaffirmed [communication](../../skills/agent-driven-development/communication/SKILL.md)'s strict questions-read-only approval boundary.
 - New dependencies or validation frameworks.
+- Automatic global learning promotion, background observers, and numerical confidence as authority. Project-local, readable guidance preserves the repository learning model without new runtime infrastructure.
 
 ## Sources
 

@@ -27,7 +27,7 @@ Keep one authoritative source for each durable rule. Point to it elsewhere with 
 2. For surprising decisions, determine what instruction or context caused the path. For unexpectedly long tasks, categorize tool calls and identify useful versus wasted work.
 3. Encode only repeated or costly failure modes. Prefer one narrow rule over a broad defensive checklist.
 4. Add a concise good/bad example when observed output shows that abstract wording is insufficient.
-5. Exercise the change with a separate, fresh agent instance on realistic tasks, not the session that authored it. Observe where it struggles, succeeds, or diverges, then keep, revise, move, or remove the change based on correction rate, scope drift, wasted work, verification completion, and output clarity.
+5. Exercise the change with a separate, fresh agent instance on realistic tasks, not the session that authored it. Compare with the previous guidance under the same task and environment. For learned rules, include a recurrence and a nearby case where the rule should not apply; supply repository context without the correction transcript. Observe correction rate, scope drift, wasted work, verification completion, and output clarity, then keep, revise, move, or remove the change based on the evidence. Keep scenarios and results with existing evaluations, outside memory; report trial counts and limits rather than inferring broad improvement from a small sample.
 
 ### Write for Reliable Behavior
 
