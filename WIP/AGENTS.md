@@ -1,4 +1,4 @@
-> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) clarify the live memory/knowledge boundary, proposed contract examples, and retained plan history. Rebase this historical draft on the canonical skills before reuse.
+> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) clarify the live memory/knowledge boundary, proposed contract examples, and retained plan history. Those additions are now compacted; rebase this historical draft on the canonical skills before reuse.
 
 > Maintenance (2026-11-08): [WIP refinements](../agents/plans/wip-guidance-refinements.md) add verification-process ownership and conditional parallel-write ownership to the live engineering skill. Rebase this draft on that owner.
 

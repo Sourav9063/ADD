@@ -1,4 +1,4 @@
-> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) clarify topic knowledge, proposed contract examples, and plan status/history. The unconditional plan deletion below is historical; use the live skill's retention rule.
+> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) clarify topic knowledge, proposed contract examples, and plan status/history; their wording is now compacted. The unconditional plan deletion below is historical; use the live skill's retention rule.
 
 > Status: applied. The Source of Truth proposal landed in `skills/agent-driven-development/spec-driven-development/SKILL.md` through `sdd v2` and later audits, which reworded and extended it. The 2026-10-20 refinement adds behavioral task slices, dependencies, acceptance checks, and staged migrations to the live Plans section; those additions were subsequently compacted without changing behavior. Kept as a record of the proposal; the live skill wins wherever they differ.
 

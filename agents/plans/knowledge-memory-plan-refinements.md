@@ -51,3 +51,23 @@ The scenario labels do not reveal the expected destination. Neither evaluator re
 - Both installed harnesses now need maintainer synchronization for project-memory and SDD. README embedding remains workflow-owned.
 
 Durable rationale lives in [agent guidance rationale](../knowledge/agent-guidance-rationale.md); reusable evaluation criteria live in [trigger evaluations](../knowledge/trigger-evaluations.md#knowledge-memory-and-plan-scenarios). This plan retains the approved scope, evaluation inputs, results, and limitations as implementation history.
+
+## Compression follow-up (2026-11-11)
+
+Status: complete. The user requested compression of this change first, preserving engineering's senior-review and "impress" lines and coding's Structure, Smells, and Restraint detail. That preservation preference is recorded in repository memory.
+
+Shortened only the recently introduced routing, knowledge, contract-example, status, and retention wording. The earlier skill guidance, invocation descriptions, and metadata remain intact. Standalone sections match; affected draft maintenance notes reflect the compression.
+
+| Skill | Before this refinement | Initial refinement | Compressed refinement |
+| --- | ---: | ---: | ---: |
+| project-memory | 489 | 565 | 531 |
+| SDD | 806 | 947 | 874 |
+| Total | 1,295 | 1,512 | 1,405 |
+
+Counts are whitespace-delimited words including frontmatter, not tokenizer measurements. Net added wording falls from 217 to 110 words: 107 words removed, about 49% of the increase. Engineering, coding, and communication files are byte-identical to their pre-compression versions.
+
+Two new fresh agents received the same seven scenario inputs above, one with the initial refinement and one with the compressed candidate; neither received the scoring table or authoring conversation. Both passed 7/7 under the existing criteria, including retention of the supplied API contract and proposed example. No scenario regression was observed in this single comparison; runtime behavior, automatic invocation, and broader reliability remain untested.
+
+Validation: all five standalone sections match their canonical bodies; unchanged frontmatter parses as YAML; local references and whitespace checks pass. Installed skills, generated README, Git index, and Pathao projects remain unchanged. Maintainer synchronization remains necessary for the two revised skills.
+
+Wording follow-up: the user preferred explicit "decisions and do/don't rules" wording. Restored it in project-memory's topic-routing sentence and the standalone mirror, and recorded the preference. This adds three words: project-memory is 534 words and the combined total is 1,408. The table above records the initial compression snapshot. Bundle alignment and whitespace checks pass; this wording-only restoration does not change the evaluated routing behavior.

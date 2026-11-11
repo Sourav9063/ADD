@@ -1,4 +1,4 @@
-> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) update the live SDD target for topic knowledge, proposed contract examples, and plan status/history. Rebase future proposals on that owner; proposal 6 remains parked.
+> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) update the live SDD target for topic knowledge, proposed contract examples, and plan status/history; their wording is now compacted. Rebase future proposals on that owner; proposal 6 remains parked.
 
 > Maintenance (2026-11-08): the [ASTRA plan](../agents/plans/ASTRA_IMPROVEMENT.md) updates this draft's live targets for scoped learning, repeated-correction diagnosis, enforcement evidence, behavioral verification, incremental tests, and guidance evaluation. Rebase future proposals on the canonical skills; this draft does not override those changes.
 
