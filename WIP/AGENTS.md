@@ -1,3 +1,5 @@
+> Maintenance (2026-11-11): [November refinements](../agents/plans/knowledge-memory-plan-refinements.md) clarify the live memory/knowledge boundary, proposed contract examples, and retained plan history. Rebase this historical draft on the canonical skills before reuse.
+
 > Maintenance (2026-11-08): [WIP refinements](../agents/plans/wip-guidance-refinements.md) add verification-process ownership and conditional parallel-write ownership to the live engineering skill. Rebase this draft on that owner.
 
 > Maintenance (2026-11-08): the [ASTRA plan](../agents/plans/ASTRA_IMPROVEMENT.md) updates this draft's live targets for scoped learning, repeated-correction diagnosis, enforcement evidence, behavioral verification, incremental tests, and guidance evaluation. Rebase future proposals on the canonical skills; this draft does not override those changes.

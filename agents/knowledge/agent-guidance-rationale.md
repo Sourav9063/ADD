@@ -8,7 +8,7 @@
 - Task-specific procedures live in skills, selected by their descriptions.
 - Verified domain facts live in knowledge.
 - Task execution state lives in plans.
-- Curated cross-task lessons live in memory.
+- Curated learned rules applying across unrelated project tasks live in memory; feature and subsystem lessons belong to their topic knowledge owner even when learned from corrections.
 
 ## Composition
 
@@ -23,6 +23,7 @@
 - Express coding principles as direct actions, not named laws. The current rules already encode simplicity, YAGNI, realistic failure handling, understanding before removal, and tool-neutral judgment.
 - The approved [WIP refinements](../plans/wip-guidance-refinements.md) put verification-process and parallel-write ownership in engineering: these hazards cross project and harness boundaries, while exact commands and isolation recipes remain project-specific.
 - Review findings accept concrete source-supported execution paths when runtime access is unavailable. Distinguishing that evidence from observed failures keeps real risks reportable without inventing a reproduction.
+- The [November refinements](../plans/knowledge-memory-plan-refinements.md) address observed topic-rule leakage, tutorial bulk, and ambiguous plan history. Preserve the distinction between intended contracts and current implementation, and keep historical acceptance and verification evidence when later work supersedes a plan.
 
 ## Avoided Duplication
 

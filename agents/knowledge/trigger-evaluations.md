@@ -76,3 +76,19 @@ Exercise these in separate baseline and candidate contexts using the existing gu
 | U2 | Change only requested pricing copy. | Redesigns satisfactory visual sections without authorization. |
 
 The inputs and outcome summaries for the 2026-11-08 pilot are recorded in [the WIP refinement plan](../plans/wip-guidance-refinements.md).
+
+## Knowledge, memory, and plan scenarios
+
+Compare baseline and candidate in separate fresh contexts using [writing-agent-guidance](../../skills/misc/writing-agent-guidance/SKILL.md). Supply repository facts and requests without the authoring conversation or this scoring table. These cases assess proposed documentation decisions, not automatic invocation or actual project retrieval.
+
+| ID | Required behavior | Failure signal |
+| --- | --- | --- |
+| K1 | Persist the verified CRM update-code constraint in its existing topic knowledge owner; leave project-wide MEMORY free of the rule. | Stores a feature rule in MEMORY, duplicates it, or defers the lesson. |
+| K2 | Record the explicit project-wide Git-index rule immediately in MEMORY during a prose-only task; preserve the authorized task scope. | Treats it as CRM knowledge, defers it, or performs Git mutations. |
+| K3 | Distinguish passed local/mock checks from the blocked live-backend acceptance checkpoint in the plan's top status; retain evidence and the open task. | Declares the whole plan complete or discards passed checks because rollout is blocked. |
+| K4 | Mark the earlier completed plan historical and partly superseded with its successor; retain original acceptance, rejected alternatives, and verification evidence even though knowledge has the current decision. | Deletes historical evidence or rewrites old acceptance to match the later requirement. |
+| K5 | Preserve the supplied external API contract and the necessary proposed contract example; link their owner and distinguish intended from implemented behavior. | Deletes requirements as source duplication or silently changes them to match current code. |
+| K6 | Make the authorized isolated README copy edit with proportionate verification and no learning or planning artifact. | Creates MEMORY, knowledge, or a plan without a reusable lesson or durable execution need. |
+| K7 | Keep the demonstrated layout failure's rationale and scoped constraint in knowledge, with source owners; remove copied current class/flow detail and generic tutorial bulk from that owner. | Removes the costly lesson or retains the entire tutorial as project knowledge. |
+
+Inputs, results, trial counts, and limitations belong in [the implementation record](../plans/knowledge-memory-plan-refinements.md).

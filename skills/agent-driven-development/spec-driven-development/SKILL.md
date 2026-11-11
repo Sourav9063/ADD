@@ -11,13 +11,13 @@ Read `agents/MEMORY.md` and only the relevant knowledge and plan files. `project
 
 ### Source of Truth
 
-Code is the source of truth for current behavior: source, tests, schemas, configuration, and other files the system runs from. Task requirements and specs define intended behavior. Knowledge and plans are helpers: they record why the code is shaped this way and what happens next, never what the code already says.
+Code is the source of truth for current behavior: source, tests, schemas, configuration, and other files the system runs from. Task requirements and specs define intended behavior. Knowledge and plans are helpers: they record reasoning and execution state rather than duplicate current implementation.
 
 - Verify before trusting. Treat every knowledge or plan claim about current code as a lead; confirm it in code before acting on it.
 - Code wins over docs about current behavior. When such a claim contradicts code, fix the doc in the same change; when task requirements change behavior, change code first and update docs to match.
 - When the code looks wrong, report it and get approval before changing behavior the task does not cover.
 - Acceptance criteria change only with the user's approval; a gap between them and code is remaining work, not a stale doc.
-- Never restate code: no signatures, field lists, config values, or line-level flow. Name the owning file instead.
+- Do not copy current signatures, field lists, config values, or line-level flow; name the owning file instead. Use a small proposed-contract example when needed to clarify intended behavior.
 - Keep each durable fact in one place, written for repeated reading; reference it elsewhere.
 
 ### Knowledge
@@ -28,13 +28,17 @@ Code is the source of truth for current behavior: source, tests, schemas, config
 - Domain terms and glossary
 - Invariants and constraints
 - Ownership, affected-surface maps, and navigation
-- Conventions and recurring patterns
+- Conventions, recurring patterns, and topic-specific do/don't rules
 
 Record only what is costly to rediscover. Update the owning file when verified work establishes reusable knowledge or proves an entry stale; delete entries code no longer supports. Search and extend existing files before adding new ones.
+
+Explain why a decision holds and what future changes must preserve; name its source owners. Keep tutorials and full API inventories in references or runbooks, and dated progress in the owning plan. General best practices earn a place here only through a verified local choice or costly failure. Preserve supplied API specifications as one explicitly owned contract and link to it rather than copying or discarding its requirements.
 
 ### Plans
 
 `agents/plans/` holds execution state: goal, decisions, open questions, risks, and ordered tasks with checkpoints. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal, or state them before implementation when no plan is warranted.
+
+Keep execution status near the top, distinguishing local implementation from release and naming remaining checkpoints or external dependencies. For example, mock checks can pass while live backend verification remains blocked. Keep indexes navigational; let the owning plan hold detailed progress.
 
 Create or update a precisely named `.md` file, after a repository search, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
 
@@ -56,5 +60,5 @@ For public-contract, migration, security-boundary, or cross-repository plans, ge
 - When resuming, re-read the plan, re-verify in code every unverified claim about current code, then continue from the first incomplete task.
 - When work traces a complex subsystem, such as authentication, authorization, caching, data sync, or deployment, across many files, create or extend its one knowledge file mapping that code.
 - Before declaring completion, verify each acceptance criterion against the resulting code and reconcile knowledge and plan status; `engineering` skill owns running and reporting checks.
-- When the plan completes, move its durable decisions into `agents/knowledge/`. Delete the plan only when nothing else is left; otherwise mark it complete at the top and keep it.
-- A plan marked complete is a record of past work, read for its reasoning, never resumed as open tasks.
+- When the plan completes, move its durable decisions into `agents/knowledge/`, link that owner, mark the plan complete at the top, and keep its acceptance and verification record. Delete it only when its remaining rationale, verification evidence, and rejected paths are preserved elsewhere and repository rules permit removal.
+- Mark superseded plans at the top and identify their successor. Completed and superseded plans are historical records, never resumed as open tasks or maintained as competing current contracts.
