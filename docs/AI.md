@@ -341,6 +341,8 @@ Do not auto-approve destructive operations. Asking slows nothing compared to rec
 
 AI agent security problems usually come from permissions, memory, logs, and context files.
 
+For OS-level protection, lock/unlock steps, Linux/macOS support, and Windows ACL alternatives, see [Secure Files When Working With Agents](securing-files-from-agents.md).
+
 Common issues:
 
 - Public `.claude/settings.json` exposes tool allowlists and unsafe defaults.
