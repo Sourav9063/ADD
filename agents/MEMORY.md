@@ -17,6 +17,7 @@
 - `skills/web-design/` is component-per-skill: each essential control owns its anatomy, states, and keyboard contract, and surface skills say which component to use and what surrounds it without restating how it works. `design-foundations` is size-capped because it loads with everything, so styling craft belongs in `visual-direction` or `color-systems`. Check `agents/knowledge/web-design-trigger-evaluations.md` after changing any description in that group.
 - `project-memory` is the project's reinforcement loop: `MEMORY.md` extends `AGENTS.md` with rules learned from corrections, and a repeated correction is recorded that session as a memory failure. It runs beside `spec-driven-development`, which owns knowledge and plans.
 - Do not use em dashes anywhere in repository prose. Use a colon for labels or introduced explanations, a spaced hyphen (` - `) for a true aside, and `-` for an empty table cell.
+- In command documentation, show directly runnable commands before shell aliases and make aliases explicitly optional.
 - Keep skill descriptions as plain single-line YAML; rewrite internal colons instead of using folded scalars.
 - Never delete `WIP/` drafts unless asked; when the file a draft targets changes, update the draft in the same change.
 - Keep completed plans in `agents/plans/` marked complete at the top; delete one only when knowledge fully absorbs it. Agents do not search git history, so deleting a plan loses its rationale, verification record, and rejected paths.
