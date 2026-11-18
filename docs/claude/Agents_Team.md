@@ -43,10 +43,14 @@ This guide describes a multi-terminal development workflow in Claude Code using 
      ```
 
 2. **Account or provider**
-   - Use a direct Claude.ai subscription or Anthropic API account.
-   - Cross-session messaging is not supported on AWS Bedrock, Google Vertex AI, or Azure Foundry.
+   - Messaging between sessions on the same machine works on every provider, including Amazon Bedrock, Google Cloud, and Microsoft Foundry (v2.1.248+ on those providers).
+   - Reaching cloud sessions or sessions on other machines requires a Remote Control session signed in with claude.ai.
 
-3. **Effort environment variable**
+3. **Settings**
+   - `SendMessage` and `ListAgents` must not be in `permissions.deny`; denying either turns messaging off.
+   - `"isolatePeerMachines": true` makes Claude ask before any message leaves this machine. The repository's `.claude/settings.json` sets it.
+
+4. **Effort environment variable**
    - Ensure `CLAUDE_CODE_EFFORT_LEVEL` is not globally exported in `~/.zshrc` or `~/.bashrc`; it overrides the `--effort` CLI flag.
    - Clear it in the current shell if needed:
 
@@ -186,6 +190,6 @@ Coordinate edits if both roles need to change the same files.
 | Issue | Cause | Fix |
 | --- | --- | --- |
 | `@Implementer` does not appear in autocomplete | `@` triggers file search by default; session-name autocomplete requires v2.1.232+. | Write in plain English: "Tell the Implementer session to..." |
-| `/list-agents` shows no other sessions | Unsupported provider or an older Claude Code version. | Run `claude update` and use a Claude.ai or direct Anthropic API account. Check the platform-specific version requirements in Section 3. |
+| `/list-agents` shows no other sessions | An older Claude Code version, or `SendMessage` or `ListAgents` is denied in settings. | Run `claude update`, check the version and settings requirements in Section 3, and run `/list-agents` again. |
 | A message arrives while Implementer is busy | Implementer is executing its current turn. | Let the message wait in the session queue. |
 | Model effort does not match `--effort` | `CLAUDE_CODE_EFFORT_LEVEL` is set in the environment. | Run `unset CLAUDE_CODE_EFFORT_LEVEL` and check the active setting with `/effort`. |

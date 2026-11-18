@@ -58,5 +58,6 @@
   "preferredNotifChannel": "notifications_disabled",
   "autoCompactEnabled": true,
   "model": "opus",
-  "idleCompaction": true
+  "idleCompaction": true,
+  "isolatePeerMachines": true
 }

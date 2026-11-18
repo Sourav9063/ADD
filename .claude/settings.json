@@ -96,5 +96,6 @@
   "idleCompaction": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "autoCompactWindow": 500000
+  "autoCompactWindow": 500000,
+  "isolatePeerMachines": true
 }

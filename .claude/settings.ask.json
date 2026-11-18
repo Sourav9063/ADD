@@ -169,5 +169,6 @@
   "editorMode": "vim",
   "preferredNotifChannel": "notifications_disabled",
   "autoCompactEnabled": true,
-  "idleCompaction": true
+  "idleCompaction": true,
+  "isolatePeerMachines": true
 }
