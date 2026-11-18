@@ -1,5 +1,4 @@
 {
-  "attribution": false,
   "syncClaudeAiSkills": false,
   "syncClaudeAiPlugins": false,
   "env": {
@@ -7,6 +6,11 @@
     "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5-5",
     "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1",
     "CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES": "1"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
   },
   "permissions": {
     "deny": [
@@ -84,21 +88,28 @@
       "effortLevel": "high"
     }
   },
+  "autoCompactWindow": 500000,
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "showClearContextOnPlanAccept": true,
   "askUserQuestionTimeout": "5m",
+  "pluginConfigs": {
+    "cc-plugin-agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-or-agents-md"
+      }
+    }
+  },
   "plansDirectory": "./agents/plans",
   "autoMemoryEnabled": false,
   "editorMode": "vim",
   "vimInsertModeRemaps": {
     "ii": "<Esc>"
   },
-  "preferredNotifChannel": "auto",
-  "autoCompactEnabled": true,
-  "idleCompaction": true,
+  "precomputeCompactionEnabled": false,
+  "switchModelsOnFlag": false,
+  "autoContinueAtUsageLimit": false,
+  "isolatePeerMachines": true,
   "inputNeededNotifEnabled": true,
-  "agentPushNotifEnabled": true,
-  "autoCompactWindow": 500000,
-  "isolatePeerMachines": true
+  "agentPushNotifEnabled": true
 }

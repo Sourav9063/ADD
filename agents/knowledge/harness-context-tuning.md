@@ -187,7 +187,7 @@ Claude Code 2.1.296. Checked against the changelog from 2.1.281 and the settings
 
 Claude Code 2.1.300. Checked against the changelog from 2.1.291; no token effects were measured.
 
-- **`idleCompaction: true` is explicit** (2.1.299, default on). A conversation over 200K left idle about 54 minutes is compacted before the 1h prompt cache expires, so the next message reads a summary instead of re-writing the full context. It pairs with `promptCacheTtl: "1h"` and the uncapped 1M window. `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the 200K minimum; unset. Added to the variants 2026-11-18.
+- **`idleCompaction`** (2.1.299, default `true`; set explicitly until the 2026-11-18 defaults cleanup). A conversation over 200K left idle about 54 minutes is compacted before the 1h prompt cache expires, so the next message reads a summary instead of re-writing the full context. It pairs with `promptCacheTtl: "1h"` and the uncapped 1M window. `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the 200K minimum; unset. Added to the variants 2026-11-18.
 - **The rtk hook keeps the default `onFailure`** (2.1.295). `onFailure: "block"` would block every Bash call when `rtk` is missing or fails. From 2.1.300, hook `updatedInput` is validated like model input; the rtk rewrite only changes `command`, so it is unaffected.
 - **Subagent effort can now be set per call.** The Agent tool takes an `effort` parameter (2.1.292), and subagent frontmatter takes `autoCompactWindow` (2.1.296). Whether `modelSettings["claude-sonnet-5-5"].effortLevel` applies to subagents without either is still unverified.
 - **`CLAUDE_CODE_DISABLE_FILE_MENTIONS` stays unset** (2.1.299). It sends `@` mention paths instead of contents, so the model spends an extra Read turn to get the same tokens.
@@ -197,7 +197,7 @@ Claude Code 2.1.300. Checked against the changelog from 2.1.291; no token effect
 
 Claude Code 2.1.327. Checked against the changelog from 2.1.301 and the settings reference; no token effects were measured. Proposal and rejected options: `WIP/claude-settings-proposal-2026-11.md`.
 
-- **`attribution: false`** replaces `attribution.commit`/`pr: ""` and the deprecated `includeCoAuthoredBy` in all three files. Empty strings left `attribution.sessionUrl` on, so a `Claude-Session:` trailer was still requested.
+- **`attribution: false`** replaced `attribution.commit`/`pr: ""` and the deprecated `includeCoAuthoredBy` in all three files. Empty strings left `attribution.sessionUrl` on, so a `Claude-Session:` trailer was still requested. Superseded in `.claude/settings.json` by the `/config` pass below.
 - **No `$schema`.** The SchemaStore schema is community-maintained and lags the CLI: it rejects `attribution: false` and valid deny names such as `ScheduleWakeup` and `ListAgents`. Validate against the settings reference and `claude doctor` instead.
 - **`CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES=1`** (2.1.323) was added, removed with subagents, then restored; see the `Agent` entry below.
 - **`skillOverrides["plugin-authoring"]: "off"`**: the bundled mod-authoring skill is irrelevant here.
@@ -210,6 +210,26 @@ Claude Code 2.1.327. Checked against the changelog from 2.1.301 and the settings
 - **Subagents removed in favour of named sessions** (user decision; workflow in `docs/claude/Agents_Team.md`). `Agent` is denied, which supersedes the 2026-09-23 "`Agent` is allowed" decision. Per-role model and effort come from `--model` and `--effort` at launch. `SendMessage` and `ListAgents` are no longer denied in `.claude/settings.json` or either variant, because cross-session messaging needs both. The old advice to deny `Agent` and `ListAgents` together no longer applies. Allowing `ListAgents` costs roughly 0.4k, unmeasured. `.claude/settings.subagents.json` keeps the subagent setup. `isolatePeerMachines: true` in all three files makes Claude ask before a message leaves this machine.
 - **Only `Agent` is denied; the subagent env vars are back** (later 2026-11-18). `Agent` is the sole agent-related deny entry in `.claude/settings.json`, and denying it saves about 1.1k prefix tokens. `CLAUDE_CODE_SUBAGENT_MODEL`, `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, and `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES` are restored, matching `.claude/settings.subagents.json`. They are kept so re-enabling subagents takes one step: remove `Agent` from the deny list. Env vars cost no prefix tokens (see [Confirmed Non-Levers](#confirmed-non-levers)).
 - **Behavior notes:** 2.1.317 removed the Read tool's unchanged-file stub, so re-reads cost full tokens. 2.1.322 trims background-command notifications over 1,000 characters.
+
+### `/config` Pass
+
+Later on 2026-11-18, `/config` rewrote `.claude/settings.json`. Scopes come from the settings reference; no token effects were measured. The variants were not updated.
+
+- **`attribution` is an object again:** `commit: ""`, `pr: ""`, `sessionUrl: false`. This is how `/config` writes it, and the explicit `sessionUrl: false` closes the trailer gap that `attribution: false` was added for.
+- **`pluginConfigs`** (user or managed) stores plugin dialog answers: `cc-plugin-agents-md` reads `claude-md-or-agents-md`. The `cc-plugin-easel` entry (`autoCharts: false`) was dropped, so easel runs on its own defaults.
+- **`switchModelsOnFlag: false`** (any file): when a safety classifier flags a request, Claude Code pauses so you can pick between switching to the fallback model and editing the prompt. Unset, it switches automatically.
+- **`autoContinueAtUsageLimit: false`** (user or managed): the session does not wait out a claude.ai usage limit and resume on its own.
+- **`precomputeCompactionEnabled: false`** (user decision, after briefly trying `true`): not in the settings reference, so its behavior and default are unverified. Its reported purpose is to prepare the compaction summary in the background, so compaction at the `autoCompactWindow` cap causes no visible pause; off, compaction may pause when it triggers. Idle compaction around the 1h mark comes from `idleCompaction` (default `true`), not from this key; `DISABLE_AUTO_COMPACT` turns both off.
+- `autoCompactWindow` and `isolatePeerMachines` only moved.
+
+### Defaults Removed
+
+`.claude/settings.json` no longer sets keys whose value equals the documented default in the settings reference. Removed: `dialogExpiry: "5m"`, `autoCompactEnabled: true`, `idleCompaction: true`, `preferredNotifChannel: "auto"`, and `crossSessionInbound: "accept"` (added by `/config`).
+
+- **`crossSessionInbound` unset** means Claude Code decides per message by permission-mode class. A prompting session (auto, `acceptEdits`, `dontAsk`) delivers everything except messages from a session that bypasses permissions, which it holds for approval. Every session here runs auto, so named-session messaging works without the key, and messages from bypass sessions keep the approval step. A `-p` worker that must take messages unattended needs `crossSessionInbound: "accept"` in its `--settings`.
+- **`dialogExpiry`** defaults to five minutes: how long Remote Control or an SDK host has to answer a forwarded dialog, and how long a held cross-session message waits for approval.
+- **Kept although close to a default:** `permissions.defaultMode: "auto"`. The reference lists its default as unset; auto is only the interactive default (2.1.284), so the key stays explicit.
+- The variants still set `idleCompaction: true`; they were not cleaned up.
 
 ## Prefix Cost Model
 
