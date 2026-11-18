@@ -13,15 +13,13 @@
     "deny": [
       "DesignSync",
       "NotebookEdit",
-      "SendMessage",
       "PushNotification",
       "RemoteTrigger",
       "ReportFindings",
       "ScheduleWakeup",
       "CronCreate",
       "CronDelete",
-      "CronList",
-      "ListAgents"
+      "CronList"
     ],
     "defaultMode": "auto"
   },
