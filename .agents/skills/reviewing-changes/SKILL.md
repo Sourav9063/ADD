@@ -55,7 +55,7 @@ Default to the direct two-ref form. Use merge-base form (`<base>...HEAD`) only w
 
 - Judge repository standards and the originating specification as separate axes. Code can satisfy local conventions and still miss the requested behavior; report each gap under its own axis.
 - Lead with findings, ordered by severity.
-- Each finding needs severity, file:line, concrete failure mode, and fix direction.
+- Each finding needs severity, file:line, concrete failure mode, a reproducing input, execution path, or focused check, and fix direction. Distinguish observed failures from reasoned risks and mark checks not run.
 - Report style issues only when they create behavior or maintenance risk.
 - If no issues, say no blocking findings and state verification coverage/residual risk.
 - Mention uncertain assumptions separately, not as facts.
@@ -73,6 +73,7 @@ Severity:
 
 - **Blocking:** path:line - concise problem.
   Impact: concrete failure mode.
+  Evidence: reproducing input/path/check, labeled observed or reasoned.
   Fix: direct remediation.
 
 **Verification**

@@ -7,18 +7,22 @@ description: Read `agents/MEMORY.md` with `AGENTS.md` before non-trivial work. R
 
 `agents/MEMORY.md` holds the repository-wide rules taught here that defaults do not supply. Read it with `AGENTS.md`, or the `CLAUDE.md` or `GEMINI.md` pointer where a project uses one, before non-trivial work; treat it as binding but subordinate to `AGENTS.md` and to narrower scoped instructions. When a new instruction conflicts with a recorded rule, raise it immediately and settle it before acting; never pick a side silently.
 
+Keep rules spanning unrelated project tasks in MEMORY; route feature, integration, and subsystem decisions and do/don't rules to topic knowledge, including corrections. Record immediately; add conditional pointers without duplicating rules. Example: Git ownership in MEMORY; CRM update constraints in knowledge.
+
 ### Loop
 
 Learn inside the session, not after it:
 
-1. Notice the signal: a correction, rejected pattern, repeated instruction, stated preference, or verified repository-wide decision. Confirm it generalizes past the current task.
+1. Notice the signal: a correction, rejected pattern, repeated instruction, stated preference, or verified repository-wide decision. Confirm it generalizes past the current task and select its owning scope.
 2. Fix the work the correction names; the entry prevents the next occurrence, not this one.
 3. Write the rule before resuming the task the signal interrupted.
 4. Apply it for the rest of the session.
 
-A repeated correction is a memory failure, not a one-off: record it that session in wording strict enough that the behavior cannot recur, and say that you did.
+A repeated correction is a memory failure, not a one-off: record or refine the rule that session and say that you did. Check whether the existing rule was loaded, understood, applicable, and consistent with other instructions; fix the demonstrated cause rather than merely strengthening wording or duplicating guidance.
 
-Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope.
+Propose ownership, type, validation, lint, or test enforcement for recurring mechanically preventable failures; implement only within authorized scope. Verify that added enforcement rejects a representative invalid case and accepts the intended valid case, then remove prose it makes redundant.
+
+Keep inferred lessons within their verified scope. Repeated existing patterns alone do not establish a preference; promote a local lesson beyond its project only by explicit decision. Record explicit user preferences immediately; uncertain inferences remain investigation, not binding memory.
 
 Record the rule, not the incident: one imperative line naming the trigger and the required or forbidden behavior, for example "Do not add explanatory comments; let names and structure carry intent." Drop apology, narration, and rationale that does not change when the rule applies. Update stale or conflicting entries: a user overriding a rule is a signal too, so narrow the entry to its real scope or delete it, and say which. Never store task details, guesses, implementation specifics, or secrets; domain facts go to `agents/knowledge/`, execution state to `agents/plans/`.
 
