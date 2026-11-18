@@ -1,6 +1,6 @@
 # Harness Context Tuning
 
-What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update). Settings rechecked against the changelog through 2.1.296 on 2026-10-10; see [2026-10-10 Changelog Review](#2026-10-10-changelog-review). Rechecked through 2.1.300 on 2026-10-15; see [2026-10-15 Changelog Review](#2026-10-15-changelog-review).
+What Claude Code settings cost in context prefix tokens, and which levers matter. Verified 2026-09-08 against Claude Code 2.1.263 on Opus 5 in this repository. Rechecked 2026-09-23 on 2.1.280 and Opus 5.5; see [2026-09-23 Recheck](#2026-09-23-recheck), which overrides anything older where they disagree. Config decisions changed 2026-09-26; see [2026-09-26 Config Update](#2026-09-26-config-update). Settings rechecked against the changelog through 2.1.296 on 2026-10-10; see [2026-10-10 Changelog Review](#2026-10-10-changelog-review). Rechecked through 2.1.300 on 2026-10-15; see [2026-10-15 Changelog Review](#2026-10-15-changelog-review). Rechecked through 2.1.327 on 2026-11-18; see [2026-11-18 Changelog Review](#2026-11-18-changelog-review).
 
 Supersedes two earlier passes. See [Superseded Findings](#superseded-findings) before trusting any older number.
 
@@ -175,7 +175,7 @@ These keys shrink conversation growth, not the prefix. That growth dominates in 
 
 Claude Code 2.1.296. Checked against the changelog from 2.1.281 and the settings and env var references; no token effects were measured.
 
-- **`autoCompactWindow` is unset by user choice.** Opus 5.5, Sonnet 5.5 (2.1.284), and Haiku 5.5 (2.1.293) default to 1M windows, so compaction now runs near 1M and per-turn cost grows with it; see [Subscription Priorities](#subscription-priorities). To cap again, set `autoCompactWindow` (100000 to 1000000), run `/autocompact` (saves to `modelSettings.<model>.autoCompactWindow` from 2.1.288, which wins over the top-level key), or set `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`.
+- **`autoCompactWindow` was unset by user choice** (superseded 2026-11-18: now 500000). Opus 5.5, Sonnet 5.5 (2.1.284), and Haiku 5.5 (2.1.293) default to 1M windows, so compaction now runs near 1M and per-turn cost grows with it; see [Subscription Priorities](#subscription-priorities). To cap again, set `autoCompactWindow` (100000 to 1000000), run `/autocompact` (saves to `modelSettings.<model>.autoCompactWindow` from 2.1.288, which wins over the top-level key), or set `CLAUDE_CODE_DISABLE_1M_CONTEXT=1`.
 - **Status line `used_percentage` is relative to `context_window_size`,** which is 1M on these models. Rescale only when a compact cap is set.
 - **`permissions.defaultMode: "auto"` is now the interactive default** (2.1.284). Keep it explicit so the config does not depend on that default.
 - **`subagentPromptCacheTtl` stays unset.** It covers subagents, compaction, and helper requests. Subagents are short-lived, so a 1h write rarely pays back.
@@ -187,11 +187,27 @@ Claude Code 2.1.296. Checked against the changelog from 2.1.281 and the settings
 
 Claude Code 2.1.300. Checked against the changelog from 2.1.291; no token effects were measured.
 
-- **`idleCompaction: true` is explicit** (2.1.299, default on). A conversation over 200K left idle about 54 minutes is compacted before the 1h prompt cache expires, so the next message reads a summary instead of re-writing the full context. It pairs with `promptCacheTtl: "1h"` and the uncapped 1M window. `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the 200K minimum; unset. Not yet added to the `.claude/settings.ask.json` and `.claude/settings.rc.json` variants.
+- **`idleCompaction: true` is explicit** (2.1.299, default on). A conversation over 200K left idle about 54 minutes is compacted before the 1h prompt cache expires, so the next message reads a summary instead of re-writing the full context. It pairs with `promptCacheTtl: "1h"` and the uncapped 1M window. `CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS` changes the 200K minimum; unset. Added to the variants 2026-11-18.
 - **The rtk hook keeps the default `onFailure`** (2.1.295). `onFailure: "block"` would block every Bash call when `rtk` is missing or fails. From 2.1.300, hook `updatedInput` is validated like model input; the rtk rewrite only changes `command`, so it is unaffected.
 - **Subagent effort can now be set per call.** The Agent tool takes an `effort` parameter (2.1.292), and subagent frontmatter takes `autoCompactWindow` (2.1.296). Whether `modelSettings["claude-sonnet-5-5"].effortLevel` applies to subagents without either is still unverified.
 - **`CLAUDE_CODE_DISABLE_FILE_MENTIONS` stays unset** (2.1.299). It sends `@` mention paths instead of contents, so the model spends an extra Read turn to get the same tokens.
 - **No change needed for:** MCP allow-rule narrowing (2.1.299; no MCP rules here, connectors off), gzip request bodies (2.1.300; default on), and Haiku 5.5 as the default Haiku (2.1.293; already in `modelSettings`).
+
+## 2026-11-18 Changelog Review
+
+Claude Code 2.1.327. Checked against the changelog from 2.1.301 and the settings reference; no token effects were measured. Proposal and rejected options: `WIP/claude-settings-proposal-2026-11.md`.
+
+- **`attribution: false`** replaces `attribution.commit`/`pr: ""` and the deprecated `includeCoAuthoredBy` in all three files. Empty strings left `attribution.sessionUrl` on, so a `Claude-Session:` trailer was still requested.
+- **No `$schema`.** The SchemaStore schema is community-maintained and lags the CLI: it rejects `attribution: false` and valid deny names such as `ScheduleWakeup` and `ListAgents`. Validate against the settings reference and `claude doctor` instead.
+- **`CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES=1`** (2.1.323): stops the extra requests that write subagent progress summaries, which focus view hides anyway.
+- **`skillOverrides["plugin-authoring"]: "off"`**: the bundled mod-authoring skill is irrelevant here.
+- **Variants** now set `idleCompaction: true`, closing the 2026-10-15 gap.
+- **Subagent effort:** since 2.1.317, a subagent on a different model uses that model's saved effort, so `modelSettings["claude-sonnet-5-5"].effortLevel` should now apply to the Sonnet-pinned subagents. Still confirm once with a subagent.
+- **User-scope traps found:** `autoMode` is user-or-managed scope and, without `"$defaults"`, replaces built-in classifier entries. A project-specific `autoMode.environment` in `~/.claude/settings.json` misdescribed every other repository; this file sets none, so copying it over removes the block. A per-model `effortLevel` in the user file is overridden by this project file only inside this repository.
+- **Rejected:** `blockWritesOutsideWorkingDirectories` (also refuses edits to `.claude/settings*.json`, which this repository edits), `denyInsteadOfPrompting` (drops actions answerable through Remote Control; use per run via `--settings` for unattended jobs).
+- **`autoCompactWindow: 500000`** (user decision, supersedes the 2026-10-10 "unset" choice): compaction runs at 500k instead of near 1M, halving the worst-case per-turn cache read. A `modelSettings.<model>.autoCompactWindow` saved by `/autocompact` would override it for that model. The status line already rescales context use against the top-level key in `~/.claude/settings.json`.
+- **Haiku 5.5 effort lowered to `high`** from `xhigh`.
+- **Behavior notes:** 2.1.317 removed the Read tool's unchanged-file stub, so re-reads cost full tokens. 2.1.322 trims background-command notifications over 1,000 characters.
 
 ## Prefix Cost Model
 

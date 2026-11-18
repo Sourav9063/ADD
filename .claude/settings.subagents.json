@@ -1,0 +1,104 @@
+{
+  "attribution": false,
+  "syncClaudeAiSkills": false,
+  "syncClaudeAiPlugins": false,
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK": "1",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-sonnet-5-5",
+    "CLAUDE_CODE_SUBAGENT_MODEL_FORCE": "1",
+    "CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES": "1"
+  },
+  "permissions": {
+    "deny": [
+      "DesignSync",
+      "NotebookEdit",
+      "SendMessage",
+      "RemoteTrigger",
+      "ReportFindings",
+      "ScheduleWakeup",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "ListAgents",
+      "SendFeedback",
+      "EnterWorktree",
+      "ExitWorktree",
+      "Read(**/.env)",
+      "Read(**/.env.*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opus",
+  "fallbackModel": [
+    "claude-sonnet-5-5"
+  ],
+  "disableClaudeAiConnectors": true,
+  "skillOverrides": {
+    "loop": "off",
+    "schedule": "off",
+    "dataviz": "off",
+    "claude-api": "off",
+    "keybindings-help": "off",
+    "fewer-permission-prompts": "off",
+    "code-review": "user-invocable-only",
+    "simplify": "user-invocable-only",
+    "security-review": "user-invocable-only",
+    "run": "user-invocable-only",
+    "init": "user-invocable-only",
+    "plugin-authoring": "off"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ]
+  },
+  "disableAgentView": true,
+  "disableWorkflows": true,
+  "enableArtifact": false,
+  "bashOutputMaxChars": 8000,
+  "respondToBashCommands": false,
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "viewMode": "focus",
+  "feedbackDrafts": "off",
+  "spinnerTipsEnabled": false,
+  "promptCacheTtl": "1h",
+  "effortLevel": "medium",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "high"
+    },
+    "claude-haiku-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "showClearContextOnPlanAccept": true,
+  "askUserQuestionTimeout": "5m",
+  "plansDirectory": "./agents/plans",
+  "autoMemoryEnabled": false,
+  "editorMode": "vim",
+  "vimInsertModeRemaps": {
+    "ii": "<Esc>"
+  },
+  "preferredNotifChannel": "auto",
+  "autoCompactEnabled": true,
+  "idleCompaction": true,
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true,
+  "autoCompactWindow": 500000
+}
