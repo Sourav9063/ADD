@@ -199,7 +199,7 @@ Claude Code 2.1.327. Checked against the changelog from 2.1.301 and the settings
 
 - **`attribution: false`** replaces `attribution.commit`/`pr: ""` and the deprecated `includeCoAuthoredBy` in all three files. Empty strings left `attribution.sessionUrl` on, so a `Claude-Session:` trailer was still requested.
 - **No `$schema`.** The SchemaStore schema is community-maintained and lags the CLI: it rejects `attribution: false` and valid deny names such as `ScheduleWakeup` and `ListAgents`. Validate against the settings reference and `claude doctor` instead.
-- **`CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES=1`** (2.1.323) was added, then removed later the same day along with subagents.
+- **`CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES=1`** (2.1.323) was added, removed with subagents, then restored; see the `Agent` entry below.
 - **`skillOverrides["plugin-authoring"]: "off"`**: the bundled mod-authoring skill is irrelevant here.
 - **Variants** now set `idleCompaction: true`, closing the 2026-10-15 gap.
 - **Subagent effort:** since 2.1.317, a subagent on a different model uses that model's saved effort, so `modelSettings["claude-sonnet-5-5"].effortLevel` should now apply to the Sonnet-pinned subagents. Still confirm once with a subagent.
@@ -207,7 +207,8 @@ Claude Code 2.1.327. Checked against the changelog from 2.1.301 and the settings
 - **Rejected:** `blockWritesOutsideWorkingDirectories` (also refuses edits to `.claude/settings*.json`, which this repository edits), `denyInsteadOfPrompting` (drops actions answerable through Remote Control; use per run via `--settings` for unattended jobs).
 - **`autoCompactWindow: 500000`** (user decision, supersedes the 2026-10-10 "unset" choice): compaction runs at 500k instead of near 1M, halving the worst-case per-turn cache read. A `modelSettings.<model>.autoCompactWindow` saved by `/autocompact` would override it for that model. The status line already rescales context use against the top-level key in `~/.claude/settings.json`.
 - **Haiku 5.5 effort lowered to `high`** from `xhigh`.
-- **Subagents removed in favour of named sessions** (user decision; workflow in `docs/claude/Agents_Team.md`). `Agent` is denied, which supersedes the 2026-09-23 "`Agent` is allowed" decision. `CLAUDE_CODE_SUBAGENT_MODEL`, `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, and `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES` were removed as dead config. Per-role model and effort come from `--model` and `--effort` at launch. `SendMessage` and `ListAgents` are no longer denied in `.claude/settings.json` or either variant, because cross-session messaging needs both. The old advice to deny `Agent` and `ListAgents` together no longer applies. Token effect unmeasured: denying `Agent` saves roughly 2k, and allowing `ListAgents` costs roughly 0.4k. `.claude/settings.subagents.json` keeps the subagent setup. `isolatePeerMachines: true` in all three files makes Claude ask before a message leaves this machine.
+- **Subagents removed in favour of named sessions** (user decision; workflow in `docs/claude/Agents_Team.md`). `Agent` is denied, which supersedes the 2026-09-23 "`Agent` is allowed" decision. Per-role model and effort come from `--model` and `--effort` at launch. `SendMessage` and `ListAgents` are no longer denied in `.claude/settings.json` or either variant, because cross-session messaging needs both. The old advice to deny `Agent` and `ListAgents` together no longer applies. Allowing `ListAgents` costs roughly 0.4k, unmeasured. `.claude/settings.subagents.json` keeps the subagent setup. `isolatePeerMachines: true` in all three files makes Claude ask before a message leaves this machine.
+- **Only `Agent` is denied; the subagent env vars are back** (later 2026-11-18). `Agent` is the sole agent-related deny entry in `.claude/settings.json`, and denying it saves about 1.1k prefix tokens. `CLAUDE_CODE_SUBAGENT_MODEL`, `CLAUDE_CODE_SUBAGENT_MODEL_FORCE`, and `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES` are restored, matching `.claude/settings.subagents.json`. They are kept so re-enabling subagents takes one step: remove `Agent` from the deny list. Env vars cost no prefix tokens (see [Confirmed Non-Levers](#confirmed-non-levers)).
 - **Behavior notes:** 2.1.317 removed the Read tool's unchanged-file stub, so re-reads cost full tokens. 2.1.322 trims background-command notifications over 1,000 characters.
 
 ## Prefix Cost Model
@@ -246,5 +247,5 @@ Two earlier passes produced wrong numbers. Both failures had the same shape: som
 | Total saving | ~4.3k, later 34% | ~19.3k (70%) |
 | Feature flags | zero | the dominant lever, ~18k |
 | `permissions.deny` list | ~4.3k | 2,540 on Opus |
-| Deny `Agent` | ~1.3k | unverified, print mode said 0 but it loads interactively |
+| Deny `Agent` | ~1.3k | ~1.1k (2026-11-18) |
 | `autoMemoryEnabled` | not measured | 693 on Opus, marginal |
