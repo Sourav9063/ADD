@@ -31,13 +31,15 @@ Explain decisions, rationale, constraints, and source owners. Put tutorials/API 
 
 ### Plans
 
-`agents/plans/` holds execution state: goal, decisions, open questions, risks, and ordered tasks with checkpoints. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal, or state them before implementation when no plan is warranted.
+`agents/plans/` holds execution state: goal, decisions, open questions, risks, and ordered tasks with checkpoints. A plan steers work; it never defines current behavior. Record acceptance criteria in the plan's goal as numbered, checkable items, or state them before implementation when no plan is warranted; an approved change edits the item with its date.
 
-Keep status, remaining checkpoints, and dependencies near the top; distinguish local implementation from release. Indexes navigate; owning plans hold progress.
+Keep status, remaining checkpoints, and dependencies near the top; distinguish local implementation from release. Rewrite changed status, goals, and decisions to current truth, noting what each replaced in one dated line; link evidence rather than inline it. Indexes navigate; owning plans hold progress.
+
+Give each open question an ID, owner, what it blocks, and a recommendation; a risk awaiting someone's answer is one. Move answers into the owning plan's decisions or knowledge and delete the question.
 
 Create or update a precisely named `.md` file, after a repository search, when the user asks to create, write, save, or produce a plan, or when multi-step work needs state that survives context loss. Split work into ordered, independently verifiable tasks with a checkpoint each; when committing is authorized, commit at task boundaries so a failed step costs one task, not the plan.
 
-Prefer tasks delivering one observable behavior across layers; name dependencies and acceptance checks. Stage compatibility when migrations cannot land safely in behavioral slices.
+Prefer tasks delivering one observable behavior across layers; name dependencies, acceptance checks, and files touched. A plan is ready when a fresh implementer needs no material design choices. Record unverified external-system assumptions as risks, each with its settling check. Stage compatibility when migrations cannot land safely in behavioral slices.
 
 Before writing:
 
@@ -45,12 +47,13 @@ Before writing:
 2. Present options for unresolved decisions affecting scope, behavior, compatibility, architecture, security, or migration.
 3. When the user requested a draft, record unresolved material choices as open decisions. They block implementation, not plan creation.
 
-For public-contract, migration, security-boundary, or cross-repository plans, get an independent review (fresh session, subagent, or reviewer) before implementation; fresh context catches wrong turns baked into the original reasoning. The review challenges assumptions, scope, compatibility, risks, and verification coverage; resolve material findings or record them as open decisions. If review is unavailable, record that in the plan and ask the user whether to proceed.
+For public-contract, migration, security-boundary, or cross-repository plans, record rejected alternatives with concrete trade-offs and get an independent review (fresh session, subagent, or reviewer) before implementation; fresh context catches wrong turns baked into the original reasoning. Give the reviewer the plan and the code it names, never the conversation or your conclusions; it first restates the plan, and any part it cannot restate blocks. The review challenges assumptions, scope, compatibility, risks, and verification coverage; resolve material findings or record them as open decisions. A failed or empty review counts as not run. If review is unavailable, record that in the plan and ask the user whether to proceed.
 
 ### Implementation
 
-- Update the plan as verified facts emerge; mark a task done only after its checkpoint passes.
-- When implementation reveals a material decision the plan does not cover, or an acceptance criterion proves ambiguous or impossible, pause, record it in the plan, and resolve it with the user before continuing.
+- Update the plan as verified facts emerge, including unlisted files a task needs; mark a task done only after its checkpoint passes.
+- At task boundaries or past ~200 lines, move durable decisions to knowledge and cut detail linked evidence holds.
+- When implementation reveals a material decision the plan does not cover, a request contradicts its goal or acceptance criteria, or an acceptance criterion proves ambiguous or impossible, pause, record it in the plan, and resolve it with the user before continuing.
 - When code has diverged from the plan's execution state, trust the code and revise the plan.
 - When resuming, re-read the plan, re-verify in code every unverified claim about current code, then continue from the first incomplete task.
 - When work traces a complex subsystem, such as authentication, authorization, caching, data sync, or deployment, across many files, create or extend its one knowledge file mapping that code.
@@ -139,6 +142,7 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For multi-step work, give a brief plan and explicit success checks.
 - When parallel editing is authorized, assign disjoint write ownership and serialize edits to shared files.
 - Track processes and temporary state you create for verification; clean up only what you own and preserve existing user sessions.
+- Before editing, note existing uncommitted changes; keep them out of your diff, review, and commits.
 - Run the narrowest relevant verification first; choose focused tests, lint, typecheck, or build based on the changed seam, then broaden only as risk warrants.
 - Verify changed behavior through the interface its users exercise, including relevant side effects; state what each check establishes and what remains unverified.
 - Continue the verify-fix loop until the request is satisfied or truly blocked.
