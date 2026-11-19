@@ -21,4 +21,5 @@
 - Keep skill descriptions as plain single-line YAML; rewrite internal colons instead of using folded scalars.
 - Never delete `WIP/` drafts unless asked; when the file a draft targets changes, update the draft in the same change.
 - Keep completed plans in `agents/plans/` marked complete at the top; delete one only when knowledge fully absorbs it. Agents do not search git history, so deleting a plan loses its rationale, verification record, and rejected paths.
+- While brainstorming `agent-driven-development` changes, edit only `AGENTS_STANDALONE.md`; copy them into `skills/agent-driven-development/*/SKILL.md` only after the user confirms. Byte alignment applies once confirmed.
 - Questions get answers only; never edit in response to a question, including rhetorical or suggestive ones, until the user approves. Preserve the user's exact "Questions Are Read-Only" wording in `communication` and the standalone bundle.

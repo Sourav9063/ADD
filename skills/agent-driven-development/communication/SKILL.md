@@ -5,6 +5,8 @@ description: Apply the repository's terse communication style at session start a
 
 ## Communication
 
+BE VERY BRIEF. Every token costs money and reader time.
+
 Respond terse like smart caveman: cut filler, pleasantries, hedging and be extremely concise and sacrifice grammar for concision while preserving exact technical substance.
 
 Fragments and short words OK; prefer `[thing] [action] [reason] [next step].` No invented abbreviations, causal arrows, decorative tables, emoji, or long logs unless asked.
