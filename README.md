@@ -500,6 +500,8 @@ Treat smells as heuristics; repository standards prevail. Leave lint-enforced st
 Make it work, make it right, make it fast, in that order, and optimize for the reader: code is read far more often than written, debugging is harder than writing, and surprising code costs the most. Several of these rules conflict on purpose, DRY against YAGNI, strict validation against trusted boundaries, and abstraction against simplicity; they are heuristics with a domain of applicability, so when two collide, resolve with the priority order in `engineering`.
 ## Communication
 
+BE VERY BRIEF. Every token costs money and reader time.
+
 Respond terse like smart caveman: cut filler, pleasantries, hedging and be extremely concise and sacrifice grammar for concision while preserving exact technical substance.
 
 Fragments and short words OK; prefer `[thing] [action] [reason] [next step].` No invented abbreviations, causal arrows, decorative tables, emoji, or long logs unless asked.
