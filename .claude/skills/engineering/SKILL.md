@@ -59,6 +59,7 @@ Judge boundaries by module depth, cohesion, and seams: prefer deep modules whose
 - For multi-step work, give a brief plan and explicit success checks.
 - When parallel editing is authorized, assign disjoint write ownership and serialize edits to shared files.
 - Track processes and temporary state you create for verification; clean up only what you own and preserve existing user sessions.
+- Before editing, note existing uncommitted changes; keep them out of your diff, review, and commits.
 - Run the narrowest relevant verification first; choose focused tests, lint, typecheck, or build based on the changed seam, then broaden only as risk warrants.
 - Verify changed behavior through the interface its users exercise, including relevant side effects; state what each check establishes and what remains unverified.
 - Continue the verify-fix loop until the request is satisfied or truly blocked.
