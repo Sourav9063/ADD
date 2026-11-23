@@ -1,6 +1,6 @@
 # Claude Code Multi-Session Workflow: Named Sessions and Cross-Session Messaging
 
-This guide describes a multi-terminal development workflow in Claude Code using manually launched, named sessions (Planner, Implementer, Reviewer, and Testwriter) and cross-session messaging as an alternative to background subagents.
+This guide describes a multi-terminal development workflow in Claude Code using manually launched, named sessions (Orchestrator, Planner, Implementer, Reviewer, and Testwriter) and cross-session messaging as an alternative to background subagents.
 
 ## 1. Architecture Comparison: Named Sessions and Subagents
 
@@ -20,6 +20,7 @@ This guide describes a multi-terminal development workflow in Claude Code using 
 
 - **Direct feedback loops.** Reviewer and Testwriter can send Implementer bug reports or failing test logs directly.
 - **Persistent context.** Implementer can retain architectural decisions across multiple features in the same session.
+- **Task-scoped orchestration.** Clear Orchestrator with `/clear` between tasks while Planner and Implementer keep their context.
 - **Separate model and effort settings.** Assign each role the model and reasoning effort appropriate to its work.
 - **Human intervention at any point.** Inspect, redirect, or approve work in each role's terminal.
 
@@ -62,19 +63,22 @@ This guide describes a multi-terminal development workflow in Claude Code using 
 
 ### Launch Directly
 
-Open four terminals or tmux panes in your project root. Run one command in each terminal; no alias or shell configuration is required.
+Open five terminals or tmux panes in your project root. Run one command in each terminal; no alias or shell configuration is required.
 
 ```bash
-# Terminal 1: Planner
+# Terminal 1: Orchestrator
+claude -n "Orchestrator" --model claude-opus-5-5 --effort medium
+
+# Terminal 2: Planner
 claude -n "Planner" --model claude-opus-5-5 --effort medium
 
-# Terminal 2: Implementer
+# Terminal 3: Implementer
 claude -n "Implementer" --model claude-sonnet-5-5 --effort low
 
-# Terminal 3: Reviewer
+# Terminal 4: Reviewer
 claude -n "Reviewer" --model claude-sonnet-5-5 --effort high
 
-# Terminal 4: Testwriter
+# Terminal 5: Testwriter
 claude -n "Testwriter" --model claude-sonnet-5-5 --effort medium
 ```
 
@@ -85,19 +89,23 @@ Use `--model opus` or `--model sonnet` if you prefer the model aliases instead o
 Use `--append-system-prompt` to give each session its role instructions. These commands replace the corresponding launch commands above.
 
 ```bash
-# Terminal 1: Planner
+# Terminal 1: Orchestrator
+claude -n "Orchestrator" --model claude-opus-5-5 --effort medium \
+  --append-system-prompt "You are the Orchestrator. Route each task between Planner, Implementer, Reviewer, and Testwriter, track progress, and report status to the user. Never write specs or modify application source code."
+
+# Terminal 2: Planner
 claude -n "Planner" --model claude-opus-5-5 --effort medium \
-  --append-system-prompt "You are the Planner. Write specs to markdown files and coordinate with Implementer, Reviewer, and Testwriter. Never modify application source code."
+  --append-system-prompt "You are the Planner. Write specs to markdown files and notify Orchestrator when a spec is ready for review. Never modify application source code."
 
-# Terminal 2: Implementer
+# Terminal 3: Implementer
 claude -n "Implementer" --model claude-sonnet-5-5 --effort low \
-  --append-system-prompt "You are the Implementer. Write clean production code strictly following approved markdown plans. Notify Reviewer and Testwriter when implementation is complete."
+  --append-system-prompt "You are the Implementer. Write clean production code strictly following approved markdown plans. Notify Reviewer and Testwriter when implementation is complete, and report completion to Orchestrator once review and tests pass."
 
-# Terminal 3: Reviewer
+# Terminal 4: Reviewer
 claude -n "Reviewer" --model claude-sonnet-5-5 --effort high \
   --append-system-prompt "You are the Reviewer. Audit git diffs against the specification for bugs, edge cases, and security issues. Send actionable feedback directly to Implementer."
 
-# Terminal 4: Testwriter
+# Terminal 5: Testwriter
 claude -n "Testwriter" --model claude-sonnet-5-5 --effort medium \
   --append-system-prompt "You are the Testwriter. Write and run unit and integration tests for implemented features. Report any test failures directly to Implementer."
 ```
@@ -107,6 +115,7 @@ claude -n "Testwriter" --model claude-sonnet-5-5 --effort medium \
 For shorter launch commands, add these aliases to `~/.zshrc` (zsh) or `~/.bashrc` (bash). You can also include the corresponding `--append-system-prompt` argument from above in each alias.
 
 ```bash
+alias c-orch='claude -n "Orchestrator" --model claude-opus-5-5 --effort medium'
 alias c-plan='claude -n "Planner" --model claude-opus-5-5 --effort medium'
 alias c-impl='claude -n "Implementer" --model claude-sonnet-5-5 --effort low'
 alias c-rev='claude -n "Reviewer" --model claude-sonnet-5-5 --effort high'
@@ -123,52 +132,53 @@ source ~/.zshrc
 source ~/.bashrc
 ```
 
-Then use `c-plan`, `c-impl`, `c-rev`, or `c-test` instead of the full launch command. Aliases are optional throughout this guide.
+Then use `c-orch`, `c-plan`, `c-impl`, `c-rev`, or `c-test` instead of the full launch command. Aliases are optional throughout this guide.
 
 ## 5. Step-by-Step End-to-End Workflow
 
-### Step 1: Launch All Four Named Sessions
+### Step 1: Launch All Five Named Sessions
 
 Use the direct commands in [Section 4](#4-shell-configuration--launch-setup), one per terminal. If you configured the optional aliases, you can use these shortcuts:
 
 | Terminal | Session | Optional alias | Model | Effort |
 | --- | --- | --- | --- | --- |
-| 1 | Planner | `c-plan` | Opus 5.5 | Medium |
-| 2 | Implementer | `c-impl` | Sonnet 5.5 | Low |
-| 3 | Reviewer | `c-rev` | Sonnet 5.5 | High |
-| 4 | Testwriter | `c-test` | Sonnet 5.5 | Medium |
+| 1 | Orchestrator | `c-orch` | Opus 5.5 | Medium |
+| 2 | Planner | `c-plan` | Opus 5.5 | Medium |
+| 3 | Implementer | `c-impl` | Sonnet 5.5 | Low |
+| 4 | Reviewer | `c-rev` | Sonnet 5.5 | High |
+| 5 | Testwriter | `c-test` | Sonnet 5.5 | Medium |
 
-Inside the sessions, use `/color blue`, `/color green`, `/color yellow`, and `/color purple` to distinguish them. If you omitted `-n` at launch, use `/rename Planner` or the appropriate role name within that session.
+Inside the sessions, use `/color orange`, `/color blue`, `/color green`, `/color yellow`, and `/color purple` to distinguish them. If you omitted `-n` at launch, use `/rename Orchestrator` or the appropriate role name within that session.
 
 ### Step 2: Verify Session Discovery
 
-In the Planner session, run:
+In the Orchestrator session, run:
 
 ```text
 /list-agents
 ```
 
-Confirm that Implementer, Reviewer, and Testwriter appear among the active local sessions. If two sessions have the same name, Claude Code appends a suffix such as `Planner-swift-falcon` to avoid routing collisions.
+Confirm that Planner, Implementer, Reviewer, and Testwriter appear among the active local sessions. If two sessions have the same name, Claude Code appends a suffix such as `Planner-swift-falcon` to avoid routing collisions.
 
 ### Step 3: Draft and Approve the Plan
 
-Ask Planner to explore the codebase and write a specification to a shared Markdown file:
+Ask Orchestrator to have Planner explore the codebase and write a specification to a shared Markdown file:
 
 ```text
-Analyze the codebase and design the implementation plan for the abc project. Write the full technical specification to abc.md. Do not write code yet.
+Tell the Planner session to analyze the codebase and design the implementation plan for the abc project. Planner should write the full technical specification to abc.md and not write code yet.
 ```
 
-Review `abc.md` and ask Planner for any adjustments before proceeding.
+Review `abc.md` and request any adjustments through Orchestrator, or directly in the Planner terminal, before proceeding.
 
 ### Step 4: Hand Off Implementation
 
-Once `abc.md` is approved, instruct Planner in plain English, or use `@Implementer` on v2.1.232+:
+Once `abc.md` is approved, instruct Orchestrator in plain English, or use `@Implementer` on v2.1.232+:
 
 ```text
 Tell the Implementer session that abc.md has the plan for the abc project and to implement it. Ask Implementer to notify Reviewer and Testwriter once the code is written.
 ```
 
-Planner uses `ListAgents` and `SendMessage` to send the instruction to Implementer. The message arrives in Implementer's session queue.
+Orchestrator uses `ListAgents` and `SendMessage` to send the instruction to Implementer. The message arrives in Implementer's session queue.
 
 ### Step 5: Review and Test in Parallel
 
@@ -183,7 +193,11 @@ Coordinate edits if both roles need to change the same files.
 
 1. Reviewer or Testwriter sends Implementer the exact file, line number, and failure reason for each issue.
 2. Implementer applies the fixes and asks Reviewer and Testwriter to verify again.
-3. Once review is approved and tests pass, Implementer or Reviewer reports completion to Planner and you.
+3. Once review is approved and tests pass, Implementer reports completion to Orchestrator, which reports to you.
+
+### Step 7: Start the Next Task
+
+Run `/clear` in Orchestrator to start the next task with a fresh context. Keep Planner and Implementer running so they retain planning and architectural context across tasks. Clear Reviewer and Testwriter too if you want a fresh review for each task.
 
 ## 6. Quick Troubleshooting Reference
 
