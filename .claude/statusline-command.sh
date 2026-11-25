@@ -1,66 +1,50 @@
 #!/usr/bin/env bash
-# Claude Code statusline: model, effort, context use, and both rate-limit
-# windows shown as "remaining (surplus vs even-burn pace) time-to-reset".
-# Everything happens in one jq pass so each redraw costs a single process.
+# Claude Code statusline: Opus • Medium • CTX 20% • 51%(+19) 1h36m • 64%(+29) 2d10h
+# Model, effort, context use, and both rate-limit windows shown as
+# "remaining(surplus vs even-burn pace) time-to-reset".
+# One jq process per redraw; missing or wrongly typed fields are skipped.
 
 settings="$HOME/.claude/settings.json"
 [ -r "$settings" ] || settings=/dev/null
 
-exec jq -r --slurpfile st "$settings" '
+# Settings load as raw text so malformed JSON falls back to raw context use
+# instead of blanking the line.
+exec jq -r --rawfile st "$settings" --arg nc "${NO_COLOR:-}" '
+  def esc($c): if $nc == "" then "\u001b[\($c)m" else "" end;
+  def cap: (.[0:1] | ascii_upcase) + (.[1:] | ascii_downcase);
+  def dur: (. / 86400 | floor) as $d | (. % 86400 / 3600 | floor) as $h | (. % 3600 / 60 | floor) as $m
+    | if $d > 0 then "\($d)d\($h)h" elif $h > 0 then "\($h)h\($m)m" else "\($m)m" end;
+
   # Context use against the effective window. Claude Code reports
   # used_percentage relative to context_window_size (e.g. 1M), but
-  # autoCompactWindow caps the usable window (e.g. 200k), so rescale tokens
-  # against the smaller of the two.
+  # autoCompactWindow caps the usable window (e.g. 500k), so rescale against
+  # the smaller of the two.
   def ctx:
-    (.context_window // {}) as $cw
-    | ($cw.context_window_size // null) as $size
-    | ($st[0].autoCompactWindow // null) as $ac
-    | (if ($size | type) == "number" and ($ac | type) == "number" then ([$size, $ac] | min)
-       else ($size // $ac) end) as $win
-    | (if ($cw.used_percentage | type) == "number" and ($size | type) == "number"
-         then ($cw.used_percentage * $size / 100)
-       else null end) as $tok
-    | if ($tok | type) == "number" and ($win | type) == "number" and $win > 0
-        then ($tok * 100 / $win | round)
-      elif ($cw.used_percentage | type) == "number" then ($cw.used_percentage | round)
-      else null end;
+    (.used_percentage? | numbers) as $used
+    | ((.context_window_size? | numbers) // null) as $size
+    | (($st | fromjson? | .autoCompactWindow? | numbers) // null) as $ac
+    | if $size != null and $ac != null and $size > 0 and $ac > 0
+        then $used * $size / ([$size, $ac] | min)
+      else $used end
+    | round;
 
-  def cap: if . == "" then "" else (.[0:1] | ascii_upcase) + (.[1:] | ascii_downcase) end;
+  # remaining% is what is left of the quota. $left * 100 / $len is the share
+  # of the window still on the clock: what you would have left burning evenly.
+  # Surplus is the difference; positive means ahead of budget. $left is clamped
+  # to [0, $len] so a stale reset cannot push the pace outside 0-100.
+  # Only the surplus is coloured, so the plain numbers are read first.
+  def win($len):
+    (.used_percentage? | numbers) as $u | (.resets_at? | numbers) as $r
+    | ([0, ([$r - now, $len] | min)] | max | floor) as $left
+    | (100 - ($u | round)) as $rem
+    | ($rem - ($left * 100 / $len | round)) as $s
+    | (if $s > 5 then "2;32" elif $s >= -5 then "2;33" else "2;31" end) as $c
+    | "\($rem)%" + esc($c) + "(" + (if $s >= 0 then "+" else "" end) + "\($s))" + esc("0") + " " + ($left | dur);
 
-  # Colour unless NO_COLOR is set. Only the separators and the surplus carry
-  # styling, so the plain numbers are what you actually read.
-  def c($code): if ($ENV.NO_COLOR // "") == "" then "\u001b[\($code)m\(.)\u001b[0m" else . end;
-
-  def hm: (. / 3600 | floor) as $h | (. % 3600 / 60 | floor) as $m
-          | if $h > 0 then "\($h)h\($m)m" else "\($m)m" end;
-  def dh: (. / 86400 | floor) as $d
-          | if $d > 0 then "\($d)d\(. % 86400 / 3600 | floor)h" else hm end;
-
-  def pct(v): if (v | type) == "number" then (v | round) else null end;
-  def secs(v): if (v | type) == "number" then ((v - now) | floor) else null end;
-
-  # $total is the window length in seconds: the share of it still on the clock
-  # is the quota you would have left burning evenly, so remaining minus that
-  # is the surplus. Positive means ahead of budget.
-  def window(used; resets; $total; $days):
-    pct(used) as $used | secs(resets) as $left
-    | if $used == null or $left == null then empty
-      else (if $left < 0 then 0 elif $left > $total then $total else $left end) as $left
-      | (100 - $used) as $rem
-      | ($rem - (($left * 100 / $total) | round)) as $surplus
-      | (if $surplus >= 0 then "(+\($surplus))" else "(\($surplus))" end
-         | c("2;\(if $surplus > 5 then 32 elif $surplus >= -5 then 33 else 31 end)")) as $delta
-      | "\($rem)%\($delta) \($left | if $days then dh else hm end)"
-      end;
-
-  [
-    (.model.id // "" | ltrimstr("claude-") | split("-")[0] // "" | cap),
-    (.effort.level // "" | cap),
-    (ctx | if . == null then empty else "CTX \(.)%" end),
-    window(.rate_limits.five_hour.used_percentage;
-           .rate_limits.five_hour.resets_at; 18000; false),
-    window(.rate_limits.seven_day.used_percentage;
-           .rate_limits.seven_day.resets_at; 604800; true)
-  ]
-  | map(select(. != "")) | join(" • " | c(1))
+  [ (.model?.id? | strings | ltrimstr("claude-") | split("-")[0] // "" | select(length > 0) | cap),
+    (.effort?.level? | strings | select(length > 0) | cap),
+    (.context_window? | objects | ctx | "CTX \(.)%"),
+    (.rate_limits?.five_hour? | objects | win(18000)),
+    (.rate_limits?.seven_day? | objects | win(604800))
+  ] | join(" " + esc("1") + "•" + esc("0") + " ")
 '
