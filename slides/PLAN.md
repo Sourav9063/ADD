@@ -4,7 +4,7 @@ Slide-by-slide spec for `slides/claude/index.html`. Brief: `slides/INSTRUCTIONS.
 
 ## Status
 
-- Status: ready for Implementer.
+- Status: superseded 2026-11-25 as the slide-by-slide spec. The deck follows the story structure in `slides/INSTRUCTIONS.md`; the build contract below still applies.
 - LinkedIn tips: `slides/linkedin-posts.md` did not exist when this plan was written. Placeholder: see [LinkedIn Tips](#linkedin-tips).
 
 ## Build Contract
