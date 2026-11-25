@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code, the ADD Way</title>
+<style>
+:root{--bg:#0f1115;--panel:#181b22;--panel2:#20242d;--line:#2c313c;--text:#e8eaf0;--muted:#a6adbb;--acc:#7aa2ff;--in:#7aa2ff;--out:#ffb86b;--hit:#5fd39a;--miss:#ff6b6b;--neu:#8b93a7;--yel:#f2d35b;--pur:#c39bff;
+--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);overflow:hidden;font-family:var(--sans)}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin:-540px 0 0 -960px;transform-origin:50% 50%;background:var(--bg);overflow:hidden}
+.slide{position:absolute;inset:0;display:none;font-size:30px;line-height:1.35}
+.slide.active{display:block;animation:fade .22s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.chip{position:absolute;left:80px;top:36px;font-size:24px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);background:#171c2b;border:1px solid #2b3550;border-radius:999px;padding:4px 18px;line-height:1.3}
+.slide h1{position:absolute;left:80px;top:88px;width:1760px;margin:0;font-size:68px;line-height:1.1;font-weight:760;letter-spacing:-.01em}
+.body{position:absolute;left:80px;right:80px;top:196px;bottom:96px}
+.tip{position:absolute;left:80px;bottom:30px;width:1480px;margin:0;font-size:24px;line-height:1.3;color:var(--muted);font-style:italic;border-left:4px solid var(--acc);padding-left:16px}
+.tip b{font-style:normal;color:var(--acc);font-weight:600}
+.tip code{font-size:1em}
+.cols{display:grid;grid-template-columns:var(--lc,820px) 1fr;gap:48px;height:100%;align-items:start}
+.dia{height:100%;min-width:0;display:flex;align-items:center;justify-content:center}
+.dia svg,svg.full{width:100%;height:100%;display:block}
+.pts{list-style:none;margin:0;padding:0;font-size:30px;line-height:1.35}
+.pts>li{position:relative;padding-left:34px;margin:0 0 16px}
+.pts>li::before{content:"";position:absolute;left:4px;top:.55em;width:12px;height:12px;background:var(--acc);border-radius:3px}
+.pts ul{list-style:none;margin:10px 0 0;padding:0;font-size:28px}
+.pts ul li{position:relative;padding-left:28px;margin:0 0 10px}
+.pts ul li::before{content:"";position:absolute;left:4px;top:.6em;width:9px;height:9px;background:var(--muted);border-radius:2px}
+.pts b,.t b{color:#fff}
+code{font-family:var(--mono)}
+li code,p code,td code,.t code,.note code,.strip code{background:#232834;border:1px solid #38405201;border-color:#384052;border-radius:8px;padding:1px 8px;font-size:.84em;color:#cfe0ff;white-space:nowrap}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:18px}
+svg text{font-family:var(--sans);fill:#e8eaf0}
+svg .mono{font-family:var(--mono)}
+svg .dk{fill:#0f1115}
+svg .mu{fill:#a6adbb}
+svg .ac{fill:#7aa2ff}
+svg .yl{fill:#f2d35b}
+svg .rd{fill:#ff6b6b}
+svg .gr{fill:#5fd39a}
+svg .og{fill:#ffb86b}
+svg .b{font-weight:700}
+svg .f24{font-size:24px}svg .f26{font-size:26px}svg .f28{font-size:28px}svg .f30{font-size:30px}svg .f32{font-size:32px}svg .f36{font-size:36px}svg .f40{font-size:40px}svg .f48{font-size:48px}svg .f64{font-size:64px}
+.sw{display:inline-block;width:22px;height:22px;border-radius:5px;vertical-align:-2px;margin-right:10px}
+
+/* chrome */
+#bar{position:fixed;left:0;top:0;height:6px;width:0;background:var(--acc);z-index:10;transition:width .25s ease}
+#counter{position:fixed;right:28px;bottom:18px;font-size:22px;font-weight:600;color:var(--muted);z-index:10;font-variant-numeric:tabular-nums;background:rgba(15,17,21,.8);padding:2px 10px;border-radius:8px}
+
+/* title and closing */
+.s-title .bgprompt{position:absolute;left:50px;bottom:10px;font:700 300px/1 var(--mono);color:#151a24;white-space:nowrap}
+.s-title .mid{position:absolute;left:120px;right:120px;top:300px}
+.s-title h1{position:static;width:auto;font-size:132px;line-height:1.05;margin:0}
+.s-title .sub{font-size:52px;line-height:1.25;color:var(--muted);margin:34px 0 0}
+.s-title .foot{position:absolute;left:120px;bottom:70px;margin:0;font-size:30px;color:var(--muted)}
+
+/* map */
+.track{position:relative;height:790px;margin-top:0}
+.track .line{position:absolute;left:154px;right:100px;top:390px;height:6px;background:#2f3646;border-radius:3px}
+.st{position:absolute;top:0;bottom:0;width:188px;left:calc(60px + var(--i)*188px)}
+.st .dot{position:absolute;top:393px;left:50%;transform:translate(-50%,-50%);width:84px;height:84px;border-radius:50%;background:var(--panel);border:4px solid var(--acc);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800}
+.st.last .dot{background:var(--acc);color:#0f1115;width:108px;height:108px;font-size:48px;box-shadow:0 0 0 10px rgba(122,162,255,.18)}
+.st .lab{position:absolute;left:50%;transform:translateX(-50%);width:340px;text-align:center}
+.st .lab b{display:block;font-size:34px;line-height:1.15}
+.st .lab span{display:block;font-size:26px;color:var(--muted);margin-top:6px}
+.st.up .lab{bottom:470px}
+.st.dn .lab{top:470px}
+.st.last .lab b{color:var(--acc)}
+.st .stem{position:absolute;left:50%;width:3px;background:#3a4256;transform:translateX(-50%)}
+.st.up .stem{top:330px;height:60px}.st.dn .stem{top:396px;height:70px}
+
+/* glossary */
+.gl{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;height:100%}
+.gl .card{padding:26px 22px;display:flex;flex-direction:column;align-items:flex-start}
+.gl svg{width:110px;height:110px;margin-bottom:18px}
+.gl h3{margin:0 0 12px;font-size:42px;line-height:1.1}
+.gl p{margin:0;font-size:30px;line-height:1.35;color:#d3d8e3}
+
+/* keycaps */
+.keys{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:24px;height:100%}
+.key{position:relative;background:linear-gradient(#262b36,#1b1f28);border:2px solid #3a4152;border-bottom:9px solid #10131a;border-radius:20px;padding:22px 30px;display:flex;flex-direction:column;justify-content:center}
+.key .k{font-family:var(--mono);font-size:54px;font-weight:700;line-height:1.1;color:#fff}
+.key .k.sm{font-size:44px}
+.key .d{font-size:32px;color:#d3d8e3;margin-top:10px;line-height:1.25}
+.key.hl{border-color:var(--acc);box-shadow:0 0 0 2px rgba(122,162,255,.35)}
+.key.hl .k{color:var(--acc)}
+.key .bdg{position:absolute;right:20px;top:18px;background:var(--acc);color:#0f1115;font-size:24px;font-weight:700;border-radius:999px;padding:2px 14px}
+
+/* screenshot */
+.shot{position:relative;width:1100px;height:719px;border:2px solid var(--line);border-radius:12px;overflow:hidden;flex:none;background:#000}
+.shot img{display:block;width:100%;height:100%;object-fit:fill}
+.pin{position:absolute;width:48px;height:48px;border-radius:50%;background:var(--acc);color:#0f1115;border:4px solid #fff;font-weight:800;font-size:28px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-50%);box-shadow:0 2px 12px rgba(0,0,0,.6)}
+.legend{list-style:none;margin:0;padding:0;font-size:28px;line-height:1.3}
+.legend li{display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+.legend .pin{position:static;transform:none;flex:none;width:44px;height:44px;font-size:26px;border-width:3px}
+
+@media (prefers-reduced-motion:reduce){.slide.active{animation:none}#bar{transition:none}}
+@media print{
+@page{size:1920px 1080px;margin:0}
+html,body{width:1920px;height:auto;overflow:visible;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#stage{position:static;margin:0;transform:none!important;height:auto;overflow:visible}
+.slide,.slide.active{display:block;position:relative;width:1920px;height:1080px;overflow:hidden;break-after:page;page-break-after:always;animation:none}
+#bar,#counter{display:none}
+}
+/* statusline */
+.sl{display:flex;align-items:stretch;justify-content:center;margin-top:50px}
+.sl .seg{display:flex;flex-direction:column;align-items:center}
+.sl .txt{font-family:var(--mono);font-size:42px;font-weight:700;white-space:nowrap;line-height:1.2;padding:8px 0;color:#fff}
+.sl .txt .g{color:var(--hit)}
+.sl .st2{width:4px;height:46px;background:#5a647a}
+.sl .box{border:2px solid var(--line);background:var(--panel);border-radius:14px;padding:14px 14px;font-size:26px;line-height:1.3;text-align:center;color:#e1e5ee;width:100%;flex:1}
+.sl .sep{align-self:flex-start;font-family:var(--mono);font-size:42px;font-weight:900;padding:8px 12px;color:#fff;line-height:1.2}
+.stack{display:flex;flex-direction:column;height:100%}
+.stack .dia{flex:1;min-height:0}
+/* table */
+table.cmp{width:100%;border-collapse:separate;border-spacing:0 10px;font-size:28px;line-height:1.3}
+.cmp th{font-size:30px;text-align:left;padding:6px 22px;color:#fff}
+.cmp td{background:var(--panel);padding:14px 22px;vertical-align:middle}
+.cmp td:first-child{font-weight:700;width:240px;border-radius:12px 0 0 12px;color:#fff}
+.cmp td:last-child{border-radius:0 12px 12px 0;color:var(--muted);width:420px}
+.cmp .ok::before{content:"\2713\00a0";color:var(--hit);font-weight:800}
+.cmp th.good{color:var(--hit)}
+.strip{border:3px solid var(--miss);border-radius:14px;padding:14px 24px;font-size:28px;line-height:1.3;margin-top:10px}
+.strip b{color:var(--miss)}
+.note{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:14px 24px;font-size:28px;line-height:1.35;margin-top:16px}
+/* flow */
+.flow{display:flex;align-items:stretch;gap:0}
+.fb{flex:1;background:var(--panel);border:3px solid var(--line);border-radius:18px;padding:18px 14px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:30px;font-weight:700;line-height:1.25;min-height:230px}
+.fb small{font-size:26px;font-weight:500;color:var(--muted);margin-top:8px;display:block}
+.fb.hand{border-color:var(--acc);background:#1a2030;box-shadow:0 0 0 6px rgba(122,162,255,.18)}
+.fb.go{background:var(--hit);border-color:var(--hit);color:#0f1115}
+.fb.go small{color:#0f1115}
+.fb.pln{background:var(--in);border-color:var(--in);color:#0f1115}
+.ar{width:60px;flex:none;display:flex;align-items:center;justify-content:center;font-size:46px;color:var(--acc);font-weight:800}
+.fb svg{width:52px;height:60px;margin-bottom:10px}
+/* grid6 */
+.grid6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:24px;height:100%}
+.grid6 .card{padding:26px 30px;display:flex;flex-direction:column;justify-content:flex-start;gap:16px}
+.grid6 .cm{font-family:var(--mono);font-size:38px;font-weight:700;color:var(--acc);line-height:1.2}
+.grid6 .cm span{color:#fff}
+.grid6 .bn{font-size:34px;line-height:1.35;color:#e1e5ee}
+/* section/closing slides */
+.s-sec h1{top:130px;font-size:116px;line-height:1.05}
+.s-sec .ps{position:absolute;left:80px;top:300px;width:1700px;margin:0;font-size:38px;line-height:1.35;list-style:none;padding:0}
+.s-sec .ps li{margin-bottom:12px;padding-left:40px;position:relative}
+.s-sec .ps li::before{content:"";position:absolute;left:4px;top:.55em;width:14px;height:14px;background:var(--acc);border-radius:3px}
+.s-sec .dia2{position:absolute;left:80px;right:80px;top:560px;height:380px}
+.s-close .main{position:absolute;left:90px;right:90px;top:250px;text-align:center;font-size:80px;line-height:1.18;font-weight:800;letter-spacing:-.01em;margin:0}
+.s-close .main em{font-style:normal;color:var(--acc)}
+.s-close .foot{position:absolute;left:0;right:0;bottom:120px;text-align:center;font-size:34px;color:var(--muted);margin:0;z-index:2}
+.s-close .foot b{color:#fff;font-size:44px;margin-right:18px}
+.s-close .foot code{font-size:34px;color:#cfe0ff}
+.s-close .fnd{position:absolute;left:0;right:0;bottom:0;height:90px;background:#1a2030;border-top:4px solid #2b3550}
+/* bubbles */
+.bubs{display:grid;grid-template-columns:1fr 1fr;gap:36px;width:100%}
+.bubs h4{margin:0 0 12px;font-size:28px}
+.bub{height:390px;border-radius:22px 22px 22px 6px;padding:24px 26px;background:var(--panel);border:2px solid var(--line)}
+.bub .ln{height:14px;border-radius:7px;background:#566079;margin-bottom:17px}
+.bub.ex{border-color:var(--acc);font-size:30px;line-height:1.4;color:#fff}
+.bub.ex code{font-size:24px}
+.tk{margin-top:22px;font-size:24px;color:var(--muted)}
+.tk i{display:block;height:34px;background:var(--out);border-radius:6px;margin-top:8px}
+
+.fl7{align-items:stretch}
+.fl7 .fb{font-size:26px;padding:16px 10px;min-height:290px}
+.fl7 .fb small{font-size:24px}
+.fl7 .ar{width:38px;font-size:34px}
+.fl7 .mn{font-family:var(--mono);font-size:24px;font-weight:700;display:block}
+.fl7 .mn.ac2{font-size:24px;white-space:nowrap;color:var(--acc);margin-bottom:6px}
+.fl7 .row{display:block;font-size:24px;font-weight:600;background:#232b40;border:1px solid #38405a;border-radius:8px;padding:4px 8px;margin-top:8px;width:100%}
+/* property table (slide 30) */
+table.cmp2{width:100%;border-collapse:separate;border-spacing:0 10px;font-size:28px;line-height:1.3;table-layout:fixed}
+.cmp2 th{text-align:left;padding:8px 22px;font-size:28px;vertical-align:bottom}
+.cmp2 th.me{color:var(--acc);font-family:var(--mono);font-size:24px;white-space:nowrap;font-weight:700;border-bottom:4px solid var(--acc)}
+.cmp2 th.dim{color:var(--muted);font-weight:600;border-bottom:4px solid #2c313c}
+.cmp2 td{padding:16px 22px;vertical-align:middle;background:var(--panel)}
+.cmp2 td:first-child{font-weight:700;color:#fff;border-radius:12px 0 0 12px}
+.cmp2 td.me{background:#1a2338;color:#fff}
+.cmp2 td.me::before{content:"\2713\00a0";color:var(--hit);font-weight:800}
+.cmp2 td.dim{color:var(--muted);font-style:italic}
+.cmp2 td:last-child{border-radius:0 12px 12px 0}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a6adbb"/></marker>
+<marker id="ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7aa2ff"/></marker>
+<marker id="ah-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ff6b6b"/></marker>
+<marker id="ah-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5fd39a"/></marker>
+<marker id="ah-o" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="18" markerHeight="18" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ffb86b"/></marker>
+</defs></svg>
+<div id="bar" role="presentation"></div>
+<div id="counter" aria-live="polite">1 / 1</div>
+<main id="stage">
+
+<!-- 1 -->
+<section class="slide s-title" id="s-1" aria-label="Slide 1: Claude Code, the ADD Way">
+<div class="chip">Opening</div>
+<div class="bgprompt" aria-hidden="true">❯ claude</div>
+<div class="mid">
+<h1>Claude Code, the ADD Way</h1>
+<p class="sub">How I run agents without letting them run me.</p>
+</div>
+<p class="foot">Agent Driven Development · team session</p>
+</section>
+
+<!-- 2 -->
+<section class="slide" id="s-2" aria-label="Slide 2: The Map">
+<div class="chip">Opening</div>
+<h1>The Map</h1>
+<div class="body"><div class="track" role="img" aria-label="Nine stops: CLI basics, Why the CLI, Tokens and cache, No auto memory, Statusline, Harness tuning, Named sessions, Daily features, Don't be a slave to a Model">
+<div class="line"></div>
+<div class="st up" style="--i:0"><div class="stem"></div><div class="dot">1</div><div class="lab"><b>CLI basics</b><span>slides 4 to 6</span></div></div>
+<div class="st dn" style="--i:1"><div class="stem"></div><div class="dot">2</div><div class="lab"><b>Why the CLI</b><span>slides 7 to 8</span></div></div>
+<div class="st up" style="--i:2"><div class="stem"></div><div class="dot">3</div><div class="lab"><b>Tokens and cache</b><span>slides 9 to 12</span></div></div>
+<div class="st dn" style="--i:3"><div class="stem"></div><div class="dot">4</div><div class="lab"><b>No auto memory</b><span>slides 13 to 14</span></div></div>
+<div class="st up" style="--i:4"><div class="stem"></div><div class="dot">5</div><div class="lab"><b>Statusline</b><span>slides 15 to 17</span></div></div>
+<div class="st dn" style="--i:5"><div class="stem"></div><div class="dot">6</div><div class="lab"><b>Harness tuning</b><span>slides 18 to 23</span></div></div>
+<div class="st up" style="--i:6"><div class="stem"></div><div class="dot">7</div><div class="lab"><b>Named sessions</b><span>slides 24 to 25</span></div></div>
+<div class="st dn" style="--i:7"><div class="stem"></div><div class="dot">8</div><div class="lab"><b>Daily features</b><span>slides 26 to 30</span></div></div>
+<div class="st up last" style="--i:8"><div class="stem"></div><div class="dot">9</div><div class="lab"><b>Don't be a slave to a Model</b><span>slides 31 to 39</span></div></div>
+</div></div>
+</section>
+
+<!-- 3 -->
+<section class="slide" id="s-3" aria-label="Slide 3: Five Words Before We Start">
+<div class="chip">Opening</div>
+<h1>Five Words Before We Start</h1>
+<div class="body"><div class="gl">
+<div class="card"><svg viewBox="0 0 110 110" role="img" aria-label="Small block"><rect x="30" y="30" width="50" height="50" rx="8" fill="#7aa2ff"/></svg><h3>Token</h3><p>The unit a model reads and writes: roughly 3 to 4 characters of English. Usage and limits are counted in tokens.</p></div>
+<div class="card"><svg viewBox="0 0 110 110" role="img" aria-label="Empty frame"><rect x="12" y="20" width="86" height="70" rx="10" fill="none" stroke="#7aa2ff" stroke-width="6"/></svg><h3>Context window</h3><p>Everything the model sees on one turn. Opus 5.5 and Sonnet 5.5 have 1M tokens. I compact at 500k.</p></div>
+<div class="card"><svg viewBox="0 0 110 110" role="img" aria-label="Filled frame"><rect x="12" y="20" width="86" height="70" rx="10" fill="none" stroke="#7aa2ff" stroke-width="6"/><rect x="24" y="32" width="62" height="12" rx="3" fill="#8b93a7"/><rect x="24" y="50" width="62" height="12" rx="3" fill="#7aa2ff"/><rect x="24" y="68" width="36" height="12" rx="3" fill="#7aa2ff"/></svg><h3>Context</h3><p>What currently fills that window: instructions, tools, files read, the conversation so far.</p></div>
+<div class="card"><svg viewBox="0 0 110 110" role="img" aria-label="Lightning bolt"><polygon points="62,8 24,62 50,62 42,102 86,44 58,44" fill="#5fd39a"/></svg><h3>Cache</h3><p>The provider remembers an exact repeated beginning of the context (the <b>prefix</b>), so re-sending it is cheaper.</p></div>
+<div class="card"><svg viewBox="0 0 110 110" role="img" aria-label="Dial"><path d="M16 84 A 40 40 0 1 1 94 84" fill="none" stroke="#8b93a7" stroke-width="8" stroke-linecap="round"/><path d="M16 84 A 40 40 0 0 1 40 22" fill="none" stroke="#ffb86b" stroke-width="8" stroke-linecap="round"/><line x1="55" y1="62" x2="72" y2="34" stroke="#e8eaf0" stroke-width="7" stroke-linecap="round"/><circle cx="55" cy="62" r="9" fill="#e8eaf0"/></svg><h3>Effort</h3><p>How hard the model thinks before answering: low, medium, high, xhigh.</p></div>
+</div></div>
+</section>
+
+<!-- 4 -->
+<section class="slide" id="s-4" aria-label="Slide 4: An Agent That Lives in Your Terminal">
+<div class="chip">1 · CLI basics</div>
+<h1>An Agent That Lives in Your Terminal</h1>
+<div class="body"><div class="cols" style="--lc:800px">
+<ul class="pts">
+<li>Claude Code is a coding agent you run with <code>claude</code> in a project folder.</li>
+<li>It reads files, searches, runs shell commands, and edits code, inside your repository.</li>
+<li>Permission mode decides what it may do without asking; a deny list blocks tools outright.</li>
+<li>One terminal = one session = one conversation.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 912 790" role="img" aria-label="Agent loop: you send a prompt to the model; the model calls a tool; the result goes back into context; the loop repeats until the model gives an answer">
+<rect x="0" y="100" width="150" height="90" rx="16" fill="#181b22" stroke="#8b93a7" stroke-width="3"/>
+<text x="75" y="141" text-anchor="middle" class="f30 b">You</text><text x="75" y="172" text-anchor="middle" class="f24 mu">(prompt)</text>
+<rect x="330" y="100" width="200" height="90" rx="16" fill="#7aa2ff"/>
+<text x="430" y="157" text-anchor="middle" class="f36 b dk">Model</text>
+<rect x="762" y="100" width="150" height="90" rx="16" fill="#ffb86b"/>
+<text x="837" y="157" text-anchor="middle" class="f32 b dk">Answer</text>
+<line x1="150" y1="145" x2="326" y2="145" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="530" y1="145" x2="758" y2="145" stroke="#ffb86b" stroke-width="4" marker-end="url(#ah-o)"/>
+<text x="644" y="124" text-anchor="middle" class="f24 mu">when done</text>
+<rect x="520" y="430" width="300" height="120" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/>
+<text x="670" y="478" text-anchor="middle" class="f32 b">Tool call</text><text x="670" y="518" text-anchor="middle" class="f24 mono ac">Read · Edit · Bash</text>
+<rect x="92" y="430" width="300" height="120" rx="16" fill="#7aa2ff"/>
+<text x="242" y="478" text-anchor="middle" class="f32 b dk">Result back</text><text x="242" y="518" text-anchor="middle" class="f32 b dk">into context</text>
+<path d="M480 192 C 560 262, 625 340, 640 426" fill="none" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="518" y1="490" x2="396" y2="490" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<path d="M242 426 C 262 340, 320 262, 380 192" fill="none" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<text x="436" y="338" text-anchor="middle" class="f26 mu">loops until</text><text x="436" y="370" text-anchor="middle" class="f26 mu">the job is done</text>
+<text x="670" y="600" text-anchor="middle" class="f26 yl">gated by permission</text><text x="670" y="632" text-anchor="middle" class="f26 yl">mode + deny list</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 5 -->
+<section class="slide" id="s-5" aria-label="Slide 5: Anatomy of a Turn">
+<div class="chip">1 · CLI basics</div>
+<h1>Anatomy of a Turn</h1>
+<div class="body"><div class="cols" style="--lc:760px">
+<ul class="pts">
+<li>Every turn sends the whole stack again, bottom to top.</li>
+<li><b>System prompt and tools:</b> same for everyone.</li>
+<li><b>Project guidance:</b> <code>CLAUDE.md</code> / <code>AGENTS.md</code>, skills list.</li>
+<li><b>Conversation:</b> every message, file read, and command output so far.</li>
+<li>New prompt on top. The model answers; the answer joins the conversation.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 952 790" role="img" aria-label="Context stack from bottom to top: system prompt, tools, project guidance, conversation so far, your new prompt. The bottom three layers are the prefix, the same every turn. An output box sits above the stack.">
+<rect x="40" y="6" width="520" height="70" rx="14" fill="#ffb86b"/><text x="300" y="52" text-anchor="middle" class="f32 b dk">Output</text>
+<line x1="300" y1="146" x2="300" y2="84" stroke="#ffb86b" stroke-width="4" marker-end="url(#ah-o)"/>
+<text x="322" y="122" class="f24 mu">the answer joins the conversation</text>
+<rect x="40" y="150" width="520" height="70" rx="12" fill="#7aa2ff" stroke="#e8eaf0" stroke-width="3"/><text x="300" y="195" text-anchor="middle" class="f30 b dk">Your new prompt</text>
+<rect x="40" y="228" width="520" height="230" rx="12" fill="#7aa2ff"/><text x="300" y="332" text-anchor="middle" class="f32 b dk">Conversation so far</text><text x="300" y="372" text-anchor="middle" class="f26 dk">messages, files read, outputs</text><text x="300" y="408" text-anchor="middle" class="f26 dk">grows every turn</text>
+<rect x="40" y="466" width="520" height="90" rx="12" fill="#98aad6"/><text x="300" y="522" text-anchor="middle" class="f30 b dk">Project: CLAUDE.md, skills</text>
+<rect x="40" y="564" width="520" height="90" rx="12" fill="#8b93a7"/><text x="300" y="620" text-anchor="middle" class="f30 b dk">Tools</text>
+<rect x="40" y="662" width="520" height="90" rx="12" fill="#8b93a7"/><text x="300" y="718" text-anchor="middle" class="f30 b dk">System prompt</text>
+<path d="M584 466 H600 V752 H584" fill="none" stroke="#e8eaf0" stroke-width="4"/>
+<text x="624" y="586" class="f30 b">prefix:</text><text x="624" y="624" class="f30 b">same every turn</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" id="s-6" aria-label="Slide 6: Commands You'll Actually Use">
+<div class="chip">1 · CLI basics</div>
+<h1>Commands You'll Actually Use</h1>
+<div class="body"><div class="keys">
+<div class="key hl"><span class="bdg">use daily</span><div class="k">/clear</div><div class="d">Fresh conversation between tasks</div></div>
+<div class="key hl"><span class="bdg">use daily</span><div class="k">/context</div><div class="d">What fills the window, by category</div></div>
+<div class="key"><div class="k">/compact</div><div class="d">Summarize to shrink the chat</div></div>
+<div class="key"><div class="k">/model</div><div class="d">Switch model per task</div></div>
+<div class="key"><div class="k">/effort</div><div class="d">Set thinking depth per task</div></div>
+<div class="key"><div class="k">Shift+Tab</div><div class="d">Cycle permission modes</div></div>
+<div class="key"><div class="k">!cmd</div><div class="d">Run a shell command yourself; output lands in context</div></div>
+<div class="key"><div class="k">Esc</div><div class="d">Interrupt the agent</div></div>
+<div class="key"><div class="k sm">/rename · /color</div><div class="d">Label a session</div></div>
+</div></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" id="s-7" aria-label="Slide 7: Your Editor Stays in Charge">
+<div class="chip">2 · Why the CLI</div>
+<h1>Your Editor Stays in Charge</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li>The CLI plugs into the system you already have; nothing to migrate.</li>
+<li>Agents run in terminal tabs in VS Code's editor area, as many as needed.</li>
+<li>You keep search, code navigation, source control, Problems, Timeline.</li>
+<li>Same tool in any terminal: VS Code, tmux, SSH.</li>
+<li>One <code>settings.json</code>, hooks, and skills shared by every tab.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Schematic of a VS Code window: Problems and Terminal on the left, the editor area in the middle holding three Claude terminal tabs named Planner, Implementer and Reviewer, and Explorer, Source Control and Timeline on the right.">
+<rect x="2" y="60" width="1008" height="560" rx="20" fill="#181b22" stroke="#3a4152" stroke-width="3"/>
+<circle cx="34" cy="90" r="9" fill="#ff6b6b"/><circle cx="62" cy="90" r="9" fill="#f2d35b"/><circle cx="90" cy="90" r="9" fill="#5fd39a"/>
+<rect x="18" y="124" width="230" height="480" rx="12" fill="#8b93a7"/>
+<text x="133" y="170" text-anchor="middle" class="f28 b dk">Problems</text><text x="133" y="214" text-anchor="middle" class="f28 b dk">Terminal</text>
+<rect x="764" y="124" width="230" height="480" rx="12" fill="#8b93a7"/>
+<text x="879" y="170" text-anchor="middle" class="f28 b dk">Explorer</text><text x="879" y="214" text-anchor="middle" class="f28 b dk">Source Control</text><text x="879" y="258" text-anchor="middle" class="f28 b dk">Timeline</text>
+<rect x="262" y="124" width="488" height="480" rx="12" fill="#0f1115" stroke="#7aa2ff" stroke-width="3"/>
+<text x="506" y="116" text-anchor="middle" class="f26 mu" style="display:none">Editor area</text>
+<rect x="266" y="128" width="160" height="84" rx="10" fill="#7aa2ff"/><text x="346" y="162" text-anchor="middle" class="f24 b dk">claude:</text><text x="346" y="194" text-anchor="middle" class="f24 b dk">Planner</text>
+<rect x="430" y="128" width="160" height="84" rx="10" fill="#7aa2ff"/><text x="510" y="162" text-anchor="middle" class="f24 b dk">claude:</text><text x="510" y="194" text-anchor="middle" class="f24 b dk">Implementer</text>
+<rect x="594" y="128" width="152" height="84" rx="10" fill="#7aa2ff"/><text x="670" y="162" text-anchor="middle" class="f24 b dk">claude:</text><text x="670" y="194" text-anchor="middle" class="f24 b dk">Reviewer</text>
+<text x="290" y="290" class="f28 mono ac">❯ claude</text>
+<text x="290" y="340" class="f26 mu">Editor area</text>
+<text x="506" y="694" text-anchor="middle" class="f32 b">agents in the middle,</text><text x="506" y="736" text-anchor="middle" class="f32 b">your tools around them</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “VS Code opens terminals in the editor area as tabs.”</p>
+</section>
+
+<!-- 8 -->
+<section class="slide" id="s-8" aria-label="Slide 8: One Window, as Many Agents as You Need">
+<div class="chip">2 · Why the CLI</div>
+<h1>One Window, as Many Agents as You Need</h1>
+<div class="body" style="display:flex;gap:40px;align-items:flex-start">
+<div class="shot"><img src="vscode-setup.png" alt="VS Code with Claude Code terminals in the editor area, Problems panel on the left, Explorer and Source Control on the right, Command Palette open on Terminal: Create New Terminal in Editor Area.">
+<span class="pin" style="left:28.5%;top:30.6%">1</span>
+<span class="pin" style="left:62%;top:19%">2</span>
+<span class="pin" style="left:14%;top:33%">3</span>
+<span class="pin" style="left:88%;top:12%">4</span>
+<span class="pin" style="left:91%;top:73%">5</span>
+</div>
+<div style="flex:1;min-width:0">
+<ol class="legend" style="list-style:none">
+<li><span class="pin">1</span><span>Command Palette: <b>Terminal: Create New Terminal in Editor Area</b></span></li>
+<li><span class="pin">2</span><span>Terminal in the editor area</span></li>
+<li><span class="pin">3</span><span>Problems panel</span></li>
+<li><span class="pin">4</span><span>Explorer</span></li>
+<li><span class="pin">5</span><span>Source Control, git graph, Timeline</span></li>
+</ol>
+<p style="margin:26px 0 0;font-size:28px;line-height:1.35">Then run <code>claude</code>. Repeat per agent; split or drag tabs like editors.</p>
+</div>
+</div>
+<p class="tip"><b>Tip:</b> keybinding <code>alt+t alt+t</code> to <code>workbench.action.createTerminalEditor</code>.</p>
+</section>
+
+<!-- 9 -->
+<section class="slide" id="s-9" aria-label="Slide 9: Every Turn Re-Sends Everything">
+<div class="chip">3 · Tokens</div>
+<h1>Every Turn Re-Sends Everything</h1>
+<div class="body"><div class="cols" style="--lc:800px">
+<ul class="pts">
+<li><b>Input tokens:</b> everything sent each turn: system prompt, tools, <code>CLAUDE.md</code>, skills, the whole conversation.</li>
+<li><b>Output tokens:</b> what the model writes. Most expensive per token.</li>
+<li><b>Cached input:</b> an exact repeated prefix. Cheaper, never free.</li>
+<li>A long conversation makes every later turn more expensive.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 912 790" role="img" aria-label="Bar chart of five turns. Each bar stacks a constant grey prefix, a blue conversation that grows every turn, and a small orange output cap. Turn 5 pays for turns 1 to 4 again.">
+<rect x="10" y="14" width="24" height="24" rx="5" fill="#8b93a7"/><text x="48" y="34" class="f26">Prefix (constant)</text>
+<rect x="10" y="50" width="24" height="24" rx="5" fill="#7aa2ff"/><text x="48" y="70" class="f26">Conversation (grows)</text>
+<rect x="10" y="86" width="24" height="24" rx="5" fill="#ffb86b"/><text x="48" y="106" class="f26">Output</text>
+<line x1="20" y1="690" x2="900" y2="690" stroke="#a6adbb" stroke-width="3"/>
+<!-- bars: baseline 690 -->
+<g>
+<rect x="60" y="570" width="110" height="120" fill="#8b93a7"/><rect x="60" y="540" width="110" height="30" fill="#7aa2ff"/><rect x="60" y="504" width="110" height="36" fill="#ffb86b"/>
+<rect x="230" y="570" width="110" height="120" fill="#8b93a7"/><rect x="230" y="470" width="110" height="100" fill="#7aa2ff"/><rect x="230" y="434" width="110" height="36" fill="#ffb86b"/>
+<rect x="400" y="570" width="110" height="120" fill="#8b93a7"/><rect x="400" y="400" width="110" height="170" fill="#7aa2ff"/><rect x="400" y="364" width="110" height="36" fill="#ffb86b"/>
+<rect x="570" y="570" width="110" height="120" fill="#8b93a7"/><rect x="570" y="330" width="110" height="240" fill="#7aa2ff"/><rect x="570" y="294" width="110" height="36" fill="#ffb86b"/>
+<rect x="740" y="570" width="110" height="120" fill="#8b93a7"/><rect x="740" y="260" width="110" height="310" fill="#7aa2ff"/><rect x="740" y="224" width="110" height="36" fill="#ffb86b"/>
+</g>
+<g class="f24 dk" text-anchor="middle">
+<text x="115" y="637" class="f24 dk">prefix</text><text x="285" y="637" class="f24 dk">prefix</text><text x="455" y="637" class="f24 dk">prefix</text><text x="625" y="637" class="f24 dk">prefix</text><text x="795" y="637" class="f24 dk">prefix</text>
+<text x="115" y="529" class="f24 dk">out</text><text x="285" y="459" class="f24 dk">out</text><text x="455" y="389" class="f24 dk">out</text><text x="625" y="319" class="f24 dk">out</text><text x="795" y="249" class="f24 dk">out</text>
+<text x="795" y="420" class="f24 dk">convo</text>
+</g>
+<g text-anchor="middle" class="f24 mu"><text x="115" y="728">Turn 1</text><text x="285" y="728">Turn 2</text><text x="455" y="728">Turn 3</text><text x="625" y="728">Turn 4</text><text x="795" y="728">Turn 5</text></g>
+<text x="900" y="772" text-anchor="end" class="f28 b">turn 5 pays for turns 1 to 4 again</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Unnecessary context kills intelligence. Plan first, review the plan, then execute.”</p>
+</section>
+
+<!-- 10 -->
+<section class="slide" id="s-10" aria-label="Slide 10: Cache: Pay 1.25x Once, 0.1x After">
+<div class="chip">3 · Tokens</div>
+<h1>Cache: Pay 1.25x Once, 0.1x After</h1>
+<div class="body"><div class="cols" style="--lc:640px">
+<ul class="pts">
+<li>Cache <b>write</b> on a miss: 1.25x the normal input price.</li>
+<li>Cache <b>read</b> on a hit: 0.1x.</li>
+<li>Keyed on an exact prefix: change one byte and everything after it is a miss.</li>
+<li>Layers: global (system prompt, tools) → project (<code>CLAUDE.md</code>, skills) → session (messages).</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1072 790" role="img" aria-label="Left: bar comparison for a 100k-token context drawn to scale: no cache 100k, cache miss write 125k, cache hit read 10k. Below: three cache layers Global, Project, Session; editing CLAUDE.md invalidates Project and Session.">
+<text x="0" y="36" class="f28 mu">Cost of a 100k-token context (to scale)</text>
+<rect x="0" y="62" width="400" height="56" rx="8" fill="#8b93a7"/><text x="16" y="100" class="f28 b dk">No cache: 100k (1x)</text>
+<rect x="0" y="142" width="500" height="56" rx="8" fill="#ff6b6b"/><text x="16" y="180" class="f28 b dk">Miss: write 125k (1.25x)</text>
+<rect x="0" y="222" width="40" height="56" rx="8" fill="#5fd39a"/><text x="58" y="260" class="f28 b gr">Hit: read 10k (0.1x)</text>
+<text x="0" y="372" class="f28 mu">Cache layers</text>
+<text x="530" y="428" text-anchor="middle" class="f28 b rd">edit CLAUDE.md here:</text>
+<text x="530" y="462" text-anchor="middle" class="f26 rd">everything to the right re-writes</text>
+<polygon points="530,512 508,480 552,480" fill="#ff6b6b"/>
+<rect x="0" y="520" width="340" height="130" rx="14" fill="#5fd39a"/><text x="170" y="574" text-anchor="middle" class="f36 b dk">Global</text><text x="170" y="616" text-anchor="middle" class="f26 dk">system prompt, tools</text>
+<rect x="366" y="520" width="340" height="130" rx="14" fill="#ff6b6b"/><text x="536" y="574" text-anchor="middle" class="f36 b dk">Project</text><text x="536" y="616" text-anchor="middle" class="f26 dk">CLAUDE.md, skills</text>
+<rect x="732" y="520" width="340" height="130" rx="14" fill="#ff6b6b"/><text x="902" y="574" text-anchor="middle" class="f36 b dk">Session</text><text x="902" y="616" text-anchor="middle" class="f26 dk">messages</text>
+<text x="170" y="708" text-anchor="middle" class="f28 b gr">HIT: read 0.1x</text>
+<text x="536" y="708" text-anchor="middle" class="f28 b rd">MISS: write 1.25x</text>
+<text x="902" y="708" text-anchor="middle" class="f28 b rd">MISS: write 1.25x</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Changing effort level does not force the model to re-read files and keeps the cache.”</p>
+</section>
+
+<!-- 11 -->
+<section class="slide" id="s-11" aria-label="Slide 11: The 5-Minute Trap">
+<div class="chip">3 · Tokens</div>
+<h1>The 5-Minute Trap</h1>
+<div class="body"><div class="stack">
+<ul class="pts">
+<li>Default cache lifetime (TTL): <b>5 minutes</b>.</li>
+<li>Coffee break, meeting, review: the cache expires and the next turn re-writes the whole context at 1.25x.</li>
+<li><code>"promptCacheTtl": "1h"</code>: survives breaks. Higher write price, far fewer misses.</li>
+<li><code>idleCompaction</code> (default on): a conversation over 200k tokens (its default threshold) left idle about 54 minutes is compacted before the 1h cache expires, so you return to a summary, not a full re-write.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1760 470" role="img" aria-label="Two timelines with the same events: work, a 15 minute break, work, a 40 minute meeting, work. With a 5 minute TTL both pauses cause a cache miss and re-write. With a 1 hour TTL both resumptions are cache hits.">
+<text x="0" y="132" class="f36 b">TTL 5m</text>
+<rect x="200" y="86" width="176" height="64" fill="#7aa2ff"/><text x="288" y="127" text-anchor="middle" class="f28 b dk">work</text>
+<rect x="376" y="86" width="264" height="64" fill="#2a2f3b" stroke="#8b93a7" stroke-width="2" stroke-dasharray="8 6"/><text x="508" y="127" text-anchor="middle" class="f28">break 15 min</text>
+<rect x="640" y="86" width="176" height="64" fill="#7aa2ff"/><text x="728" y="127" text-anchor="middle" class="f28 b dk">work</text>
+<rect x="816" y="86" width="704" height="64" fill="#2a2f3b" stroke="#8b93a7" stroke-width="2" stroke-dasharray="8 6"/><text x="1168" y="127" text-anchor="middle" class="f28">meeting 40 min</text>
+<rect x="1520" y="86" width="176" height="64" fill="#7aa2ff"/><text x="1608" y="127" text-anchor="middle" class="f28 b dk">work</text>
+<rect x="598" y="16" width="260" height="50" rx="25" fill="#ff6b6b"/><text x="728" y="50" text-anchor="middle" class="f28 b dk">MISS: re-write</text>
+<line x1="728" y1="66" x2="728" y2="84" stroke="#ff6b6b" stroke-width="4"/>
+<rect x="1478" y="16" width="260" height="50" rx="25" fill="#ff6b6b"/><text x="1608" y="50" text-anchor="middle" class="f28 b dk">MISS: re-write</text>
+<line x1="1608" y1="66" x2="1608" y2="84" stroke="#ff6b6b" stroke-width="4"/>
+<line x1="0" y1="236" x2="1760" y2="236" stroke="#2c313c" stroke-width="2"/>
+<text x="0" y="382" class="f36 b">TTL 1h</text>
+<rect x="200" y="336" width="176" height="64" fill="#7aa2ff"/><text x="288" y="377" text-anchor="middle" class="f28 b dk">work</text>
+<rect x="376" y="336" width="264" height="64" fill="#2a2f3b" stroke="#8b93a7" stroke-width="2" stroke-dasharray="8 6"/><text x="508" y="377" text-anchor="middle" class="f28">break 15 min</text>
+<rect x="640" y="336" width="176" height="64" fill="#7aa2ff"/><text x="728" y="377" text-anchor="middle" class="f28 b dk">work</text>
+<rect x="816" y="336" width="704" height="64" fill="#2a2f3b" stroke="#8b93a7" stroke-width="2" stroke-dasharray="8 6"/><text x="1168" y="377" text-anchor="middle" class="f28">meeting 40 min</text>
+<rect x="1520" y="336" width="176" height="64" fill="#7aa2ff"/><text x="1608" y="377" text-anchor="middle" class="f28 b dk">work</text>
+<rect x="668" y="266" width="120" height="50" rx="25" fill="#5fd39a"/><text x="728" y="300" text-anchor="middle" class="f28 b dk">HIT</text>
+<line x1="728" y1="316" x2="728" y2="334" stroke="#5fd39a" stroke-width="4"/>
+<rect x="1548" y="266" width="120" height="50" rx="25" fill="#5fd39a"/><text x="1608" y="300" text-anchor="middle" class="f28 b dk">HIT</text>
+<line x1="1608" y1="316" x2="1608" y2="334" stroke="#5fd39a" stroke-width="4"/>
+<rect x="200" y="266" width="380" height="50" rx="10" fill="#232834" stroke="#384052" stroke-width="2"/><text x="390" y="300" text-anchor="middle" class="f24 mono" style="fill:#cfe0ff">"promptCacheTtl": "1h"</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 12 -->
+<section class="slide" id="s-12" aria-label="Slide 12: /clear, Not /resume">
+<div class="chip">3 · Tokens</div>
+<h1><code style="font-family:var(--mono)">/clear</code>, Not <code style="font-family:var(--mono)">/resume</code></h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li><code>/resume</code> reloads a long history: a full cache write if it expired, plus stale context that drifts.</li>
+<li><code>/clear</code> starts fresh and cheap; decisions live in files, not in chat.</li>
+<li>Plans in <code>agents/plans/</code>, facts in <code>agents/knowledge/</code>, rules in <code>agents/MEMORY.md</code>.</li>
+<li>“I almost never use <code>/resume</code>.” Work documents itself.</li>
+<li>A session near the 500k compact cap pays about 50k per turn in cache reads alone.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Two lanes. The resume lane: up to 500k old history, then a cache write, then stale decisions. The clear lane: 8k prefix plus a few k of plan and knowledge reads, then fresh context with the same decisions. A bar chart compares per-turn cache reads: up to about 50k for a 500k session versus small for a fresh session.">
+<text x="0" y="48" class="f36 b mono ac">/resume</text>
+<rect x="0" y="70" width="320" height="170" rx="14" fill="#7aa2ff"/><text x="160" y="146" text-anchor="middle" class="f32 b dk">up to 500k</text><text x="160" y="188" text-anchor="middle" class="f32 b dk">old history</text>
+<rect x="336" y="70" width="170" height="170" rx="14" fill="#ff6b6b"/><text x="421" y="146" text-anchor="middle" class="f30 b dk">cache</text><text x="421" y="186" text-anchor="middle" class="f30 b dk">write</text>
+<rect x="522" y="70" width="218" height="170" rx="14" fill="#8b93a7"/>
+<circle cx="631" cy="116" r="22" fill="none" stroke="#0f1115" stroke-width="5"/><line x1="631" y1="116" x2="631" y2="102" stroke="#0f1115" stroke-width="5" stroke-linecap="round"/><line x1="631" y1="116" x2="643" y2="122" stroke="#0f1115" stroke-width="5" stroke-linecap="round"/>
+<text x="631" y="188" text-anchor="middle" class="f28 b dk">stale</text><text x="631" y="222" text-anchor="middle" class="f28 b dk">decisions</text>
+<text x="0" y="378" class="f36 b mono gr">/clear</text>
+<rect x="0" y="400" width="150" height="170" rx="14" fill="#8b93a7"/><text x="75" y="476" text-anchor="middle" class="f32 b dk">8k</text><text x="75" y="516" text-anchor="middle" class="f30 b dk">prefix</text>
+<rect x="166" y="400" width="264" height="170" rx="14" fill="#5fd39a"/><text x="298" y="456" text-anchor="middle" class="f28 b dk">read plan +</text><text x="298" y="492" text-anchor="middle" class="f28 b dk">knowledge</text><text x="298" y="528" text-anchor="middle" class="f28 b dk">(few k)</text>
+<rect x="446" y="400" width="294" height="170" rx="14" fill="#181b22" stroke="#5fd39a" stroke-width="4"/><text x="593" y="476" text-anchor="middle" class="f30 b">fresh context,</text><text x="593" y="516" text-anchor="middle" class="f30 b">same decisions</text>
+<text x="896" y="26" text-anchor="middle" class="f26 mu">Per-turn</text><text x="896" y="54" text-anchor="middle" class="f26 mu">cache reads</text>
+<line x1="780" y1="700" x2="1012" y2="700" stroke="#a6adbb" stroke-width="3"/>
+<rect x="800" y="150" width="80" height="550" fill="#7aa2ff"/><text x="840" y="102" text-anchor="middle" class="f28 b">up to</text><text x="840" y="138" text-anchor="middle" class="f30 b">~50k</text>
+<rect x="920" y="660" width="80" height="40" fill="#5fd39a"/><text x="960" y="646" text-anchor="middle" class="f30 b gr">small</text>
+<text x="840" y="738" text-anchor="middle" class="f24 mu">500k</text><text x="840" y="768" text-anchor="middle" class="f24 mu">session</text>
+<text x="960" y="738" text-anchor="middle" class="f24 mu">fresh</text><text x="960" y="768" text-anchor="middle" class="f24 mu">session</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “<code>/clear</code> after completing a task. Don't drag chats.”</p>
+</section>
+
+<!-- 13 -->
+<section class="slide" id="s-13" aria-label="Slide 13: Hidden Memory Splits the Team">
+<div class="chip">4 · No auto memory</div>
+<h1>Hidden Memory Splits the Team</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li>Auto memory saves notes under <code>~/.claude/</code>, outside the repository.</li>
+<li>Two teammates, same repo, same prompt: different hidden context, different output.</li>
+<li>Nobody reviews it, nobody else sees it.</li>
+<li>Turn it off: <code>"autoMemoryEnabled": false</code>.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Two developers, A and B, share one repository but each has a private memory folder under their home directory. The same prompt produces a blue answer for A and an orange, different answer for B, marked diverged.">
+<rect x="10" y="10" width="250" height="80" rx="14" fill="#181b22" stroke="#8b93a7" stroke-width="3"/><text x="135" y="62" text-anchor="middle" class="f32 b">Dev A</text>
+<rect x="752" y="10" width="250" height="80" rx="14" fill="#181b22" stroke="#8b93a7" stroke-width="3"/><text x="877" y="62" text-anchor="middle" class="f32 b">Dev B</text>
+<rect x="386" y="10" width="240" height="80" rx="14" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="506" y="62" text-anchor="middle" class="f30 b">Shared repo</text>
+<line x1="262" y1="50" x2="382" y2="50" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="750" y1="50" x2="630" y2="50" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<g>
+<line x1="135" y1="92" x2="135" y2="150" stroke="#a6adbb" stroke-width="3" stroke-dasharray="7 6"/><text x="152" y="128" class="f24 mu">private</text>
+<path d="M45 170 V290 A90 22 0 0 0 225 290 V170" fill="#8b93a7"/><ellipse cx="135" cy="170" rx="90" ry="22" fill="#a9b0c2"/>
+<text x="135" y="236" text-anchor="middle" class="f24 mono dk b">~/.claude</text><text x="135" y="270" text-anchor="middle" class="f24 dk b">memory</text>
+<line x1="877" y1="92" x2="877" y2="150" stroke="#a6adbb" stroke-width="3" stroke-dasharray="7 6"/><text x="894" y="128" class="f24 mu">private</text>
+<path d="M787 170 V290 A90 22 0 0 0 967 290 V170" fill="#8b93a7"/><ellipse cx="877" cy="170" rx="90" ry="22" fill="#a9b0c2"/>
+<text x="877" y="236" text-anchor="middle" class="f24 mono dk b">~/.claude</text><text x="877" y="270" text-anchor="middle" class="f24 dk b">memory</text>
+</g>
+<line x1="135" y1="322" x2="135" y2="460" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><text x="152" y="400" class="f26">same prompt</text>
+<line x1="877" y1="322" x2="877" y2="460" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><text x="860" y="400" text-anchor="end" class="f26">same prompt</text>
+<rect x="10" y="470" width="250" height="100" rx="14" fill="#7aa2ff"/><text x="135" y="533" text-anchor="middle" class="f32 b dk">Answer A</text>
+<rect x="752" y="470" width="250" height="100" rx="14" fill="#ffb86b"/><text x="877" y="533" text-anchor="middle" class="f32 b dk">Answer B</text>
+<line x1="262" y1="520" x2="386" y2="520" stroke="#ff6b6b" stroke-width="4" stroke-dasharray="8 6"/><line x1="750" y1="520" x2="626" y2="520" stroke="#ff6b6b" stroke-width="4" stroke-dasharray="8 6"/>
+<rect x="386" y="490" width="240" height="60" rx="30" fill="#ff6b6b"/><text x="506" y="531" text-anchor="middle" class="f30 b dk">diverged</text>
+<text x="506" y="640" text-anchor="middle" class="f36 b">different answer</text>
+<text x="506" y="684" text-anchor="middle" class="f28 mu">same repo, same prompt</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 14 -->
+<section class="slide" id="s-14" aria-label="Slide 14: Learn in the Repo, Not in Your Home Folder">
+<div class="chip">4 · No auto memory</div>
+<h1>Learn in the Repo, Not in Your Home Folder</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li>Project memory is versioned, reviewed, and shared: <code>agents/MEMORY.md</code>, <code>agents/knowledge/</code>, <code>agents/plans/</code>.</li>
+<li>This is harness engineering: the repository is the agent's learning environment.</li>
+<li>Correction → rule in <code>MEMORY.md</code> → commit → every teammate's agent learns it.</li>
+<li>Self-improvement goes through code review like any other change.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Cycle around the repository: a correction becomes a rule written to MEMORY.md, which is committed in a pull request, then every agent on the team reads it and goes back to work. A small inset contrasts this with auto memory: one laptop, unreviewed.">
+<path d="M660 65 C 800 65, 846 180, 846 312" fill="none" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<path d="M846 448 C 846 600, 800 695, 660 695" fill="none" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<path d="M352 695 C 212 695, 166 600, 166 448" fill="none" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<path d="M166 312 C 166 180, 212 65, 352 65" fill="none" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<rect x="356" y="20" width="300" height="90" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="506" y="76" text-anchor="middle" class="f32 b">Correction</text>
+<rect x="690" y="320" width="312" height="120" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="846" y="372" text-anchor="middle" class="f28 b">Rule written</text><text x="846" y="408" text-anchor="middle" class="f28 b mono ac">to MEMORY.md</text>
+<rect x="356" y="650" width="300" height="90" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="506" y="706" text-anchor="middle" class="f32 b">Commit / PR</text>
+<rect x="10" y="320" width="312" height="120" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="166" y="372" text-anchor="middle" class="f28 b">Every agent on</text><text x="166" y="408" text-anchor="middle" class="f28 b">the team reads it</text>
+<text x="138" y="238" text-anchor="end" class="f24 mu">back to</text><text x="138" y="268" text-anchor="end" class="f24 mu">work</text>
+<rect x="416" y="316" width="180" height="128" rx="18" fill="#7aa2ff"/><text x="506" y="372" text-anchor="middle" class="f36 b dk">repo</text><text x="506" y="414" text-anchor="middle" class="f24 b dk">shared</text>
+<rect x="702" y="712" width="310" height="78" rx="12" fill="none" stroke="#8b93a7" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="857" y="742" text-anchor="middle" class="f24 mu">auto memory:</text><text x="857" y="774" text-anchor="middle" class="f24 mu">one laptop, unreviewed</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 15 -->
+<section class="slide" id="s-15" aria-label="Slide 15: One Line, Five Gauges">
+<div class="chip">5 · Statusline</div>
+<h1>One Line, Five Gauges</h1>
+<div class="body">
+<div class="sl" role="img" aria-label="Statusline: Opus, Medium, CTX 18%, 51% plus 19 surplus with 1 hour 36 minutes to reset, 64% plus 29 surplus with 2 days 10 hours to reset. Boxes below explain model, effort, context, 5-hour window, 7-day window.">
+<div class="seg" style="width:170px"><div class="txt">Opus</div><div class="st2"></div><div class="box">Model family</div></div>
+<div class="sep">•</div>
+<div class="seg" style="width:200px"><div class="txt">Medium</div><div class="st2"></div><div class="box">Effort level</div></div>
+<div class="sep">•</div>
+<div class="seg" style="width:340px"><div class="txt">CTX 18%</div><div class="st2"></div><div class="box" style="font-size:24px">Context used, against the 500k compact cap (rescaled from the 1M window)</div></div>
+<div class="sep">•</div>
+<div class="seg" style="width:390px"><div class="txt">51%(<span class="g">+19</span>) 1h36m</div><div class="st2"></div><div class="box">5-hour window: quota left, surplus, time to reset</div></div>
+<div class="sep">•</div>
+<div class="seg" style="width:390px"><div class="txt">64%(<span class="g">+29</span>) 2d10h</div><div class="st2"></div><div class="box">7-day window, same format</div></div>
+</div>
+<ul class="pts" style="margin-top:70px">
+<li>Surplus is green when you are ahead of an even burn: one signed number, readable at a glance.</li>
+<li>Setup: paste <code>docs/statusline-prompt.md</code> into a fresh session.</li>
+<li>One <code>jq</code> script; missing fields drop cleanly.</li>
+</ul>
+</div>
+<p class="tip"><b>Tip:</b> “92% left tells you nothing on its own. 92% with 4 hours to go is healthy.”</p>
+</section>
+
+<!-- 16 -->
+<section class="slide" id="s-16" aria-label="Slide 16: Even-Burn Pace: Ahead or Behind?">
+<div class="chip">5 · Statusline</div>
+<h1>Even-Burn Pace: Ahead or Behind?</h1>
+<div class="body"><div class="cols" style="--lc:800px">
+<ul class="pts">
+<li><b>Remaining:</b> <code>100 - used%</code>.</li>
+<li><b>Even-burn pace:</b> the share of the window still on the clock. What you would have left if you burned evenly.</li>
+<li><b>Surplus</b> = remaining - pace. Positive: ahead of budget. Negative: slow down or switch model.</li>
+<li>Example (5h window): 1h36m left of 5h → pace 32%. Remaining 51%. Surplus +19.</li>
+<li>Colors: green above +5, yellow +5 to -5, red below -5.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 912 790" role="img" aria-label="Two aligned bars for the 5-hour window: time left on the clock is 32 percent, quota left is 51 percent, a bracket shows plus 19 surplus. Below, a number line from minus 30 to plus 30 with red below minus 5, yellow between, green above plus 5.">
+<text x="16" y="38" class="f28 b">Time left on the clock</text>
+<rect x="16" y="54" width="880" height="70" rx="6" fill="none" stroke="#3a4152" stroke-width="3"/><rect x="16" y="54" width="282" height="70" rx="6" fill="#8b93a7"/><text x="32" y="102" class="f32 b dk">32%</text>
+<text x="16" y="238" class="f28 b">Quota left</text>
+<rect x="16" y="254" width="880" height="70" rx="6" fill="none" stroke="#3a4152" stroke-width="3"/><rect x="16" y="254" width="449" height="70" rx="6" fill="#7aa2ff"/><text x="32" y="302" class="f32 b dk">51%</text>
+<line x1="298" y1="126" x2="298" y2="190" stroke="#5fd39a" stroke-width="3" stroke-dasharray="6 6"/>
+<line x1="465" y1="190" x2="465" y2="252" stroke="#5fd39a" stroke-width="3" stroke-dasharray="6 6"/>
+<path d="M298 176 V190 H465 V176" fill="none" stroke="#5fd39a" stroke-width="5"/>
+<text x="486" y="200" class="f32 b gr">+19 surplus</text>
+<text x="16" y="428" class="f28 mu">Surplus scale</text>
+<polygon points="735,474 719,444 751,444" fill="#5fd39a"/><text x="735" y="432" text-anchor="middle" class="f26 b gr">+19</text>
+<rect x="16" y="480" width="367" height="76" fill="#ff6b6b"/><text x="200" y="528" text-anchor="middle" class="f28 b dk">red: slow down</text>
+<rect x="383" y="480" width="146" height="76" fill="#f2d35b"/><text x="456" y="528" text-anchor="middle" class="f26 b dk">yellow</text>
+<rect x="529" y="480" width="367" height="76" fill="#5fd39a"/><text x="712" y="528" text-anchor="middle" class="f28 b dk">green: ahead</text>
+<g class="f26" text-anchor="middle"><text x="16" y="600" text-anchor="start" class="f26">-30</text><text x="383" y="600" class="f26">-5</text><text x="529" y="600" class="f26">+5</text><text x="896" y="600" text-anchor="end" class="f26">+30</text></g>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “The surplus turns a raw percentage into a decision: push harder, or pace yourself.”</p>
+</section>
+
+<!-- 17 -->
+<section class="slide" id="s-17" aria-label="Slide 17: Say Good Morning to Claude">
+<div class="chip">5 · Statusline</div>
+<h1>Say “Good Morning” to Claude</h1>
+<div class="body"><div class="stack">
+<ul class="pts">
+<li>The 5-hour window starts at your first message, not at a fixed clock time.</li>
+<li>Trick: a scheduled task at <code>claude.ai/scheduled-task</code> sends a tiny “Good morning” at 6:00 AM, before work starts.</li>
+<li>Window 1 runs 6 to 11 AM, then refreshes. Work from 9 to 6 spans three windows (6-11, 11-4, 4-9) instead of two.</li>
+<li>Cost: one trivial message. Gain: a fresh 5-hour quota before lunch.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1760 460" role="img" aria-label="Day timeline from 6 AM to 9 PM with office hours 9 AM to 6 PM shaded. Without a ping, windows start at 9 AM: 9 AM to 2 PM and 2 PM to 7 PM. With a 6 AM scheduled ping, three windows: 6 to 11 AM, 11 AM to 4 PM, 4 to 9 PM.">
+<text x="880" y="34" text-anchor="middle" class="f36 b gr">3 refreshes inside one workday</text>
+<rect x="370" y="50" width="1020" height="355" fill="#232834"/>
+<text x="880" y="86" text-anchor="middle" class="f28 mu">office hours 9 AM to 6 PM</text>
+<text x="380" y="130" class="f28 b">No ping</text>
+<rect x="370" y="142" width="567" height="64" fill="#7aa2ff"/><text x="653" y="184" text-anchor="middle" class="f28 b dk">9 AM to 2 PM</text>
+<rect x="937" y="142" width="566" height="64" fill="#7aa2ff"/><text x="1220" y="184" text-anchor="middle" class="f28 b dk">2 PM to 7 PM</text>
+<circle cx="52" cy="238" r="13" fill="#f2d35b"/>
+<g stroke="#f2d35b" stroke-width="4" stroke-linecap="round"><line x1="52" y1="212" x2="52" y2="206"/><line x1="52" y1="264" x2="52" y2="270"/><line x1="26" y1="238" x2="20" y2="238"/><line x1="78" y1="238" x2="84" y2="238"/><line x1="34" y1="220" x2="30" y2="216"/><line x1="70" y1="256" x2="74" y2="260"/><line x1="70" y1="220" x2="74" y2="216"/><line x1="34" y1="256" x2="30" y2="260"/></g>
+<rect x="92" y="218" width="200" height="42" rx="12" fill="#f2d35b"/><polygon points="92,238 76,246 92,252" fill="#f2d35b"/><text x="192" y="248" text-anchor="middle" class="f26 b dk">Good morning</text>
+<text x="330" y="256" class="f28 b">6 AM scheduled ping</text>
+<rect x="30" y="278" width="567" height="64" fill="#5fd39a"/><text x="313" y="320" text-anchor="middle" class="f28 b dk">6 AM to 11 AM</text>
+<rect x="597" y="278" width="566" height="64" fill="#5fd39a" stroke="#0f1115" stroke-width="2"/><text x="880" y="320" text-anchor="middle" class="f28 b dk">11 AM to 4 PM</text>
+<rect x="1163" y="278" width="567" height="64" fill="#5fd39a" stroke="#0f1115" stroke-width="2"/><text x="1446" y="320" text-anchor="middle" class="f28 b dk">4 PM to 9 PM</text>
+<text x="597" y="378" text-anchor="middle" class="f26 gr">refresh</text><text x="1163" y="378" text-anchor="middle" class="f26 gr">refresh</text>
+<line x1="30" y1="408" x2="1730" y2="408" stroke="#a6adbb" stroke-width="3"/>
+<g class="f26" text-anchor="middle"><text x="30" y="446" text-anchor="start" class="f26 mu">6 AM</text><text x="370" y="446" class="f26 mu">9 AM</text><text x="710" y="446" class="f26 mu">12 PM</text><text x="1050" y="446" class="f26 mu">3 PM</text><text x="1390" y="446" class="f26 mu">6 PM</text><text x="1730" y="446" text-anchor="end" class="f26 mu">9 PM</text></g>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 18 -->
+<section class="slide" id="s-18" aria-label="Slide 18: Measure the Real Thing">
+<div class="chip">6 · Harness tuning</div>
+<h1>Measure the Real Thing</h1>
+<div class="body"><div class="cols" style="--lc:800px">
+<ul class="pts">
+<li>Measure with <code>/context</code> in a real interactive session: total minus <code>Messages</code> = prefix.</li>
+<li>Never with <code>claude -p</code>: print mode loads about 3k of tools vs about 21k interactively. Two full sweeps were wasted on this.</li>
+<li>Pin the model: one setting measured 2,947 tokens on Haiku and 693 on Opus.</li>
+<li><code>--settings</code> merges deny lists; it cannot remove a rule.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 912 790" role="img" aria-label="Tool definitions loaded: claude -p about 3k tokens, a short grey bar; interactive about 21k tokens, a long blue bar. Print mode hides the biggest levers.">
+<text x="0" y="110" class="f32 b">Tool definitions loaded</text>
+<text x="0" y="196" class="f30 b mono">claude -p</text>
+<rect x="0" y="212" width="108" height="80" rx="8" fill="#8b93a7"/><text x="128" y="268" class="f40 b">~3k</text>
+<text x="0" y="386" class="f30 b mono ac">interactive</text>
+<rect x="0" y="402" width="756" height="80" rx="8" fill="#7aa2ff"/><text x="740" y="458" text-anchor="end" class="f40 b dk">~21k</text>
+<rect x="0" y="560" width="912" height="104" rx="14" fill="none" stroke="#ff6b6b" stroke-width="3"/>
+<text x="456" y="624" text-anchor="middle" class="f32 b rd">print mode hides the biggest levers</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Do not trust numbers from a blog post, including mine.”</p>
+</section>
+
+<!-- 19 -->
+<section class="slide" id="s-19" aria-label="Slide 19: Feature Flags: 27.6k to 8.3k">
+<div class="chip">6 · Harness tuning</div>
+<h1>Feature Flags: 27.6k → 8.3k</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li>Stock prefix ~27.6k tokens; tuned ~8.3k. Saved ~19.3k (70%).</li>
+<li>18.2k of that is the tool row: features you never use still ship their tool definitions.</li>
+<li>Flags: <code>disableWorkflows</code>, <code>disableAgentView</code>, <code>enableArtifact: false</code>, <code>disableClaudeAiConnectors</code>. <code>disableRemoteControl</code> is not set here: Remote Control is in use.</li>
+<li>Set once; every session after starts lighter.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Grouped bars of prefix tokens by category, stock versus tuned, drawn to scale: system tools 21k to 2.8k, system prompt 3k to 2.7k, skills 3.2k to 2.3k, memory files 0.4k to 0.4k, total 27.6k to 8.3k.">
+<rect x="0" y="6" width="24" height="24" rx="5" fill="#8b93a7"/><text x="36" y="26" class="f26">Stock</text>
+<rect x="140" y="6" width="24" height="24" rx="5" fill="#7aa2ff"/><text x="176" y="26" class="f26">Tuned</text>
+<g class="f28">
+<text x="0" y="82" class="f28 b">System tools</text>
+<rect x="0" y="92" width="588" height="36" fill="#8b93a7"/><text x="602" y="121" class="f28">21k</text>
+<rect x="0" y="136" width="78" height="36" fill="#7aa2ff"/><text x="92" y="165" class="f28 b ac">2.8k</text>
+<text x="0" y="228" class="f28 b">System prompt</text>
+<rect x="0" y="238" width="84" height="36" fill="#8b93a7"/><text x="98" y="267" class="f28">3k</text>
+<rect x="0" y="282" width="76" height="36" fill="#7aa2ff"/><text x="90" y="311" class="f28 b ac">2.7k</text>
+<text x="0" y="374" class="f28 b">Skills</text>
+<rect x="0" y="384" width="90" height="36" fill="#8b93a7"/><text x="104" y="413" class="f28">3.2k</text>
+<rect x="0" y="428" width="64" height="36" fill="#7aa2ff"/><text x="78" y="457" class="f28 b ac">2.3k</text>
+<text x="0" y="520" class="f28 b">Memory files</text>
+<rect x="0" y="530" width="11" height="36" fill="#8b93a7"/><text x="25" y="559" class="f28">0.4k</text>
+<rect x="0" y="574" width="11" height="36" fill="#7aa2ff"/><text x="25" y="603" class="f28 b ac">0.4k</text>
+</g>
+<line x1="0" y1="630" x2="1012" y2="630" stroke="#a6adbb" stroke-width="3"/>
+<text x="0" y="672" class="f32 b">Total</text>
+<rect x="0" y="684" width="773" height="44" fill="#8b93a7"/><text x="788" y="718" class="f32 b">27.6k</text>
+<rect x="0" y="736" width="232" height="44" fill="#7aa2ff"/><text x="248" y="770" class="f32 b ac">8.3k</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Turn off features you do not use. Deny rules work the same way.”</p>
+</section>
+
+<!-- 20 -->
+<section class="slide" id="s-20" aria-label="Slide 20: Deny What You Don't Use">
+<div class="chip">6 · Harness tuning</div>
+<h1>Deny What You Don't Use</h1>
+<div class="body"><div class="cols" style="--lc:760px">
+<ul class="pts">
+<li>A bare tool name in <code>permissions.deny</code> removes its definition from the prefix.</li>
+<li>Cutting the deny list to one entry: prefix 9.4k → 10.6k, tools 3k → 5.1k.</li>
+<li>Denying <code>Agent</code> alone saves about 1.1k.</li>
+<li>Scoped rules like <code>Read(**/.env)</code> save nothing and are not a security boundary. Agents route around hooks, deny lists, and permissions: protect private files with an OS-level lock (<code>docs/securing-files-from-agents.md</code>).</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 952 790" role="img" aria-label="Left column: deny entries that remove a tool definition: Agent about 1.1k, ScheduleWakeup, CronCreate, NotebookEdit, SendFeedback. Right column, speed bump not a lock: Read of .env and .env.* scoped rules. Bottom: never deny ToolSearch or TaskStop.">
+<text x="0" y="34" class="f28 b gr">Removes a tool definition</text>
+<g class="mono">
+<rect x="0" y="56" width="450" height="64" rx="12" fill="#5fd39a"/><text x="20" y="98" class="f26 mono dk b">Agent</text><text x="430" y="98" text-anchor="end" class="f26 dk b">~1.1k</text>
+<rect x="0" y="140" width="450" height="64" rx="12" fill="#5fd39a"/><text x="20" y="182" class="f26 mono dk b">ScheduleWakeup</text>
+<rect x="0" y="224" width="450" height="64" rx="12" fill="#5fd39a"/><text x="20" y="266" class="f26 mono dk b">CronCreate</text>
+<rect x="0" y="308" width="450" height="64" rx="12" fill="#5fd39a"/><text x="20" y="350" class="f26 mono dk b">NotebookEdit</text>
+<rect x="0" y="392" width="450" height="64" rx="12" fill="#5fd39a"/><text x="20" y="434" class="f26 mono dk b">SendFeedback</text>
+</g>
+<text x="492" y="34" class="f28 b yl">Speed bump, not a lock</text>
+<rect x="492" y="56" width="460" height="64" rx="12" fill="#8b93a7"/><text x="512" y="98" class="f26 mono dk b">Read(**/.env)</text>
+<rect x="492" y="140" width="460" height="64" rx="12" fill="#8b93a7"/><text x="512" y="182" class="f26 mono dk b">Read(**/.env.*)</text>
+<text x="492" y="266" class="f26">Saves no tokens.</text>
+<text x="492" y="302" class="f26">Agents route around deny</text>
+<text x="492" y="338" class="f26">lists, hooks, permissions.</text>
+<text x="492" y="374" class="f26 b yl">Use an OS-level lock.</text>
+<rect x="0" y="560" width="952" height="190" rx="16" fill="none" stroke="#ff6b6b" stroke-width="4"/>
+<text x="476" y="620" text-anchor="middle" class="f36 b rd">Never deny: ToolSearch · TaskStop</text>
+<text x="476" y="676" text-anchor="middle" class="f28">ToolSearch loads deferred tools</text>
+<text x="476" y="716" text-anchor="middle" class="f28">TaskStop stops background Bash</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 21 -->
+<section class="slide" id="s-21" aria-label="Slide 21: Lock It at the OS Level">
+<div class="chip">6 · Harness tuning</div>
+<h1>Lock It at the OS Level</h1>
+<div class="body"><div class="cols" style="--lc:760px">
+<ul class="pts">
+<li>Soft guards are bypassable: <code>CLAUDE.md</code>, deny list, permissions, hooks. <code>.gitignore</code> does not block reads.</li>
+<li>Real case: Chrome blocked Opus 5.5 from uploading an image. It Base64-encoded the PNG into JavaScript, rebuilt the File in the page, and uploaded it anyway.</li>
+<li>Fix: a root-owned lock. Owner root, mode <code>000</code>, immutable: <code>chflags schg</code> or <code>chattr +i</code>.</li>
+<li>Limits: cached or passwordless sudo undoes it. Not backups, git, or cloud. Access control, not encryption. Windows: <code>icacls</code> deny.</li>
+<li>Keep deny rules and hooks as extra layers.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 952 790" role="img" aria-label="Left: concentric shield. A red agent arrow passes through three dashed grey soft rings (CLAUDE.md instruction, deny list and permissions, hooks), each bypassed, and stops at a solid green OS lock core: root owner, mode 000, immutable. Right: vertical routine: stop agent, lock, sudo -k, run agent, stop agent, unlock, sudo -k.">
+<circle cx="380" cy="400" r="285" fill="none" stroke="#8b93a7" stroke-width="4" stroke-dasharray="14 10"/>
+<circle cx="380" cy="400" r="215" fill="none" stroke="#8b93a7" stroke-width="4" stroke-dasharray="14 10"/>
+<circle cx="380" cy="400" r="145" fill="none" stroke="#8b93a7" stroke-width="4" stroke-dasharray="14 10"/>
+<circle cx="380" cy="400" r="90" fill="rgba(95,211,154,.18)" stroke="#5fd39a" stroke-width="8"/>
+<rect x="235" y="99" width="290" height="34" rx="17" fill="#0f1115" stroke="#8b93a7" stroke-width="2"/><text x="380" y="123" text-anchor="middle" class="f24">CLAUDE.md instruction</text>
+<rect x="223" y="169" width="314" height="34" rx="17" fill="#0f1115" stroke="#8b93a7" stroke-width="2"/><text x="380" y="193" text-anchor="middle" class="f24">deny list + permissions</text>
+<rect x="340" y="239" width="80" height="34" rx="17" fill="#0f1115" stroke="#8b93a7" stroke-width="2"/><text x="380" y="263" text-anchor="middle" class="f24">hooks</text>
+<text x="380" y="360" text-anchor="middle" class="f28 b gr">OS lock</text>
+<text x="380" y="396" text-anchor="middle" class="f24">root owner</text><text x="380" y="424" text-anchor="middle" class="f24">mode 000</text><text x="380" y="452" text-anchor="middle" class="f24">immutable</text>
+<line x1="0" y1="400" x2="284" y2="400" stroke="#ff6b6b" stroke-width="6" marker-end="url(#ah-r)"/>
+<line x1="296" y1="378" x2="296" y2="422" stroke="#ff6b6b" stroke-width="6"/>
+<g fill="#ff6b6b"><circle cx="95" cy="400" r="9"/><circle cx="165" cy="400" r="9"/><circle cx="235" cy="400" r="9"/></g>
+<text x="0" y="370" class="f24 b rd">agent</text>
+<rect x="0" y="12" width="266" height="40" rx="20" fill="#ff6b6b"/><text x="133" y="40" text-anchor="middle" class="f24 b dk">3 soft rings: bypassed</text>
+<text x="380" y="734" text-anchor="middle" class="f28 b">agent stops at the OS lock</text>
+<g>
+<rect x="710" y="40" width="242" height="60" rx="12" fill="#181b22" stroke="#8b93a7" stroke-width="3"/><text x="831" y="79" text-anchor="middle" class="f28 b">Stop agent</text>
+<line x1="831" y1="102" x2="831" y2="124" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="710" y="128" width="242" height="84" rx="12" fill="#5fd39a"/><text x="831" y="164" text-anchor="middle" class="f30 b dk mono">lock</text><text x="831" y="196" text-anchor="middle" class="f24 dk mono">folder_lock.sh</text>
+<line x1="831" y1="214" x2="831" y2="236" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="710" y="240" width="242" height="84" rx="12" fill="#f2d35b"/><text x="831" y="276" text-anchor="middle" class="f30 b dk mono">sudo -k</text><text x="831" y="308" text-anchor="middle" class="f24 dk">drop cached sudo</text>
+<line x1="831" y1="326" x2="831" y2="348" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="710" y="352" width="242" height="60" rx="12" fill="#7aa2ff"/><text x="831" y="391" text-anchor="middle" class="f28 b dk">Run agent</text>
+<line x1="831" y1="414" x2="831" y2="436" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="710" y="440" width="242" height="60" rx="12" fill="#181b22" stroke="#8b93a7" stroke-width="3"/><text x="831" y="479" text-anchor="middle" class="f28 b">Stop agent</text>
+<line x1="831" y1="502" x2="831" y2="524" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="710" y="528" width="242" height="84" rx="12" fill="#98aad6"/><text x="831" y="564" text-anchor="middle" class="f30 b dk mono">unlock</text><text x="831" y="596" text-anchor="middle" class="f24 dk mono">folder_lock.sh</text>
+<line x1="831" y1="614" x2="831" y2="636" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="710" y="640" width="242" height="84" rx="12" fill="#f2d35b"/><text x="831" y="676" text-anchor="middle" class="f30 b dk mono">sudo -k</text><text x="831" y="708" text-anchor="middle" class="f24 dk">drop cached sudo</text>
+</g>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “You must use an OS-level lock to protect private files from agents.”</p>
+</section>
+
+<!-- 22 -->
+<section class="slide" id="s-22" aria-label="Slide 22: Cut, Don't Cache">
+<div class="chip">6 · Harness tuning</div>
+<h1>Cut, Don't Cache</h1>
+<div class="body"><div class="cols" style="--lc:880px">
+<ul class="pts">
+<li>A prefix of N tokens costs N x 1.25 on a miss and N x 0.1 on every later read. Caching lowers the cost; it never removes it.</li>
+<li>Cutting prefix tokens beats caching them.</li>
+<li>Per-turn levers shrink conversation growth:
+<ul>
+<li><code>bashOutputMaxChars: 8000</code> (default 30000); overflow goes to a file.</li>
+<li><code>rtk</code> hook condenses Bash output before it enters context.</li>
+<li><code>respondToBashCommands: false</code>: <code>!</code> output, no model reply.</li>
+<li><code>autoCompactWindow: 500000</code>: compact at 500k, not near 1M.</li>
+</ul></li>
+</ul>
+<div class="dia"><svg viewBox="0 0 832 790" role="img" aria-label="Left: cost formula, N times 1.25 on a miss plus N times 0.1 times turns. Right: a funnel narrowing Bash output of 30k characters through the rtk hook and bashOutputMaxChars 8k to what enters context.">
+<rect x="0" y="0" width="832" height="230" rx="16" fill="#181b22" stroke="#2c313c" stroke-width="2"/>
+<text x="26" y="44" class="f26 mu">Cost of a prefix of N tokens</text>
+<text x="26" y="100" class="f32 mono b">cost = N × 1.25  (miss)</text>
+<text x="26" y="150" class="f32 mono b">     + N × 0.1 × turns</text>
+<text x="26" y="204" class="f26 yl">lower, never zero</text>
+<polygon points="26,270 806,270 686,368 146,368" fill="#8b93a7"/><text x="416" y="330" text-anchor="middle" class="f30 b dk">Bash output: 30k chars</text>
+<polygon points="146,378 686,378 606,476 226,476" fill="#98aad6"/><text x="416" y="438" text-anchor="middle" class="f30 b dk">rtk condenses</text>
+<polygon points="226,486 606,486 556,596 276,596" fill="#7aa2ff"/><text x="416" y="532" text-anchor="middle" class="f24 b mono dk">bashOutputMax</text><text x="416" y="566" text-anchor="middle" class="f24 b mono dk">Chars: 8k cap</text>
+<line x1="416" y1="602" x2="416" y2="632" stroke="#5fd39a" stroke-width="4" marker-end="url(#ah-g)"/>
+<rect x="266" y="640" width="300" height="100" rx="16" fill="#5fd39a"/><text x="416" y="686" text-anchor="middle" class="f30 b dk">what enters</text><text x="416" y="722" text-anchor="middle" class="f30 b dk">context</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 23 -->
+<section class="slide" id="s-23" aria-label="Slide 23: On a Subscription, Context Size Wins">
+<div class="chip">6 · Harness tuning</div>
+<h1>On a Subscription, Context Size Wins</h1>
+<div class="body"><div class="cols" style="--lc:820px">
+<ul class="pts">
+<li>Ranked levers on Claude Pro / Max:
+<ul>
+<li><b>1.</b> <code>/clear</code> between tasks, keep auto compact on (<code>autoCompactWindow: 500000</code>). A session at the 500k cap costs about 50k per turn.</li>
+<li><b>2.</b> Model choice: Opus uses budget several times faster than Sonnet.</li>
+<li><b>3.</b> Feature flags: about 18k once, then free.</li>
+</ul></li>
+<li>Editing <code>CLAUDE.md</code>, <code>AGENTS.md</code>, or skills invalidates the project cache layer: batch guidance edits.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 892 790" role="img" aria-label="Podium of three levers: first, clear plus auto compact; second, model choice; third, feature flags. A red note says edit guidance in batches.">
+<rect x="300" y="280" width="290" height="380" rx="12" fill="#7aa2ff"/><text x="445" y="372" text-anchor="middle" class="f64 b dk">1</text><text x="445" y="440" text-anchor="middle" class="f30 b dk mono">/clear +</text><text x="445" y="480" text-anchor="middle" class="f30 b dk">auto compact</text>
+<rect x="0" y="410" width="290" height="250" rx="12" fill="#98aad6"/><text x="145" y="490" text-anchor="middle" class="f64 b dk">2</text><text x="145" y="548" text-anchor="middle" class="f30 b dk">Model</text><text x="145" y="588" text-anchor="middle" class="f30 b dk">choice</text>
+<rect x="600" y="500" width="290" height="160" rx="12" fill="#8b93a7"/><text x="745" y="560" text-anchor="middle" class="f48 b dk">3</text><text x="745" y="598" text-anchor="middle" class="f28 b dk">Feature</text><text x="745" y="632" text-anchor="middle" class="f28 b dk">flags</text>
+<line x1="0" y1="664" x2="890" y2="664" stroke="#a6adbb" stroke-width="4"/>
+<rect x="0" y="698" width="890" height="80" rx="14" fill="none" stroke="#ff6b6b" stroke-width="4"/><text x="445" y="750" text-anchor="middle" class="f32 b rd">edit guidance in batches</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 24 -->
+<section class="slide" id="s-24" aria-label="Slide 24: A Team, Not a Swarm">
+<div class="chip">7 · Named sessions</div>
+<h1>A Team, Not a Swarm</h1>
+<div class="body"><div class="cols" style="--lc:1100px">
+<div class="dia"><svg viewBox="0 0 1100 790" role="img" aria-label="Five named sessions. You talk to the Orchestrator (Opus 5.5, medium). The Orchestrator sends a spec to the Planner (Opus 5.5, medium) and a build request to the Implementer (Sonnet 5.5, low). The Implementer signals ready to the Reviewer (Sonnet 5.5, high) and Testwriter (Sonnet 5.5, medium), who send back file, line and failing test. The Implementer reports done to the Orchestrator.">
+<rect x="0" y="300" width="100" height="80" rx="14" fill="#181b22" stroke="#8b93a7" stroke-width="3"/><text x="50" y="350" text-anchor="middle" class="f30 b">You</text>
+<line x1="104" y1="328" x2="146" y2="328" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="146" y1="354" x2="104" y2="354" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="150" y="275" width="230" height="130" rx="18" fill="#ffb86b"/><text x="265" y="320" text-anchor="middle" class="f30 b dk">Orchestrator</text><text x="265" y="356" text-anchor="middle" class="f24 dk">Opus 5.5</text><text x="265" y="386" text-anchor="middle" class="f24 dk">medium</text>
+<rect x="500" y="40" width="230" height="130" rx="18" fill="#7aa2ff"/><text x="615" y="85" text-anchor="middle" class="f30 b dk">Planner</text><text x="615" y="121" text-anchor="middle" class="f24 dk">Opus 5.5</text><text x="615" y="151" text-anchor="middle" class="f24 dk">medium</text>
+<rect x="500" y="275" width="230" height="130" rx="18" fill="#5fd39a"/><text x="615" y="320" text-anchor="middle" class="f30 b dk">Implementer</text><text x="615" y="356" text-anchor="middle" class="f24 dk">Sonnet 5.5</text><text x="615" y="386" text-anchor="middle" class="f24 dk">low</text>
+<rect x="870" y="100" width="230" height="130" rx="18" fill="#f2d35b"/><text x="985" y="145" text-anchor="middle" class="f30 b dk">Reviewer</text><text x="985" y="181" text-anchor="middle" class="f24 dk">Sonnet 5.5</text><text x="985" y="211" text-anchor="middle" class="f24 dk">high</text>
+<rect x="870" y="450" width="230" height="130" rx="18" fill="#c39bff"/><text x="985" y="495" text-anchor="middle" class="f30 b dk">Testwriter</text><text x="985" y="531" text-anchor="middle" class="f24 dk">Sonnet 5.5</text><text x="985" y="561" text-anchor="middle" class="f24 dk">medium</text>
+<path d="M382 300 C 450 300, 440 105, 496 105" fill="none" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><text x="414" y="232" text-anchor="end" class="f26">spec</text>
+<line x1="384" y1="340" x2="496" y2="340" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><text x="440" y="326" text-anchor="middle" class="f26">build</text>
+<line x1="732" y1="305" x2="866" y2="205" stroke="#5fd39a" stroke-width="4" marker-end="url(#ah-g)"/><text x="786" y="224" text-anchor="end" class="f26">ready</text>
+<line x1="732" y1="385" x2="866" y2="485" stroke="#5fd39a" stroke-width="4" marker-end="url(#ah-g)"/><text x="786" y="476" text-anchor="end" class="f26">ready</text>
+<path d="M940 232 C 940 330, 820 330, 736 350" fill="none" stroke="#f2d35b" stroke-width="4" stroke-dasharray="9 6" marker-end="url(#ah)"/>
+<path d="M940 448 C 940 380, 820 376, 736 372" fill="none" stroke="#c39bff" stroke-width="4" stroke-dasharray="9 6" marker-end="url(#ah)"/>
+<text x="960" y="334" class="f24">file:line,</text><text x="960" y="366" class="f24">failing test</text>
+<path d="M560 407 C 560 500, 265 500, 265 409" fill="none" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><text x="412" y="522" text-anchor="middle" class="f26">done</text>
+<rect x="0" y="650" width="940" height="64" rx="12" fill="#232834" stroke="#384052" stroke-width="2"/><text x="20" y="691" class="f24 mono" style="fill:#cfe0ff">claude -n "Implementer" --model claude-sonnet-5-5 --effort low</text>
+</svg></div>
+<ul class="pts" style="margin-top:20px">
+<li>One terminal per role, named with <code>claude -n</code>. They message each other directly.</li>
+<li>Model and effort per role, set at launch.</li>
+<li>This deck was built this way: Orchestrator gathered sources, Planner wrote the plan, Implementer built the HTML.</li>
+</ul>
+</div></div>
+</section>
+
+<!-- 25 -->
+<section class="slide" id="s-25" aria-label="Slide 25: Why Named Sessions Beat Subagents">
+<div class="chip">7 · Named sessions</div>
+<h1>Why Named Sessions Beat Subagents</h1>
+<div class="body">
+<table class="cmp" aria-label="Named sessions versus subagents">
+<tr><th></th><th class="good">Named sessions</th><th>Subagents</th></tr>
+<tr><td>Context</td><td class="ok">Persistent: Planner and Implementer keep architectural context across tasks</td><td>Scoped to one task</td></tr>
+<tr><td>Communication</td><td class="ok">Direct: Reviewer sends the exact file, line, and failure</td><td>Through parent</td></tr>
+<tr><td>Steering</td><td class="ok">Human switches to any terminal: inspect, redirect, approve</td><td>Via parent</td></tr>
+<tr><td>Model / effort</td><td class="ok">Per role: Opus for judgment, Sonnet for volume</td><td>Inherited</td></tr>
+<tr><td>Visibility</td><td class="ok">Every role is a terminal you can see</td><td>Inside the parent</td></tr>
+</table>
+<div class="strip"><b>Costs, honestly:</b> manual terminal setup, growing context in long-lived sessions, file conflicts when two roles edit the same file.</div>
+<div class="note"><b>Setup:</b> do not deny <code>SendMessage</code> or <code>ListAgents</code>; <code>/list-agents</code> to verify; unset <code>CLAUDE_CODE_EFFORT_LEVEL</code> so <code>--effort</code> applies.</div>
+</div>
+<p class="tip"><b>Tip:</b> “6 attempts by the agent. 1 observation by a human.”</p>
+</section>
+
+<!-- 26 -->
+<section class="slide" id="s-26" aria-label="Slide 26: Plan in Files, Not in a Mode">
+<div class="chip">8 · Daily features</div>
+<h1>Plan in Files, Not in a Mode</h1>
+<div class="body"><div class="stack">
+<ul class="pts">
+<li>Planning is a skill, not a mode: <code>spec-driven-development</code>. A plan is a plain Markdown file in <code>agents/plans/</code>.</li>
+<li>Triggers on its own when work spans files or layers, changes contracts, or needs design decisions. Skips renames and copy edits.</li>
+<li>A plan holds: acceptance criteria, decisions, open questions, ordered tasks with a checkpoint each.</li>
+<li>Ready when a fresh implementer needs no design choices: <code>/clear</code> or another session picks it up cold.</li>
+<li>Done: durable decisions move to <code>agents/knowledge/</code>; the plan stays, marked complete.</li>
+<li>Versioned, reviewed, shared; works in any agent harness.</li>
+</ul>
+<div class="dia" style="align-items:center"><div class="flow fl7" style="width:100%" role="img" aria-label="Flow: prompt; the spec-driven-development skill triggers; a plan file in agents/plans with goal and acceptance criteria plus tasks and checkpoints, which survives clear, sessions and teammates; you review; clear or Implementer; task checklist; durable decisions go to agents/knowledge.">
+<div class="fb">Prompt</div><div class="ar">→</div>
+<div class="fb pln">spec-driven-<br>development<small style="color:#0f1115">triggers</small></div><div class="ar">→</div>
+<div class="fb hand" style="flex:1.75"><svg viewBox="0 0 52 60" aria-hidden="true"><path d="M6 2h28l12 12v44H6z" fill="#181b22" stroke="#7aa2ff" stroke-width="4"/><path d="M34 2v12h12" fill="none" stroke="#7aa2ff" stroke-width="4"/><line x1="14" y1="30" x2="38" y2="30" stroke="#7aa2ff" stroke-width="4"/><line x1="14" y1="42" x2="38" y2="42" stroke="#7aa2ff" stroke-width="4"/></svg><span class="mn">agents/plans/x.md</span><span class="row">goal + acceptance criteria</span><span class="row">tasks + checkpoints</span><small>survives /clear, sessions, and teammates</small></div><div class="ar">→</div>
+<div class="fb">You<br>review</div><div class="ar">→</div>
+<div class="fb go"><span class="mn" style="font-size:28px">/clear</span>or<br>Implementer</div><div class="ar">→</div>
+<div class="fb"><span class="mn ac2">1 ✓ 2 ✓ 3 …</span><small>task checklist</small></div><div class="ar">→</div>
+<div class="fb"><span class="mn" style="font-size:24px">agents/<br>knowledge/</span><small>durable decisions</small></div>
+</div></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Plan first, review the plan, then execute.”</p>
+</section>
+
+<!-- 27 -->
+<section class="slide" id="s-27" aria-label="Slide 27: Let It Run, Safely">
+<div class="chip">8 · Daily features</div>
+<h1>Let It Run, Safely</h1>
+<div class="body"><div class="cols" style="--lc:800px">
+<ul class="pts">
+<li>Auto mode (<code>defaultMode: "auto"</code>) plus a curated deny list: fewer prompts, hard limits stay.</li>
+<li>Hooks: an <code>rtk</code> PreToolUse hook rewrites Bash calls to condense output.</li>
+<li><code>AskUserQuestion</code>: the agent asks with options instead of guessing.</li>
+<li>Remote Control with push notifications: answer the agent from your phone.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 912 790" role="img" aria-label="Concentric rings: outer deny list (hard no), middle auto mode classifier, inner agent works. Side icons: a hook filter, a question speech bubble, and a phone for Remote Control.">
+<circle cx="330" cy="395" r="330" fill="rgba(255,107,107,.10)" stroke="#ff6b6b" stroke-width="4"/>
+<circle cx="330" cy="395" r="225" fill="rgba(242,211,91,.10)" stroke="#f2d35b" stroke-width="4"/>
+<circle cx="330" cy="395" r="120" fill="rgba(95,211,154,.16)" stroke="#5fd39a" stroke-width="4"/>
+<text x="330" y="128" text-anchor="middle" class="f28 b rd">deny list (hard no)</text>
+<text x="330" y="238" text-anchor="middle" class="f28 b yl">auto mode classifier</text>
+<text x="330" y="392" text-anchor="middle" class="f32 b gr">agent</text><text x="330" y="430" text-anchor="middle" class="f32 b gr">works</text>
+<polygon points="760,100 820,100 797,132 797,170 783,162 783,132" fill="#7aa2ff"/>
+<text x="790" y="214" text-anchor="middle" class="f28 b">rtk hook</text><text x="790" y="246" text-anchor="middle" class="f24 mu">condenses</text><text x="790" y="274" text-anchor="middle" class="f24 mu">Bash output</text>
+<rect x="752" y="340" width="76" height="52" rx="12" fill="#7aa2ff"/><polygon points="770,390 770,414 796,390" fill="#7aa2ff"/><text x="790" y="378" text-anchor="middle" class="f36 b dk">?</text>
+<text x="790" y="452" text-anchor="middle" class="f26 b">AskUserQuestion</text><text x="790" y="484" text-anchor="middle" class="f24 mu">asks with options</text>
+<rect x="766" y="560" width="48" height="80" rx="10" fill="none" stroke="#7aa2ff" stroke-width="5"/><line x1="780" y1="624" x2="800" y2="624" stroke="#7aa2ff" stroke-width="5" stroke-linecap="round"/>
+<text x="790" y="692" text-anchor="middle" class="f26 b">Remote Control</text><text x="790" y="724" text-anchor="middle" class="f24 mu">answer from</text><text x="790" y="752" text-anchor="middle" class="f24 mu">your phone</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 28 -->
+<section class="slide" id="s-28" aria-label="Slide 28: Small Habits, Big Hours">
+<div class="chip">8 · Daily features</div>
+<h1>Small Habits, Big Hours</h1>
+<div class="body"><div class="grid6">
+<div class="card"><div class="cm">!git status</div><div class="bn">Run it yourself: output enters context, no model reply.</div></div>
+<div class="card"><div class="cm">/model <span>·</span> /effort</div><div class="bn">Set per task: Opus 5.5 medium by default, Sonnet 5.5 for implementation.</div></div>
+<div class="card"><div class="cm">.claude/skills/</div><div class="bn">Skills live in the repo, gated by <code>skillOverrides</code>.</div></div>
+<div class="card"><div class="cm">Vim mode</div><div class="bn">Vim editor mode (<code>ii</code> to escape) and focus view.</div></div>
+<div class="card"><div class="cm">playwright-cli</div><div class="bn">The agent drives a real browser (next section).</div></div>
+<div class="card"><div class="cm">/context <span>·</span> /compact</div><div class="bn"><code>/context</code> when a session feels slow; <code>/compact</code> when needed.</div></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Use git stage as a restore point: stage the 50% good output, then give new instructions.”</p>
+</section>
+
+<!-- 29 -->
+<section class="slide" id="s-29" aria-label="Slide 29: Attach When You Need It, Detach When You're Done">
+<div class="chip">8b · Browser</div>
+<h1>Attach When You Need It, Detach When You're Done</h1>
+<div class="body"><div class="cols" style="--lc:860px">
+<ul class="pts">
+<li><code>playwright-cli -s=li attach --extension=chrome</code>: the agent drives your own Chrome through the Playwright extension.</li>
+<li><code>-s=li</code> names the browser session (<code>li</code>: LinkedIn). Same <code>-s</code>, same session. This deck's LinkedIn tips were collected this way.</li>
+<li>Attaching needs your approval: Chrome shows a prompt from the extension and you confirm it.</li>
+<li><code>playwright-cli -s=li detach</code>: the agent lets go; your browser keeps running.</li>
+<li>In between, plain shell commands: <code>snapshot</code>, <code>click</code>, <code>fill</code>, <code>screenshot</code>.</li>
+<li>Setup once: Playwright extension in Chrome, <code>npm install -g @playwright/cli</code>, <code>playwright-cli install --skills</code>.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 852 790" role="img" aria-label="Timeline of one browser lifetime. A long grey bar, your Chrome, always yours. A short green band, agent connected, starts at an attach marker, where you approve in Chrome, and ends at a detach marker. Before and after the band the agent has no access. Under the band, three commands: snapshot, click, fill.">
+<text x="426" y="150" text-anchor="middle" class="f28 mu">one browser lifetime, left to right</text>
+<circle cx="260" cy="204" r="18" fill="#5fd39a"/><path d="M251 204 l7 8 l13 -16" fill="none" stroke="#0f1115" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="290" y="212" class="f26 gr b">you approve in Chrome</text>
+<text x="260" y="262" text-anchor="middle" class="f28 b mono">attach</text>
+<text x="600" y="262" text-anchor="middle" class="f28 b mono">detach</text>
+<line x1="260" y1="274" x2="260" y2="500" stroke="#e8eaf0" stroke-width="3" stroke-dasharray="8 6"/>
+<line x1="600" y1="274" x2="600" y2="500" stroke="#e8eaf0" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="130" y="346" text-anchor="middle" class="f26 mu">agent has</text><text x="130" y="378" text-anchor="middle" class="f26 mu">no access</text>
+<text x="726" y="346" text-anchor="middle" class="f26 mu">agent has</text><text x="726" y="378" text-anchor="middle" class="f26 mu">no access</text>
+<rect x="260" y="310" width="340" height="80" fill="#5fd39a"/><text x="430" y="361" text-anchor="middle" class="f30 b dk">agent connected</text>
+<rect x="0" y="420" width="852" height="80" rx="10" fill="#8b93a7"/><text x="426" y="472" text-anchor="middle" class="f30 b dk">your Chrome, always yours</text>
+<path d="M260 516 V528 H600 V516" fill="none" stroke="#5fd39a" stroke-width="4"/>
+<g class="mono">
+<rect x="248" y="552" width="146" height="50" rx="10" fill="#232834" stroke="#384052" stroke-width="2"/><text x="321" y="586" text-anchor="middle" class="f24 mono" style="fill:#cfe0ff">snapshot</text>
+<rect x="404" y="552" width="102" height="50" rx="10" fill="#232834" stroke="#384052" stroke-width="2"/><text x="455" y="586" text-anchor="middle" class="f24 mono" style="fill:#cfe0ff">click</text>
+<rect x="516" y="552" width="88" height="50" rx="10" fill="#232834" stroke="#384052" stroke-width="2"/><text x="560" y="586" text-anchor="middle" class="f24 mono" style="fill:#cfe0ff">fill</text>
+</g>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 30 -->
+<section class="slide" id="s-30" aria-label="Slide 30: Why Not Computer Use or Browser Use?">
+<div class="chip">8b · Browser</div>
+<h1>Why Not Computer Use or Browser Use?</h1>
+<div class="body">
+<ul class="pts">
+<li><b>Agent agnostic:</b> a CLI plus a skill. Claude Code, Codex, or any agent with a shell runs the same commands.</li>
+<li><b>Security:</b> nothing is connected until you attach, approve it in Chrome, and choose what to hand over.</li>
+<li><b>Detach ends it:</b> one command, the agent is gone, the browser stays.</li>
+<li><b>No background work:</b> no agent browsing on its own while you are not looking.</li>
+<li>Same principle as the rest of the deck: you stay in control, the model is replaceable.</li>
+</ul>
+<table class="cmp2" style="margin-top:10px" aria-label="Property comparison: playwright-cli attach with the extension versus computer use and browser-use agents">
+<colgroup><col style="width:440px"><col style="width:570px"><col style="width:375px"><col style="width:375px"></colgroup>
+<tr><th></th><th class="me">playwright-cli attach --extension</th><th class="dim">Computer use</th><th class="dim">Browser-use agents</th></tr>
+<tr><td>Works with any agent</td><td class="me">CLI + skill, any shell agent</td><td class="dim">depends on the tool</td><td class="dim">depends on the tool</td></tr>
+<tr><td>You decide when it connects</td><td class="me">you attach, you approve</td><td class="dim">depends on the tool</td><td class="dim">depends on the tool</td></tr>
+<tr><td>Clean disconnect</td><td class="me">one <code style="background:none;border:0;padding:0;color:inherit">detach</code> command</td><td class="dim">depends on the tool</td><td class="dim">depends on the tool</td></tr>
+<tr><td>Nothing runs in the background</td><td class="me">nothing until attached</td><td class="dim">depends on the tool</td><td class="dim">depends on the tool</td></tr>
+</table>
+</div>
+</section>
+
+<!-- 31 -->
+<section class="slide s-sec" id="s-31" aria-label="Slide 31: Don't Be a Slave to a Model">
+<div class="chip">9 · Models</div>
+<h1>Don't Be a Slave to a Model</h1>
+<ul class="ps">
+<li>Models change every few months. Your workflow, knowledge, and rules should not.</li>
+<li>Agent Driven Development: the repository teaches the agent, not the other way around.</li>
+</ul>
+<div class="dia2"><svg viewBox="0 0 1760 380" width="100%" height="100%" role="img" aria-label="Three replaceable model blocks, Opus, Sonnet and next model, sit on a thick foundation bar labeled skills, knowledge, plans, memory. The models are replaceable; the foundation stays.">
+<text x="880" y="34" text-anchor="middle" class="f28 mu">replaceable</text>
+<rect x="160" y="60" width="420" height="140" rx="18" fill="#7aa2ff"/><text x="370" y="148" text-anchor="middle" class="f48 b dk">Opus</text>
+<rect x="670" y="60" width="420" height="140" rx="18" fill="#98aad6"/><text x="880" y="148" text-anchor="middle" class="f48 b dk">Sonnet</text>
+<rect x="1180" y="60" width="420" height="140" rx="18" fill="none" stroke="#7aa2ff" stroke-width="5" stroke-dasharray="14 10"/><text x="1390" y="148" text-anchor="middle" class="f48 b ac">next model</text>
+<rect x="0" y="210" width="1760" height="120" rx="18" fill="#2a3350" stroke="#7aa2ff" stroke-width="4"/>
+<text x="880" y="285" text-anchor="middle" class="f48 b">skills · knowledge · plans · memory</text>
+<text x="880" y="368" text-anchor="middle" class="f28 mu">stays</text>
+</svg></div>
+<p class="tip"><b>Tip:</b> “…hallucinates, then defends its hallucinations and makes you question your expertise.”</p>
+</section>
+
+<!-- 32 -->
+<section class="slide" id="s-32" aria-label="Slide 32: Five Skills, One System">
+<div class="chip">9 · Models</div>
+<h1>Five Skills, One System</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li><code>communication</code>: how it talks. Terse, outcome first.</li>
+<li><code>engineering</code>: what to build, how far the change reaches, when it is done.</li>
+<li><code>coding</code>: what the lines look like.</li>
+<li><code>spec-driven-development</code>: owns <code>agents/knowledge/</code> and <code>agents/plans/</code>.</li>
+<li><code>project-memory</code>: owns <code>agents/MEMORY.md</code>; turns corrections into rules.</li>
+<li>Each skill owns one concern and points to the others; no duplicated rules.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Layered architecture. Top band: communication spans everything. Middle: engineering decides scope and shapes coding. Left pillar spec-driven-development, right pillar project-memory, both feeding the middle. Foundation: the repository.">
+<rect x="0" y="0" width="1012" height="104" rx="16" fill="#ffb86b"/><text x="506" y="48" text-anchor="middle" class="f36 b dk">communication</text><text x="506" y="86" text-anchor="middle" class="f26 dk">how every answer is delivered</text>
+<rect x="0" y="130" width="230" height="490" rx="16" fill="#c39bff"/><text x="115" y="360" text-anchor="middle" class="f26 b dk">spec-driven-</text><text x="115" y="392" text-anchor="middle" class="f26 b dk">development</text><text x="115" y="446" text-anchor="middle" class="f24 dk">knowledge</text><text x="115" y="476" text-anchor="middle" class="f24 dk">+ plans</text>
+<rect x="782" y="130" width="230" height="490" rx="16" fill="#c39bff"/><text x="897" y="360" text-anchor="middle" class="f26 b dk">project-</text><text x="897" y="392" text-anchor="middle" class="f26 b dk">memory</text><text x="897" y="446" text-anchor="middle" class="f24 dk mono">MEMORY.md</text>
+<rect x="270" y="130" width="472" height="170" rx="16" fill="#7aa2ff"/><text x="506" y="204" text-anchor="middle" class="f36 b dk">engineering</text><text x="506" y="248" text-anchor="middle" class="f26 dk">judgment: scope, risk, done</text>
+<rect x="270" y="400" width="472" height="170" rx="16" fill="#98aad6"/><text x="506" y="474" text-anchor="middle" class="f36 b dk">coding</text><text x="506" y="518" text-anchor="middle" class="f26 dk">craft: the lines themselves</text>
+<line x1="330" y1="304" x2="330" y2="396" stroke="#e8eaf0" stroke-width="4" marker-end="url(#ah)"/>
+<text x="356" y="344" class="f24">decides scope →</text><text x="356" y="376" class="f24">shapes lines</text>
+<line x1="232" y1="375" x2="268" y2="375" stroke="#e8eaf0" stroke-width="4" marker-end="url(#ah)"/>
+<line x1="780" y1="375" x2="744" y2="375" stroke="#e8eaf0" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="0" y="650" width="1012" height="100" rx="16" fill="#8b93a7"/><text x="506" y="714" text-anchor="middle" class="f36 b dk">the repository</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Whole workflow in ~1k tokens appended to CLAUDE.md or AGENTS.md.”</p>
+</section>
+
+<!-- 33 -->
+<section class="slide" id="s-33" aria-label="Slide 33: Knowledge Stops Drift">
+<div class="chip">9 · Models</div>
+<h1>Knowledge Stops Drift</h1>
+<div class="body"><div class="cols" style="--lc:780px">
+<ul class="pts">
+<li>Code is the source of truth for current behavior; knowledge records <b>why</b>: decisions, rejected alternatives, invariants, ownership.</li>
+<li>Verify before trusting: every knowledge claim about code is a lead, checked in code.</li>
+<li>Without it, a fresh agent re-explores and can pick an approach already proven wrong.</li>
+<li>Real example: <code>harness-context-tuning.md</code> keeps “Superseded Findings”. Two passes measured with <code>claude -p</code> and got wrong numbers; the file stops the next agent repeating it.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 932 790" role="img" aria-label="Two paths from a new task. Without knowledge: explore, guess, wrong approach, redo: a long path. With knowledge: read knowledge file, verify in code, right approach: a shorter path.">
+<rect x="0" y="330" width="112" height="130" rx="14" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="56" y="388" text-anchor="middle" class="f28 b">New</text><text x="56" y="424" text-anchor="middle" class="f28 b">task</text>
+<path d="M114 380 C 140 380, 124 190, 150 190" fill="none" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<path d="M114 410 C 140 410, 124 600, 150 600" fill="none" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<text x="150" y="108" class="f30 b rd">No knowledge</text>
+<rect x="150" y="140" width="150" height="100" rx="12" fill="#8b93a7"/><text x="225" y="200" text-anchor="middle" class="f28 b dk">explore</text>
+<rect x="340" y="140" width="130" height="100" rx="12" fill="#8b93a7"/><text x="405" y="200" text-anchor="middle" class="f28 b dk">guess</text>
+<rect x="510" y="140" width="150" height="100" rx="12" fill="#ff6b6b"/><text x="585" y="184" text-anchor="middle" class="f28 b dk">wrong</text><text x="585" y="216" text-anchor="middle" class="f28 b dk">approach</text>
+<rect x="700" y="140" width="110" height="100" rx="12" fill="#8b93a7"/><text x="755" y="200" text-anchor="middle" class="f28 b dk">redo</text>
+<line x1="302" y1="190" x2="336" y2="190" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><line x1="472" y1="190" x2="506" y2="190" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><line x1="662" y1="190" x2="696" y2="190" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="150" y="268" width="660" height="10" rx="5" fill="#ff6b6b"/><text x="150" y="314" class="f26 rd">long path: wasted tokens</text>
+<text x="150" y="518" class="f30 b gr">With knowledge</text>
+<rect x="150" y="550" width="190" height="100" rx="12" fill="#8b93a7"/><text x="245" y="590" text-anchor="middle" class="f26 b dk">read</text><text x="245" y="620" text-anchor="middle" class="f26 b dk">knowledge file</text>
+<rect x="380" y="550" width="140" height="100" rx="12" fill="#8b93a7"/><text x="450" y="590" text-anchor="middle" class="f26 b dk">verify</text><text x="450" y="620" text-anchor="middle" class="f26 b dk">in code</text>
+<rect x="560" y="550" width="140" height="100" rx="12" fill="#5fd39a"/><text x="630" y="590" text-anchor="middle" class="f26 b dk">right</text><text x="630" y="620" text-anchor="middle" class="f26 b dk">approach</text>
+<line x1="342" y1="600" x2="376" y2="600" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><line x1="522" y1="600" x2="556" y2="600" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<rect x="150" y="678" width="550" height="10" rx="5" fill="#5fd39a"/><text x="150" y="724" class="f26 gr">short path</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 34 -->
+<section class="slide" id="s-34" aria-label="Slide 34: Pay Once, Read Forever">
+<div class="chip">9 · Models</div>
+<h1>Pay Once, Read Forever</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li>Exploration is paid every session; a knowledge file is paid once, then read in a few thousand tokens.</li>
+<li>Plans survive <code>/clear</code>: no <code>/resume</code>, no long history reload.</li>
+<li>Small, scoped files: the agent reads only the topic it needs.</li>
+<li>Rules in <code>MEMORY.md</code> prevent the same correction (and its tokens) from repeating.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Illustrative line chart, not measured: tokens spent over six sessions on the same topic. Re-exploring every time stays high. Knowledge plus plans costs one high point in session 1, then stays low. The area between is saved.">
+<rect x="250" y="4" width="512" height="54" rx="27" fill="none" stroke="#f2d35b" stroke-width="3"/><text x="506" y="42" text-anchor="middle" class="f28 b yl">illustrative, not measured</text>
+<line x1="110" y1="100" x2="110" y2="620" stroke="#a6adbb" stroke-width="3"/><line x1="110" y1="620" x2="790" y2="620" stroke="#a6adbb" stroke-width="3"/>
+<polygon points="270,240 750,240 750,540 270,540" fill="rgba(95,211,154,.18)"/>
+<text x="510" y="404" text-anchor="middle" class="f40 b gr">saved</text>
+<polyline points="150,240 270,240 390,240 510,240 630,240 750,240" fill="none" stroke="#ff6b6b" stroke-width="6"/>
+<polyline points="150,150 270,540 390,540 510,540 630,540 750,540" fill="none" stroke="#5fd39a" stroke-width="6"/>
+<g fill="#ff6b6b"><circle cx="150" cy="240" r="8"/><circle cx="270" cy="240" r="8"/><circle cx="390" cy="240" r="8"/><circle cx="510" cy="240" r="8"/><circle cx="630" cy="240" r="8"/><circle cx="750" cy="240" r="8"/></g>
+<g fill="#5fd39a"><circle cx="150" cy="150" r="8"/><circle cx="270" cy="540" r="8"/><circle cx="390" cy="540" r="8"/><circle cx="510" cy="540" r="8"/><circle cx="630" cy="540" r="8"/><circle cx="750" cy="540" r="8"/></g>
+<text x="176" y="134" class="f24 gr">session 1: writing it</text>
+<text x="776" y="234" class="f26 b rd">re-explore</text><text x="776" y="266" class="f26 b rd">every time</text>
+<text x="776" y="536" class="f26 b gr">knowledge</text><text x="776" y="568" class="f26 b gr">+ plans</text>
+<g class="f24 mu" text-anchor="middle"><text x="150" y="660">1</text><text x="270" y="660">2</text><text x="390" y="660">3</text><text x="510" y="660">4</text><text x="630" y="660">5</text><text x="750" y="660">6</text></g>
+<text x="450" y="716" text-anchor="middle" class="f26">sessions on the same topic</text>
+<text transform="translate(52,360) rotate(-90)" text-anchor="middle" class="f26">tokens spent</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Token thriftiness is a skill. Compress AGENTS.md; move non-every-chat knowledge into separate files.”</p>
+</section>
+
+<!-- 35 -->
+<section class="slide" id="s-35" aria-label="Slide 35: Corrections Become Rules">
+<div class="chip">9 · Models</div>
+<h1>Corrections Become Rules</h1>
+<div class="body"><div class="cols" style="--lc:780px">
+<ul class="pts">
+<li><b>Signal:</b> a correction, a rejected pattern, a repeated instruction, a stated preference.</li>
+<li><b>Loop:</b> fix the work, write a one-line rule, apply it for the rest of the session.</li>
+<li>A repeated correction is a memory failure, not a one-off.</li>
+<li>Record the rule, not the incident. Compress past ~50 lines.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 932 790" role="img" aria-label="Four-step cycle: notice the signal, fix the work, write the rule, apply it, then back to the start. A red badge on the return arrow says repeat means memory failure. A diff line shows the example rule: do not use em dashes anywhere in repository prose.">
+<rect x="0" y="40" width="340" height="100" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="170" y="100" text-anchor="middle" class="f28 b">1 · Notice the signal</text>
+<rect x="592" y="40" width="340" height="100" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="762" y="100" text-anchor="middle" class="f28 b">2 · Fix the work</text>
+<rect x="592" y="400" width="340" height="100" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="762" y="460" text-anchor="middle" class="f28 b">3 · Write the rule</text>
+<rect x="0" y="400" width="340" height="100" rx="16" fill="#181b22" stroke="#7aa2ff" stroke-width="3"/><text x="170" y="460" text-anchor="middle" class="f28 b">4 · Apply it</text>
+<line x1="344" y1="90" x2="588" y2="90" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<line x1="762" y1="144" x2="762" y2="396" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<line x1="588" y1="450" x2="344" y2="450" stroke="#7aa2ff" stroke-width="4" marker-end="url(#ah-a)"/>
+<line x1="170" y1="396" x2="170" y2="144" stroke="#ff6b6b" stroke-width="4" marker-end="url(#ah-r)"/>
+<line x1="172" y1="270" x2="200" y2="270" stroke="#ff6b6b" stroke-width="3"/>
+<rect x="200" y="232" width="232" height="76" rx="12" fill="#ff6b6b"/><text x="316" y="266" text-anchor="middle" class="f26 b dk">repeat =</text><text x="316" y="296" text-anchor="middle" class="f26 b dk">memory failure</text>
+<rect x="0" y="570" width="932" height="150" rx="14" fill="#14181f" stroke="#2c313c" stroke-width="2"/>
+<text x="22" y="608" class="f24 mono mu">agents/MEMORY.md</text>
+<rect x="10" y="630" width="912" height="56" rx="8" fill="rgba(95,211,154,.16)"/><text x="24" y="667" class="f24 mono gr">+ Do not use em dashes anywhere in repository prose.</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Agents WILL forget and won't follow CLAUDE.md.”</p>
+</section>
+
+<!-- 36 -->
+<section class="slide" id="s-36" aria-label="Slide 36: Guardrails, Not Vibes">
+<div class="chip">9 · Models</div>
+<h1>Guardrails, Not Vibes</h1>
+<div class="body"><div class="cols" style="--lc:760px">
+<ul class="pts">
+<li>Surgical edits: every changed line traces to the request. Mention unrelated issues; don't fix them unasked.</li>
+<li>Claim passes only from actual runs; report what was skipped.</li>
+<li>Coding: guard clauses, intent-revealing names, no <code>any</code> or unchecked casts, test behavior not implementation, YAGNI.</li>
+<li>The model is fast; these keep it in check.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 952 790" role="img" aria-label="Left: priority stack, widest first: 1 correctness and security, 2 explicit requirements, 3 local consistency, 4 simplicity, 5 brevity. Right: a road with two guardrails, engineering (scope, verification) and coding (craft, tests), and a car labeled agent in the lane.">
+<text x="0" y="34" class="f28 b">Engineering priority</text>
+<rect x="0" y="60" width="470" height="84" rx="10" fill="#7aa2ff"/><text x="18" y="112" class="f26 b dk">1 Correctness + security</text>
+<rect x="0" y="162" width="410" height="84" rx="10" fill="#7aa2ff"/><text x="18" y="214" class="f26 b dk">2 Explicit requirements</text>
+<rect x="0" y="264" width="350" height="84" rx="10" fill="#7aa2ff"/><text x="18" y="316" class="f26 b dk">3 Local consistency</text>
+<rect x="0" y="366" width="290" height="84" rx="10" fill="#7aa2ff"/><text x="18" y="418" class="f26 b dk">4 Simplicity</text>
+<rect x="0" y="468" width="230" height="84" rx="10" fill="#7aa2ff"/><text x="18" y="520" class="f26 b dk">5 Brevity</text>
+<rect x="640" y="0" width="240" height="790" fill="#2a2f3b"/>
+<line x1="760" y1="0" x2="760" y2="790" stroke="#a6adbb" stroke-width="5" stroke-dasharray="36 30"/>
+<rect x="618" y="0" width="22" height="790" fill="#7aa2ff"/><rect x="880" y="0" width="22" height="790" fill="#c39bff"/>
+<text transform="translate(604,395) rotate(-90)" text-anchor="middle" class="f26 b ac">engineering: scope, verification</text>
+<text transform="translate(934,395) rotate(90)" text-anchor="middle" class="f26 b" style="fill:#c39bff">coding: craft, tests</text>
+<rect x="662" y="420" width="76" height="130" rx="18" fill="#5fd39a"/><rect x="672" y="440" width="56" height="30" rx="6" fill="#0f1115"/><rect x="672" y="510" width="56" height="24" rx="6" fill="#0f1115"/>
+<text x="700" y="590" text-anchor="middle" class="f26 b gr">agent</text>
+</svg></div>
+</div></div>
+<p class="tip"><b>Tip:</b> “Agents are lazy: magic numbers, duplicate functions, ignored design principles. Check and sanitize.”</p>
+</section>
+
+<!-- 37 -->
+<section class="slide" id="s-37" aria-label="Slide 37: Talk Less, Say More">
+<div class="chip">9 · Models</div>
+<h1>Talk Less, Say More</h1>
+<div class="body"><div class="cols" style="--lc:720px">
+<ul class="pts">
+<li>Every token costs money and reader time. Output tokens are the most expensive.</li>
+<li>Lead with the outcome and why it matters; detail only when it helps you decide, act, or verify.</li>
+<li>Communication is a must: the agent's report is how you decide what to approve.</li>
+<li>Compress chat, never code, docs, commits, or reviews.</li>
+</ul>
+<div class="dia" style="align-items:flex-start"><div class="bubs" role="img" aria-label="Two message bubbles. Default: a long message of about twelve lines. Communication skill: one short message, 'Build fixed. Root cause: server-only module reached a Client Component via app/(dashboard)/layout.tsx:12. Run bun run build to confirm.' Orange bars below show output tokens, long versus short, illustrative.">
+<div><h4 style="color:var(--muted)">Default</h4>
+<div class="bub"><div class="ln" style="width:96%"></div><div class="ln" style="width:88%"></div><div class="ln" style="width:94%"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:92%"></div><div class="ln" style="width:85%"></div><div class="ln" style="width:97%"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:90%"></div><div class="ln" style="width:83%"></div><div class="ln" style="width:95%"></div><div class="ln" style="width:45%"></div></div>
+<div class="tk">Output tokens (illustrative)<i style="width:100%"></i></div></div>
+<div><h4 style="color:var(--acc)">communication skill</h4>
+<div class="bub ex">Build fixed. Root cause: server-only module reached a Client Component via <code>app/(dashboard)/layout.tsx:12</code>. Run <code>bun run build</code> to confirm.</div>
+<div class="tk">Output tokens (illustrative)<i style="width:26%"></i></div></div>
+</div></div>
+</div></div>
+</section>
+
+<!-- 38 -->
+<section class="slide" id="s-38" aria-label="Slide 38: Questions Are Read-Only">
+<div class="chip">9 · Models</div>
+<h1>Questions Are Read-Only</h1>
+<div class="body"><div class="cols" style="--lc:700px">
+<ul class="pts">
+<li>A question asks for an answer, not a change.</li>
+<li>“Should we...?”, “how hard would it be...?”, “why does...?”: answer, offer the change, wait.</li>
+<li>Even for an obvious trivial fix.</li>
+<li>Prevents surprise diffs, wasted tokens on unwanted edits, and review churn.</li>
+</ul>
+<div class="dia"><svg viewBox="0 0 1012 790" role="img" aria-label="Decision diamond: is it a question? Yes: answer, offer, wait for approval, with a crossed-out pencil meaning no edits. No, it is an instruction: act, edits allowed.">
+<polygon points="506,10 716,130 506,250 296,130" fill="#181b22" stroke="#7aa2ff" stroke-width="4"/>
+<text x="506" y="124" text-anchor="middle" class="f32 b">Is it a</text><text x="506" y="164" text-anchor="middle" class="f32 b">question?</text>
+<path d="M296 130 H 180 V 296" fill="none" stroke="#5fd39a" stroke-width="4" marker-end="url(#ah-g)"/><text x="238" y="112" text-anchor="middle" class="f28 b gr">Yes</text>
+<path d="M716 130 H 832 V 296" fill="none" stroke="#ffb86b" stroke-width="4" marker-end="url(#ah-o)"/><text x="734" y="112" class="f26 b og">No (instruction)</text>
+<rect x="20" y="300" width="320" height="80" rx="14" fill="#7aa2ff"/><text x="180" y="352" text-anchor="middle" class="f32 b dk">Answer</text>
+<rect x="20" y="420" width="320" height="80" rx="14" fill="#7aa2ff"/><text x="180" y="472" text-anchor="middle" class="f32 b dk">Offer</text>
+<rect x="20" y="540" width="320" height="110" rx="14" fill="#5fd39a"/><text x="180" y="590" text-anchor="middle" class="f32 b dk">Wait for</text><text x="180" y="628" text-anchor="middle" class="f32 b dk">approval</text>
+<line x1="180" y1="382" x2="180" y2="416" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/><line x1="180" y1="502" x2="180" y2="536" stroke="#a6adbb" stroke-width="4" marker-end="url(#ah)"/>
+<g transform="translate(420,430)"><path d="M8 62 L12 46 L46 12 L58 24 L24 58 Z" fill="#a6adbb"/><path d="M46 12 L52 6 L64 18 L58 24 Z" fill="#8b93a7"/><circle cx="34" cy="36" r="44" fill="none" stroke="#ff6b6b" stroke-width="7"/><line x1="4" y1="68" x2="64" y2="4" stroke="#ff6b6b" stroke-width="7"/></g>
+<text x="454" y="560" text-anchor="middle" class="f26 rd b">no edits</text>
+<rect x="672" y="300" width="320" height="110" rx="14" fill="#ffb86b"/><text x="832" y="348" text-anchor="middle" class="f32 b dk">Act</text><text x="832" y="388" text-anchor="middle" class="f26 dk">edits allowed</text>
+</svg></div>
+</div></div>
+</section>
+
+<!-- 39 -->
+<section class="slide s-close" id="s-39" aria-label="Slide 39: Make It Yours">
+<div class="chip">Closing</div>
+<div class="fnd" aria-hidden="true"></div>
+<p class="main">Don't copy.<br>Read, explore, and make your own workflow.<br><em>But follow it as a team.</em></p>
+<p class="foot"><b>ADD</b> Start reading: <code>skills/</code> · <code>agents/</code> · <code>docs/</code></p>
+</section>
+
+</main>
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var counter = document.getElementById('counter');
+  var bar = document.getElementById('bar');
+  var cur = -1;
+
+  function fit() {
+    var s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = 'scale(' + s + ')';
+  }
+
+  function clamp(i) { return Math.max(0, Math.min(total - 1, i)); }
+
+  function readHash() {
+    var n = parseInt(window.location.hash.replace('#', ''), 10);
+    return isNaN(n) ? 0 : clamp(n - 1);
+  }
+
+  function show(i, keepHash) {
+    i = clamp(i);
+    if (i !== cur) {
+      if (cur >= 0) slides[cur].classList.remove('active');
+      cur = i;
+      slides[cur].classList.add('active');
+      counter.textContent = (cur + 1) + ' / ' + total;
+      bar.style.width = ((cur + 1) / total * 100) + '%';
+    }
+    if (!keepHash) {
+      var h = '#' + (cur + 1);
+      if (window.location.hash !== h) history.replaceState(null, '', h);
+    }
+  }
+
+  function next() { show(cur + 1); }
+  function prev() { show(cur - 1); }
+
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var k = e.key, handled = true;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === 'Enter') next();
+    else if (k === ' ' || k === 'Spacebar') { if (e.shiftKey) prev(); else next(); }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') prev();
+    else if (k === 'Home') show(0);
+    else if (k === 'End') show(total - 1);
+    else handled = false;
+    if (handled) e.preventDefault();
+  });
+
+  stage.addEventListener('click', function (e) {
+    var x = e.clientX / window.innerWidth;
+    if (x < 0.33) prev(); else if (x > 0.67) next();
+  });
+
+  var sx = null;
+  stage.addEventListener('touchstart', function (e) { sx = e.changedTouches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx;
+    sx = null;
+    if (Math.abs(dx) > 50) { if (dx < 0) next(); else prev(); }
+  }, { passive: true });
+
+  window.addEventListener('hashchange', function () { show(readHash()); });
+  window.addEventListener('resize', fit);
+
+  fit();
+  show(readHash());
+})();
+</script>
+</body>
+</html>

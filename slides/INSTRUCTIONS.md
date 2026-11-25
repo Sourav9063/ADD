@@ -1,0 +1,30 @@
+# Slide Deck Instructions
+
+The user's brief for the team presentation, recorded verbatim in intent. The deck lives at `slides/claude/index.html`; the repository root `index.html` is the GitHub Pages entry and links to it.
+
+## Audience
+
+The team has a basic introduction to Claude. Not a deep dive. Explain the why before the how; define terms (tokens, cache, context window) before using them.
+
+## Required Sections, In Order
+
+1. **Claude Code CLI basics.** What it is, how a session works, core slash commands.
+2. **Why Claude Code CLI over other tools.** It integrates with the existing system. In VS Code the user opens Claude Code in terminal tabs inside the editor area (Command Palette: "Terminal: Create New Terminal in Editor Area") and opens as many agents as needed, while keeping everything else in hand: VS Code search, code navigation, source control, Problems panel, Timeline. Screenshot: `slides/claude/vscode-setup.png`.
+3. **Input, output, and cached tokens.** Why `promptCacheTtl` should be `1h`. Always prefer `/clear`; avoid `/resume`. The user almost never uses `/resume` because work is self-documenting through knowledge and plans.
+4. **No auto memory.** In a group project auto memory makes output diverge between teammates because it is saved outside the project scope. Use project space instead for harness engineering and self-improvement.
+5. **Statusline.** Source: `docs/statusline-prompt.md`. Show the target line and explain each field, especially even-burn pace and surplus.
+6. **Harness context tuning.** Source: `agents/knowledge/harness-context-tuning.md`. Most important points only: measure interactively, feature flags are the dominant lever (~27.6k to ~8.3k prefix), deny rules, per-turn levers, prefix cost model, subscription priorities.
+7. **Named sessions over subagents.** Source: `docs/claude/CLAUDE_TEAMS.md`. Why it is better: persistent session memory, direct feedback loops, per-role model and effort, human intervention.
+8. **Other Claude Code features used daily.** See `slides/content.md`.
+9. **Don't be a slave to a Model.** The `skills/agent-driven-development/` skills: how they work together, how they save tokens in the long run, how knowledge keeps the agent from drifting or using a wrong approach, why engineering and coding skills keep the agent in check, why communication is a must, and how "Questions Are Read-Only" prevents unnecessary edits.
+10. **Last slide.** "Don't copy. Read, explore, and make your own workflow. But follow it as a team."
+
+## Style
+
+- Informative, with diagrams. Punchy headers such as "Don't be a slave to a Model".
+- Reuse tips from the user's LinkedIn posts where they fit; see `slides/linkedin-posts.md`.
+- No em dashes (repository rule).
+
+## Process
+
+Built with the named-session workflow: Orchestrator gathered sources, Planner wrote `slides/PLAN.md`, Implementer built the HTML.
